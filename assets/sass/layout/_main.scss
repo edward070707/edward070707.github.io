@@ -1,204 +1,102 @@
 ///
-/// Big Picture by HTML5 UP
+/// Dimension by HTML5 UP
 /// html5up.net | @ajlkn
 /// Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 ///
 
 /* Main */
 
-	.main {
+	#main {
+		@include vendor('flex-grow', '1');
+		@include vendor('flex-shrink', '1');
 		@include vendor('display', 'flex');
+		@include vendor('align-items', 'center');
+		@include vendor('justify-content', 'center');
+		@include vendor('flex-direction', 'column');
 		position: relative;
-		margin: 0;
-		overflow-x: hidden;
+		max-width: 100%;
+		z-index: 3;
 
-		> .content {
-			width: 45em;
-			max-width: calc(100% - 4em);
-			margin: 0 auto;
+		article {
+			@include vendor('transform', 'translateY(0.25rem)');
+			@include vendor('transition', (
+				'opacity #{_duration(article)} ease-in-out',
+				'transform #{_duration(article)} ease-in-out'
+			));
+			@include padding(2.5rem, 2.5rem, (2rem, 0, 1rem, 0));
+			position: relative;
+			width: 40rem;
+			max-width: 100%;
+			background-color: transparentize(_palette(bg), 0.15);
+			border-radius: _size(border-radius);
+			opacity: 0;
 
-			> :last-child {
-				margin-bottom: 0;
-			}
-		}
-
-		&.fullscreen {
-			min-height: 100%;
-		}
-
-		&.style1 {
-			@include vendor('align-items', 'center');
-			@include vendor('justify-content', 'center');
-			text-align: center;
-			padding: 3em 0 3em 0;
-
-			h2 {
-				font-size: 4.25em;
-				line-height: 1em;
+			&.active {
+				@include vendor('transform', 'translateY(0)');
+				opacity: 1;
 			}
 
-			> .content {
-				@include vendor('transition', 'opacity #{_duration(fade-in)} ease');
-				@include vendor('transform', 'translateZ(0)');
-				opacity: 1.0;
-				margin: 0;
-			}
+			.close {
+				display: block;
+				position: absolute;
+				top: 0;
+				right: 0;
+				width: 4rem;
+				height: 4rem;
+				cursor: pointer;
+				text-indent: 4rem;
+				overflow: hidden;
+				white-space: nowrap;
 
-			&.inactive > .content {
-				opacity: 0;
-			}
-		}
-
-		&.style2 {
-			@include vendor('align-items', 'center');
-			@include vendor('justify-content', 'center');
-			padding: 3em 0 3em 0;
-			overflow: hidden;
-
-			> .content {
-				@include vendor('transition', 'transform #{_duration(fade-in)} ease');
-				@include vendor('transform', 'translateZ(0)');
-				position: relative;
-				width: 35%;
-				margin: 0;
-			}
-
-			&.left {
-				@include vendor('justify-content', 'flex-start');
-			}
-
-			&.right {
-				@include vendor('justify-content', 'flex-end');
-			}
-
-			&.inactive {
-				&.left > .content {
-					@include vendor('transform', 'translateX(-100%)');
+				&:before {
+					@include vendor('transition', 'background-color #{_duration(transition)} ease-in-out');
+					content: '';
+					display: block;
+					position: absolute;
+					top: 0.75rem;
+					left: 0.75rem;
+					width: 2.5rem;
+					height: 2.5rem;
+					border-radius: 100%;
+					background-position: center;
+					background-image: svg-url('<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20px" height="20px" viewBox="0 0 20 20" zoomAndPan="disable"><style>line { stroke: #{_palette(border)}; stroke-width: 1; }</style><line x1="2" y1="2" x2="18" y2="18" /><line x1="18" y1="2" x2="2" y2="18" /></svg>');
+					background-size: 20px 20px;
+					background-repeat: no-repeat;
 				}
-
-				&.right > .content {
-					@include vendor('transform', 'translateX(100%)');
-				}
-			}
-		}
-
-		&.style3 {
-			text-align: center;
-			padding: 6em 0 6em 0;
-
-			.content > header {
-				margin-bottom: 2em;
-			}
-
-			&.primary {
-				background: _palette(bg);
-			}
-
-			&.secondary {
-				background: _palette(bg-alt);
-			}
-		}
-
-		&.dark {
-			color: _palette(dark, fg);
-
-			a {
-				color: inherit;
-			}
-
-			.button.style2 {
-				border-color: _palette(dark, fg);
 
 				&:hover {
-					background-color: transparentize(_palette(dark, border), 0.875);
+					&:before {
+						background-color: _palette(border-bg);
+					}
 				}
 
 				&:active {
-					background-color: transparentize(_palette(dark, border), 0.75);
-				}
-
-				&.down {
-					background-image: url('images/dark-arrow.svg');
-				}
-			}
-		}
-
-		body.is-touch & {
-			background-attachment: scroll !important;
-		}
-
-		@include breakpoint('<=xxlarge') {
-			&.style2 {
-				.content {
-					width: 40%;
-				}
-			}
-		}
-
-		@include breakpoint('<=large') {
-			&.style2 {
-				.content {
-					width: 50%;
-				}
-			}
-		}
-
-		@include breakpoint('<=medium') {
-			&.style2 {
-				.content {
-					width: 60%;
+					&:before {
+						background-color: _palette(border-bg-alt);
+					}
 				}
 			}
 		}
 
 		@include breakpoint('<=small') {
-			> .content {
-				br {
-					display: none;
+			article {
+				@include padding(2rem, 2rem, (1.5rem, 0, 0.5rem, 0));
+
+				.close {
+					&:before {
+						top: 0.875rem;
+						left: 0.875rem;
+						width: 2.25rem;
+						height: 2.25rem;
+						background-size: 14px 14px;
+					}
 				}
-			}
-
-			&.fullscreen {
-				height: auto !important;
-			}
-
-			&.style1 {
-				padding: 4em 15px 4em 15px;
-
-				h2 {
-					font-size: 3em;
-				}
-			}
-
-			&.style2 {
-				padding: 6em 15px 6em 15px;
-
-				&:before,
-				&:after {
-					display: none !important;
-				}
-
-				.button.anchored {
-					display: none;
-				}
-
-				.content {
-					width: 100%;
-					max-width: 100%;
-					text-align: center;
-					@include vendor('transform', 'none');
-				}
-			}
-
-			&.style3 {
-				text-align: center;
-				padding: 3em 10px 3em 10px;
 			}
 		}
 
 		@include breakpoint('<=xsmall') {
-			> .content {
-				max-width: calc(100% - 1.5em);
+			article {
+				@include padding(2rem, 1.5rem, (1rem, 0, 0.5rem, 0));
 			}
 		}
 	}
