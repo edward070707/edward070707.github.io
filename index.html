@@ -7,6 +7,22 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+		function changeLanguage(language) {
+    			
+    		if (language === 'it') {
+        
+        document.getElementById('header').innerText = 'Ciao';
+        document.getElementById('intro').getElementsByTagName('p')[0].innerText = 'Benvenuto nel portafoglio di Edward';
+       
+    } else if (language === 'en') {
+       
+        document.getElementById('header').innerText = 'Hello';
+        document.getElementById('intro').getElementsByTagName('p')[0].innerText = 'Welcome to Edward\'s Portfolio';
+        
+    }
+}
+
+		
 	</head>
 	<body class="is-preload">
 
