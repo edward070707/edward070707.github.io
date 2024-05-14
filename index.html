@@ -137,9 +137,31 @@
 							<article class="from-right">
 								<a href="images/fulls/06.jpg" class="image fit"><img src="images/thumbs/06.jpg" title="Bent IX" alt="" /></a>
 							</article>
-						</div>
+						<div class="email" onclick="copyToClipboard('tua@email.com')">tua@email.com</div>
 
-				</div>
+<script>
+function copyToClipboard(text) {
+  // Crea un elemento textarea nascosto
+  var textarea = document.createElement('textarea');
+  textarea.value = text;
+
+  // Aggiungi l'elemento textarea al DOM
+  document.body.appendChild(textarea);
+
+  // Seleziona il testo nell'elemento textarea
+  textarea.select();
+
+  // Copia il testo negli appunti del dispositivo
+  document.execCommand('copy');
+
+  // Rimuovi l'elemento textarea dal DOM
+  document.body.removeChild(textarea);
+
+  // Mostra un messaggio di avviso
+  alert('Email copiata: ' + text);
+}
+</script>
+
 			</section>
 
 		<!-- Contact -->
