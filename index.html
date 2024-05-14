@@ -48,20 +48,30 @@
 		<!-- Intro -->
 			<section id="intro" class="main style1 dark fullscreen">
 				<div class="content">
-					<header>
-  <h2 style="font-family: 'Arial Black', sans-serif; color: #ff5733; text-shadow: 2px 2px 4px #000; animation: glow 1.5s infinite alternate;">Hello</h2>
+				<header>
+  <h2 style="font-family: 'Arial Black', sans-serif; color: #ff5733; text-shadow: 2px 2px 4px #000;">Hello</h2>
 </header>
 
 <style>
-  @keyframes glow {
+  h2:hover {
+    animation: shake 0.5s ease;
+  }
+
+  @keyframes shake {
     0% {
-      text-shadow: 0 0 5px #ff5733;
+      transform: rotate(0deg);
+    }
+    25% {
+      transform: rotate(5deg);
     }
     50% {
-      text-shadow: 0 0 20px #ff5733;
+      transform: rotate(-5deg);
+    }
+    75% {
+      transform: rotate(5deg);
     }
     100% {
-      text-shadow: 0 0 5px #ff5733;
+      transform: rotate(0deg);
     }
   }
 </style>
