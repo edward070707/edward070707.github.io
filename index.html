@@ -139,7 +139,8 @@
 							</article>
 						<div>
   <h3>Per contattarmi utilizza questa email:</h3>
-  <div class="email" onclick="copyToClipboard('edwardattuati@icloud.com')">edwardattuati@icloud.com</div>
+  <div class="email" onclick="copyToClipboard('tua@email.com')">tua@email.com</div>
+  <div id="copyMessage" style="display: none;">Email copiata!</div>
 </div>
 
 <script>
@@ -160,8 +161,14 @@ function copyToClipboard(text) {
   // Rimuovi l'elemento textarea dal DOM
   document.body.removeChild(textarea);
 
-  // Mostra un messaggio di avviso
-  alert('Email copiata: ' + text);
+  // Mostra il messaggio di avviso
+  var copyMessage = document.getElementById('copyMessage');
+  copyMessage.style.display = 'block';
+  
+  // Nascondi il messaggio dopo 2 secondi
+  setTimeout(function() {
+    copyMessage.style.display = 'none';
+  }, 2000);
 }
 </script>
 
