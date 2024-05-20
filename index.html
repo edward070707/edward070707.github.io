@@ -1,212 +1,157 @@
 <!DOCTYPE HTML>
-
 <html>
-	<head>
-		<title>Edward Attuati</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main.css" />
-		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
-		<!-- <script>
-			function changeLanguage(language) {
-			    
-			    if (language === 'it') {
-			        
-			        document.getElementById('header').innerText = 'Ciao';
-			        document.getElementById('intro').getElementsByTagName('p')[0].innerText = 'Benvenuto nel Portfolio di Edward';
-			    } else if (language === 'en') {
-			
-			        document.getElementById('intro').innerText = 'Hello';
-			        document.getElementById('intro').getElementsByTagName('p')[0].innerText = 'Welcome to Edward\'s Portfolio';
-			 
-			    }
-			}
-		</script> 		-->
+<head>
+    <title>Edward Attuati</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <meta name="description" content="Edward Attuati's Portfolio - University student showcasing projects and work.">
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+</head>
+<body class="is-preload">
 
+    <!-- Header -->
+    <header id="header">
+        <h1>Edward Attuati</h1>
+        <nav>
+            <ul>
+                <li><a href="#intro">Home</a></li>
+                <li><a href="#one">What I Do</a></li>
+                <li><a href="#two">Who I Am</a></li>
+                <li><a href="#work">My Project</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
 
-		
-	</head>
-	<body class="is-preload">
+    <!-- Intro -->
+    <section id="intro" class="main style1 dark fullscreen">
+        <div class="content">
+            <header>
+                <h2 style="font-family: 'Arial Black', sans-serif; color: #ff5733; text-shadow: 2px 2px 4px #000;">Hello</h2>
+            </header>
+            <style>
+                h2:hover {
+                    animation: shake 0.5s ease;
+                }
 
-		<!-- Header -->
-			<header id="header">
-				<h1>Edward Attuati</h1>
-				<nav>
-					<ul>
-						<li><a href="#intro">Home</a></li>
-						<li><a href="#one">What I Do</a></li>
-						<li><a href="#two">Who I Am</a></li>
-						<li><a href="#work">My Project</a></li>
-						<li><a href="#contact">Contact</a></li>
-						<!-- <button onclick="changeLanguage('it')">Italiano</button>
-						<button onclick="changeLanguage('en')">English</button> -->
+                @keyframes shake {
+                    0%, 100% { transform: rotate(0deg); }
+                    25% { transform: rotate(5deg); }
+                    50% { transform: rotate(-5deg); }
+                    75% { transform: rotate(5deg); }
+                }
+            </style>
+            <p>Welcome to <strong>Edward's Portfolio</strong></p>
+            <footer>
+                <a href="#one" class="button style2 down">More</a>
+            </footer>
+        </div>
+    </section>
 
-					</ul>
-				</nav>
-			</header>
+    <!-- One -->
+    <section id="one" class="main style2 right dark fullscreen">
+        <div class="content box style2">
+            <header>
+                <h2>What I Do</h2>
+            </header>
+            <p>I'm a university student</p>
+            <a href="aboutme.html" class="button bordered-button">More About Me</a>
+        </div>
+        <a href="#two" class="button style2 down anchored">Next</a>
+    </section>
 
-		<!-- Intro -->
-			<section id="intro" class="main style1 dark fullscreen">
-				<div class="content">
-<header>
-  <h2 style="font-family: 'Arial Black', sans-serif; color: #ff5733; text-shadow: 2px 2px 4px #000;">Hello</h2>
-</header>
+    <!-- Two -->
+    <section id="two" class="main style2 left dark fullscreen">
+        <div class="content box style2">
+            <header>
+                <h2>Who I Am?</h2>
+            </header>
+            <p>I'm an Italian guy</p>
+            <p>Click <a href="https://drive.google.com/file/d/1TALjzcI2UUcyyVxKbZ7BaKZBPn3-BfO-/view?usp=sharing" target="_blank">here to view my CV</a></p>
+        </div>
+        <a href="#work" class="button style2 down anchored">Next</a>
+    </section>
 
-<style>
-  h2:hover {
-    animation: shake 0.5s ease;
-  }
+    <!-- Work -->
+    <section id="work" class="main style3 primary">
+        <div class="content">
+            <header>
+                <h2>My Work</h2>
+                <p>My work includes:</p>
+            </header>
 
-  @keyframes shake {
-    0% {
-      transform: rotate(0deg);
-    }
-    25% {
-      transform: rotate(5deg);
-    }
-    50% {
-      transform: rotate(-5deg);
-    }
-    75% {
-      transform: rotate(5deg);
-    }
-    100% {
-      transform: rotate(0deg);
-    }
-  }
-</style>
+            <!-- Gallery -->
+            <div class="gallery">
+                <article class="from-left">
+                    <a href="images/fulls/01.jpg" class="image fit"><img src="images/thumbs/01.jpg" title="Coming soon" alt="Description of image 01" /></a>
+                </article>
+                <article class="from-right">
+                    <a href="images/fulls/02.jpg" class="image fit"><img src="images/thumbs/02.jpg" title="Coming soon" alt="Description of image 02" /></a>
+                </article>
+                <article class="from-left">
+                    <a href="images/fulls/03.jpg" class="image fit"><img src="images/thumbs/03.jpg" title="Coming soon" alt="Description of image 03" /></a>
+                </article>
+                <article class="from-right">
+                    <a href="images/fulls/04.jpg" class="image fit"><img src="images/thumbs/04.jpg" title="Coming soon" alt="Description of image 04" /></a>
+                </article>
+                <article class="from-left">
+                    <a href="images/fulls/05.jpg" class="image fit"><img src="images/thumbs/05.jpg" title="Coming soon" alt="Description of image 05" /></a>
+                </article>
+                <article class="from-right">
+                    <a href="images/fulls/06.jpg" class="image fit"><img src="images/thumbs/06.jpg" title="Coming soon" alt="Description of image 06" /></a>
+                </article>
+            </div>
 
-					<p>Welcome to <strong>Edward's Portfolio</strong></p>
-					<footer>
-						<a href="#one" class="button style2 down">More</a>
-					</footer>
-				</div>
-			</section>
+            <!-- Email Contact -->
+            <div>
+                <h3>Per contattarmi utilizza questa email:</h3>
+                <div class="email" onclick="copyToClipboard('edwardattuati@icloud.com')">edwardattuati@icloud.com</div>
+                <div id="copyMessage" style="display: none; border: 1px solid #ccc; padding: 10px; margin-top: 10px;">Email copiata!</div>
+            </div>
+        </div>
+    </section>
 
-	<!-- One -->
-<section id="one" class="main style2 right dark fullscreen">
-    <div class="content box style2">
-        <header>
-            <h2>What I Do</h2>
-        </header>
-        <p>I'm a university student</p>
+    <!-- Contact -->
+    <section id="contact" class="main style3 secondary">
+        <div class="content"></div>
+    </section>
 
-        <a href="aboutme.html" class="button bordered-button">More About Me</a>
-    </div>
-    <a href="#two" class="button style2 down anchored">Next</a>
-</section>
+    <!-- Footer -->
+    <footer id="footer">
+        <!-- Icons -->
+        <ul class="icons">
+            <li><a href="#" class="icon brands fa-twitter" target="_blank"><span class="label">Twitter</span></a></li>
+            <li><a href="https://m.facebook.com/edward.attuati.9" class="icon brands fa-facebook-f" target="_blank"><span class="label">Facebook</span></a></li>
+            <li><a href="https://www.instagram.com/edwardattuati/" class="icon brands fa-instagram" target="_blank"><span class="label">Instagram</span></a></li>
+            <li><a href="https://it.linkedin.com/in/edward-attuati-41a54823b" class="icon brands fa-linkedin-in" target="_blank"><span class="label">LinkedIn</span></a></li>
+            <li><a href="#" class="icon brands fa-pinterest" target="_blank"><span class="label">Pinterest</span></a></li>
+        </ul>
+    </footer>
 
-
-		<!-- Two -->
-			<section id="two" class="main style2 left dark fullscreen">
-				<div class="content box style2">
-					<header>
-						<h2>Who i am?</h2>
-					</header>
-					<p>I'm an italian guy</p> 
-					<p>Click <a href="https://drive.google.com/file/d/1TALjzcI2UUcyyVxKbZ7BaKZBPn3-BfO-/view?usp=sharing" target="_blank">here to view my CV</a></p>
-				</div>
-				<a href="#work" class="button style2 down anchored">Next</a>
-			</section>
-
-		<!-- Work -->
-			<section id="work" class="main style3 primary">
-				<div class="content">
-					<header>
-						<h2>My Work</h2>
-						<p>My work are: </p>
-					</header>
-
-					<!-- Gallery  -->
-						<div class="gallery">
-							<article class="from-left">
-								<a href="images/fulls/01.jpg" class="image fit"><img src="images/thumbs/01.jpg" title="Coming soon" alt="" /></a>
-							</article>
-							<article class="from-right">
-								<a href="images/fulls/02.jpg" class="image fit"><img src="images/thumbs/02.jpg" title="Coming soon" alt="" /></a>
-							</article>
-							<article class="from-left">
-								<a href="images/fulls/03.jpg" class="image fit"><img src="images/thumbs/03.jpg" title="Coming soon" alt="" /></a>
-							</article>
-							<article class="from-right">
-								<a href="images/fulls/04.jpg" class="image fit"><img src="images/thumbs/04.jpg" title="Coming soon" alt="" /></a>
-							</article>
-							<article class="from-left">
-								<a href="images/fulls/05.jpg" class="image fit"><img src="images/thumbs/05.jpg" title="Coming soon" alt="" /></a>
-							</article>
-							<article class="from-right">
-								<a href="images/fulls/06.jpg" class="image fit"><img src="images/thumbs/06.jpg" title="Coming soon" alt="" /></a>
-							</article>
-	<div>
-  <h3>Per contattarmi utilizza questa email:</h3>
-  <div class="email" onclick="copyToClipboard('edwardattuati@icloud.com')">edwardattuati@icloud.com</div>
-  <div id="copyMessage" style="display: none; border: 1px solid #ccc; padding: 10px; margin-top: 10px;">Email copiata!</div>
-</div>
-
-<script>
-function copyToClipboard(text) {
-  // Crea un elemento textarea nascosto
-  var textarea = document.createElement('textarea');
-  textarea.value = text;
-
-  // Aggiungi l'elemento textarea al DOM
-  document.body.appendChild(textarea);
-
-  // Seleziona il testo nell'elemento textarea
-  textarea.select();
-
-  // Copia il testo negli appunti del dispositivo
-  document.execCommand('copy');
-
-  // Rimuovi l'elemento textarea dal DOM
-  document.body.removeChild(textarea);
-
-  // Mostra il messaggio di avviso
-  var copyMessage = document.getElementById('copyMessage');
-  copyMessage.style.display = 'block';
-  
-  // Nascondi il messaggio dopo 2 secondi
-  setTimeout(function() {
-    copyMessage.style.display = 'none';
-  }, 2000);
-}
-</script>
-
-			</section>
-
-		<!-- Contact -->
-			<section id="contact" class="main style3 secondary">
-				<div class="content">
-					
-				</div>
-			</section>
-
-		<!-- Footer -->
-			<footer id="footer">
-
-				<!-- Icons -->
-<ul class="icons">
-    <li><a href="#" class="icon brands fa-twitter" target="_blank"><span class="label">Twitter</span></a></li>
-    <li><a href="https://m.facebook.com/edward.attuati.9" class="icon brands fa-facebook-f" target="_blank"><span class="label">Facebook</span></a></li>
-    <li><a href="https://www.instagram.com/edwardattuati/" class="icon brands fa-instagram" target="_blank"><span class="label">Instagram</span></a></li>
-    <li><a href="https://it.linkedin.com/in/edward-attuati-41a54823b" class="icon brands fa-linkedin-in" target="_blank"><span class="label">LinkedIn</span></a></li>
-    <li><a href="#" class="icon brands fa-pinterest" target="_blank"><span class="label">Pinterest</span></a></li>
-</ul>
-
-				<!-- Menu -->
-				
-
-			</footer>
-
-		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/jquery.poptrox.min.js"></script>
-			<script src="assets/js/jquery.scrolly.min.js"></script>
-			<script src="assets/js/jquery.scrollex.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
-
-	</body>
+    <!-- Scripts -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/jquery.poptrox.min.js"></script>
+    <script src="assets/js/jquery.scrolly.min.js"></script>
+    <script src="assets/js/jquery.scrollex.min.js"></script>
+    <script src="assets/js/browser.min.js"></script>
+    <script src="assets/js/breakpoints.min.js"></script>
+    <script src="assets/js/util.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script>
+        function copyToClipboard(text) {
+            var textarea = document.createElement('textarea');
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            var copyMessage = document.getElementById('copyMessage');
+            copyMessage.style.display = 'block';
+            setTimeout(function() {
+                copyMessage.style.display = 'none';
+            }, 2000);
+        }
+    </script>
+</body>
 </html>
