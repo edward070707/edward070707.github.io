@@ -4,11 +4,92 @@
     <title>Edward Attuati</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-    <meta name="description" content="Edward Attuati's Portfolio - University student showcasing projects and work.">
     <link rel="stylesheet" href="assets/css/main.css" />
     <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+    <style>
+        /* Loader Style */
+        #loader {
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            width: 100px;
+            height: 100px;
+            border: 16px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 16px solid #3498db;
+            animation: spin 2s linear infinite;
+            z-index: 1000;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Dark/Light Theme */
+        .dark-theme {
+            background-color: #121212;
+            color: #ffffff;
+        }
+
+        /* Back to Top Button */
+        #backToTop {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 30px;
+            z-index: 99;
+            border: none;
+            outline: none;
+            background-color: #3498db;
+            color: white;
+            cursor: pointer;
+            padding: 15px;
+            border-radius: 4px;
+        }
+        #backToTop:hover {
+            background-color: #555;
+        }
+
+        /* Animation for Sections */
+        .fade-in {
+            animation: fadeIn 2s ease-in;
+        }
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        /* Parallax Effect */
+        .parallax {
+            background-attachment: fixed;
+            background-size: cover;
+        }
+    </style>
+    <script>
+        window.onload = function() {
+            document.getElementById('loader').style.display = 'none';
+        }
+        function toggleTheme() {
+            document.body.classList.toggle('dark-theme');
+        }
+        window.onscroll = function() {
+            scrollFunction();
+        };
+        function scrollFunction() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                document.getElementById('backToTop').style.display = 'block';
+            } else {
+                document.getElementById('backToTop').style.display = 'none';
+            }
+        }
+        function topFunction() {
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+        }
+    </script>
 </head>
 <body class="is-preload">
+    <div id="loader"></div>
 
     <!-- Header -->
     <header id="header">
@@ -20,12 +101,15 @@
                 <li><a href="#two">Who I Am</a></li>
                 <li><a href="#work">My Project</a></li>
                 <li><a href="#contact">Contact</a></li>
+                <li><button onclick="toggleTheme()">Toggle Theme</button></li>
+                <li><button onclick="changeLanguage('it')">Italiano</button></li>
+                <li><button onclick="changeLanguage('en')">English</button></li>
             </ul>
         </nav>
     </header>
 
     <!-- Intro -->
-    <section id="intro" class="main style1 dark fullscreen">
+    <section id="intro" class="main style1 dark fullscreen fade-in">
         <div class="content">
             <header>
                 <h2 style="font-family: 'Arial Black', sans-serif; color: #ff5733; text-shadow: 2px 2px 4px #000;">Hello</h2>
@@ -34,7 +118,6 @@
                 h2:hover {
                     animation: shake 0.5s ease;
                 }
-
                 @keyframes shake {
                     0%, 100% { transform: rotate(0deg); }
                     25% { transform: rotate(5deg); }
@@ -50,7 +133,7 @@
     </section>
 
     <!-- One -->
-    <section id="one" class="main style2 right dark fullscreen">
+    <section id="one" class="main style2 right dark fullscreen parallax fade-in" style="background-image: url('images/background1.jpg');">
         <div class="content box style2">
             <header>
                 <h2>What I Do</h2>
@@ -62,7 +145,7 @@
     </section>
 
     <!-- Two -->
-    <section id="two" class="main style2 left dark fullscreen">
+    <section id="two" class="main style2 left dark fullscreen fade-in">
         <div class="content box style2">
             <header>
                 <h2>Who I Am?</h2>
@@ -74,36 +157,34 @@
     </section>
 
     <!-- Work -->
-    <section id="work" class="main style3 primary">
+    <section id="work" class="main style3 primary fade-in">
         <div class="content">
             <header>
                 <h2>My Work</h2>
-                <p>My work includes:</p>
+                <p>My works are:</p>
             </header>
 
             <!-- Gallery -->
             <div class="gallery">
                 <article class="from-left">
-                    <a href="images/fulls/01.jpg" class="image fit"><img src="images/thumbs/01.jpg" title="Coming soon" alt="Description of image 01" /></a>
+                    <a href="images/fulls/01.jpg" class="image fit"><img src="images/thumbs/01.jpg" title="Coming soon" alt="" /></a>
                 </article>
                 <article class="from-right">
-                    <a href="images/fulls/02.jpg" class="image fit"><img src="images/thumbs/02.jpg" title="Coming soon" alt="Description of image 02" /></a>
+                    <a href="images/fulls/02.jpg" class="image fit"><img src="images/thumbs/02.jpg" title="Coming soon" alt="" /></a>
                 </article>
                 <article class="from-left">
-                    <a href="images/fulls/03.jpg" class="image fit"><img src="images/thumbs/03.jpg" title="Coming soon" alt="Description of image 03" /></a>
+                    <a href="images/fulls/03.jpg" class="image fit"><img src="images/thumbs/03.jpg" title="Coming soon" alt="" /></a>
                 </article>
                 <article class="from-right">
-                    <a href="images/fulls/04.jpg" class="image fit"><img src="images/thumbs/04.jpg" title="Coming soon" alt="Description of image 04" /></a>
+                    <a href="images/fulls/04.jpg" class="image fit"><img src="images/thumbs/04.jpg" title="Coming soon" alt="" /></a>
                 </article>
                 <article class="from-left">
-                    <a href="images/fulls/05.jpg" class="image fit"><img src="images/thumbs/05.jpg" title="Coming soon" alt="Description of image 05" /></a>
+                    <a href="images/fulls/05.jpg" class="image fit"><img src="images/thumbs/05.jpg" title="Coming soon" alt="" /></a>
                 </article>
                 <article class="from-right">
-                    <a href="images/fulls/06.jpg" class="image fit"><img src="images/thumbs/06.jpg" title="Coming soon" alt="Description of image 06" /></a>
+                    <a href="images/fulls/06.jpg" class="image fit"><img src="images/thumbs/06.jpg" title="Coming soon" alt="" /></a>
                 </article>
             </div>
-
-            <!-- Email Contact -->
             <div>
                 <h3>Per contattarmi utilizza questa email:</h3>
                 <div class="email" onclick="copyToClipboard('edwardattuati@icloud.com')">edwardattuati@icloud.com</div>
@@ -112,9 +193,58 @@
         </div>
     </section>
 
+    <script>
+        function copyToClipboard(text) {
+            var textarea = document.createElement('textarea');
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            var copyMessage = document.getElementById('copyMessage');
+            copyMessage.style.display = 'block';
+            setTimeout(function () {
+                copyMessage.style.display = 'none';
+            }, 2000);
+        }
+        function changeLanguage(language) {
+            if (language === 'it') {
+                document.getElementById('header').innerText = 'Ciao';
+                document.getElementById('intro').getElementsByTagName('p')[0].innerText = 'Benvenuto nel Portfolio di Edward';
+            } else if (language === 'en') {
+                document.getElementById('header').innerText = 'Hello';
+                document.getElementById('intro').getElementsByTagName('p')[0].innerText = 'Welcome to Edward\'s Portfolio';
+            }
+        }
+    </script>
+
     <!-- Contact -->
-    <section id="contact" class="main style3 secondary">
-        <div class="content"></div>
+    <section id="contact" class="main style3 secondary fade-in">
+        <div class="content">
+            <header>
+                <h2>Contact Me</h2>
+            </header>
+            <form method="post" action="#">
+                <div class="fields">
+                    <div class="field half">
+                        <label for="name">Name</label>
+                        <input type="text" name="name" id="name" />
+                    </div>
+                    <div class="field half">
+                        <label for="email">Email</label>
+                        <input type="email" name="email" id="email" />
+                    </div>
+                    <div class="field">
+                        <label for="message">Message</label>
+                        <textarea name="message" id="message" rows="4"></textarea>
+                    </div>
+                </div>
+                <ul class="actions">
+                    <li><input type="submit" value="Send Message" class="primary" /></li>
+                    <li><input type="reset" value="Clear" /></li>
+                </ul>
+            </form>
+        </div>
     </section>
 
     <!-- Footer -->
@@ -129,6 +259,9 @@
         </ul>
     </footer>
 
+    <!-- Back to Top Button -->
+    <button onclick="topFunction()" id="backToTop" title="Go to top">Top</button>
+
     <!-- Scripts -->
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/js/jquery.poptrox.min.js"></script>
@@ -138,20 +271,6 @@
     <script src="assets/js/breakpoints.min.js"></script>
     <script src="assets/js/util.js"></script>
     <script src="assets/js/main.js"></script>
-    <script>
-        function copyToClipboard(text) {
-            var textarea = document.createElement('textarea');
-            textarea.value = text;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textarea);
-            var copyMessage = document.getElementById('copyMessage');
-            copyMessage.style.display = 'block';
-            setTimeout(function() {
-                copyMessage.style.display = 'none';
-            }, 2000);
-        }
-    </script>
 </body>
 </html>
+
