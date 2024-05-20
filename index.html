@@ -25,12 +25,6 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* Dark/Light Theme */
-        .dark-theme {
-            background-color: #121212;
-            color: #ffffff;
-        }
-
         /* Back to Top Button */
         #backToTop {
             display: none;
@@ -69,9 +63,6 @@
         window.onload = function() {
             document.getElementById('loader').style.display = 'none';
         }
-        function toggleTheme() {
-            document.body.classList.toggle('dark-theme');
-        }
         window.onscroll = function() {
             scrollFunction();
         };
@@ -101,9 +92,6 @@
                 <li><a href="#two">Who I Am</a></li>
                 <li><a href="#work">My Project</a></li>
                 <li><a href="#contact">Contact</a></li>
-                <li><button onclick="toggleTheme()">Toggle Theme</button></li>
-                <li><button onclick="changeLanguage('it')">Italiano</button></li>
-                <li><button onclick="changeLanguage('en')">English</button></li>
             </ul>
         </nav>
     </header>
@@ -207,45 +195,7 @@
                 copyMessage.style.display = 'none';
             }, 2000);
         }
-        function changeLanguage(language) {
-            if (language === 'it') {
-                document.getElementById('header').innerText = 'Ciao';
-                document.getElementById('intro').getElementsByTagName('p')[0].innerText = 'Benvenuto nel Portfolio di Edward';
-            } else if (language === 'en') {
-                document.getElementById('header').innerText = 'Hello';
-                document.getElementById('intro').getElementsByTagName('p')[0].innerText = 'Welcome to Edward\'s Portfolio';
-            }
-        }
     </script>
-
-    <!-- Contact -->
-    <section id="contact" class="main style3 secondary fade-in">
-        <div class="content">
-            <header>
-                <h2>Contact Me</h2>
-            </header>
-            <form method="post" action="#">
-                <div class="fields">
-                    <div class="field half">
-                        <label for="name">Name</label>
-                        <input type="text" name="name" id="name" />
-                    </div>
-                    <div class="field half">
-                        <label for="email">Email</label>
-                        <input type="email" name="email" id="email" />
-                    </div>
-                    <div class="field">
-                        <label for="message">Message</label>
-                        <textarea name="message" id="message" rows="4"></textarea>
-                    </div>
-                </div>
-                <ul class="actions">
-                    <li><input type="submit" value="Send Message" class="primary" /></li>
-                    <li><input type="reset" value="Clear" /></li>
-                </ul>
-            </form>
-        </div>
-    </section>
 
     <!-- Footer -->
     <footer id="footer">
@@ -273,4 +223,3 @@
     <script src="assets/js/main.js"></script>
 </body>
 </html>
-
