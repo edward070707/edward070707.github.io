@@ -60,23 +60,49 @@
     </section>
     
     <script>
-        // Array contenente i testi in diverse lingue
         var texts = ["Hello", "Bonjour", "Hola", "Ciao"];
+        var currentIndex = 0;
     
-        var currentIndex = 0; // Indice corrente del testo
-    
-        // Funzione per cambiare il testo dell'header
         function changeHeaderText() {
-            // Cambia il testo dell'header con il testo corrente dall'array
-            document.getElementById("headerText").textContent = texts[currentIndex];
+            var text = texts[currentIndex];
+            var headerElement = document.getElementById("headerText");
+            var textLength = 0;
+    
+            var typingInterval = setInterval(function() {
+                headerElement.textContent = text.substring(0, textLength);
+                textLength++;
+    
+                if (textLength > text.length) {
+                    clearInterval(typingInterval);
+                    setTimeout(function() {
+                        eraseText(headerElement);
+                    }, 1000);
+                }
+            }, 100);
             
-            // Incrementa l'indice corrente
             currentIndex = (currentIndex + 1) % texts.length;
         }
     
-        // Chiama la funzione ogni 5 secondi (5000 millisecondi)
+        function eraseText(element) {
+            var text = element.textContent;
+            var textLength = text.length;
+    
+            var erasingInterval = setInterval(function() {
+                element.textContent = text.substring(0, textLength);
+                textLength--;
+    
+                if (textLength === 0) {
+                    clearInterval(erasingInterval);
+                    setTimeout(function() {
+                        changeHeaderText();
+                    }, 1000);
+                }
+            }, 50);
+        }
+    
         setInterval(changeHeaderText, 5000);
     </script>
+    
     
 
     <!-- One -->
