@@ -70,44 +70,19 @@
         var currentIndex = 0;
     
         function changeHeaderText() {
-            var text = texts[currentIndex];
             var headerElement = document.getElementById("headerText");
-            var textLength = 0;
-    
-            var typingInterval = setInterval(function() {
-                headerElement.textContent = text.substring(0, textLength);
-                textLength++;
-    
-                if (textLength > text.length) {
-                    clearInterval(typingInterval);
-                    setTimeout(function() {
-                        eraseText(headerElement);
-                    }, 1000);
-                }
-            }, 150); // rallentato a 150ms per carattere
+            headerElement.textContent = texts[currentIndex];
     
             currentIndex = (currentIndex + 1) % texts.length;
         }
     
-        function eraseText(element) {
-            var text = element.textContent;
-            var textLength = text.length;
+        // Cambia il testo inizialmente
+        changeHeaderText();
     
-            var erasingInterval = setInterval(function() {
-                element.textContent = text.substring(0, textLength);
-                textLength--;
-    
-                if (textLength === 0) {
-                    clearInterval(erasingInterval);
-                    setTimeout(function() {
-                        changeHeaderText();
-                    }, 10000); // intervallo di pausa di 2 secondi dopo la cancellazione
-                }
-            }, 50); // 50ms per cancellare ogni carattere
-        }
-    
-        setInterval(changeHeaderText, 10000); // cambia ogni 10 secondi
+        // Cambia il testo ogni 10 secondi (10000 millisecondi)
+        setInterval(changeHeaderText, 10000);
     </script>
+    
     
     
 
