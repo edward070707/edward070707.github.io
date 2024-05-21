@@ -52,6 +52,18 @@
             <header>
                 <h2 id="headerText" style="font-family: 'Arial Black', sans-serif; color: #FFFFFF; text-shadow: 2px 2px 4px #000;">Hello</h2>
             </header>
+            <style>
+                h2:hover {
+                    animation: shake 0.5s ease;
+                }
+
+                @keyframes shake {
+                    0%, 100% { transform: rotate(0deg); }
+                    25% { transform: rotate(5deg); }
+                    50% { transform: rotate(-5deg); }
+                    75% { transform: rotate(5deg); }
+                }
+            </style>
             <p>Welcome to <strong>Edward's Portfolio</strong></p>
             <footer>
                 <a href="#one" class="button style2 down">More</a>
