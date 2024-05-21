@@ -67,14 +67,14 @@
             "Sholem aleikhem", "Hei", "Sain baina uu"
         ];
     
-        var currentIndex = 0;
-    
-        function changeHeaderText() {
-            var headerElement = document.getElementById("headerText");
-            headerElement.textContent = texts[currentIndex];
-    
-            currentIndex = (currentIndex + 1) % texts.length;
-        }
+        function getRandomText() {
+        return texts[Math.floor(Math.random() * texts.length)];
+    }
+
+    function changeHeaderText() {
+        var headerElement = document.getElementById("headerText");
+        headerElement.textContent = getRandomText();
+    }
     
         // Cambia il testo inizialmente
         changeHeaderText();
