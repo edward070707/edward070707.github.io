@@ -71,78 +71,97 @@
         </div>
     </section>
     
+    <!DOCTYPE html>
+<html>
+<head>
+    <title>Random Languages</title>
+</head>
+<body>
+    <h1 id="headerText"></h1>
+    
     <script>
-       var texts = [
-    "Hello", // Inglese
-    "Bonjour", // Francese
-    "Hola", // Spagnolo
-    "Ciao", // Italiano
-    "Konnichiwa", // Giapponese
-    "Guten Tag", // Tedesco
-    "Olá", // Portoghese
-    "Namaste", // Hindi
-    "Salaam", // Urdu
-    "Hej", // Svedese
-    "Merhaba", // Turco
-    "Annyeonghaseyo", // Coreano
-    "Ni Hao", // Cinese (mandarino)
-    "Sawubona", // Zulu
-    "Shalom", // Ebraico
-    "Szia", // Ungherese
-    "Selamat pagi", // Malese
-    "Dobrý den", // Ceco
-    "Aloha", // Hawaiano
-    "Jambo", // Swahili
-    "Nǐ hǎo", // Cinese (mandarino)
-    "Hoi", // Olandese
-    "Salut", // Rumeno
-    "Pryvit", // Ucraino
-    "Yasou", // Greco
-    "Halló", // Islandese
-    "Sholem aleikhem", // Yiddish
-    "Hei", // Norvegese
-    "Sain baina uu", // Mongolo
-    "Kumusta", // Filippino
-    "Merhaba", // Curdo
-    "Salam", // Pashto
-    "Privet", // Russo
-    "Sawubona", // Xhosa
-    "Marhaba", // Arabo
-    "Sveiki", // Lituano
-    "Päivää", // Finlandese
-    "Kia ora", // Maori
-    "Sveiki", // Lettone
-    "Sawubona", // Siswati
-    "Kamusta", // Cebuano
-    "Hei", // Danese
-    "Hallo", // Afrikaans
-    "Nǐ hǎo", // Cantonese
-    "Namaskar", // Bengalese
-    "Dobrý den", // Slovacco
-    "Moi", // Finlandese
-    "Hello", // Esperanto
-    "Merhaba", // Azero
-    "Kaixo", // Basco
-    "Sawubona" // Ndebele
-];
+        var languages = [
+            "Hello", // Inglese
+            "Bonjour", // Francese
+            "Hola", // Spagnolo
+            "Ciao", // Italiano
+            "Konnichiwa", // Giapponese
+            "Guten Tag", // Tedesco
+            "Olá", // Portoghese
+            "Namaste", // Hindi
+            "Salaam", // Urdu
+            "Hej", // Svedese
+            "Merhaba", // Turco
+            "Annyeonghaseyo", // Coreano
+            "Ni Hao", // Cinese (mandarino)
+            "Sawubona", // Zulu
+            "Shalom", // Ebraico
+            "Szia", // Ungherese
+            "Selamat pagi", // Malese
+            "Dobrý den", // Ceco
+            "Aloha", // Hawaiano
+            "Jambo", // Swahili
+            "Hoi", // Olandese
+            "Salut", // Rumeno
+            "Pryvit", // Ucraino
+            "Yasou", // Greco
+            "Halló", // Islandese
+            "Sholem aleikhem", // Yiddish
+            "Hei", // Norvegese
+            "Sain baina uu", // Mongolo
+            "Kumusta", // Filippino
+            "Merhaba", // Curdo
+            "Salam", // Pashto
+            "Privet", // Russo
+            "Marhaba", // Arabo
+            "Sveiki", // Lituano
+            "Päivää", // Finlandese
+            "Kia ora", // Maori
+            "Sveiki", // Lettone
+            "Sawubona", // Siswati
+            "Kamusta", // Cebuano
+            "Hei", // Danese
+            "Hallo", // Afrikaans
+            "Nǐ hǎo", // Cantonese
+            "Namaskar", // Bengalese
+            "Dobrý den", // Slovacco
+            "Moi", // Finlandese
+            "Hello", // Esperanto
+            "Merhaba", // Azero
+            "Kaixo", // Basco
+            "Sawubona" // Ndebele
+        ];
 
-    
+        // Scelgo casualmente le lingue finché non raggiungo 50 senza ripetizioni
+        var selectedLanguages = [];
+        while (selectedLanguages.length < 50 && languages.length > 0) {
+            var randomIndex = Math.floor(Math.random() * languages.length);
+            var selectedLanguage = languages[randomIndex];
+            if (!selectedLanguages.includes(selectedLanguage)) {
+                selectedLanguages.push(selectedLanguage);
+            }
+        }
+
+        console.log(selectedLanguages);
+
         function getRandomText() {
-        return texts[Math.floor(Math.random() * texts.length)];
-    }
+            return selectedLanguages[Math.floor(Math.random() * selectedLanguages.length)];
+        }
 
-    function changeHeaderText() {
-        var headerElement = document.getElementById("headerText");
-        headerElement.textContent = getRandomText();
-    }
-    
+        function changeHeaderText() {
+            var headerElement = document.getElementById("headerText");
+            headerElement.textContent = getRandomText();
+        }
+
         // Cambia il testo inizialmente
         changeHeaderText();
-    
+
         // Cambia il testo ogni 5 secondi (5000 millisecondi)
         setInterval(changeHeaderText, 5000);
     </script>
-    
+</body>
+</html>
+
     
     
 
