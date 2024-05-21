@@ -61,37 +61,12 @@
     
     <script>
         var texts = [
-    "Hello",        // Inglese
-    "Bonjour",      // Francese
-    "Hola",         // Spagnolo
-    "Ciao",         // Italiano
-    "Konnichiwa",   // Giapponese
-    "Guten Tag",    // Tedesco
-    "Olá",          // Portoghese
-    "Namaste",      // Hindi
-    "Salaam",       // Arabo
-    "Hej",          // Svedese
-    "Merhaba",      // Turco
-    "Annyeonghaseyo", // Coreano
-    "Ni Hao",       // Cinese (mandarino)
-    "Sawubona",     // Zulu
-    "Shalom",       // Ebraico
-    "Szia",         // Ungherese
-    "Selamat pagi", // Malese/Indonesiano
-    "Dobrý den",    // Ceco
-    "Aloha",        // Hawaiano
-    "Jambo",        // Swahili
-    "Nǐ hǎo",       // Cinese (cantonese)
-    "Hoi",          // Olandese
-    "Salut",        // Rumeno
-    "Pryvit",       // Ucraino
-    "Yasou",        // Greco
-    "Halló",        // Islandese
-    "Sholem aleikhem", // Yiddish
-    "Hei",          // Norvegese
-    "Sain baina uu" // Mongolo
-];
-
+            "Hello", "Bonjour", "Hola", "Ciao", "Konnichiwa", "Guten Tag", "Olá", "Namaste", "Salaam", 
+            "Hej", "Merhaba", "Annyeonghaseyo", "Ni Hao", "Sawubona", "Shalom", "Szia", "Selamat pagi", 
+            "Dobrý den", "Aloha", "Jambo", "Nǐ hǎo", "Hoi", "Salut", "Pryvit", "Yasou", "Halló", 
+            "Sholem aleikhem", "Hei", "Sain baina uu"
+        ];
+    
         var currentIndex = 0;
     
         function changeHeaderText() {
@@ -109,8 +84,8 @@
                         eraseText(headerElement);
                     }, 1000);
                 }
-            }, 100);
-            
+            }, 150); // rallentato a 150ms per carattere
+    
             currentIndex = (currentIndex + 1) % texts.length;
         }
     
@@ -126,12 +101,12 @@
                     clearInterval(erasingInterval);
                     setTimeout(function() {
                         changeHeaderText();
-                    }, 2000);
+                    }, 2000); // intervallo di pausa di 2 secondi dopo la cancellazione
                 }
-            }, 50);
+            }, 50); // 50ms per cancellare ogni carattere
         }
     
-        setInterval(changeHeaderText, 10000);
+        setInterval(changeHeaderText, 10000); // cambia ogni 10 secondi
     </script>
     
     
