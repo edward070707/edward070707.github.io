@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /private/
+Disallow: /old-page/
+
+Sitemap: https://edwardattuati.com/sitemap.xml
