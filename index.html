@@ -202,9 +202,12 @@
             <!-- Email Contact -->
             <div>
                 <h3>To contact me, use this email:</h3>
-                <div class="email" onclick="copyToClipboard('edwardattuati@icloud.com')">edwardattuati@icloud.com</div>
+                <div class="email" onclick="copyToClipboard('edwardattuati@icloud.com'); window.location.href='mailto:edwardattuati@icloud.com';">edwardattuati@icloud.com</div>
                 <div id="copyMessage" style="display: none; border: 1px solid #ccc; padding: 10px; margin-top: 10px;">Email copied!</div>
             </div>
+            
+            
+            
         </div>
     </section>
 
@@ -221,7 +224,7 @@
             <li><a href="https://m.facebook.com/edward.attuati.9" class="icon brands fa-facebook-f" target="_blank"><span class="label">Facebook</span></a></li>
             <li><a href="https://www.instagram.com/edwardattuati/" class="icon brands fa-instagram" target="_blank"><span class="label">Instagram</span></a></li>
             <li><a href="https://it.linkedin.com/in/edward-attuati-41a54823b" class="icon brands fa-linkedin-in" target="_blank"><span class="label">LinkedIn</span></a></li>
-           <!-- <li><a href="#" class="icon brands fa-pinterest" target="_blank"><span class="label">Pinterest</span></a></li>-->
+            <!-- <li><a href="#" class="icon brands fa-pinterest" target="_blank"><span class="label">Pinterest</span></a></li>-->
         </ul>
     </footer>
 
@@ -239,18 +242,17 @@
     <script src="assets/js/main.js"></script>
     <script>
         function copyToClipboard(text) {
-            var textarea = document.createElement('textarea');
-            textarea.value = text;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textarea);
-            var copyMessage = document.getElementById('copyMessage');
-            copyMessage.style.display = 'block';
-            setTimeout(function() {
-                copyMessage.style.display = 'none';
-            }, 2000);
-        }
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                document.getElementById('copyMessage').style.display = 'block';
+                setTimeout(() => {
+                    document.getElementById('copyMessage').style.display = 'none';
+                }, 2000);
+            }
 
         // Show/Hide Back to Top Button
         window.onscroll = function() {scrollFunction()};
