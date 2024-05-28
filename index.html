@@ -27,11 +27,43 @@
         #backToTop:hover {
             background-color: #555;
         }
+
+        #cookieConsent {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-align: center;
+            z-index: 1000;
+        }
+
+        #cookieConsent a {
+            color: #FFD700;
+            text-decoration: underline;
+        }
+
+        #cookieConsent button {
+            background-color: #FFD700;
+            border: none;
+            color: black;
+            padding: 5px 10px;
+            cursor: pointer;
+            margin-left: 20px;
+            border-radius: 5px;
+        }
     </style>
     <meta name="ahrefs-site-verification" content="29088d3383737ed2174455d76734d5fb86ac2de57ad6f096a2146a96756cc6f2">
 </head>
 <body>
-
+    <div id="cookieConsent">
+        This website uses cookies to ensure you get the best experience on our website. 
+        <a href="https://www.example.com/privacy-policy" target="_blank">Learn more</a>
+        <button onclick="acceptCookies()">Got it!</button>
+    </div>
 
     <!-- Header -->
     <header id="header">
@@ -73,77 +105,75 @@
         </div>
         <script>
             var texts = [
-         "Hello", // Inglese
-         "Bonjour", // Francese
-         "Hola", // Spagnolo
-         "Ciao", // Italiano
-         "Konnichiwa", // Giapponese
-         "Guten Tag", // Tedesco
-         "Olá", // Portoghese
-         "Namaste", // Hindi
-         "Salaam", // Urdu
-         "Hej", // Svedese
-         "Merhaba", // Turco
-         "Annyeonghaseyo", // Coreano
-         "Ni Hao", // Cinese (mandarino)
-         "Sawubona", // Zulu
-         "Shalom", // Ebraico
-         "Szia", // Ungherese
-         "Selamat pagi", // Malese
-         "Dobrý den", // Ceco
-         "Aloha", // Hawaiano
-         "Jambo", // Swahili
-         "Nǐ hǎo", // Cinese (mandarino)
-         "Hoi", // Olandese
-         "Salut", // Rumeno
-         "Pryvit", // Ucraino
-         "Yasou", // Greco
-         "Halló", // Islandese
-         "Sholem aleikhem", // Yiddish
-         "Hei", // Norvegese
-         "Sain baina uu", // Mongolo
-         "Kumusta", // Filippino
-         "Merhaba", // Curdo
-         "Salam", // Pashto
-         "Privet", // Russo
-         "Sawubona", // Xhosa
-         "Marhaba", // Arabo
-         "Sveiki", // Lituano
-         "Päivää", // Finlandese
-         "Kia ora", // Maori
-         "Sveiki", // Lettone
-         "Sawubona", // Siswati
-         "Kamusta", // Cebuano
-         "Hei", // Danese
-         "Hallo", // Afrikaans
-         "Nǐ hǎo", // Cantonese
-         "Namaskar", // Bengalese
-         "Dobrý den", // Slovacco
-         "Moi", // Finlandese
-         "Hello", // Esperanto
-         "Merhaba", // Azero
-         "Kaixo", // Basco
-         "Sawubona" // Ndebele
-     ];
+                "Hello", // Inglese
+                "Bonjour", // Francese
+                "Hola", // Spagnolo
+                "Ciao", // Italiano
+                "Konnichiwa", // Giapponese
+                "Guten Tag", // Tedesco
+                "Olá", // Portoghese
+                "Namaste", // Hindi
+                "Salaam", // Urdu
+                "Hej", // Svedese
+                "Merhaba", // Turco
+                "Annyeonghaseyo", // Coreano
+                "Ni Hao", // Cinese (mandarino)
+                "Sawubona", // Zulu
+                "Shalom", // Ebraico
+                "Szia", // Ungherese
+                "Selamat pagi", // Malese
+                "Dobrý den", // Ceco
+                "Aloha", // Hawaiano
+                "Jambo", // Swahili
+                "Nǐ hǎo", // Cinese (mandarino)
+                "Hoi", // Olandese
+                "Salut", // Rumeno
+                "Pryvit", // Ucraino
+                "Yasou", // Greco
+                "Halló", // Islandese
+                "Sholem aleikhem", // Yiddish
+                "Hei", // Norvegese
+                "Sain baina uu", // Mongolo
+                "Kumusta", // Filippino
+                "Merhaba", // Curdo
+                "Salam", // Pashto
+                "Privet", // Russo
+                "Sawubona", // Xhosa
+                "Marhaba", // Arabo
+                "Sveiki", // Lituano
+                "Päivää", // Finlandese
+                "Kia ora", // Maori
+                "Sveiki", // Lettone
+                "Sawubona", // Siswati
+                "Kamusta", // Cebuano
+                "Hei", // Danese
+                "Hallo", // Afrikaans
+                "Nǐ hǎo", // Cantonese
+                "Namaskar", // Bengalese
+                "Dobrý den", // Slovacco
+                "Moi", // Finlandese
+                "Hello", // Esperanto
+                "Merhaba", // Azero
+                "Kaixo", // Basco
+                "Sawubona" // Ndebele
+            ];
      
-         
-             function getRandomText() {
-             return texts[Math.floor(Math.random() * texts.length)];
-         }
+            function getRandomText() {
+                return texts[Math.floor(Math.random() * texts.length)];
+            }
      
-         function changeHeaderText() {
-             var headerElement = document.getElementById("headerText");
-             headerElement.textContent = getRandomText();
-         }
+            function changeHeaderText() {
+                var headerElement = document.getElementById("headerText");
+                headerElement.textContent = getRandomText();
+            }
          
-             // Cambia il testo inizialmente
-             changeHeaderText();
+            // Cambia il testo inizialmente
+            changeHeaderText();
          
-             // Cambia il testo ogni 5 secondi (5000 millisecondi)
-             setInterval(changeHeaderText, 5000);
-         </script>
+            // Cambia il testo ogni 5 secondi (5000 millisecondi)
+            setInterval(changeHeaderText, 5000);
+        </script>
     </section>
-
 
     <!-- One -->
     <section id="one" class="main style2 right dark fullscreen">
@@ -180,7 +210,7 @@
             <!-- Gallery -->
             <div class="gallery">
                 <article class="from-left">
-                    <a href="images/fulls/01.jpg" class="image fit"><img src="images/thumbs/01.jpg" title="Coming soon" alt="DComing soon" /></a>
+                    <a href="images/fulls/01.jpg" class="image fit"><img src="images/thumbs/01.jpg" title="Coming soon" alt="Coming soon" /></a>
                 </article>
                 <article class="from-right">
                     <a href="images/fulls/02.jpg" class="image fit"><img src="images/thumbs/02.jpg" title="Coming soon" alt="Coming soon" /></a>
@@ -205,9 +235,6 @@
                 <div class="email" onclick="copyToClipboard('edwardattuati@icloud.com'); window.location.href='mailto:edwardattuati@icloud.com';">edwardattuati@icloud.com</div>
                 <div id="copyMessage" style="display: none; border: 1px solid #ccc; padding: 10px; margin-top: 10px;">Email copied!</div>
             </div>
-            
-            
-            
         </div>
     </section>
 
@@ -220,11 +247,9 @@
     <footer id="footer">
         <!-- Icons -->
         <ul class="icons">
-           <!-- <li><a href="#" class="icon brands fa-twitter" target="_blank"><span class="label">Twitter</span></a></li> -->
             <li><a href="https://m.facebook.com/edward.attuati.9" class="icon brands fa-facebook-f" target="_blank"><span class="label">Facebook</span></a></li>
             <li><a href="https://www.instagram.com/edwardattuati/" class="icon brands fa-instagram" target="_blank"><span class="label">Instagram</span></a></li>
             <li><a href="https://it.linkedin.com/in/edward-attuati-41a54823b" class="icon brands fa-linkedin-in" target="_blank"><span class="label">LinkedIn</span></a></li>
-            <!-- <li><a href="#" class="icon brands fa-pinterest" target="_blank"><span class="label">Pinterest</span></a></li>-->
         </ul>
     </footer>
 
@@ -242,17 +267,17 @@
     <script src="assets/js/main.js"></script>
     <script>
         function copyToClipboard(text) {
-                const textarea = document.createElement('textarea');
-                textarea.value = text;
-                document.body.appendChild(textarea);
-                textarea.select();
-                document.execCommand('copy');
-                document.body.removeChild(textarea);
-                document.getElementById('copyMessage').style.display = 'block';
-                setTimeout(() => {
-                    document.getElementById('copyMessage').style.display = 'none';
-                }, 2000);
-            }
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            document.getElementById('copyMessage').style.display = 'block';
+            setTimeout(() => {
+                document.getElementById('copyMessage').style.display = 'none';
+            }, 2000);
+        }
 
         // Show/Hide Back to Top Button
         window.onscroll = function() {scrollFunction()};
@@ -269,6 +294,21 @@
             document.body.scrollTop = 0;
             document.documentElement.scrollTop = 0;
         }
+
+        function acceptCookies() {
+            document.cookie = "cookieConsent=true; path=/; max-age=" + 60*60*24*30;
+            document.getElementById('cookieConsent').style.display = 'none';
+        }
+
+        function checkCookieConsent() {
+            if (document.cookie.split(';').some((item) => item.trim().startsWith('cookieConsent='))) {
+                document.getElementById('cookieConsent').style.display = 'none';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', (event) => {
+            checkCookieConsent();
+        });
     </script>
 </body>
 </html>
