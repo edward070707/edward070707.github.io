@@ -254,30 +254,203 @@
                 <p data-i18n="work-sub">My work includes:</p>
             </header>
 
-            <!-- Gallery -->
-            <div class="gallery">
-                <article class="from-left">
-                    <a href="images/fulls/01.jpg" class="image fit"><img src="images/thumbs/01.jpg" title="Coming soon" alt="Coming soon" /></a>
-                </article>
-                <article class="from-right">
-                    <a href="images/fulls/02.jpg" class="image fit"><img src="images/thumbs/02.jpg" title="Coming soon" alt="Coming soon" /></a>
-                </article>
-                <article class="from-left">
-                    <a href="images/fulls/03.jpg" class="image fit"><img src="images/thumbs/03.jpg" title="Coming soon" alt="Coming soon" /></a>
-                </article>
-                <article class="from-right">
-                    <a href="images/fulls/04.jpg" class="image fit"><img src="images/thumbs/04.jpg" title="Coming soon" alt="Coming soon" /></a>
-                </article>
-                <article class="from-left">
-                    <a href="images/fulls/05.jpg" class="image fit"><img src="images/thumbs/05.jpg" title="Coming soon" alt="Coming soon" /></a>
-                </article>
-                <article class="from-right">
-                    <a href="images/fulls/06.jpg" class="image fit"><img src="images/thumbs/06.jpg" title="Coming soon" alt="Coming soon" /></a>
-                </article>
+            <div class="tilt-grid">
+                <div class="tilt-card" data-color="#4f8ef7">
+                    <div class="tilt-card-inner">
+                        <div class="tilt-icon">💻</div>
+                        <h3>University Project</h3>
+                        <p>Computer Engineering — Università di Brescia</p>
+                        <span class="tilt-badge">Coming Soon</span>
+                    </div>
+                    <div class="tilt-glow"></div>
+                    <div class="tilt-particles"></div>
+                </div>
+                <div class="tilt-card" data-color="#a259ff">
+                    <div class="tilt-card-inner">
+                        <div class="tilt-icon">🏢</div>
+                        <h3>IT Internship</h3>
+                        <p>Soluzione1 — Ghisalba, Bergamo</p>
+                        <span class="tilt-badge">Coming Soon</span>
+                    </div>
+                    <div class="tilt-glow"></div>
+                    <div class="tilt-particles"></div>
+                </div>
+                <div class="tilt-card" data-color="#00d4aa">
+                    <div class="tilt-card-inner">
+                        <div class="tilt-icon">🚀</div>
+                        <h3>Next Project</h3>
+                        <p>Something big is coming...</p>
+                        <span class="tilt-badge">Coming Soon</span>
+                    </div>
+                    <div class="tilt-glow"></div>
+                    <div class="tilt-particles"></div>
+                </div>
             </div>
-
         </div>
     </section>
+
+    <style>
+        /* ── Option A: Tilt 3D + Glow ── */
+        .tilt-grid {
+            display: flex;
+            gap: 28px;
+            justify-content: center;
+            flex-wrap: wrap;
+            padding: 20px 0 40px;
+            perspective: 1200px;
+        }
+
+        .tilt-card {
+            position: relative;
+            width: 260px;
+            min-height: 240px;
+            border-radius: 20px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.12);
+            backdrop-filter: blur(10px);
+            transform-style: preserve-3d;
+            transition: box-shadow 0.3s ease;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .tilt-card-inner {
+            position: relative;
+            z-index: 2;
+            padding: 36px 28px 28px;
+            transform: translateZ(30px);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .tilt-icon {
+            font-size: 2.8em;
+            filter: drop-shadow(0 0 12px currentColor);
+        }
+
+        .tilt-card h3 {
+            margin: 0;
+            font-size: 1.15em;
+            color: #fff;
+            text-shadow: 0 0 20px rgba(255,255,255,0.4);
+        }
+
+        .tilt-card p {
+            margin: 0;
+            font-size: 0.85em;
+            color: rgba(255,255,255,0.55);
+            line-height: 1.5;
+        }
+
+        .tilt-badge {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.72em;
+            font-weight: bold;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.08);
+            width: fit-content;
+        }
+
+        /* Glow layer that follows the mouse */
+        .tilt-glow {
+            position: absolute;
+            inset: 0;
+            border-radius: 20px;
+            background: radial-gradient(
+                circle at var(--gx, 50%) var(--gy, 50%),
+                var(--card-color, rgba(255,255,255,0.25)) 0%,
+                transparent 65%
+            );
+            opacity: 0;
+            transition: opacity 0.35s ease;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .tilt-card:hover .tilt-glow { opacity: 0.35; }
+
+        .tilt-card:hover {
+            box-shadow:
+                0 30px 60px rgba(0,0,0,0.4),
+                0 0 40px var(--card-shadow, rgba(255,255,255,0.1));
+        }
+
+        /* Particle dots */
+        .tilt-particle {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: particle-burst 0.7s ease-out forwards;
+            z-index: 3;
+        }
+
+        @keyframes particle-burst {
+            0%   { transform: translate(0,0) scale(1); opacity: 1; }
+            100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; }
+        }
+    </style>
+
+    <script>
+        /* ── Tilt 3D + Glow + Particles ── */
+        document.querySelectorAll('.tilt-card').forEach(card => {
+            const color = card.dataset.color || '#ffffff';
+            card.style.setProperty('--card-color', color + '66');
+            card.style.setProperty('--card-shadow', color + '44');
+
+            card.addEventListener('mousemove', e => {
+                const r = card.getBoundingClientRect();
+                const x = e.clientX - r.left;
+                const y = e.clientY - r.top;
+                const cx = r.width / 2, cy = r.height / 2;
+                const rotX = ((y - cy) / cy) * -14;
+                const rotY = ((x - cx) / cx) * 14;
+
+                card.style.transform =
+                    `perspective(1200px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale3d(1.06,1.06,1.06)`;
+
+                card.style.setProperty('--gx', `${(x / r.width) * 100}%`);
+                card.style.setProperty('--gy', `${(y / r.height) * 100}%`);
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform =
+                    'perspective(1200px) rotateX(0deg) rotateY(0deg) scale3d(1,1,1)';
+            });
+
+            card.addEventListener('mouseenter', () => spawnParticles(card, color));
+        });
+
+        function spawnParticles(card, color) {
+            const container = card.querySelector('.tilt-particles');
+            for (let i = 0; i < 12; i++) {
+                const p = document.createElement('div');
+                p.className = 'tilt-particle';
+                const size = Math.random() * 6 + 4;
+                const angle = Math.random() * 360;
+                const dist = Math.random() * 80 + 40;
+                const tx = Math.cos(angle * Math.PI / 180) * dist;
+                const ty = Math.sin(angle * Math.PI / 180) * dist;
+                p.style.cssText = `
+                    width:${size}px; height:${size}px;
+                    background:${color};
+                    left:${Math.random()*80+10}%;
+                    top:${Math.random()*80+10}%;
+                    --tx:${tx}px; --ty:${ty}px;
+                    animation-delay:${Math.random()*0.15}s;
+                    box-shadow: 0 0 6px ${color};
+                `;
+                container.appendChild(p);
+                setTimeout(() => p.remove(), 900);
+            }
+        }
+    </script>
 
     <!-- Contact -->
     <section id="contact" class="main style3 secondary">
