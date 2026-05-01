@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
     <link rel="stylesheet" href="assetsAboutMe/css/main.css" />
     <style>
-        /* ── Page reset & base ── */
         *, *::before, *::after { box-sizing: border-box; }
 
         body.aboutme-body {
@@ -18,12 +17,19 @@
             overflow-x: hidden;
         }
 
-        /* ── Home button ── */
-        #home-btn {
+        /* ── Top bar (home btn + lang switcher) ── */
+        #top-bar {
             position: fixed;
             top: 20px;
             left: 24px;
+            right: 24px;
             z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        #home-btn {
             display: flex;
             align-items: center;
             gap: 8px;
@@ -44,13 +50,74 @@
             color: #fff;
             transform: translateX(-3px);
         }
-        #home-btn .arrow { font-size: 1.1em; }
+
+        /* ── Language Switcher (same style as index.html) ── */
+        #lang-switcher {
+            position: relative;
+            display: inline-block;
+        }
+
+        #lang-current {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.18);
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 18px;
+            padding: 6px 12px;
+            line-height: 1;
+            transition: border-color 0.2s, background 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: rgba(255,255,255,0.8);
+            backdrop-filter: blur(10px);
+        }
+        #lang-current:hover,
+        #lang-switcher:hover #lang-current {
+            border-color: rgba(255,255,255,0.5);
+            background: rgba(255,255,255,0.14);
+        }
+        #lang-current .arrow { font-size: 9px; opacity: 0.6; }
+
+        #lang-dropdown {
+            display: none;
+            position: absolute;
+            top: calc(100% + 6px);
+            right: 0;
+            background: rgba(15,15,30,0.97);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 12px;
+            overflow: hidden;
+            z-index: 200;
+            min-width: 140px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+        }
+        #lang-switcher:hover #lang-dropdown { display: block; }
+
+        #lang-dropdown button {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            width: 100%;
+            background: none;
+            border: none;
+            padding: 9px 14px;
+            cursor: pointer;
+            font-size: 13px;
+            color: rgba(255,255,255,0.8);
+            transition: background 0.15s;
+            white-space: nowrap;
+        }
+        #lang-dropdown button:hover { background: rgba(255,255,255,0.08); }
+        #lang-dropdown button.active { color: #fff; font-weight: bold; }
+        #lang-dropdown button .flag { font-size: 18px; }
 
         /* ── Hero ── */
         .am-hero {
             text-align: center;
             padding: 120px 24px 60px;
             position: relative;
+            z-index: 1;
         }
 
         .am-hero-avatar {
@@ -139,149 +206,97 @@
             gap: 12px;
         }
 
-        .am-card-icon {
-            font-size: 2.6em;
-            filter: drop-shadow(0 0 14px rgba(255,255,255,0.3));
-        }
+        .am-card-icon { font-size: 2.6em; filter: drop-shadow(0 0 14px rgba(255,255,255,0.3)); }
+        .am-card h2  { margin: 0; font-size: 1.15em; color: #fff; letter-spacing: 0.04em; }
+        .am-card p   { margin: 0; font-size: 0.88em; color: rgba(255,255,255,0.55); line-height: 1.7; }
 
-        .am-card h2 {
-            margin: 0;
-            font-size: 1.15em;
-            color: #fff;
-            letter-spacing: 0.04em;
-        }
-
-        .am-card p {
-            margin: 0;
-            font-size: 0.88em;
-            color: rgba(255,255,255,0.55);
-            line-height: 1.7;
-        }
-
-        .am-card ul {
-            margin: 4px 0 0;
-            padding-left: 18px;
-            font-size: 0.86em;
-            color: rgba(255,255,255,0.55);
-            line-height: 1.8;
-        }
-
-        /* Tag pills */
-        .am-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 7px;
-            margin-top: 6px;
-        }
-        .am-tag {
-            padding: 3px 11px;
-            border-radius: 20px;
-            font-size: 0.72em;
-            letter-spacing: 0.06em;
-            border: 1px solid rgba(255,255,255,0.2);
-            color: rgba(255,255,255,0.65);
+        .am-tags { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 6px; }
+        .am-tag  {
+            padding: 3px 11px; border-radius: 20px; font-size: 0.72em; letter-spacing: 0.06em;
+            border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.65);
             background: rgba(255,255,255,0.06);
         }
 
-        /* Glow that follows the mouse */
         .am-glow {
-            position: absolute;
-            inset: 0;
-            border-radius: 22px;
-            background: radial-gradient(
-                circle at var(--gx,50%) var(--gy,50%),
-                var(--glow-color, rgba(255,255,255,0.18)) 0%,
-                transparent 65%
-            );
-            opacity: 0;
-            transition: opacity 0.35s ease;
-            pointer-events: none;
-            z-index: 1;
+            position: absolute; inset: 0; border-radius: 22px;
+            background: radial-gradient(circle at var(--gx,50%) var(--gy,50%), var(--glow-color,rgba(255,255,255,.18)) 0%, transparent 65%);
+            opacity: 0; transition: opacity 0.35s ease; pointer-events: none; z-index: 1;
         }
         .am-card:hover .am-glow { opacity: 1; }
-        .am-card:hover {
-            box-shadow:
-                0 28px 56px rgba(0,0,0,0.5),
-                0 0 36px var(--shadow-color, rgba(255,255,255,0.08));
-        }
+        .am-card:hover { box-shadow: 0 28px 56px rgba(0,0,0,.5), 0 0 36px var(--shadow-color,rgba(255,255,255,.08)); }
 
-        /* Particle burst on enter */
         .am-burst-particle {
-            position: absolute;
-            border-radius: 50%;
-            pointer-events: none;
-            animation: am-burst 0.7s ease-out forwards;
-            z-index: 3;
+            position: absolute; border-radius: 50%; pointer-events: none;
+            animation: am-burst 0.7s ease-out forwards; z-index: 3;
         }
         @keyframes am-burst {
             0%   { transform: translate(0,0) scale(1); opacity: 1; }
             100% { transform: translate(var(--tx),var(--ty)) scale(0); opacity: 0; }
         }
 
-        /* Wide card spans full row */
-        .am-card.wide { width: min(640px, 100%); }
-
-        /* ── Skills bar ── */
+        /* ── Skill bars ── */
         .am-skill { margin-bottom: 14px; }
         .am-skill-label {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.82em;
-            color: rgba(255,255,255,0.65);
-            margin-bottom: 5px;
+            display: flex; justify-content: space-between;
+            font-size: 0.82em; color: rgba(255,255,255,0.65); margin-bottom: 5px;
         }
-        .am-skill-track {
-            height: 5px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 3px;
-            overflow: hidden;
-        }
+        .am-skill-track { height: 5px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden; }
         .am-skill-bar {
-            height: 100%;
-            border-radius: 3px;
+            height: 100%; border-radius: 3px;
             background: linear-gradient(90deg, var(--bar-color,#4f8ef7), var(--bar-color2,#a259ff));
-            width: 0%;
-            transition: width 1.2s cubic-bezier(.25,.46,.45,.94);
+            width: 0%; transition: width 1.2s cubic-bezier(.25,.46,.45,.94);
         }
     </style>
 </head>
 <body class="aboutme-body">
 
-    <!-- Particles -->
     <div id="am-particles"></div>
 
-    <!-- Single-step home button -->
-    <a id="home-btn" href="https://edwardattuati.com/">
-        <span class="arrow">←</span> Edward Attuati
-    </a>
+    <!-- Top bar -->
+    <div id="top-bar">
+        <a id="home-btn" href="https://edwardattuati.com/">
+            <span>←</span> <span data-i18n="home-btn">Back to Home</span>
+        </a>
+
+        <div id="lang-switcher">
+            <button id="lang-current">
+                <span id="lang-flag">🇬🇧</span>
+                <span class="arrow">▼</span>
+            </button>
+            <div id="lang-dropdown">
+                <button onclick="setLang('en')" data-lang="en" class="active"><span class="flag">🇬🇧</span> English</button>
+                <button onclick="setLang('it')" data-lang="it"><span class="flag">🇮🇹</span> Italiano</button>
+                <button onclick="setLang('es')" data-lang="es"><span class="flag">🇪🇸</span> Español</button>
+                <button onclick="setLang('zh')" data-lang="zh"><span class="flag">🇨🇳</span> 中文</button>
+                <button onclick="setLang('ja')" data-lang="ja"><span class="flag">🇯🇵</span> 日本語</button>
+            </div>
+        </div>
+    </div>
 
     <!-- Hero -->
     <div class="am-hero">
         <img src="imagesAboutMe/pic01.jpg" alt="Edward Attuati" class="am-hero-avatar"
              onerror="this.style.display='none'">
         <h1>Edward Attuati</h1>
-        <p>Computer Engineering Student · Bergamo, Italy</p>
+        <p data-i18n="hero-sub">Computer Engineering Student · Bergamo, Italy</p>
     </div>
 
     <!-- Cards -->
     <div class="am-grid">
 
-        <!-- About Me -->
         <div class="am-card" data-color="#4f8ef7">
             <div class="am-card-inner">
                 <div class="am-card-icon">👤</div>
-                <h2>About Me</h2>
-                <p>I am a Computer Engineering student with strong theoretical and practical skills in programming. Proficient in rapid learning, listening, and teamwork — I stand out for precision in executing assigned tasks and for being proactive.</p>
+                <h2 data-i18n="card-about-title">About Me</h2>
+                <p data-i18n="card-about-desc">I am a Computer Engineering student with strong theoretical and practical skills in programming. Proficient in rapid learning, listening, and teamwork — I stand out for precision in executing assigned tasks and for being proactive.</p>
             </div>
             <div class="am-glow"></div>
-            <div class="am-burst-zone"></div>
         </div>
 
-        <!-- Skills -->
         <div class="am-card" data-color="#a259ff">
             <div class="am-card-inner">
                 <div class="am-card-icon">⚡</div>
-                <h2>Skills</h2>
+                <h2 data-i18n="card-skills-title">Skills</h2>
                 <div class="am-skill">
                     <div class="am-skill-label"><span>Python</span><span>70%</span></div>
                     <div class="am-skill-track"><div class="am-skill-bar" data-w="70" style="--bar-color:#4f8ef7;--bar-color2:#00d4aa"></div></div>
@@ -304,95 +319,190 @@
                 </div>
             </div>
             <div class="am-glow"></div>
-            <div class="am-burst-zone"></div>
         </div>
 
-        <!-- Education -->
         <div class="am-card" data-color="#00d4aa">
             <div class="am-card-inner">
                 <div class="am-card-icon">🎓</div>
-                <h2>Education</h2>
-                <p><strong style="color:rgba(255,255,255,.85);">Università di Brescia</strong><br>
-                B.Sc. Computer Engineering — ongoing</p>
-                <p><strong style="color:rgba(255,255,255,.85);">Liceo Don Milani</strong><br>
-                Romano di Lombardia — graduated</p>
-                <p><strong style="color:rgba(255,255,255,.85);">Sacra Famiglia</strong><br>
-                Elementary &amp; Middle — Martinengo</p>
+                <h2 data-i18n="card-edu-title">Education</h2>
+                <p data-i18n-html="card-edu-desc">
+                    <strong style="color:rgba(255,255,255,.85);">Università di Brescia</strong><br>
+                    B.Sc. Computer Engineering — ongoing<br><br>
+                    <strong style="color:rgba(255,255,255,.85);">Liceo Don Milani</strong><br>
+                    Romano di Lombardia — graduated<br><br>
+                    <strong style="color:rgba(255,255,255,.85);">Sacra Famiglia</strong><br>
+                    Elementary &amp; Middle — Martinengo
+                </p>
             </div>
             <div class="am-glow"></div>
-            <div class="am-burst-zone"></div>
         </div>
 
-        <!-- Work Experience -->
         <div class="am-card" data-color="#ff6b6b">
             <div class="am-card-inner">
                 <div class="am-card-icon">💼</div>
-                <h2>Work Experience</h2>
-                <p><strong style="color:rgba(255,255,255,.85);">Soluzione1 — Ghisalba</strong><br>
-                IT Internship · 2024</p>
-                <p>Hands-on experience in a professional IT environment. Worked on infrastructure tasks, learned about enterprise networking and collaborated with the team on real-world problems.</p>
+                <h2 data-i18n="card-work-title">Work Experience</h2>
+                <p data-i18n-html="card-work-desc">
+                    <strong style="color:rgba(255,255,255,.85);">Soluzione1 — Ghisalba</strong><br>
+                    IT Internship · 2024<br><br>
+                    Hands-on experience in a professional IT environment. Worked on infrastructure tasks and collaborated with the team on real-world problems.
+                </p>
             </div>
             <div class="am-glow"></div>
-            <div class="am-burst-zone"></div>
         </div>
 
-        <!-- Languages -->
         <div class="am-card" data-color="#ffaa00">
             <div class="am-card-inner">
                 <div class="am-card-icon">🌍</div>
-                <h2>Languages</h2>
+                <h2 data-i18n="card-lang-title">Languages</h2>
                 <div class="am-skill">
-                    <div class="am-skill-label"><span>🇮🇹 Italian</span><span>Native</span></div>
+                    <div class="am-skill-label"><span data-i18n="lang-it">🇮🇹 Italian</span><span data-i18n="lang-it-level">Native</span></div>
                     <div class="am-skill-track"><div class="am-skill-bar" data-w="100" style="--bar-color:#009246;--bar-color2:#ce2b37"></div></div>
                 </div>
                 <div class="am-skill">
-                    <div class="am-skill-label"><span>🇬🇧 English</span><span>B2</span></div>
+                    <div class="am-skill-label"><span data-i18n="lang-en">🇬🇧 English</span><span data-i18n="lang-en-level">B2</span></div>
                     <div class="am-skill-track"><div class="am-skill-bar" data-w="70" style="--bar-color:#012169;--bar-color2:#C8102E"></div></div>
                 </div>
             </div>
             <div class="am-glow"></div>
-            <div class="am-burst-zone"></div>
         </div>
 
-        <!-- Interests -->
         <div class="am-card" data-color="#00aaff">
             <div class="am-card-inner">
                 <div class="am-card-icon">✨</div>
-                <h2>Interests</h2>
+                <h2 data-i18n="card-interests-title">Interests</h2>
                 <div class="am-tags">
-                    <span class="am-tag">Software Dev</span>
-                    <span class="am-tag">Problem Solving</span>
-                    <span class="am-tag">Cultures</span>
-                    <span class="am-tag">Travel</span>
-                    <span class="am-tag">Music</span>
-                    <span class="am-tag">Technology</span>
-                    <span class="am-tag">Gaming</span>
-                    <span class="am-tag">Open Source</span>
+                    <span class="am-tag" data-i18n="int-1">Software Dev</span>
+                    <span class="am-tag" data-i18n="int-2">Problem Solving</span>
+                    <span class="am-tag" data-i18n="int-3">Cultures</span>
+                    <span class="am-tag" data-i18n="int-4">Travel</span>
+                    <span class="am-tag" data-i18n="int-5">Music</span>
+                    <span class="am-tag" data-i18n="int-6">Technology</span>
+                    <span class="am-tag" data-i18n="int-7">Gaming</span>
+                    <span class="am-tag" data-i18n="int-8">Open Source</span>
                 </div>
             </div>
             <div class="am-glow"></div>
-            <div class="am-burst-zone"></div>
         </div>
 
     </div>
 
     <script>
-    /* ── Floating background particles ── */
+    /* ── Translations ── */
+    const translations = {
+        en: {
+            'home-btn': 'Back to Home',
+            'hero-sub': 'Computer Engineering Student · Bergamo, Italy',
+            'card-about-title': 'About Me',
+            'card-about-desc': 'I am a Computer Engineering student with strong theoretical and practical skills in programming. Proficient in rapid learning, listening, and teamwork — I stand out for precision in executing assigned tasks and for being proactive.',
+            'card-skills-title': 'Skills',
+            'card-edu-title': 'Education',
+            'card-edu-desc': '<strong style="color:rgba(255,255,255,.85);">Università di Brescia</strong><br>B.Sc. Computer Engineering — ongoing<br><br><strong style="color:rgba(255,255,255,.85);">Liceo Don Milani</strong><br>Romano di Lombardia — graduated<br><br><strong style="color:rgba(255,255,255,.85);">Sacra Famiglia</strong><br>Elementary &amp; Middle — Martinengo',
+            'card-work-title': 'Work Experience',
+            'card-work-desc': '<strong style="color:rgba(255,255,255,.85);">Soluzione1 — Ghisalba</strong><br>IT Internship · 2024<br><br>Hands-on experience in a professional IT environment. Worked on infrastructure tasks and collaborated with the team on real-world problems.',
+            'card-lang-title': 'Languages',
+            'lang-it': '🇮🇹 Italian', 'lang-it-level': 'Native',
+            'lang-en': '🇬🇧 English', 'lang-en-level': 'B2',
+            'card-interests-title': 'Interests',
+            'int-1':'Software Dev','int-2':'Problem Solving','int-3':'Cultures',
+            'int-4':'Travel','int-5':'Music','int-6':'Technology','int-7':'Gaming','int-8':'Open Source',
+        },
+        it: {
+            'home-btn': 'Torna al sito principale',
+            'hero-sub': 'Studente di Ingegneria Informatica · Bergamo, Italia',
+            'card-about-title': 'Chi Sono',
+            'card-about-desc': 'Sono uno studente di Ingegneria Informatica con solide competenze teoriche e pratiche nella programmazione. Abile nell\'apprendimento rapido, nell\'ascolto e nel lavoro di squadra — mi distinguo per la precisione nell\'esecuzione e per essere proattivo.',
+            'card-skills-title': 'Competenze',
+            'card-edu-title': 'Formazione',
+            'card-edu-desc': '<strong style="color:rgba(255,255,255,.85);">Università di Brescia</strong><br>Ingegneria Informatica — in corso<br><br><strong style="color:rgba(255,255,255,.85);">Liceo Don Milani</strong><br>Romano di Lombardia — diplomato<br><br><strong style="color:rgba(255,255,255,.85);">Sacra Famiglia</strong><br>Elementari e medie — Martinengo',
+            'card-work-title': 'Esperienza Lavorativa',
+            'card-work-desc': '<strong style="color:rgba(255,255,255,.85);">Soluzione1 — Ghisalba</strong><br>Stage IT · 2024<br><br>Esperienza pratica in un ambiente IT professionale. Ho lavorato su attività infrastrutturali e collaborato con il team su problemi reali.',
+            'card-lang-title': 'Lingue',
+            'lang-it': '🇮🇹 Italiano', 'lang-it-level': 'Madrelingua',
+            'lang-en': '🇬🇧 Inglese', 'lang-en-level': 'B2',
+            'card-interests-title': 'Interessi',
+            'int-1':'Sviluppo Software','int-2':'Problem Solving','int-3':'Culture',
+            'int-4':'Viaggi','int-5':'Musica','int-6':'Tecnologia','int-7':'Gaming','int-8':'Open Source',
+        },
+        es: {
+            'home-btn': 'Volver al sitio principal',
+            'hero-sub': 'Estudiante de Ingeniería Informática · Bérgamo, Italia',
+            'card-about-title': 'Sobre Mí',
+            'card-about-desc': 'Soy estudiante de Ingeniería Informática con sólidas habilidades teóricas y prácticas en programación. Destaco por mi capacidad de aprendizaje rápido, trabajo en equipo y precisión en la ejecución de tareas.',
+            'card-skills-title': 'Habilidades',
+            'card-edu-title': 'Educación',
+            'card-edu-desc': '<strong style="color:rgba(255,255,255,.85);">Università di Brescia</strong><br>Ing. Informática — en curso<br><br><strong style="color:rgba(255,255,255,.85);">Liceo Don Milani</strong><br>Romano di Lombardia — graduado<br><br><strong style="color:rgba(255,255,255,.85);">Sacra Famiglia</strong><br>Primaria y secundaria — Martinengo',
+            'card-work-title': 'Experiencia Laboral',
+            'card-work-desc': '<strong style="color:rgba(255,255,255,.85);">Soluzione1 — Ghisalba</strong><br>Prácticas IT · 2024<br><br>Experiencia práctica en un entorno IT profesional. Trabajé en tareas de infraestructura y colaboré con el equipo en problemas reales.',
+            'card-lang-title': 'Idiomas',
+            'lang-it': '🇮🇹 Italiano', 'lang-it-level': 'Nativo',
+            'lang-en': '🇬🇧 Inglés', 'lang-en-level': 'B2',
+            'card-interests-title': 'Intereses',
+            'int-1':'Desarrollo Software','int-2':'Resolución de Problemas','int-3':'Culturas',
+            'int-4':'Viajes','int-5':'Música','int-6':'Tecnología','int-7':'Gaming','int-8':'Open Source',
+        },
+        zh: {
+            'home-btn': '← 返回主页',
+            'hero-sub': '计算机工程专业学生 · 意大利贝尔加莫',
+            'card-about-title': '关于我',
+            'card-about-desc': '我是一名计算机工程专业的学生，具备扎实的编程理论与实践能力。善于快速学习、团队协作，以执行任务的精准度和积极主动的态度著称。',
+            'card-skills-title': '技能',
+            'card-edu-title': '教育经历',
+            'card-edu-desc': '<strong style="color:rgba(255,255,255,.85);">布雷西亚大学</strong><br>计算机工程学士 — 在读<br><br><strong style="color:rgba(255,255,255,.85);">Don Milani 高中</strong><br>Romano di Lombardia — 已毕业<br><br><strong style="color:rgba(255,255,255,.85);">Sacra Famiglia</strong><br>小学与初中 — Martinengo',
+            'card-work-title': '工作经历',
+            'card-work-desc': '<strong style="color:rgba(255,255,255,.85);">Soluzione1 — Ghisalba</strong><br>IT 实习 · 2024<br><br>在专业 IT 环境中积累了实践经验，参与基础设施任务并与团队协作解决实际问题。',
+            'card-lang-title': '语言',
+            'lang-it': '🇮🇹 意大利语', 'lang-it-level': '母语',
+            'lang-en': '🇬🇧 英语', 'lang-en-level': 'B2',
+            'card-interests-title': '兴趣爱好',
+            'int-1':'软件开发','int-2':'解决问题','int-3':'多元文化',
+            'int-4':'旅行','int-5':'音乐','int-6':'科技','int-7':'游戏','int-8':'开源',
+        },
+        ja: {
+            'home-btn': '← ホームへ戻る',
+            'hero-sub': 'コンピューターエンジニアリング専攻 · ベルガモ、イタリア',
+            'card-about-title': '私について',
+            'card-about-desc': '私はコンピューターエンジニアリングを学ぶ学生で、プログラミングの理論と実践において高いスキルを持っています。素早い学習、傾聴、チームワークが得意で、正確さと積極性で周囲と差をつけています。',
+            'card-skills-title': 'スキル',
+            'card-edu-title': '学歴',
+            'card-edu-desc': '<strong style="color:rgba(255,255,255,.85);">ブレシア大学</strong><br>コンピューターエンジニアリング学士 — 在学中<br><br><strong style="color:rgba(255,255,255,.85);">Don Milani 高校</strong><br>Romano di Lombardia — 卒業<br><br><strong style="color:rgba(255,255,255,.85);">Sacra Famiglia</strong><br>小学・中学 — Martinengo',
+            'card-work-title': '職務経験',
+            'card-work-desc': '<strong style="color:rgba(255,255,255,.85);">Soluzione1 — Ghisalba</strong><br>ITインターンシップ · 2024<br><br>実際のIT環境で実践的な経験を積みました。インフラ業務に携わり、チームと協力して実際の問題に取り組みました。',
+            'card-lang-title': '言語',
+            'lang-it': '🇮🇹 イタリア語', 'lang-it-level': 'ネイティブ',
+            'lang-en': '🇬🇧 英語', 'lang-en-level': 'B2',
+            'card-interests-title': '趣味・関心',
+            'int-1':'ソフトウェア開発','int-2':'問題解決','int-3':'異文化',
+            'int-4':'旅行','int-5':'音楽','int-6':'テクノロジー','int-7':'ゲーム','int-8':'オープンソース',
+        }
+    };
+
+    const langFlags = { en:'🇬🇧', it:'🇮🇹', es:'🇪🇸', zh:'🇨🇳', ja:'🇯🇵' };
+
+    function setLang(lang) {
+        if (!translations[lang]) return;
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const v = translations[lang][el.getAttribute('data-i18n')];
+            if (v !== undefined) el.textContent = v;
+        });
+        document.querySelectorAll('[data-i18n-html]').forEach(el => {
+            const v = translations[lang][el.getAttribute('data-i18n-html')];
+            if (v !== undefined) el.innerHTML = v;
+        });
+        document.getElementById('lang-flag').textContent = langFlags[lang];
+        document.querySelectorAll('#lang-dropdown button').forEach(btn =>
+            btn.classList.toggle('active', btn.getAttribute('data-lang') === lang)
+        );
+    }
+
+    /* ── Floating particles ── */
     (function(){
         const container = document.getElementById('am-particles');
         const colors = ['#4f8ef7','#a259ff','#00d4aa','#ff6b6b','#ffaa00'];
         for(let i = 0; i < 28; i++){
             const p = document.createElement('div');
             p.className = 'am-particle';
-            const size = Math.random() * 5 + 2;
-            p.style.cssText = `
-                width:${size}px; height:${size}px;
-                background:${colors[Math.floor(Math.random()*colors.length)]};
-                left:${Math.random()*100}%;
-                animation-duration:${8+Math.random()*14}s;
-                animation-delay:${Math.random()*10}s;
-                box-shadow:0 0 6px currentColor;
-            `;
+            const size = Math.random()*5+2;
+            p.style.cssText = `width:${size}px;height:${size}px;background:${colors[i%colors.length]};left:${Math.random()*100}%;animation-duration:${8+Math.random()*14}s;animation-delay:${Math.random()*10}s;box-shadow:0 0 6px currentColor;`;
             container.appendChild(p);
         }
     })();
@@ -405,51 +515,31 @@
 
         card.addEventListener('mousemove', e => {
             const r = card.getBoundingClientRect();
-            const x = e.clientX - r.left, y = e.clientY - r.top;
-            const cx = r.width/2, cy = r.height/2;
-            card.style.transform =
-                `perspective(1100px) rotateX(${((y-cy)/cy)*-13}deg) rotateY(${((x-cx)/cx)*13}deg) scale3d(1.05,1.05,1.05)`;
+            const x = e.clientX-r.left, y = e.clientY-r.top;
+            card.style.transform = `perspective(1100px) rotateX(${((y-r.height/2)/r.height)*-13}deg) rotateY(${((x-r.width/2)/r.width)*13}deg) scale3d(1.05,1.05,1.05)`;
             card.style.setProperty('--gx', `${(x/r.width)*100}%`);
             card.style.setProperty('--gy', `${(y/r.height)*100}%`);
         });
-
         card.addEventListener('mouseleave', () => {
             card.style.transform = 'perspective(1100px) rotateX(0) rotateY(0) scale3d(1,1,1)';
         });
-
         card.addEventListener('mouseenter', () => {
-            for(let i = 0; i < 10; i++){
+            for(let i=0;i<10;i++){
                 const p = document.createElement('div');
                 p.className = 'am-burst-particle';
-                const size = Math.random()*5+3;
-                const angle = Math.random()*360;
-                const dist  = Math.random()*70+30;
-                p.style.cssText = `
-                    width:${size}px; height:${size}px;
-                    background:${color};
-                    left:${Math.random()*80+10}%; top:${Math.random()*80+10}%;
-                    --tx:${Math.cos(angle*Math.PI/180)*dist}px;
-                    --ty:${Math.sin(angle*Math.PI/180)*dist}px;
-                    animation-delay:${Math.random()*0.1}s;
-                    box-shadow:0 0 5px ${color};
-                `;
+                const size = Math.random()*5+3, angle = Math.random()*360, dist = Math.random()*70+30;
+                p.style.cssText = `width:${size}px;height:${size}px;background:${color};left:${Math.random()*80+10}%;top:${Math.random()*80+10}%;--tx:${Math.cos(angle*Math.PI/180)*dist}px;--ty:${Math.sin(angle*Math.PI/180)*dist}px;animation-delay:${Math.random()*0.1}s;box-shadow:0 0 5px ${color};`;
                 card.appendChild(p);
-                setTimeout(()=>p.remove(), 800);
+                setTimeout(()=>p.remove(),800);
             }
         });
     });
 
-    /* ── Animate skill bars on scroll ── */
-    const bars = document.querySelectorAll('.am-skill-bar');
+    /* ── Skill bars on scroll ── */
     const obs = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-            if(entry.isIntersecting){
-                entry.target.style.width = entry.target.dataset.w + '%';
-                obs.unobserve(entry.target);
-            }
-        });
+        entries.forEach(e => { if(e.isIntersecting){ e.target.style.width=e.target.dataset.w+'%'; obs.unobserve(e.target); } });
     }, { threshold: 0.3 });
-    bars.forEach(b => obs.observe(b));
+    document.querySelectorAll('.am-skill-bar').forEach(b => obs.observe(b));
     </script>
 </body>
 </html>
