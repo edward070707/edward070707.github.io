@@ -247,209 +247,307 @@
     </section>
 
     <!-- Work -->
-    <section id="work" class="main style3 primary">
-        <div class="content">
+    <section id="work" class="main style3 primary cyber-section">
+        <div class="scanlines"></div>
+        <div class="cyber-grid-bg"></div>
+        <div class="content" style="position:relative; z-index:2;">
             <header>
-                <h2 data-i18n="work-title">My Work</h2>
-                <p data-i18n="work-sub">My work includes:</p>
+                <h2 class="glitch-title" data-text="My Work" data-i18n="work-title">My Work</h2>
+                <p data-i18n="work-sub" style="color:#0ff; font-family:monospace; letter-spacing:0.1em; opacity:0.7;">&gt; My work includes:</p>
             </header>
 
-            <div class="tilt-grid">
-                <div class="tilt-card" data-color="#4f8ef7">
-                    <div class="tilt-card-inner">
-                        <div class="tilt-icon">💻</div>
-                        <h3>University Project</h3>
-                        <p>Computer Engineering — Università di Brescia</p>
-                        <span class="tilt-badge">Coming Soon</span>
+            <div class="cyber-grid">
+                <div class="cyber-card" data-neon="#00ffff">
+                    <div class="cyber-corner tl"></div>
+                    <div class="cyber-corner tr"></div>
+                    <div class="cyber-corner bl"></div>
+                    <div class="cyber-corner br"></div>
+                    <div class="cyber-card-content">
+                        <div class="cyber-label">// PROJECT_01</div>
+                        <div class="cyber-icon">&#x1F4BB;</div>
+                        <h3 class="cyber-h3 glitch-text" data-text="University Project">University Project</h3>
+                        <p class="cyber-p typewriter" data-text="Computer Engineering — Università di Brescia"></p>
+                        <div class="cyber-status"><span class="blink">▮</span> LOADING...</div>
                     </div>
-                    <div class="tilt-glow"></div>
-                    <div class="tilt-particles"></div>
+                    <div class="cyber-border-glow"></div>
                 </div>
-                <div class="tilt-card" data-color="#a259ff">
-                    <div class="tilt-card-inner">
-                        <div class="tilt-icon">🏢</div>
-                        <h3>IT Internship</h3>
-                        <p>Soluzione1 — Ghisalba, Bergamo</p>
-                        <span class="tilt-badge">Coming Soon</span>
+
+                <div class="cyber-card" data-neon="#ff00ff">
+                    <div class="cyber-corner tl"></div>
+                    <div class="cyber-corner tr"></div>
+                    <div class="cyber-corner bl"></div>
+                    <div class="cyber-corner br"></div>
+                    <div class="cyber-card-content">
+                        <div class="cyber-label">// PROJECT_02</div>
+                        <div class="cyber-icon">&#x1F3E2;</div>
+                        <h3 class="cyber-h3 glitch-text" data-text="IT Internship">IT Internship</h3>
+                        <p class="cyber-p typewriter" data-text="Soluzione1 — Ghisalba, Bergamo"></p>
+                        <div class="cyber-status"><span class="blink">▮</span> LOADING...</div>
                     </div>
-                    <div class="tilt-glow"></div>
-                    <div class="tilt-particles"></div>
+                    <div class="cyber-border-glow"></div>
                 </div>
-                <div class="tilt-card" data-color="#00d4aa">
-                    <div class="tilt-card-inner">
-                        <div class="tilt-icon">🚀</div>
-                        <h3>Next Project</h3>
-                        <p>Something big is coming...</p>
-                        <span class="tilt-badge">Coming Soon</span>
+
+                <div class="cyber-card" data-neon="#00ff88">
+                    <div class="cyber-corner tl"></div>
+                    <div class="cyber-corner tr"></div>
+                    <div class="cyber-corner bl"></div>
+                    <div class="cyber-corner br"></div>
+                    <div class="cyber-card-content">
+                        <div class="cyber-label">// PROJECT_03</div>
+                        <div class="cyber-icon">&#x1F680;</div>
+                        <h3 class="cyber-h3 glitch-text" data-text="Next Project">Next Project</h3>
+                        <p class="cyber-p typewriter" data-text="Something big is coming..."></p>
+                        <div class="cyber-status"><span class="blink">▮</span> LOADING...</div>
                     </div>
-                    <div class="tilt-glow"></div>
-                    <div class="tilt-particles"></div>
+                    <div class="cyber-border-glow"></div>
                 </div>
             </div>
         </div>
     </section>
 
     <style>
-        /* ── Option A: Tilt 3D + Glow ── */
-        .tilt-grid {
-            display: flex;
-            gap: 28px;
-            justify-content: center;
-            flex-wrap: wrap;
-            padding: 20px 0 40px;
-            perspective: 1200px;
-        }
-
-        .tilt-card {
+        /* ── Option B: Cyberpunk Glitch Grid ── */
+        .cyber-section {
             position: relative;
-            width: 260px;
-            min-height: 240px;
-            border-radius: 20px;
-            background: rgba(255,255,255,0.04);
-            border: 1px solid rgba(255,255,255,0.12);
-            backdrop-filter: blur(10px);
-            transform-style: preserve-3d;
-            transition: box-shadow 0.3s ease;
-            cursor: pointer;
+            background: #050510 !important;
             overflow: hidden;
         }
 
-        .tilt-card-inner {
+        /* Scanlines overlay */
+        .scanlines {
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0,255,255,0.015) 2px,
+                rgba(0,255,255,0.015) 4px
+            );
+            pointer-events: none;
+            z-index: 1;
+            animation: scanline-scroll 8s linear infinite;
+        }
+
+        @keyframes scanline-scroll {
+            0%   { background-position: 0 0; }
+            100% { background-position: 0 100px; }
+        }
+
+        /* Grid background */
+        .cyber-grid-bg {
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(0,255,255,0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,255,255,0.04) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Glitch title */
+        .glitch-title {
             position: relative;
-            z-index: 2;
-            padding: 36px 28px 28px;
-            transform: translateZ(30px);
+            color: #fff !important;
+            font-family: monospace !important;
+            letter-spacing: 0.12em;
+            animation: glitch-flicker 4s infinite;
+        }
+
+        .glitch-title::before,
+        .glitch-title::after {
+            content: attr(data-text);
+            position: absolute;
+            left: 0; top: 0;
+            width: 100%;
+        }
+
+        .glitch-title::before {
+            color: #0ff;
+            animation: glitch-before 3s infinite;
+            clip-path: polygon(0 20%, 100% 20%, 100% 40%, 0 40%);
+        }
+
+        .glitch-title::after {
+            color: #f0f;
+            animation: glitch-after 3s infinite;
+            clip-path: polygon(0 60%, 100% 60%, 100% 80%, 0 80%);
+        }
+
+        @keyframes glitch-before {
+            0%,90%,100% { transform: translateX(0); opacity: 0; }
+            92%          { transform: translateX(-4px); opacity: 0.8; }
+            95%          { transform: translateX(4px);  opacity: 0.8; }
+            97%          { transform: translateX(-2px); opacity: 0.8; }
+        }
+
+        @keyframes glitch-after {
+            0%,90%,100% { transform: translateX(0); opacity: 0; }
+            93%          { transform: translateX(4px);  opacity: 0.7; }
+            96%          { transform: translateX(-4px); opacity: 0.7; }
+        }
+
+        @keyframes glitch-flicker {
+            0%,98%,100% { opacity: 1; }
+            99%          { opacity: 0.7; }
+        }
+
+        /* Cards grid */
+        .cyber-grid {
+            display: flex;
+            gap: 24px;
+            justify-content: center;
+            flex-wrap: wrap;
+            padding: 20px 0 40px;
+        }
+
+        .cyber-card {
+            position: relative;
+            width: 260px;
+            min-height: 260px;
+            background: rgba(0,10,20,0.85);
+            border: 1px solid rgba(0,255,255,0.2);
+            padding: 28px 24px;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));
+        }
+
+        .cyber-card:hover {
+            transform: translateY(-6px) scale(1.03);
+            border-color: var(--neon, #0ff);
+        }
+
+        .cyber-card:hover .cyber-border-glow {
+            opacity: 1;
+        }
+
+        /* Animated neon border glow */
+        .cyber-border-glow {
+            position: absolute;
+            inset: -1px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));
+            box-shadow:
+                0 0 12px var(--neon, #0ff),
+                0 0 30px var(--neon, #0ff),
+                inset 0 0 12px var(--neon, #0ff);
+        }
+
+        /* Corner brackets */
+        .cyber-corner {
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            border-color: var(--neon, #0ff);
+            border-style: solid;
+            opacity: 0.8;
+        }
+        .cyber-corner.tl { top: 6px;  left: 6px;  border-width: 2px 0 0 2px; }
+        .cyber-corner.tr { top: 6px;  right: 6px; border-width: 2px 2px 0 0; }
+        .cyber-corner.bl { bottom: 6px; left: 6px; border-width: 0 0 2px 2px; }
+        .cyber-corner.br { bottom: 6px; right: 6px; border-width: 0 2px 2px 0; }
+
+        .cyber-card-content {
             display: flex;
             flex-direction: column;
             gap: 10px;
         }
 
-        .tilt-icon {
-            font-size: 2.8em;
-            filter: drop-shadow(0 0 12px currentColor);
+        .cyber-label {
+            font-family: monospace;
+            font-size: 0.7em;
+            color: var(--neon, #0ff);
+            letter-spacing: 0.12em;
+            opacity: 0.7;
         }
 
-        .tilt-card h3 {
+        .cyber-icon {
+            font-size: 2.4em;
+            filter: drop-shadow(0 0 8px var(--neon, #0ff));
+            margin: 4px 0;
+        }
+
+        .cyber-h3 {
             margin: 0;
-            font-size: 1.15em;
-            color: #fff;
-            text-shadow: 0 0 20px rgba(255,255,255,0.4);
+            font-family: monospace !important;
+            font-size: 1.05em !important;
+            color: #fff !important;
+            letter-spacing: 0.06em;
+            position: relative;
         }
 
-        .tilt-card p {
+        /* Glitch on h3 hover */
+        .cyber-card:hover .glitch-text {
+            animation: glitch-text-anim 0.4s steps(1) infinite;
+        }
+
+        @keyframes glitch-text-anim {
+            0%   { text-shadow: 2px 0 #f0f, -2px 0 #0ff; }
+            25%  { text-shadow: -2px 0 #f0f, 2px 0 #0ff; }
+            50%  { text-shadow: 2px 0 #0ff, -2px 0 #f0f; }
+            75%  { text-shadow: 0 0 transparent; }
+            100% { text-shadow: -2px 0 #f0f, 2px 0 #0ff; }
+        }
+
+        .cyber-p {
+            font-family: monospace;
+            font-size: 0.82em;
+            color: rgba(255,255,255,0.45);
             margin: 0;
-            font-size: 0.85em;
-            color: rgba(255,255,255,0.55);
-            line-height: 1.5;
+            min-height: 2em;
+            letter-spacing: 0.04em;
         }
 
-        .tilt-badge {
-            display: inline-block;
-            margin-top: 8px;
-            padding: 4px 12px;
-            border-radius: 20px;
+        .cyber-status {
+            font-family: monospace;
             font-size: 0.72em;
-            font-weight: bold;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            color: #fff;
-            border: 1px solid rgba(255,255,255,0.3);
-            background: rgba(255,255,255,0.08);
+            color: var(--neon, #0ff);
+            letter-spacing: 0.1em;
+            margin-top: 8px;
+            padding: 5px 10px;
+            border: 1px solid var(--neon, #0ff);
             width: fit-content;
+            background: rgba(0,255,255,0.05);
         }
 
-        /* Glow layer that follows the mouse */
-        .tilt-glow {
-            position: absolute;
-            inset: 0;
-            border-radius: 20px;
-            background: radial-gradient(
-                circle at var(--gx, 50%) var(--gy, 50%),
-                var(--card-color, rgba(255,255,255,0.25)) 0%,
-                transparent 65%
-            );
-            opacity: 0;
-            transition: opacity 0.35s ease;
-            pointer-events: none;
-            z-index: 1;
+        .blink {
+            animation: blink 1s step-start infinite;
         }
 
-        .tilt-card:hover .tilt-glow { opacity: 0.35; }
-
-        .tilt-card:hover {
-            box-shadow:
-                0 30px 60px rgba(0,0,0,0.4),
-                0 0 40px var(--card-shadow, rgba(255,255,255,0.1));
-        }
-
-        /* Particle dots */
-        .tilt-particle {
-            position: absolute;
-            border-radius: 50%;
-            pointer-events: none;
-            animation: particle-burst 0.7s ease-out forwards;
-            z-index: 3;
-        }
-
-        @keyframes particle-burst {
-            0%   { transform: translate(0,0) scale(1); opacity: 1; }
-            100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; }
+        @keyframes blink {
+            50% { opacity: 0; }
         }
     </style>
 
     <script>
-        /* ── Tilt 3D + Glow + Particles ── */
-        document.querySelectorAll('.tilt-card').forEach(card => {
-            const color = card.dataset.color || '#ffffff';
-            card.style.setProperty('--card-color', color + '66');
-            card.style.setProperty('--card-shadow', color + '44');
+        /* ── Cyberpunk: set neon color vars + typewriter ── */
+        document.querySelectorAll('.cyber-card').forEach(card => {
+            const neon = card.dataset.neon || '#0ff';
+            card.style.setProperty('--neon', neon);
 
-            card.addEventListener('mousemove', e => {
-                const r = card.getBoundingClientRect();
-                const x = e.clientX - r.left;
-                const y = e.clientY - r.top;
-                const cx = r.width / 2, cy = r.height / 2;
-                const rotX = ((y - cy) / cy) * -14;
-                const rotY = ((x - cx) / cx) * 14;
+            // Typewriter on first scroll into view
+            const tw = card.querySelector('.typewriter');
+            if (!tw) return;
+            const fullText = tw.dataset.text;
+            let started = false;
 
-                card.style.transform =
-                    `perspective(1200px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale3d(1.06,1.06,1.06)`;
+            const obs = new IntersectionObserver(entries => {
+                if (entries[0].isIntersecting && !started) {
+                    started = true;
+                    let i = 0;
+                    const iv = setInterval(() => {
+                        tw.textContent = fullText.slice(0, ++i);
+                        if (i >= fullText.length) clearInterval(iv);
+                    }, 40);
+                }
+            }, { threshold: 0.4 });
 
-                card.style.setProperty('--gx', `${(x / r.width) * 100}%`);
-                card.style.setProperty('--gy', `${(y / r.height) * 100}%`);
-            });
-
-            card.addEventListener('mouseleave', () => {
-                card.style.transform =
-                    'perspective(1200px) rotateX(0deg) rotateY(0deg) scale3d(1,1,1)';
-            });
-
-            card.addEventListener('mouseenter', () => spawnParticles(card, color));
+            obs.observe(card);
         });
-
-        function spawnParticles(card, color) {
-            const container = card.querySelector('.tilt-particles');
-            for (let i = 0; i < 12; i++) {
-                const p = document.createElement('div');
-                p.className = 'tilt-particle';
-                const size = Math.random() * 6 + 4;
-                const angle = Math.random() * 360;
-                const dist = Math.random() * 80 + 40;
-                const tx = Math.cos(angle * Math.PI / 180) * dist;
-                const ty = Math.sin(angle * Math.PI / 180) * dist;
-                p.style.cssText = `
-                    width:${size}px; height:${size}px;
-                    background:${color};
-                    left:${Math.random()*80+10}%;
-                    top:${Math.random()*80+10}%;
-                    --tx:${tx}px; --ty:${ty}px;
-                    animation-delay:${Math.random()*0.15}s;
-                    box-shadow: 0 0 6px ${color};
-                `;
-                container.appendChild(p);
-                setTimeout(() => p.remove(), 900);
-            }
-        }
     </script>
 
     <!-- Contact -->
