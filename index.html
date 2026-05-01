@@ -247,323 +247,445 @@
     </section>
 
     <!-- Work -->
-    <section id="work" class="main style3 primary cine-section">
-        <div class="content">
+    <section id="work" class="main style3 primary cyber-section">
+        <div class="scanlines"></div>
+        <div class="cyber-grid-bg"></div>
+
+        <div class="content" style="position:relative;z-index:2;">
             <header>
-                <h2 data-i18n="work-title">My Work</h2>
-                <p data-i18n="work-sub">My work includes:</p>
+                <h2 class="glitch-title" data-text="My Work" data-i18n="work-title">My Work</h2>
+                <p data-i18n="work-sub" style="font-family:monospace;letter-spacing:.1em;opacity:.6;color:#0ff;">&gt; Move your mouse to explore ←→</p>
             </header>
+        </div>
 
-            <div class="cine-stage">
-                <!-- Prev / Next arrows -->
-                <button class="cine-arrow cine-prev" aria-label="Previous">&#8592;</button>
-                <button class="cine-arrow cine-next" aria-label="Next">&#8594;</button>
+        <!-- Mouse-driven horizontal track (outside .content to be full width) -->
+        <div class="cyber-viewport">
+            <div class="cyber-track">
 
-                <!-- Cards -->
-                <div class="cine-track">
-                    <div class="cine-card" data-gradient="linear-gradient(135deg,#1a1a2e,#16213e,#0f3460)">
-                        <div class="cine-spotlight"></div>
-                        <div class="cine-card-body">
-                            <div class="cine-number">01</div>
-                            <div class="cine-icon-large">💻</div>
-                            <h3 class="cine-title">University Project</h3>
-                            <p class="cine-desc">Computer Engineering — Università di Brescia</p>
-                            <div class="cine-tag">Coming Soon</div>
-                        </div>
+                <div class="cyber-card"
+                     data-neon="#00ffff"
+                     data-title="University Project"
+                     data-sub="Computer Engineering — Università di Brescia"
+                     data-detail="Studying Computer Engineering at the University of Brescia. Focused on algorithms, data structures, operating systems and software engineering. Always looking for new challenges to apply theory to practice."
+                     data-tags="C · Java · Python · Algorithms">
+                    <div class="cyber-corner tl"></div><div class="cyber-corner tr"></div>
+                    <div class="cyber-corner bl"></div><div class="cyber-corner br"></div>
+                    <div class="cyber-card-content">
+                        <div class="cyber-label">// PROJECT_01</div>
+                        <div class="cyber-icon">💻</div>
+                        <h3 class="cyber-h3">University Project</h3>
+                        <p class="cyber-p">Computer Engineering — Università di Brescia</p>
+                        <div class="cyber-status"><span class="blink">▮</span> LOADING...</div>
                     </div>
-                    <div class="cine-card" data-gradient="linear-gradient(135deg,#1a0030,#2d0060,#4a0080)">
-                        <div class="cine-spotlight"></div>
-                        <div class="cine-card-body">
-                            <div class="cine-number">02</div>
-                            <div class="cine-icon-large">🏢</div>
-                            <h3 class="cine-title">IT Internship</h3>
-                            <p class="cine-desc">Soluzione1 — Ghisalba, Bergamo</p>
-                            <div class="cine-tag">Coming Soon</div>
-                        </div>
-                    </div>
-                    <div class="cine-card" data-gradient="linear-gradient(135deg,#002818,#004d2e,#006644)">
-                        <div class="cine-spotlight"></div>
-                        <div class="cine-card-body">
-                            <div class="cine-number">03</div>
-                            <div class="cine-icon-large">🚀</div>
-                            <h3 class="cine-title">Next Project</h3>
-                            <p class="cine-desc">Something big is coming...</p>
-                            <div class="cine-tag">Coming Soon</div>
-                        </div>
-                    </div>
+                    <div class="cyber-border-glow"></div>
                 </div>
 
-                <!-- Progress bar -->
-                <div class="cine-progress-wrap">
-                    <div class="cine-progress-bar"></div>
+                <div class="cyber-card"
+                     data-neon="#ff00ff"
+                     data-title="IT Internship"
+                     data-sub="Soluzione1 — Ghisalba, Bergamo"
+                     data-detail="Professional internship at Soluzione1, an IT company based in Ghisalba. Gained hands-on experience in a real-world IT environment, working with the team on infrastructure and software tasks."
+                     data-tags="IT Support · Networking · Teamwork">
+                    <div class="cyber-corner tl"></div><div class="cyber-corner tr"></div>
+                    <div class="cyber-corner bl"></div><div class="cyber-corner br"></div>
+                    <div class="cyber-card-content">
+                        <div class="cyber-label">// PROJECT_02</div>
+                        <div class="cyber-icon">🏢</div>
+                        <h3 class="cyber-h3">IT Internship</h3>
+                        <p class="cyber-p">Soluzione1 — Ghisalba, Bergamo</p>
+                        <div class="cyber-status"><span class="blink">▮</span> LOADING...</div>
+                    </div>
+                    <div class="cyber-border-glow"></div>
                 </div>
 
-                <!-- Dots -->
-                <div class="cine-dots">
-                    <span class="cine-dot active"></span>
-                    <span class="cine-dot"></span>
-                    <span class="cine-dot"></span>
+                <div class="cyber-card"
+                     data-neon="#00ff88"
+                     data-title="Web Portfolio"
+                     data-sub="edwardattuati.com"
+                     data-detail="This very website — designed and built from scratch. Custom language switcher (EN/IT/ES/ZH/JA), animated sections, and modern UX. Hosted on GitHub Pages with a custom domain."
+                     data-tags="HTML · CSS · JavaScript · GitHub Pages">
+                    <div class="cyber-corner tl"></div><div class="cyber-corner tr"></div>
+                    <div class="cyber-corner bl"></div><div class="cyber-corner br"></div>
+                    <div class="cyber-card-content">
+                        <div class="cyber-label">// PROJECT_03</div>
+                        <div class="cyber-icon">🌐</div>
+                        <h3 class="cyber-h3">Web Portfolio</h3>
+                        <p class="cyber-p">edwardattuati.com</p>
+                        <div class="cyber-status"><span class="blink">▮</span> LIVE</div>
+                    </div>
+                    <div class="cyber-border-glow"></div>
                 </div>
-            </div>
+
+                <div class="cyber-card"
+                     data-neon="#ffaa00"
+                     data-title="Algorithm Study"
+                     data-sub="University coursework"
+                     data-detail="Deep-dive into sorting algorithms, graph theory, dynamic programming and complexity analysis. Implemented and benchmarked various algorithms as part of university coursework."
+                     data-tags="Python · C · Data Structures · Complexity">
+                    <div class="cyber-corner tl"></div><div class="cyber-corner tr"></div>
+                    <div class="cyber-corner bl"></div><div class="cyber-corner br"></div>
+                    <div class="cyber-card-content">
+                        <div class="cyber-label">// PROJECT_04</div>
+                        <div class="cyber-icon">🧮</div>
+                        <h3 class="cyber-h3">Algorithm Study</h3>
+                        <p class="cyber-p">University coursework</p>
+                        <div class="cyber-status"><span class="blink">▮</span> LOADING...</div>
+                    </div>
+                    <div class="cyber-border-glow"></div>
+                </div>
+
+                <div class="cyber-card"
+                     data-neon="#ff4466"
+                     data-title="Database Project"
+                     data-sub="Relational DB design &amp; queries"
+                     data-detail="Designed and implemented a relational database system as part of a university project. Covered ER modelling, normalisation, SQL queries and optimisation techniques."
+                     data-tags="SQL · ER Modelling · PostgreSQL">
+                    <div class="cyber-corner tl"></div><div class="cyber-corner tr"></div>
+                    <div class="cyber-corner bl"></div><div class="cyber-corner br"></div>
+                    <div class="cyber-card-content">
+                        <div class="cyber-label">// PROJECT_05</div>
+                        <div class="cyber-icon">🗄️</div>
+                        <h3 class="cyber-h3">Database Project</h3>
+                        <p class="cyber-p">Relational DB design &amp; queries</p>
+                        <div class="cyber-status"><span class="blink">▮</span> LOADING...</div>
+                    </div>
+                    <div class="cyber-border-glow"></div>
+                </div>
+
+                <div class="cyber-card"
+                     data-neon="#ccff00"
+                     data-title="Next Project"
+                     data-sub="Something big is coming..."
+                     data-detail="The next project is currently in stealth mode. Stay tuned — something big is being built. If you have an interesting idea or collaboration in mind, feel free to reach out."
+                     data-tags="??? · TBD · Coming Soon">
+                    <div class="cyber-corner tl"></div><div class="cyber-corner tr"></div>
+                    <div class="cyber-corner bl"></div><div class="cyber-corner br"></div>
+                    <div class="cyber-card-content">
+                        <div class="cyber-label">// PROJECT_06</div>
+                        <div class="cyber-icon">🚀</div>
+                        <h3 class="cyber-h3">Next Project</h3>
+                        <p class="cyber-p">Something big is coming...</p>
+                        <div class="cyber-status"><span class="blink">▮</span> CLASSIFIED</div>
+                    </div>
+                    <div class="cyber-border-glow"></div>
+                </div>
+
+            </div><!-- /.cyber-track -->
+        </div><!-- /.cyber-viewport -->
+
+        <!-- Hint bar -->
+        <div class="cyber-hint-bar" style="position:relative;z-index:2;">
+            <div class="cyber-hint-fill"></div>
         </div>
     </section>
 
-    <style>
-        /* ── Option C: Cinematic Showcase ── */
-        .cine-section { overflow: hidden; }
+    <!-- Project Modal -->
+    <div id="cyber-modal" aria-modal="true" role="dialog">
+        <div id="cyber-modal-box">
+            <button id="cyber-modal-close">&#10005;</button>
+            <div id="cyber-modal-inner">
+                <div class="modal-corner tl"></div><div class="modal-corner tr"></div>
+                <div class="modal-corner bl"></div><div class="modal-corner br"></div>
+                <div id="modal-label" class="cyber-label"></div>
+                <div id="modal-icon" class="cyber-icon" style="font-size:3em;margin:12px 0;"></div>
+                <h2 id="modal-title" style="margin:0 0 6px;color:#fff;font-family:monospace;letter-spacing:.06em;"></h2>
+                <p id="modal-sub" style="font-family:monospace;font-size:.82em;color:rgba(255,255,255,.45);margin:0 0 18px;"></p>
+                <p id="modal-detail" style="font-size:.95em;color:rgba(255,255,255,.75);line-height:1.7;margin:0 0 22px;"></p>
+                <div id="modal-tags"></div>
+            </div>
+        </div>
+    </div>
 
-        .cine-stage {
+    <style>
+        /* ── Cyberpunk Work Section ── */
+        .cyber-section {
             position: relative;
-            width: 100%;
-            padding: 10px 0 50px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 24px;
+            background: #050510 !important;
+            overflow: hidden;
         }
 
-        /* Track holds the three cards, slides with transform */
-        .cine-track {
-            display: flex;
-            gap: 28px;
+        .scanlines {
+            position: absolute; inset: 0;
+            background: repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,255,255,.015) 2px,rgba(0,255,255,.015) 4px);
+            pointer-events: none; z-index: 1;
+        }
+
+        .cyber-grid-bg {
+            position: absolute; inset: 0;
+            background-image:
+                linear-gradient(rgba(0,255,255,.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,255,255,.04) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none; z-index: 1;
+        }
+
+        .glitch-title {
+            position: relative;
+            color: #fff !important;
+            font-family: monospace !important;
+            letter-spacing: .12em;
+        }
+        .glitch-title::before, .glitch-title::after {
+            content: attr(data-text);
+            position: absolute; left: 0; top: 0; width: 100%;
+        }
+        .glitch-title::before {
+            color: #0ff;
+            animation: gb 3s infinite;
+            clip-path: polygon(0 20%,100% 20%,100% 40%,0 40%);
+        }
+        .glitch-title::after {
+            color: #f0f;
+            animation: ga 3s infinite;
+            clip-path: polygon(0 60%,100% 60%,100% 80%,0 80%);
+        }
+        @keyframes gb { 0%,90%,100%{transform:translateX(0);opacity:0} 92%{transform:translateX(-4px);opacity:.8} 95%{transform:translateX(4px);opacity:.8} }
+        @keyframes ga { 0%,90%,100%{transform:translateX(0);opacity:0} 93%{transform:translateX(4px);opacity:.7} 96%{transform:translateX(-4px);opacity:.7} }
+
+        /* Viewport clips the track */
+        .cyber-viewport {
             width: 100%;
-            transition: transform 0.7s cubic-bezier(0.77, 0, 0.175, 1);
+            overflow: hidden;
+            cursor: none;
+            position: relative;
+            z-index: 2;
+            padding: 20px 0 30px;
+        }
+
+        .cyber-track {
+            display: flex;
+            gap: 24px;
+            width: max-content;
+            padding: 10px 60px;
             will-change: transform;
         }
 
-        /* Each card is full-width of the stage */
-        .cine-card {
-            flex: 0 0 100%;
-            min-height: 380px;
-            border-radius: 24px;
+        /* Cards */
+        .cyber-card {
             position: relative;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.7s cubic-bezier(0.77,0,0.175,1),
-                        opacity 0.7s ease,
-                        filter 0.7s ease;
+            width: 240px;
+            min-height: 260px;
+            background: rgba(0,10,20,.9);
+            border: 1px solid rgba(0,255,255,.2);
+            padding: 26px 22px;
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: transform .25s ease, border-color .25s ease;
+            clip-path: polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,14px 100%,0 calc(100% - 14px));
+        }
+        .cyber-card:hover {
+            transform: translateY(-8px) scale(1.04);
+            border-color: var(--neon,#0ff);
+        }
+        .cyber-card:hover .cyber-border-glow { opacity: 1; }
+        .cyber-card:hover .cyber-h3 { animation: glitch-text-anim .4s steps(1) infinite; }
+
+        .cyber-border-glow {
+            position: absolute; inset: -1px; opacity: 0;
+            transition: opacity .3s; pointer-events: none;
+            clip-path: polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,14px 100%,0 calc(100% - 14px));
+            box-shadow: 0 0 14px var(--neon,#0ff), 0 0 32px var(--neon,#0ff), inset 0 0 14px var(--neon,#0ff);
         }
 
-        /* Inactive cards shrink and dim */
-        .cine-card.inactive {
-            transform: scale(0.82);
-            opacity: 0.35;
-            filter: blur(3px);
+        .cyber-corner {
+            position: absolute; width: 13px; height: 13px;
+            border-color: var(--neon,#0ff); border-style: solid; opacity: .8;
+        }
+        .cyber-corner.tl { top:5px;  left:5px;  border-width:2px 0 0 2px; }
+        .cyber-corner.tr { top:5px;  right:5px; border-width:2px 2px 0 0; }
+        .cyber-corner.bl { bottom:5px; left:5px; border-width:0 0 2px 2px; }
+        .cyber-corner.br { bottom:5px; right:5px; border-width:0 2px 2px 0; }
+
+        .cyber-card-content { display:flex; flex-direction:column; gap:10px; }
+        .cyber-label { font-family:monospace; font-size:.68em; color:var(--neon,#0ff); letter-spacing:.12em; opacity:.7; }
+        .cyber-icon  { font-size:2.2em; filter:drop-shadow(0 0 8px var(--neon,#0ff)); }
+        .cyber-h3    { margin:0; font-family:monospace !important; font-size:1em !important; color:#fff !important; letter-spacing:.05em; }
+        .cyber-p     { font-family:monospace; font-size:.8em; color:rgba(255,255,255,.45); margin:0; line-height:1.5; }
+        .cyber-status {
+            font-family:monospace; font-size:.7em; color:var(--neon,#0ff); letter-spacing:.1em;
+            margin-top:6px; padding:4px 10px; border:1px solid var(--neon,#0ff);
+            width:fit-content; background:rgba(0,255,255,.05);
+        }
+        .blink { animation: blink 1s step-start infinite; }
+        @keyframes blink { 50%{opacity:0} }
+
+        @keyframes glitch-text-anim {
+            0%  {text-shadow:2px 0 #f0f,-2px 0 #0ff}
+            25% {text-shadow:-2px 0 #f0f,2px 0 #0ff}
+            50% {text-shadow:2px 0 #0ff,-2px 0 #f0f}
+            75% {text-shadow:0 0 transparent}
         }
 
-        /* Spotlight layer inside active card */
-        .cine-spotlight {
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(
-                ellipse 70% 60% at 50% 30%,
-                rgba(255,255,255,0.12) 0%,
-                transparent 70%
-            );
+        /* Hint progress bar */
+        .cyber-hint-bar {
+            width: 180px; height: 2px;
+            background: rgba(0,255,255,.15);
+            margin: 0 auto 30px;
+            border-radius: 2px; overflow: hidden;
+        }
+        .cyber-hint-fill {
+            height: 100%; width: 20%;
+            background: #0ff;
+            border-radius: 2px;
+            transition: width .05s linear;
+            box-shadow: 0 0 8px #0ff;
+        }
+
+        /* Custom cursor crosshair on viewport */
+        .cyber-cursor {
+            position: fixed;
             pointer-events: none;
-        }
-
-        .cine-card-body {
-            position: relative;
-            z-index: 2;
-            text-align: center;
-            padding: 48px 36px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 14px;
-        }
-
-        .cine-number {
-            font-size: 0.75em;
-            letter-spacing: 0.3em;
-            color: rgba(255,255,255,0.35);
-            font-weight: 600;
-        }
-
-        .cine-icon-large {
-            font-size: 4em;
-            filter: drop-shadow(0 0 24px rgba(255,255,255,0.5));
-            transition: transform 0.5s ease;
-        }
-
-        .cine-card:not(.inactive) .cine-icon-large {
-            animation: cine-float 3s ease-in-out infinite;
-        }
-
-        @keyframes cine-float {
-            0%, 100% { transform: translateY(0); }
-            50%       { transform: translateY(-10px); }
-        }
-
-        .cine-title {
-            margin: 0;
-            font-size: 1.6em !important;
-            color: #fff !important;
-            letter-spacing: 0.04em;
-            text-shadow: 0 2px 30px rgba(255,255,255,0.3);
-        }
-
-        .cine-desc {
-            margin: 0;
-            font-size: 0.9em;
-            color: rgba(255,255,255,0.6);
-            letter-spacing: 0.02em;
-        }
-
-        .cine-tag {
-            margin-top: 4px;
-            padding: 6px 20px;
-            border: 1px solid rgba(255,255,255,0.35);
-            border-radius: 30px;
-            font-size: 0.72em;
-            letter-spacing: 0.14em;
-            text-transform: uppercase;
-            color: rgba(255,255,255,0.7);
-            backdrop-filter: blur(4px);
-            background: rgba(255,255,255,0.07);
-        }
-
-        /* Arrows */
-        .cine-arrow {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-60%);
-            background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.25);
-            color: #fff;
+            z-index: 9999;
+            width: 24px; height: 24px;
+            border: 2px solid #0ff;
             border-radius: 50%;
-            width: 44px;
-            height: 44px;
-            font-size: 1.2em;
-            cursor: pointer;
-            z-index: 10;
-            transition: background 0.2s, transform 0.2s;
-            display: flex;
+            transform: translate(-50%,-50%);
+            transition: width .15s, height .15s, opacity .2s;
+            mix-blend-mode: screen;
+            box-shadow: 0 0 10px #0ff;
+        }
+
+        /* ── Modal ── */
+        #cyber-modal {
+            display: none;
+            position: fixed; inset: 0; z-index: 9000;
+            background: rgba(0,0,10,.8);
+            backdrop-filter: blur(12px);
             align-items: center;
             justify-content: center;
-            backdrop-filter: blur(6px);
+        }
+        #cyber-modal.open { display: flex; }
+
+        #cyber-modal-box {
+            position: relative;
+            width: min(720px, 92vw);
+            max-height: 85vh;
+            overflow-y: auto;
+            background: rgba(0,8,18,.97);
+            border: 1px solid rgba(0,255,255,.3);
+            clip-path: polygon(0 0,calc(100% - 24px) 0,100% 24px,100% 100%,24px 100%,0 calc(100% - 24px));
+            animation: modal-in .35s cubic-bezier(.22,1,.36,1) both;
+        }
+        @keyframes modal-in {
+            from { opacity:0; transform:scale(.9) translateY(30px); }
+            to   { opacity:1; transform:scale(1) translateY(0); }
         }
 
-        .cine-arrow:hover {
-            background: rgba(255,255,255,0.25);
-            transform: translateY(-60%) scale(1.12);
+        #cyber-modal-inner { padding: 48px 44px; }
+
+        #cyber-modal-close {
+            position: absolute; top: 16px; right: 20px;
+            background: none; border: 1px solid rgba(0,255,255,.3);
+            color: rgba(255,255,255,.6); font-size: 1em;
+            width: 32px; height: 32px; cursor: pointer; z-index: 1;
+            transition: color .2s, border-color .2s;
         }
+        #cyber-modal-close:hover { color:#fff; border-color:#0ff; }
 
-        .cine-prev { left: 0; }
-        .cine-next { right: 0; }
-
-        /* Progress bar */
-        .cine-progress-wrap {
-            width: 160px;
-            height: 3px;
-            background: rgba(255,255,255,0.15);
-            border-radius: 2px;
-            overflow: hidden;
+        .modal-corner {
+            position: absolute; width: 16px; height: 16px;
+            border-color: #0ff; border-style: solid; opacity: .6;
         }
+        .modal-corner.tl { top:8px;  left:8px;  border-width:2px 0 0 2px; }
+        .modal-corner.tr { top:8px;  right:8px; border-width:2px 2px 0 0; }
+        .modal-corner.bl { bottom:8px; left:8px; border-width:0 0 2px 2px; }
+        .modal-corner.br { bottom:8px; right:8px; border-width:0 2px 2px 0; }
 
-        .cine-progress-bar {
-            height: 100%;
-            background: rgba(255,255,255,0.85);
-            border-radius: 2px;
-            transition: width 4s linear;
-            width: 0%;
-        }
-
-        /* Dots */
-        .cine-dots {
-            display: flex;
-            gap: 8px;
-        }
-
-        .cine-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.25);
-            cursor: pointer;
-            transition: background 0.3s, transform 0.3s;
-        }
-
-        .cine-dot.active {
-            background: #fff;
-            transform: scale(1.3);
+        #modal-tags { display:flex; flex-wrap:wrap; gap:8px; }
+        .modal-tag {
+            font-family: monospace; font-size:.72em; letter-spacing:.08em;
+            padding: 4px 12px; border: 1px solid rgba(0,255,255,.3);
+            color: #0ff; background: rgba(0,255,255,.07);
         }
     </style>
 
     <script>
-        /* ── Cinematic Showcase ── */
-        (function () {
-            const cards   = Array.from(document.querySelectorAll('.cine-card'));
-            const track   = document.querySelector('.cine-track');
-            const dots    = Array.from(document.querySelectorAll('.cine-dot'));
-            const bar     = document.querySelector('.cine-progress-bar');
-            const btnPrev = document.querySelector('.cine-prev');
-            const btnNext = document.querySelector('.cine-next');
+    (function(){
+        /* ── Set neon vars on each card ── */
+        const cards = Array.from(document.querySelectorAll('.cyber-card'));
+        cards.forEach(c => c.style.setProperty('--neon', c.dataset.neon || '#0ff'));
 
-            let current = 0;
-            let autoTimer, barTimer;
-            const AUTO_DELAY = 4000;
+        /* ── Mouse-driven horizontal scroll ── */
+        const viewport = document.querySelector('.cyber-viewport');
+        const track    = document.querySelector('.cyber-track');
+        const fill     = document.querySelector('.cyber-hint-fill');
+        let targetX = 0, currentX = 0, raf;
 
-            function goTo(idx) {
-                cards[current].classList.add('inactive');
-                dots[current].classList.remove('active');
+        viewport.addEventListener('mousemove', e => {
+            const r = viewport.getBoundingClientRect();
+            const ratio = Math.max(0, Math.min(1, (e.clientX - r.left) / r.width));
+            const maxScroll = track.scrollWidth - viewport.clientWidth;
+            targetX = ratio * maxScroll;
+            fill.style.width = (ratio * 100) + '%';
+            moveCursor(e.clientX, e.clientY);
+        });
 
-                current = (idx + cards.length) % cards.length;
+        viewport.addEventListener('mouseleave', () => hideCursor());
 
-                cards[current].classList.remove('inactive');
-                dots[current].classList.add('active');
+        function animate() {
+            currentX += (targetX - currentX) * 0.07;
+            track.style.transform = `translateX(-${currentX}px)`;
+            raf = requestAnimationFrame(animate);
+        }
+        animate();
 
-                // Slide track: each card is 100% + 28px gap
-                const cardW = track.parentElement.offsetWidth;
-                track.style.transform = `translateX(calc(-${current} * (100% + 28px)))`;
+        /* ── Custom cursor ── */
+        const cursor = document.createElement('div');
+        cursor.className = 'cyber-cursor';
+        cursor.style.opacity = '0';
+        document.body.appendChild(cursor);
 
-                // Apply gradient background
-                cards.forEach((c, i) => {
-                    c.style.background = c.dataset.gradient;
+        function moveCursor(x, y) {
+            cursor.style.left = x + 'px';
+            cursor.style.top  = y + 'px';
+            cursor.style.opacity = '1';
+        }
+        function hideCursor() { cursor.style.opacity = '0'; }
+
+        /* ── Modal ── */
+        const modal    = document.getElementById('cyber-modal');
+        const mLabel   = document.getElementById('modal-label');
+        const mIcon    = document.getElementById('modal-icon');
+        const mTitle   = document.getElementById('modal-title');
+        const mSub     = document.getElementById('modal-sub');
+        const mDetail  = document.getElementById('modal-detail');
+        const mTags    = document.getElementById('modal-tags');
+        const mClose   = document.getElementById('cyber-modal-close');
+
+        cards.forEach((card, i) => {
+            card.addEventListener('click', () => {
+                const neon = card.dataset.neon || '#0ff';
+                mLabel.textContent  = `// PROJECT_0${i+1}`;
+                mLabel.style.color  = neon;
+                mIcon.textContent   = card.querySelector('.cyber-icon').textContent;
+                mIcon.style.filter  = `drop-shadow(0 0 16px ${neon})`;
+                mTitle.textContent  = card.dataset.title;
+                mTitle.style.color  = '#fff';
+                mSub.textContent    = card.dataset.sub;
+                mDetail.textContent = card.dataset.detail;
+                mTags.innerHTML = '';
+                card.dataset.tags.split('·').forEach(t => {
+                    const span = document.createElement('span');
+                    span.className = 'modal-tag';
+                    span.style.borderColor = neon + '66';
+                    span.style.color = neon;
+                    span.textContent = t.trim();
+                    mTags.appendChild(span);
                 });
-
-                // Progress bar reset + fill
-                bar.style.transition = 'none';
-                bar.style.width = '0%';
-                requestAnimationFrame(() => {
-                    bar.style.transition = `width ${AUTO_DELAY}ms linear`;
-                    bar.style.width = '100%';
-                });
-            }
-
-            function startAuto() {
-                clearInterval(autoTimer);
-                autoTimer = setInterval(() => goTo(current + 1), AUTO_DELAY);
-            }
-
-            // Init
-            cards.forEach((c, i) => {
-                c.style.background = c.dataset.gradient;
-                if (i !== 0) c.classList.add('inactive');
+                document.querySelector('#cyber-modal-box').style.borderColor = neon + '55';
+                modal.classList.add('open');
+                document.body.style.overflow = 'hidden';
             });
+        });
 
-            goTo(0);
-            startAuto();
-
-            btnNext.addEventListener('click', () => { goTo(current + 1); startAuto(); });
-            btnPrev.addEventListener('click', () => { goTo(current - 1); startAuto(); });
-            dots.forEach((d, i) => d.addEventListener('click', () => { goTo(i); startAuto(); }));
-
-            // Pause on hover
-            document.querySelector('.cine-stage').addEventListener('mouseenter', () => clearInterval(autoTimer));
-            document.querySelector('.cine-stage').addEventListener('mouseleave', startAuto);
-
-            // Touch / swipe
-            let touchX = 0;
-            track.addEventListener('touchstart', e => { touchX = e.touches[0].clientX; }, { passive: true });
-            track.addEventListener('touchend', e => {
-                const diff = touchX - e.changedTouches[0].clientX;
-                if (Math.abs(diff) > 40) { goTo(current + (diff > 0 ? 1 : -1)); startAuto(); }
-            });
-        })();
+        function closeModal() {
+            modal.classList.remove('open');
+            document.body.style.overflow = '';
+        }
+        mClose.addEventListener('click', closeModal);
+        modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+    })();
     </script>
 
     <!-- Contact -->

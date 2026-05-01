@@ -1,101 +1,455 @@
 <!DOCTYPE HTML>
-
 <html>
-	<head>
-		<title>Edward Attuati</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assetsAboutMe/css/main.css" />
-		<noscript><link rel="stylesheet" href="assetsAboutMe/css/noscript.css" /></noscript>
-	</head>
-	<body class="is-preload">
+<head>
+    <title>Edward Attuati — About Me</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="assetsAboutMe/css/main.css" />
+    <style>
+        /* ── Page reset & base ── */
+        *, *::before, *::after { box-sizing: border-box; }
 
-		<!-- Wrapper -->
-			<div id="wrapper">
+        body.aboutme-body {
+            margin: 0;
+            min-height: 100vh;
+            background: #0b0c1a;
+            color: #fff;
+            font-family: 'Arial', sans-serif;
+            overflow-x: hidden;
+        }
 
-				<!-- Header -->
-					<header id="header">
-						<div class="logo">
-							<span class="icon fa-user fa-spin-pulse"></span>
+        /* ── Home button ── */
+        #home-btn {
+            position: fixed;
+            top: 20px;
+            left: 24px;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.18);
+            border-radius: 30px;
+            color: rgba(255,255,255,0.85);
+            text-decoration: none;
+            font-size: 0.85em;
+            letter-spacing: 0.05em;
+            backdrop-filter: blur(10px);
+            transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.2s;
+        }
+        #home-btn:hover {
+            background: rgba(255,255,255,0.14);
+            border-color: rgba(255,255,255,0.5);
+            color: #fff;
+            transform: translateX(-3px);
+        }
+        #home-btn .arrow { font-size: 1.1em; }
 
+        /* ── Hero ── */
+        .am-hero {
+            text-align: center;
+            padding: 120px 24px 60px;
+            position: relative;
+        }
 
-						</div>
-						<div class="content">
-							<div class="inner">
-								<h1>Edward Attuati</h1>
-								<p>Here everything you can know about me</p>
-							</div>
-						</div>
-						<nav>
-							<ul>
-								<li><a href="#intro">About me</a></li>
-								<li><a href="#work">School</a></li>
-								<li><a href="#about">Work</a></li>
-								<li><a href="#contact">to home</a></li>
-								<!--<li><a href="#elements">Elements</a></li> -->
-							</ul>
-						</nav>
-					</header>
+        .am-hero-avatar {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid rgba(255,255,255,0.15);
+            box-shadow: 0 0 40px rgba(79,142,247,0.35);
+            margin-bottom: 24px;
+        }
 
-				<!-- Main -->
-					<div id="main">
+        .am-hero h1 {
+            font-size: 2.6em;
+            margin: 0 0 10px;
+            letter-spacing: 0.04em;
+            background: linear-gradient(120deg, #fff 30%, #8ab4f8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
 
-						<!-- Intro -->
-							<article id="intro">
-								<h2 class="major">Information about me</h2>
-								<span class="image main"><img src="imagesAboutMe/pic01.jpg" alt="" /></span>
-								<p>I am a Computer Engineering student with strong theoretical and practical skills in programming. Proficient in rapid learning, listening, and teamwork; I stand out for precision in executing assigned tasks and for being proactive.</p>
-							</article>
+        .am-hero p {
+            font-size: 1em;
+            color: rgba(255,255,255,0.5);
+            margin: 0;
+            letter-spacing: 0.08em;
+        }
 
-						<!-- Work -->
-							<article id="work">
-								<h2 class="major">School</h2>
-								<span class="image main"><img src="imagesAboutMe/pic02.jpeg" alt="" /></span>
-								<p>I attended elementary and middle school in Martinengo, at the private school, Sacra Famiglia! A journey that made me grow and mature, with enormous sacrifices for a child.</p>
-								<p>I attended high school at Liceo Don Milani in Romano di Lombardia. A very challenging 5-year journey that led me to enroll in university: Computer Engineering in Brescia. I am currently still studying for my bachelor's degree, also exploring the right field to specialize in!</p>
-							</article>
+        /* ── Floating particles background ── */
+        #am-particles {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+        .am-particle {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0;
+            animation: am-float linear infinite;
+        }
+        @keyframes am-float {
+            0%   { transform: translateY(100vh) scale(0); opacity: 0; }
+            10%  { opacity: .4; }
+            90%  { opacity: .2; }
+            100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+        }
 
-						<!-- About -->
-							<article id="about">
-								<h2 class="major">Work Experience</h2>
-								<span class="image main"><img src="imagesAboutMe/pic03.jpg" alt="" /></span>
-								<p>For the moment, I have done an internship at Soluzione1 in Ghisalba, an IT company. I am always ready for new experiences and to tackle them at 101%.</p>
-							</article>
+        /* ── Cards grid ── */
+        .am-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 28px;
+            justify-content: center;
+            padding: 0 32px 80px;
+            max-width: 1100px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
 
-						<!-- Contact -->
-						<article id="contact">
-							<section class="main-section">
-    			<h2 class="major">Return to main website</h2>
-    <a href="https://edwardattuati.com/" class="button bordered-button">Return to home website</a>
-     <div class="spacer"></div>
+        /* ── Tilt card ── */
+        .am-card {
+            position: relative;
+            width: 300px;
+            min-height: 280px;
+            border-radius: 22px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(14px);
+            transform-style: preserve-3d;
+            transition: box-shadow 0.3s ease;
+            cursor: default;
+            overflow: hidden;
+        }
 
-    <ul class="icons">
-        <li><a href="https://m.facebook.com/edward.attuati.9" class="icon brands fa-facebook-f" target="_blank"><span class="label">Facebook</span></a></li>
-        <li><a href="https://www.instagram.com/edwardattuati/" class="icon brands fa-instagram" target="_blank"><span class="label">Instagram</span></a></li>
-        <li><a href="https://github.com/edward070707" class="icon brands fa-github"><span class="label" target="_blank">GitHub</span></a></li>
-    </ul>
-</section>
-							</article>
+        .am-card-inner {
+            position: relative;
+            z-index: 2;
+            padding: 36px 30px 30px;
+            transform: translateZ(28px);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
 
+        .am-card-icon {
+            font-size: 2.6em;
+            filter: drop-shadow(0 0 14px rgba(255,255,255,0.3));
+        }
 
-					</div>
+        .am-card h2 {
+            margin: 0;
+            font-size: 1.15em;
+            color: #fff;
+            letter-spacing: 0.04em;
+        }
 
-				<!-- Footer -->
-					<!--<footer id="footer">
-						<p class="copyright">Edward Attuati</p>
-					</footer> -->
+        .am-card p {
+            margin: 0;
+            font-size: 0.88em;
+            color: rgba(255,255,255,0.55);
+            line-height: 1.7;
+        }
 
-			</div>
+        .am-card ul {
+            margin: 4px 0 0;
+            padding-left: 18px;
+            font-size: 0.86em;
+            color: rgba(255,255,255,0.55);
+            line-height: 1.8;
+        }
 
-		<!-- BG -->
-			<div id="bg"></div>
+        /* Tag pills */
+        .am-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+            margin-top: 6px;
+        }
+        .am-tag {
+            padding: 3px 11px;
+            border-radius: 20px;
+            font-size: 0.72em;
+            letter-spacing: 0.06em;
+            border: 1px solid rgba(255,255,255,0.2);
+            color: rgba(255,255,255,0.65);
+            background: rgba(255,255,255,0.06);
+        }
 
-		<!-- Scripts -->
-			<script src="assetsAboutMe/js/jquery.min.js"></script>
-			<script src="assetsAboutMe/js/browser.min.js"></script>
-			<script src="assetsAboutMe/js/breakpoints.min.js"></script>
-			<script src="assetsAboutMe/js/util.js"></script>
-			<script src="assetsAboutMe/js/main.js"></script>
+        /* Glow that follows the mouse */
+        .am-glow {
+            position: absolute;
+            inset: 0;
+            border-radius: 22px;
+            background: radial-gradient(
+                circle at var(--gx,50%) var(--gy,50%),
+                var(--glow-color, rgba(255,255,255,0.18)) 0%,
+                transparent 65%
+            );
+            opacity: 0;
+            transition: opacity 0.35s ease;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .am-card:hover .am-glow { opacity: 1; }
+        .am-card:hover {
+            box-shadow:
+                0 28px 56px rgba(0,0,0,0.5),
+                0 0 36px var(--shadow-color, rgba(255,255,255,0.08));
+        }
 
-	</body>
+        /* Particle burst on enter */
+        .am-burst-particle {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: am-burst 0.7s ease-out forwards;
+            z-index: 3;
+        }
+        @keyframes am-burst {
+            0%   { transform: translate(0,0) scale(1); opacity: 1; }
+            100% { transform: translate(var(--tx),var(--ty)) scale(0); opacity: 0; }
+        }
+
+        /* Wide card spans full row */
+        .am-card.wide { width: min(640px, 100%); }
+
+        /* ── Skills bar ── */
+        .am-skill { margin-bottom: 14px; }
+        .am-skill-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.82em;
+            color: rgba(255,255,255,0.65);
+            margin-bottom: 5px;
+        }
+        .am-skill-track {
+            height: 5px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        .am-skill-bar {
+            height: 100%;
+            border-radius: 3px;
+            background: linear-gradient(90deg, var(--bar-color,#4f8ef7), var(--bar-color2,#a259ff));
+            width: 0%;
+            transition: width 1.2s cubic-bezier(.25,.46,.45,.94);
+        }
+    </style>
+</head>
+<body class="aboutme-body">
+
+    <!-- Particles -->
+    <div id="am-particles"></div>
+
+    <!-- Single-step home button -->
+    <a id="home-btn" href="https://edwardattuati.com/">
+        <span class="arrow">←</span> Edward Attuati
+    </a>
+
+    <!-- Hero -->
+    <div class="am-hero">
+        <img src="imagesAboutMe/pic01.jpg" alt="Edward Attuati" class="am-hero-avatar"
+             onerror="this.style.display='none'">
+        <h1>Edward Attuati</h1>
+        <p>Computer Engineering Student · Bergamo, Italy</p>
+    </div>
+
+    <!-- Cards -->
+    <div class="am-grid">
+
+        <!-- About Me -->
+        <div class="am-card" data-color="#4f8ef7">
+            <div class="am-card-inner">
+                <div class="am-card-icon">👤</div>
+                <h2>About Me</h2>
+                <p>I am a Computer Engineering student with strong theoretical and practical skills in programming. Proficient in rapid learning, listening, and teamwork — I stand out for precision in executing assigned tasks and for being proactive.</p>
+            </div>
+            <div class="am-glow"></div>
+            <div class="am-burst-zone"></div>
+        </div>
+
+        <!-- Skills -->
+        <div class="am-card" data-color="#a259ff">
+            <div class="am-card-inner">
+                <div class="am-card-icon">⚡</div>
+                <h2>Skills</h2>
+                <div class="am-skill">
+                    <div class="am-skill-label"><span>Python</span><span>70%</span></div>
+                    <div class="am-skill-track"><div class="am-skill-bar" data-w="70" style="--bar-color:#4f8ef7;--bar-color2:#00d4aa"></div></div>
+                </div>
+                <div class="am-skill">
+                    <div class="am-skill-label"><span>C / C++</span><span>65%</span></div>
+                    <div class="am-skill-track"><div class="am-skill-bar" data-w="65" style="--bar-color:#a259ff;--bar-color2:#4f8ef7"></div></div>
+                </div>
+                <div class="am-skill">
+                    <div class="am-skill-label"><span>Java</span><span>60%</span></div>
+                    <div class="am-skill-track"><div class="am-skill-bar" data-w="60" style="--bar-color:#ff6b6b;--bar-color2:#ffa500"></div></div>
+                </div>
+                <div class="am-skill">
+                    <div class="am-skill-label"><span>HTML / CSS / JS</span><span>75%</span></div>
+                    <div class="am-skill-track"><div class="am-skill-bar" data-w="75" style="--bar-color:#00d4aa;--bar-color2:#4f8ef7"></div></div>
+                </div>
+                <div class="am-skill">
+                    <div class="am-skill-label"><span>SQL</span><span>55%</span></div>
+                    <div class="am-skill-track"><div class="am-skill-bar" data-w="55" style="--bar-color:#ffaa00;--bar-color2:#ff6b6b"></div></div>
+                </div>
+            </div>
+            <div class="am-glow"></div>
+            <div class="am-burst-zone"></div>
+        </div>
+
+        <!-- Education -->
+        <div class="am-card" data-color="#00d4aa">
+            <div class="am-card-inner">
+                <div class="am-card-icon">🎓</div>
+                <h2>Education</h2>
+                <p><strong style="color:rgba(255,255,255,.85);">Università di Brescia</strong><br>
+                B.Sc. Computer Engineering — ongoing</p>
+                <p><strong style="color:rgba(255,255,255,.85);">Liceo Don Milani</strong><br>
+                Romano di Lombardia — graduated</p>
+                <p><strong style="color:rgba(255,255,255,.85);">Sacra Famiglia</strong><br>
+                Elementary &amp; Middle — Martinengo</p>
+            </div>
+            <div class="am-glow"></div>
+            <div class="am-burst-zone"></div>
+        </div>
+
+        <!-- Work Experience -->
+        <div class="am-card" data-color="#ff6b6b">
+            <div class="am-card-inner">
+                <div class="am-card-icon">💼</div>
+                <h2>Work Experience</h2>
+                <p><strong style="color:rgba(255,255,255,.85);">Soluzione1 — Ghisalba</strong><br>
+                IT Internship · 2024</p>
+                <p>Hands-on experience in a professional IT environment. Worked on infrastructure tasks, learned about enterprise networking and collaborated with the team on real-world problems.</p>
+            </div>
+            <div class="am-glow"></div>
+            <div class="am-burst-zone"></div>
+        </div>
+
+        <!-- Languages -->
+        <div class="am-card" data-color="#ffaa00">
+            <div class="am-card-inner">
+                <div class="am-card-icon">🌍</div>
+                <h2>Languages</h2>
+                <div class="am-skill">
+                    <div class="am-skill-label"><span>🇮🇹 Italian</span><span>Native</span></div>
+                    <div class="am-skill-track"><div class="am-skill-bar" data-w="100" style="--bar-color:#009246;--bar-color2:#ce2b37"></div></div>
+                </div>
+                <div class="am-skill">
+                    <div class="am-skill-label"><span>🇬🇧 English</span><span>B2</span></div>
+                    <div class="am-skill-track"><div class="am-skill-bar" data-w="70" style="--bar-color:#012169;--bar-color2:#C8102E"></div></div>
+                </div>
+            </div>
+            <div class="am-glow"></div>
+            <div class="am-burst-zone"></div>
+        </div>
+
+        <!-- Interests -->
+        <div class="am-card" data-color="#00aaff">
+            <div class="am-card-inner">
+                <div class="am-card-icon">✨</div>
+                <h2>Interests</h2>
+                <div class="am-tags">
+                    <span class="am-tag">Software Dev</span>
+                    <span class="am-tag">Problem Solving</span>
+                    <span class="am-tag">Cultures</span>
+                    <span class="am-tag">Travel</span>
+                    <span class="am-tag">Music</span>
+                    <span class="am-tag">Technology</span>
+                    <span class="am-tag">Gaming</span>
+                    <span class="am-tag">Open Source</span>
+                </div>
+            </div>
+            <div class="am-glow"></div>
+            <div class="am-burst-zone"></div>
+        </div>
+
+    </div>
+
+    <script>
+    /* ── Floating background particles ── */
+    (function(){
+        const container = document.getElementById('am-particles');
+        const colors = ['#4f8ef7','#a259ff','#00d4aa','#ff6b6b','#ffaa00'];
+        for(let i = 0; i < 28; i++){
+            const p = document.createElement('div');
+            p.className = 'am-particle';
+            const size = Math.random() * 5 + 2;
+            p.style.cssText = `
+                width:${size}px; height:${size}px;
+                background:${colors[Math.floor(Math.random()*colors.length)]};
+                left:${Math.random()*100}%;
+                animation-duration:${8+Math.random()*14}s;
+                animation-delay:${Math.random()*10}s;
+                box-shadow:0 0 6px currentColor;
+            `;
+            container.appendChild(p);
+        }
+    })();
+
+    /* ── Tilt 3D + Glow + Burst ── */
+    document.querySelectorAll('.am-card').forEach(card => {
+        const color = card.dataset.color || '#fff';
+        card.style.setProperty('--glow-color', color + '44');
+        card.style.setProperty('--shadow-color', color + '33');
+
+        card.addEventListener('mousemove', e => {
+            const r = card.getBoundingClientRect();
+            const x = e.clientX - r.left, y = e.clientY - r.top;
+            const cx = r.width/2, cy = r.height/2;
+            card.style.transform =
+                `perspective(1100px) rotateX(${((y-cy)/cy)*-13}deg) rotateY(${((x-cx)/cx)*13}deg) scale3d(1.05,1.05,1.05)`;
+            card.style.setProperty('--gx', `${(x/r.width)*100}%`);
+            card.style.setProperty('--gy', `${(y/r.height)*100}%`);
+        });
+
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = 'perspective(1100px) rotateX(0) rotateY(0) scale3d(1,1,1)';
+        });
+
+        card.addEventListener('mouseenter', () => {
+            for(let i = 0; i < 10; i++){
+                const p = document.createElement('div');
+                p.className = 'am-burst-particle';
+                const size = Math.random()*5+3;
+                const angle = Math.random()*360;
+                const dist  = Math.random()*70+30;
+                p.style.cssText = `
+                    width:${size}px; height:${size}px;
+                    background:${color};
+                    left:${Math.random()*80+10}%; top:${Math.random()*80+10}%;
+                    --tx:${Math.cos(angle*Math.PI/180)*dist}px;
+                    --ty:${Math.sin(angle*Math.PI/180)*dist}px;
+                    animation-delay:${Math.random()*0.1}s;
+                    box-shadow:0 0 5px ${color};
+                `;
+                card.appendChild(p);
+                setTimeout(()=>p.remove(), 800);
+            }
+        });
+    });
+
+    /* ── Animate skill bars on scroll ── */
+    const bars = document.querySelectorAll('.am-skill-bar');
+    const obs = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if(entry.isIntersecting){
+                entry.target.style.width = entry.target.dataset.w + '%';
+                obs.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.3 });
+    bars.forEach(b => obs.observe(b));
+    </script>
+</body>
 </html>
