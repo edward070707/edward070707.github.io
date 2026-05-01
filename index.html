@@ -51,24 +51,19 @@
             border-radius: 5px;
         }
 
-        /* Name + flag row */
-        #header .name-row {
-            display: flex !important;
+        /* Make h1 lay out name + flag on the same line */
+        #header h1 {
+            display: inline-flex !important;
             align-items: center;
-            gap: 10px;
-            flex-wrap: nowrap;
-        }
-        #header .name-row h1 {
-            margin: 0 !important;
-            width: auto !important;
-            flex-shrink: 0;
+            gap: 8px;
         }
 
         /* Language Switcher */
         #lang-switcher {
             position: relative;
-            display: inline-block;
-            margin: 10px 0 0 0;
+            display: inline-flex;
+            align-items: center;
+            margin: 0;
         }
 
         #lang-current {
@@ -153,9 +148,7 @@
 
     <!-- Header -->
     <header id="header">
-        <div class="name-row">
-        <h1>Edward Attuati</h1>
-        <div id="lang-switcher">
+        <h1>Edward Attuati <div id="lang-switcher">
             <button id="lang-current">
                 <span id="lang-flag">🇬🇧</span>
                 <span class="arrow">▼</span>
@@ -167,8 +160,7 @@
                 <button onclick="setLang('zh')" data-lang="zh"><span class="flag">🇨🇳</span> 中文</button>
                 <button onclick="setLang('ja')" data-lang="ja"><span class="flag">🇯🇵</span> 日本語</button>
             </div>
-        </div>
-        </div><!-- end flex wrapper -->
+        </div></h1>
         <nav>
             <ul>
                 <li><a href="#intro" data-i18n="nav-home">Home</a></li>
