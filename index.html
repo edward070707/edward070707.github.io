@@ -51,6 +51,19 @@
             border-radius: 5px;
         }
 
+        /* Name + flag row */
+        #header .name-row {
+            display: flex !important;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: nowrap;
+        }
+        #header .name-row h1 {
+            margin: 0 !important;
+            width: auto !important;
+            flex-shrink: 0;
+        }
+
         /* Language Switcher */
         #lang-switcher {
             position: relative;
@@ -140,8 +153,8 @@
 
     <!-- Header -->
     <header id="header">
-        <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
-        <h1 style="margin:0;">Edward Attuati</h1>
+        <div class="name-row">
+        <h1>Edward Attuati</h1>
         <div id="lang-switcher">
             <button id="lang-current">
                 <span id="lang-flag">🇬🇧</span>
