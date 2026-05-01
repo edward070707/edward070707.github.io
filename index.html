@@ -12,20 +12,25 @@
         #backToTop {
             display: none;
             position: fixed;
-            bottom: 20px;
-            right: 30px;
+            bottom: 28px;
+            right: 28px;
             z-index: 99;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
             border: none;
             outline: none;
-            background-color: #3498db;
+            background: linear-gradient(135deg, #4f8ef7, #a259ff);
             color: white;
             cursor: pointer;
-            padding: 15px;
-            border-radius: 4px;
-            font-size: 18px;
+            font-size: 20px;
+            box-shadow: 0 4px 20px rgba(79,142,247,0.45);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            line-height: 1;
         }
         #backToTop:hover {
-            background-color: #555;
+            transform: translateY(-4px) scale(1.12);
+            box-shadow: 0 10px 30px rgba(79,142,247,0.6);
         }
 
         #cookieConsent {
@@ -721,7 +726,7 @@
     </footer>
 
     <!-- Back to Top Button -->
-    <button onclick="topFunction()" id="backToTop" title="Go to top" data-i18n="back-to-top">Top</button>
+    <button onclick="topFunction()" id="backToTop" title="Go to top">&#8679;</button>
 
     <!-- Scripts -->
     <script src="assets/js/jquery.min.js"></script>
@@ -754,11 +759,18 @@
                 'two-cv': 'View my CV',
                 'two-next': 'Next',
                 'work-title': 'My Work',
-                'work-sub': 'My work includes:',
+                'work-sub': '> Move your mouse to explore ←→',
                 'contact-title': 'Get In Touch',
                 'contact-desc': "Feel free to reach out — I'm open to new opportunities and collaborations.",
                 'email-copied': 'Email copied!',
-                'back-to-top': 'Top',
+                projects: [
+                    { title:'University Project', sub:'Computer Engineering — Università di Brescia', detail:'Studying Computer Engineering at the University of Brescia. Focused on algorithms, data structures, operating systems and software engineering. Always looking for new challenges to apply theory to practice.', tags:'C · Java · Python · Algorithms' },
+                    { title:'IT Internship', sub:'Soluzione1 — Ghisalba, Bergamo', detail:'Professional internship at Soluzione1, an IT company based in Ghisalba. Gained hands-on experience in a real-world IT environment, working with the team on infrastructure and software tasks.', tags:'IT Support · Networking · Teamwork' },
+                    { title:'Web Portfolio', sub:'edwardattuati.com', detail:'This very website — designed and built from scratch. Custom language switcher (EN/IT/ES/ZH/JA), animated sections, and modern UX. Hosted on GitHub Pages with a custom domain.', tags:'HTML · CSS · JavaScript · GitHub Pages' },
+                    { title:'Algorithm Study', sub:'University coursework', detail:'Deep-dive into sorting algorithms, graph theory, dynamic programming and complexity analysis. Implemented and benchmarked various algorithms as part of university coursework.', tags:'Python · C · Data Structures · Complexity' },
+                    { title:'Database Project', sub:'Relational DB design & queries', detail:'Designed and implemented a relational database system as part of a university project. Covered ER modelling, normalisation, SQL queries and optimisation techniques.', tags:'SQL · ER Modelling · PostgreSQL' },
+                    { title:'Next Project', sub:'Something big is coming...', detail:'The next project is currently in stealth mode. Stay tuned — something big is being built. If you have an interesting idea or collaboration in mind, feel free to reach out.', tags:'??? · TBD · Coming Soon' },
+                ],
             },
             it: {
                 'nav-home': 'Home',
@@ -779,11 +791,18 @@
                 'two-cv': 'Visualizza il mio CV',
                 'two-next': 'Avanti',
                 'work-title': 'I Miei Lavori',
-                'work-sub': 'I miei lavori includono:',
+                'work-sub': '> Muovi il mouse per esplorare ←→',
                 'contact-title': 'Contattami',
                 'contact-desc': "Non esitare a scrivermi — sono aperto a nuove opportunità e collaborazioni.",
                 'email-copied': 'Email copiata!',
-                'back-to-top': 'Su',
+                projects: [
+                    { title:'Progetto Universitario', sub:'Ingegneria Informatica — Università di Brescia', detail:"Studio l'Ingegneria Informatica all'Università di Brescia. Mi concentro su algoritmi, strutture dati, sistemi operativi e ingegneria del software. Cerco sempre nuove sfide per applicare la teoria alla pratica.", tags:'C · Java · Python · Algoritmi' },
+                    { title:'Stage IT', sub:'Soluzione1 — Ghisalba, Bergamo', detail:"Stage professionale presso Soluzione1, azienda IT di Ghisalba. Ho acquisito esperienza pratica in un ambiente IT reale, lavorando con il team su attività infrastrutturali e software.", tags:'IT Support · Networking · Lavoro di squadra' },
+                    { title:'Portfolio Web', sub:'edwardattuati.com', detail:"Questo sito — progettato e sviluppato da zero. Selettore lingua personalizzato (EN/IT/ES/ZH/JA), sezioni animate e UX moderna. Ospitato su GitHub Pages con dominio personalizzato.", tags:'HTML · CSS · JavaScript · GitHub Pages' },
+                    { title:'Studio degli Algoritmi', sub:'Progetti universitari', detail:'Approfondimento su algoritmi di ordinamento, teoria dei grafi, programmazione dinamica e analisi della complessità. Implementati e confrontati vari algoritmi come parte dei corsi universitari.', tags:'Python · C · Strutture Dati · Complessità' },
+                    { title:'Progetto Database', sub:'Progettazione DB relazionale e query', detail:'Progettazione e implementazione di un sistema di database relazionale come progetto universitario. Copertura di modellazione ER, normalizzazione, query SQL e tecniche di ottimizzazione.', tags:'SQL · Modellazione ER · PostgreSQL' },
+                    { title:'Prossimo Progetto', sub:'Qualcosa di grande sta arrivando...', detail:'Il prossimo progetto è ancora in fase di sviluppo. Resta sintonizzato — qualcosa di grande è in costruzione. Se hai un\'idea interessante o vuoi collaborare, non esitare a contattarmi.', tags:'??? · TBD · In Arrivo' },
+                ],
             },
             es: {
                 'nav-home': 'Inicio',
@@ -804,11 +823,18 @@
                 'two-cv': 'Ver mi CV',
                 'two-next': 'Siguiente',
                 'work-title': 'Mi Trabajo',
-                'work-sub': 'Mi trabajo incluye:',
+                'work-sub': '> Mueve el ratón para explorar ←→',
                 'contact-title': 'Contáctame',
                 'contact-desc': "No dudes en escribirme — estoy abierto a nuevas oportunidades y colaboraciones.",
                 'email-copied': '¡Correo copiado!',
-                'back-to-top': 'Arriba',
+                projects: [
+                    { title:'Proyecto Universitario', sub:'Ingeniería Informática — Università di Brescia', detail:'Estudio Ingeniería Informática en la Universidad de Brescia. Me centro en algoritmos, estructuras de datos, sistemas operativos e ingeniería del software.', tags:'C · Java · Python · Algoritmos' },
+                    { title:'Prácticas IT', sub:'Soluzione1 — Ghisalba, Bérgamo', detail:'Prácticas profesionales en Soluzione1, empresa IT de Ghisalba. Experiencia práctica en un entorno IT real, trabajando con el equipo en tareas de infraestructura y software.', tags:'IT Support · Networking · Trabajo en equipo' },
+                    { title:'Portfolio Web', sub:'edwardattuati.com', detail:'Este mismo sitio web — diseñado y construido desde cero. Selector de idioma personalizado (EN/IT/ES/ZH/JA), secciones animadas y UX moderna. Alojado en GitHub Pages con dominio propio.', tags:'HTML · CSS · JavaScript · GitHub Pages' },
+                    { title:'Estudio de Algoritmos', sub:'Proyectos universitarios', detail:'Profundización en algoritmos de ordenación, teoría de grafos, programación dinámica y análisis de complejidad. Implementados y comparados varios algoritmos en los cursos universitarios.', tags:'Python · C · Estructuras de Datos · Complejidad' },
+                    { title:'Proyecto Base de Datos', sub:'Diseño de BD relacional y consultas', detail:'Diseño e implementación de un sistema de base de datos relacional como proyecto universitario. Modelado ER, normalización, consultas SQL y técnicas de optimización.', tags:'SQL · Modelado ER · PostgreSQL' },
+                    { title:'Próximo Proyecto', sub:'Algo grande está por llegar...', detail:'El próximo proyecto está en modo sigiloso. Estate atento — se está construyendo algo grande. Si tienes una idea interesante o quieres colaborar, no dudes en contactarme.', tags:'??? · TBD · Próximamente' },
+                ],
             },
             zh: {
                 'nav-home': '首页',
@@ -829,11 +855,18 @@
                 'two-cv': '查看我的简历',
                 'two-next': '下一页',
                 'work-title': '我的作品',
-                'work-sub': '我的作品包括：',
+                'work-sub': '> 移动鼠标探索 ←→',
                 'contact-title': '联系我',
                 'contact-desc': "欢迎随时联系我——我对新的机会和合作持开放态度。",
                 'email-copied': '邮箱已复制！',
-                'back-to-top': '顶部',
+                projects: [
+                    { title:'大学项目', sub:'计算机工程 — 布雷西亚大学', detail:'在布雷西亚大学学习计算机工程，专注于算法、数据结构、操作系统和软件工程，始终寻求将理论应用于实践的新挑战。', tags:'C · Java · Python · 算法' },
+                    { title:'IT 实习', sub:'Soluzione1 — 吉萨尔巴，贝尔加莫', detail:'在 IT 公司 Soluzione1 完成专业实习，积累了真实 IT 环境中的实践经验，与团队合作完成基础设施和软件任务。', tags:'IT支持 · 网络 · 团队协作' },
+                    { title:'个人网站', sub:'edwardattuati.com', detail:'这个网站由我从零设计开发，包含自定义语言切换器（EN/IT/ES/ZH/JA）、动画区块和现代用户体验，托管于 GitHub Pages 并绑定自定义域名。', tags:'HTML · CSS · JavaScript · GitHub Pages' },
+                    { title:'算法研究', sub:'大学课程项目', detail:'深入研究排序算法、图论、动态规划和复杂度分析，作为大学课程的一部分实现并对比了多种算法。', tags:'Python · C · 数据结构 · 复杂度' },
+                    { title:'数据库项目', sub:'关系型数据库设计与查询', detail:'作为大学项目设计并实现了一个关系型数据库系统，涵盖 ER 建模、范式化、SQL 查询和优化技术。', tags:'SQL · ER建模 · PostgreSQL' },
+                    { title:'下一个项目', sub:'大事即将发生...', detail:'下一个项目目前处于保密阶段，敬请期待——有重大项目正在开发中。如果你有有趣的想法或合作意向，欢迎随时联系。', tags:'??? · 待定 · 即将推出' },
+                ],
             },
             ja: {
                 'nav-home': 'ホーム',
@@ -854,11 +887,18 @@
                 'two-cv': '履歴書を見る',
                 'two-next': '次へ',
                 'work-title': '作品集',
-                'work-sub': '私の作品：',
+                'work-sub': '> マウスを動かして探索 ←→',
                 'contact-title': 'お問い合わせ',
                 'contact-desc': "お気軽にご連絡ください——新しい機会やコラボレーションを歓迎しています。",
                 'email-copied': 'メールアドレスをコピーしました！',
-                'back-to-top': 'トップ',
+                projects: [
+                    { title:'大学プロジェクト', sub:'コンピューターエンジニアリング — ブレシア大学', detail:'ブレシア大学でコンピューターエンジニアリングを学んでいます。アルゴリズム、データ構造、OS、ソフトウェア工学に注力し、理論を実践に活かす新しい挑戦を常に求めています。', tags:'C · Java · Python · アルゴリズム' },
+                    { title:'ITインターンシップ', sub:'Soluzione1 — ギサルバ、ベルガモ', detail:'ギサルバのIT企業 Soluzione1 でのプロフェッショナルインターンシップ。実際のIT環境で実践的な経験を積み、チームとインフラおよびソフトウェアのタスクに取り組みました。', tags:'ITサポート · ネットワーク · チームワーク' },
+                    { title:'Webポートフォリオ', sub:'edwardattuati.com', detail:'このサイト自体をゼロから設計・開発しました。カスタム言語切替（EN/IT/ES/ZH/JA）、アニメーション付きセクション、モダンUXを実装。GitHub Pagesとカスタムドメインで公開中。', tags:'HTML · CSS · JavaScript · GitHub Pages' },
+                    { title:'アルゴリズム研究', sub:'大学のコース課題', detail:'ソートアルゴリズム、グラフ理論、動的計画法、計算量解析を深く探求し、大学のコースワークの一環として複数のアルゴリズムを実装・比較しました。', tags:'Python · C · データ構造 · 計算量' },
+                    { title:'データベースプロジェクト', sub:'リレーショナルDB設計とクエリ', detail:'大学プロジェクトとしてリレーショナルデータベースシステムを設計・実装しました。ER モデリング、正規化、SQLクエリ、最適化技術をカバーしています。', tags:'SQL · ERモデリング · PostgreSQL' },
+                    { title:'次のプロジェクト', sub:'大きなことが起きようとしている...', detail:'次のプロジェクトは現在ステルスモードです。お楽しみに——何か大きなものを開発中です。面白いアイデアやコラボレーションのご提案があれば、ぜひご連絡ください。', tags:'??? · 未定 · Coming Soon' },
+                ],
             }
         };
 
@@ -885,6 +925,23 @@
             document.querySelectorAll('#lang-dropdown button').forEach(btn => {
                 btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
             });
+
+            // Update cyberpunk project cards + modal data attributes
+            const projects = translations[lang].projects;
+            if (projects) {
+                document.querySelectorAll('.cyber-card').forEach((card, i) => {
+                    const p = projects[i];
+                    if (!p) return;
+                    const h3   = card.querySelector('.cyber-h3');
+                    const desc = card.querySelector('.cyber-p');
+                    if (h3)   h3.textContent  = p.title;
+                    if (desc) desc.textContent = p.sub;
+                    card.dataset.title  = p.title;
+                    card.dataset.sub    = p.sub;
+                    card.dataset.detail = p.detail;
+                    card.dataset.tags   = p.tags;
+                });
+            }
         }
 
         // Restore saved language (default: English)
