@@ -868,6 +868,7 @@
         function setLang(lang) {
             if (!translations[lang]) return;
             currentLang = lang;
+            localStorage.setItem('ea-lang', lang);
 
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
@@ -879,14 +880,15 @@
                 if (translations[lang][key] !== undefined) el.innerHTML = translations[lang][key];
             });
 
-            // Update current flag
             document.getElementById('lang-flag').textContent = langFlags[lang];
 
-            // Highlight active option in dropdown
             document.querySelectorAll('#lang-dropdown button').forEach(btn => {
                 btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
             });
         }
+
+        // Restore saved language (default: English)
+        setLang(localStorage.getItem('ea-lang') || 'en');
 
         /* ── Clipboard ── */
         function copyToClipboard(text) {
