@@ -1,0 +1,318 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Edward Attuati</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <meta name="description" content="Edward Attuati's Portfolio - University student showcasing projects and work.">
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+    <style>
+        /* Back to Top Button */
+        #backToTop {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 30px;
+            z-index: 99;
+            border: none;
+            outline: none;
+            background-color: #3498db;
+            color: white;
+            cursor: pointer;
+            padding: 15px;
+            border-radius: 4px;
+            font-size: 18px;
+        }
+        #backToTop:hover {
+            background-color: #555;
+        }
+
+        #cookieConsent {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-align: center;
+            z-index: 1000;
+        }
+
+        #cookieConsent a {
+            color: #FFD700;
+            text-decoration: underline;
+        }
+
+        #cookieConsent button {
+            background-color: #FFD700;
+            border: none;
+            color: black;
+            padding: 5px 10px;
+            cursor: pointer;
+            margin-left: 20px;
+            border-radius: 5px;
+        }
+    </style>
+    <meta name="ahrefs-site-verification" content="29088d3383737ed2174455d76734d5fb86ac2de57ad6f096a2146a96756cc6f2">
+</head>
+<body>
+    <div id="cookieConsent">
+        This website uses cookies to ensure you get the best experience on our website. 
+        <a href="https://www.example.com/privacy-policy" target="_blank">Learn more</a>
+        <button onclick="acceptCookies()">Got it!</button>
+    </div>
+
+    <!-- Header -->
+    <header id="header">
+        <h1>Edward Attuati</h1>
+        <nav>
+            <ul>
+                <li><a href="#intro">Home</a></li>
+                <li><a href="#one">What I Do</a></li>
+                <li><a href="#two">Who I Am</a></li>
+                <li><a href="#work">My Project</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Intro -->
+    <section id="intro" class="main style1 dark fullscreen">
+        <div class="content">
+            <header>
+                <h2 id="headerText" style="font-family: 'Arial Black', sans-serif; color: #FFFFFF; text-shadow: 2px 2px 4px #000;">Hello</h2>
+            </header>
+           
+            <style>
+                h2:hover {
+                    animation: shake 0.5s ease;
+                }
+    
+                @keyframes shake {
+                    0%, 100% { transform: rotate(0deg); }
+                    25% { transform: rotate(5deg); }
+                    50% { transform: rotate(-5deg); }
+                    75% { transform: rotate(5deg); }
+                }
+            </style>
+            <p>Welcome to <strong>Edward's Portfolio</strong></p>
+            <footer>
+                <a href="#one" class="button style2 down">More</a>
+            </footer>
+        </div>
+        <script>
+            var texts = [
+                "Hello", // Inglese
+                "Bonjour", // Francese
+                "Hola", // Spagnolo
+                "Ciao", // Italiano
+                "Konnichiwa", // Giapponese
+                "Guten Tag", // Tedesco
+                "Olá", // Portoghese
+                "Namaste", // Hindi
+                "Salaam", // Urdu
+                "Hej", // Svedese
+                "Merhaba", // Turco
+                "Annyeonghaseyo", // Coreano
+                "Ni Hao", // Cinese (mandarino)
+                "Sawubona", // Zulu
+                "Shalom", // Ebraico
+                "Szia", // Ungherese
+                "Selamat pagi", // Malese
+                "Dobrý den", // Ceco
+                "Aloha", // Hawaiano
+                "Jambo", // Swahili
+                "Nǐ hǎo", // Cinese (mandarino)
+                "Hoi", // Olandese
+                "Salut", // Rumeno
+                "Pryvit", // Ucraino
+                "Yasou", // Greco
+                "Halló", // Islandese
+                "Sholem aleikhem", // Yiddish
+                "Hei", // Norvegese
+                "Sain baina uu", // Mongolo
+                "Kumusta", // Filippino
+                "Merhaba", // Curdo
+                "Salam", // Pashto
+                "Privet", // Russo
+                "Sawubona", // Xhosa
+                "Marhaba", // Arabo
+                "Sveiki", // Lituano
+                "Päivää", // Finlandese
+                "Kia ora", // Maori
+                "Sveiki", // Lettone
+                "Sawubona", // Siswati
+                "Kamusta", // Cebuano
+                "Hei", // Danese
+                "Hallo", // Afrikaans
+                "Nǐ hǎo", // Cantonese
+                "Namaskar", // Bengalese
+                "Dobrý den", // Slovacco
+                "Moi", // Finlandese
+                "Hello", // Esperanto
+                "Merhaba", // Azero
+                "Kaixo", // Basco
+                "Sawubona" // Ndebele
+            ];
+     
+            function getRandomText() {
+                return texts[Math.floor(Math.random() * texts.length)];
+            }
+     
+            function changeHeaderText() {
+                var headerElement = document.getElementById("headerText");
+                headerElement.textContent = getRandomText();
+            }
+         
+            // Cambia il testo inizialmente
+            changeHeaderText();
+         
+            // Cambia il testo ogni 5 secondi (5000 millisecondi)
+            setInterval(changeHeaderText, 5000);
+        </script>
+    </section>
+
+    <!-- One -->
+    <section id="one" class="main style2 right dark fullscreen">
+        <div class="content box style2">
+            <header>
+                <h2>What I Do</h2>
+            </header>
+            <p>I'm a university student</p>
+            <a href="https://edwardattuati.com/aboutme.html" class="button bordered-button">More About Me</a>
+        </div>
+        <a href="#two" class="button style2 down anchored">Next</a>
+    </section>
+
+    <!-- Two -->
+    <section id="two" class="main style2 left dark fullscreen">
+        <div class="content box style2">
+            <header>
+                <h2>Who I Am?</h2>
+            </header>
+            <p>I'm an Italian guy</p>
+            <p>Click <a href="https://drive.google.com/file/d/1-E2bqezgbpLPmgdB6b2z4Sz3yz7MCwua/view?usp=share_link" target="_blank">here to view my CV</a></p>
+        </div>
+        <a href="#work" class="button style2 down anchored">Next</a>
+    </section>
+
+    <!-- Work -->
+    <section id="work" class="main style3 primary">
+        <div class="content">
+            <header>
+                <h2>My Work</h2>
+                <p>My work includes:</p>
+            </header>
+
+            <!-- Gallery -->
+            <div class="gallery">
+                <article class="from-left">
+                    <a href="images/fulls/01.jpg" class="image fit"><img src="images/thumbs/01.jpg" title="Coming soon" alt="Coming soon" /></a>
+                </article>
+                <article class="from-right">
+                    <a href="images/fulls/02.jpg" class="image fit"><img src="images/thumbs/02.jpg" title="Coming soon" alt="Coming soon" /></a>
+                </article>
+                <article class="from-left">
+                    <a href="images/fulls/03.jpg" class="image fit"><img src="images/thumbs/03.jpg" title="Coming soon" alt="Coming soon" /></a>
+                </article>
+                <article class="from-right">
+                    <a href="images/fulls/04.jpg" class="image fit"><img src="images/thumbs/04.jpg" title="Coming soon" alt="Coming soon" /></a>
+                </article>
+                <article class="from-left">
+                    <a href="images/fulls/05.jpg" class="image fit"><img src="images/thumbs/05.jpg" title="Coming soon" alt="Coming soon" /></a>
+                </article>
+                <article class="from-right">
+                    <a href="images/fulls/06.jpg" class="image fit"><img src="images/thumbs/06.jpg" title="Coming soon" alt="Coming soon" /></a>
+                </article>
+            </div>
+
+            <!-- Email Contact -->
+            <div>
+                <h3>To contact me, use this email:</h3>
+                <div class="email" onclick="copyToClipboard('edwardattuati@icloud.com'); window.location.href='mailto:edwardattuati@icloud.com';">edwardattuati@icloud.com</div>
+                <div id="copyMessage" style="display: none; border: 1px solid #ccc; padding: 10px; margin-top: 10px;">Email copied!</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="main style3 secondary">
+        <div class="content"></div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="footer">
+        <!-- Icons -->
+        <ul class="icons">
+            <li><a href="https://m.facebook.com/edward.attuati.9" class="icon brands fa-facebook-f" target="_blank"><span class="label">Facebook</span></a></li>
+            <li><a href="https://www.instagram.com/edwardattuati/" class="icon brands fa-instagram" target="_blank"><span class="label">Instagram</span></a></li>
+            <li><a href="https://it.linkedin.com/in/edward-attuati-41a54823b" class="icon brands fa-linkedin-in" target="_blank"><span class="label">LinkedIn</span></a></li>
+        </ul>
+
+        <ul class="copyright">
+            <li>&copy; edwardattuati</li><li>Design: <a href="http://html5up.net">Edward Attuati</a></li>
+        </ul>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button onclick="topFunction()" id="backToTop" title="Go to top">Top</button>
+
+    <!-- Scripts -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/jquery.poptrox.min.js"></script>
+    <script src="assets/js/jquery.scrolly.min.js"></script>
+    <script src="assets/js/jquery.scrollex.min.js"></script>
+    <script src="assets/js/browser.min.js"></script>
+    <script src="assets/js/breakpoints.min.js"></script>
+    <script src="assets/js/util.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script>
+        function copyToClipboard(text) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            document.getElementById('copyMessage').style.display = 'block';
+            setTimeout(() => {
+                document.getElementById('copyMessage').style.display = 'none';
+            }, 2000);
+        }
+
+        // Show/Hide Back to Top Button
+        window.onscroll = function() {scrollFunction()};
+        function scrollFunction() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                document.getElementById("backToTop").style.display = "block";
+            } else {
+                document.getElementById("backToTop").style.display = "none";
+            }
+        }
+
+        // Scroll to Top Function
+        function topFunction() {
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+        }
+
+        function acceptCookies() {
+            document.cookie = "cookieConsent=true; path=/; max-age=" + 60*60*24*30;
+            document.getElementById('cookieConsent').style.display = 'none';
+        }
+
+        function checkCookieConsent() {
+            if (document.cookie.split(';').some((item) => item.trim().startsWith('cookieConsent='))) {
+                document.getElementById('cookieConsent').style.display = 'none';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', (event) => {
+            checkCookieConsent();
+        });
+    </script>
+</body>
+</html>
