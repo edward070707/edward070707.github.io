@@ -888,7 +888,9 @@
         }
 
         // Restore saved language (default: English)
-        setLang(localStorage.getItem('ea-lang') || 'en');
+        document.addEventListener('DOMContentLoaded', () => {
+            setLang(localStorage.getItem('ea-lang') || 'en');
+        });
 
         /* ── Clipboard ── */
         function copyToClipboard(text) {
