@@ -8,29 +8,46 @@
     <link rel="stylesheet" href="assets/css/main.css" />
     <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
     <style>
-        /* Back to Top Button */
+        /* Back to Top — keyboard key style */
         #backToTop {
             display: none;
             position: fixed;
             bottom: 28px;
             right: 28px;
             z-index: 99;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            border: none;
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
+            border: 1px solid rgba(79,142,247,0.5);
             outline: none;
-            background: linear-gradient(135deg, #4f8ef7, #a259ff);
-            color: white;
+            background: #0d0d1e;
+            color: #4f8ef7;
             cursor: pointer;
+            font-family: monospace;
             font-size: 20px;
-            box-shadow: 0 4px 20px rgba(79,142,247,0.45);
-            transition: transform 0.25s ease, box-shadow 0.25s ease;
-            line-height: 1;
+            font-weight: bold;
+            /* 3D key effect */
+            box-shadow:
+                0 5px 0 #06060f,
+                0 0 18px rgba(79,142,247,0.25),
+                inset 0 1px 0 rgba(255,255,255,0.07);
+            transition: box-shadow 0.1s ease, transform 0.1s ease, color 0.2s;
+            /* center the symbol */
+            align-items: center;
+            justify-content: center;
         }
         #backToTop:hover {
-            transform: translateY(-4px) scale(1.12);
-            box-shadow: 0 10px 30px rgba(79,142,247,0.6);
+            color: #a259ff;
+            border-color: rgba(162,89,255,0.6);
+            box-shadow:
+                0 3px 0 #06060f,
+                0 0 24px rgba(162,89,255,0.4),
+                inset 0 1px 0 rgba(255,255,255,0.07);
+            transform: translateY(2px);
+        }
+        #backToTop:active {
+            box-shadow: 0 1px 0 #06060f, inset 0 1px 0 rgba(255,255,255,0.05);
+            transform: translateY(4px);
         }
 
         #cookieConsent {
@@ -726,7 +743,7 @@
     </footer>
 
     <!-- Back to Top Button -->
-    <button onclick="topFunction()" id="backToTop" title="Go to top">&#8679;</button>
+    <button onclick="topFunction()" id="backToTop" title="Go to top">^</button>
 
     <!-- Scripts -->
     <script src="assets/js/jquery.min.js"></script>
@@ -961,7 +978,7 @@
         /* ── Back to Top ── */
         window.onscroll = function() {
             document.getElementById("backToTop").style.display =
-                (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) ? "block" : "none";
+                (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) ? "flex" : "none";
         };
 
         function topFunction() {
