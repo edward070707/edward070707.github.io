@@ -1,0 +1,1185 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <title>Edward Attuati</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no"/>
+    <meta name="description" content="Edward Attuati — Computer Engineering Student, Developer, Builder.">
+    <link rel="stylesheet" href="assets/css/main.css"/>
+    <noscript><link rel="stylesheet" href="assets/css/noscript.css"/></noscript>
+    <meta name="ahrefs-site-verification" content="29088d3383737ed2174455d76734d5fb86ac2de57ad6f096a2146a96756cc6f2">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+    /* ═══════════════════════════════════════
+       ROOT
+    ═══════════════════════════════════════ */
+    :root {
+        --lime:   #c8ff00;
+        --black:  #000000;
+        --off:    #0d0d0d;
+        --off2:   #141414;
+        --grey:   #888;
+        --light:  #e0e0e0;
+        --white:  #ffffff;
+        --grotesk:'Space Grotesk', sans-serif;
+        --mono:   'JetBrains Mono', monospace;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+        background: var(--black);
+        color: var(--white);
+        font-family: var(--grotesk);
+        overflow-x: hidden;
+        cursor: none;
+    }
+
+    /* custom cursor */
+    #cursor {
+        position: fixed; z-index: 99999;
+        width: 10px; height: 10px;
+        background: var(--lime);
+        border-radius: 50%;
+        pointer-events: none;
+        transform: translate(-50%,-50%);
+        transition: width .2s, height .2s, opacity .2s;
+        mix-blend-mode: difference;
+    }
+    #cursor.big { width: 40px; height: 40px; }
+    body:not(:hover) #cursor { opacity: 0; }
+
+    /* ═══════════════════════════════════════
+       HEADER
+    ═══════════════════════════════════════ */
+    #header {
+        position: fixed !important;
+        top: 0 !important; left: 0 !important; right: 0 !important;
+        bottom: auto !important;
+        width: 100% !important; height: 56px !important;
+        padding: 0 36px !important;
+        background: transparent !important;
+        border: none !important;
+        border-bottom: 1px solid transparent !important;
+        transition: border-color .3s, background .3s !important;
+        z-index: 1000 !important;
+        display: flex !important; align-items: center !important;
+        justify-content: space-between !important;
+        flex-direction: row !important;
+    }
+    #header.scrolled {
+        background: rgba(0,0,0,.96) !important;
+        border-bottom-color: rgba(200,255,0,.15) !important;
+    }
+    #header h1, #header h2 { display: none !important; }
+
+    #hdr-left { display: flex; align-items: center; gap: 14px; }
+
+    #hdr-wordmark {
+        font-family: var(--grotesk);
+        font-size: .78rem;
+        font-weight: 700;
+        letter-spacing: .18em;
+        text-transform: uppercase;
+        color: var(--white) !important;
+        text-decoration: none !important;
+        border: none !important;
+        transition: color .2s;
+    }
+    #hdr-wordmark:hover { color: var(--lime) !important; }
+
+    #hdr-nav ul {
+        display: flex !important; align-items: center !important;
+        gap: 28px !important; margin: 0 !important; padding: 0 !important;
+        list-style: none !important; border: none !important;
+    }
+    #hdr-nav ul li { padding: 0 !important; border: none !important; }
+    #hdr-nav ul li a {
+        font-family: var(--mono) !important;
+        font-size: .72rem !important; font-weight: 400 !important;
+        color: var(--grey) !important;
+        text-decoration: none !important; letter-spacing: .06em !important;
+        transition: color .2s !important;
+        padding: 0 !important; border: none !important; background: none !important;
+        text-transform: lowercase !important;
+    }
+    #hdr-nav ul li a:hover { color: var(--lime) !important; }
+
+    /* lang switcher */
+    #lang-switcher { position: relative; display: inline-flex; align-items: center; }
+    #lang-current {
+        background: none; border: 1px solid rgba(200,255,0,.25); border-radius: 4px;
+        cursor: none; font-size: 15px; padding: 4px 8px;
+        display: flex; align-items: center; gap: 4px;
+        color: var(--grey); transition: border-color .2s, color .2s;
+    }
+    #lang-current:hover, #lang-switcher:hover #lang-current {
+        border-color: var(--lime); color: var(--white);
+    }
+    #lang-current .arrow { font-size: 8px; opacity: .5; }
+    #lang-dropdown {
+        display: none; position: absolute; top: calc(100% + 8px); left: 0;
+        background: #111; border: 1px solid rgba(200,255,0,.2); border-radius: 8px;
+        overflow: hidden; z-index: 300; min-width: 148px;
+        box-shadow: 0 16px 40px rgba(0,0,0,.8);
+    }
+    #lang-switcher:hover #lang-dropdown { display: block; }
+    #lang-dropdown button {
+        display: flex; align-items: center; gap: 10px; width: 100%;
+        background: none; border: none; padding: 10px 14px; cursor: none;
+        font-family: var(--mono); font-size: 13px; color: var(--grey);
+        transition: background .15s, color .15s; white-space: nowrap;
+    }
+    #lang-dropdown button:hover { background: rgba(200,255,0,.08); color: var(--white); }
+    #lang-dropdown button.active { color: var(--lime); font-weight: 700; }
+    #lang-dropdown button .flag { font-size: 18px; }
+
+    /* ═══════════════════════════════════════
+       HERO
+    ═══════════════════════════════════════ */
+    #intro {
+        position: relative !important;
+        min-height: 100vh !important;
+        background: var(--black) !important;
+        padding: 0 !important;
+        display: flex !important; align-items: center !important;
+        overflow: hidden !important;
+        height: auto !important;
+    }
+
+    .hero-wrap {
+        width: 100%;
+        padding: 120px 36px 80px;
+        position: relative;
+    }
+
+    /* micro label */
+    .hero-label {
+        font-family: var(--mono);
+        font-size: .7rem;
+        letter-spacing: .22em;
+        text-transform: uppercase;
+        color: var(--lime);
+        opacity: .7;
+        margin-bottom: 24px;
+        display: block;
+    }
+
+    /* oversized name */
+    .hero-name {
+        display: block;
+        line-height: .88;
+        margin-bottom: 0;
+    }
+    .name-solid {
+        display: block;
+        font-size: clamp(5rem, 14vw, 14rem);
+        font-weight: 700;
+        color: var(--white);
+        letter-spacing: -.02em;
+        text-transform: uppercase;
+    }
+    .name-outline {
+        display: block;
+        font-size: clamp(5rem, 14vw, 14rem);
+        font-weight: 700;
+        color: transparent;
+        -webkit-text-stroke: 2px var(--white);
+        letter-spacing: -.02em;
+        text-transform: uppercase;
+        transition: -webkit-text-stroke-color .3s;
+    }
+    .name-outline:hover { -webkit-text-stroke-color: var(--lime); }
+
+    /* rotating badge */
+    .hero-badge {
+        position: absolute;
+        top: 48px; right: 48px;
+        width: 160px; height: 160px;
+    }
+    .badge-svg { animation: spin 14s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .badge-center {
+        position: absolute; inset: 0;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 2rem;
+        animation: spin-rev 14s linear infinite;
+    }
+    @keyframes spin-rev { to { transform: rotate(-360deg); } }
+
+    /* bottom strip */
+    .hero-bottom {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        margin-top: 40px;
+        padding-top: 28px;
+        border-top: 1px solid rgba(255,255,255,.1);
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+    .hero-greeting-row {
+        font-family: var(--mono);
+        font-size: .82rem;
+        color: var(--grey);
+    }
+    #hero-greeting {
+        color: var(--lime);
+        transition: opacity .25s;
+    }
+    .hero-status {
+        font-family: var(--mono);
+        font-size: .78rem;
+        color: var(--grey);
+    }
+    .hero-status span { color: var(--lime); }
+    .hero-cta {
+        display: inline-flex; align-items: center; gap: 10px;
+        background: var(--lime);
+        color: var(--black) !important;
+        font-family: var(--grotesk);
+        font-size: .85rem; font-weight: 700;
+        letter-spacing: .06em; text-transform: uppercase;
+        padding: 14px 32px;
+        text-decoration: none !important; border: none !important;
+        border-radius: 2px;
+        transition: background .2s, transform .2s;
+        cursor: none;
+    }
+    .hero-cta:hover { background: #d6ff33; transform: translateY(-3px); }
+
+    /* ═══════════════════════════════════════
+       MARQUEE
+    ═══════════════════════════════════════ */
+    .marquee-strip {
+        background: var(--lime);
+        overflow: hidden;
+        padding: 14px 0;
+        white-space: nowrap;
+    }
+    .marquee-inner {
+        display: inline-flex;
+        animation: marquee 22s linear infinite;
+        gap: 0;
+    }
+    .marquee-inner span {
+        font-family: var(--mono);
+        font-size: .8rem;
+        font-weight: 700;
+        letter-spacing: .14em;
+        text-transform: uppercase;
+        color: var(--black);
+        padding: 0 28px;
+    }
+    .marquee-sep {
+        color: rgba(0,0,0,.3) !important;
+        padding: 0 4px !important;
+        letter-spacing: 0 !important;
+    }
+    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* ═══════════════════════════════════════
+       SECTION ONE — SKILLS
+    ═══════════════════════════════════════ */
+    #one {
+        background: var(--black) !important;
+        padding: 120px 36px !important;
+        display: block !important;
+        height: auto !important; min-height: auto !important;
+        float: none !important;
+        position: relative !important;
+    }
+    #one .content, #one .box { all: unset; display: block; }
+    #one > a.button.style2.down { display: none !important; }
+
+    .skills-header {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        margin-bottom: 72px;
+        flex-wrap: wrap;
+        gap: 16px;
+    }
+    .skills-h2 {
+        font-size: clamp(2.6rem, 5vw, 5rem) !important;
+        font-weight: 700 !important;
+        color: var(--white) !important;
+        letter-spacing: -.02em !important;
+        line-height: 1 !important;
+        text-transform: uppercase;
+        margin: 0 !important;
+    }
+    .skills-eyebrow {
+        font-family: var(--mono);
+        font-size: .72rem;
+        color: var(--grey);
+        letter-spacing: .16em;
+        text-transform: uppercase;
+    }
+
+    .skill-rows { border-top: 1px solid rgba(255,255,255,.1); }
+    .skill-row {
+        display: grid;
+        grid-template-columns: 72px 1fr auto auto;
+        align-items: center;
+        gap: 24px;
+        padding: 28px 0;
+        border-bottom: 1px solid rgba(255,255,255,.1);
+        transition: background .2s;
+        cursor: none;
+        position: relative;
+    }
+    .skill-row:hover { background: rgba(200,255,0,.04); }
+    .skill-row:hover .sk-num  { color: var(--lime); }
+    .skill-row:hover .sk-name { color: var(--lime); }
+    .skill-row:hover .sk-arrow { opacity: 1; transform: translateX(0); }
+
+    .sk-num {
+        font-family: var(--mono); font-size: .78rem;
+        color: rgba(255,255,255,.2); letter-spacing: .1em;
+        transition: color .2s;
+    }
+    .sk-name {
+        font-size: clamp(1.3rem, 2.5vw, 2rem);
+        font-weight: 700; text-transform: uppercase;
+        letter-spacing: -.01em; color: var(--white);
+        transition: color .2s;
+    }
+    .sk-tags {
+        font-family: var(--mono); font-size: .72rem;
+        color: var(--grey); letter-spacing: .06em;
+        text-align: right;
+    }
+    .sk-arrow {
+        font-size: 1.4rem; color: var(--lime);
+        opacity: 0; transform: translateX(-12px);
+        transition: opacity .25s, transform .25s;
+    }
+
+    .skills-cta-row {
+        margin-top: 56px;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+
+    /* ═══════════════════════════════════════
+       SECTION TWO — ABOUT
+    ═══════════════════════════════════════ */
+    #two {
+        background: var(--off) !important;
+        padding: 140px 36px !important;
+        display: block !important;
+        height: auto !important; min-height: auto !important;
+        float: none !important;
+        position: relative !important;
+    }
+    #two .content, #two .box { all: unset; display: block; }
+    #two > a.button.style2.down { display: none !important; }
+
+    .about-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 100px;
+        align-items: start;
+    }
+
+    /* quote side */
+    .about-quote-wrap {
+        position: relative;
+    }
+    .about-quote-bg {
+        position: absolute;
+        top: -40px; left: -20px;
+        font-size: clamp(10rem, 20vw, 18rem);
+        font-weight: 700;
+        color: var(--lime);
+        opacity: .04;
+        line-height: 1;
+        pointer-events: none;
+        user-select: none;
+        letter-spacing: -.04em;
+    }
+    .about-eyebrow {
+        font-family: var(--mono); font-size: .7rem;
+        letter-spacing: .2em; text-transform: uppercase;
+        color: var(--lime); opacity: .8;
+        margin-bottom: 28px; display: block;
+    }
+    .about-h2 {
+        font-size: clamp(2.2rem, 4vw, 3.8rem) !important;
+        font-weight: 700 !important;
+        color: var(--white) !important;
+        letter-spacing: -.02em !important;
+        line-height: 1.1 !important;
+        margin: 0 0 32px !important;
+        text-transform: uppercase;
+    }
+    .about-h2 em {
+        font-style: normal;
+        color: transparent;
+        -webkit-text-stroke: 1.5px var(--white);
+    }
+
+    /* terminal side */
+    .about-facts {
+        padding-top: 16px;
+    }
+    .fact-block {
+        padding: 24px 0;
+        border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    .fact-block:first-child { border-top: 1px solid rgba(255,255,255,.08); }
+    .fact-key {
+        font-family: var(--mono); font-size: .68rem;
+        letter-spacing: .16em; text-transform: uppercase;
+        color: var(--lime); opacity: .7;
+        margin-bottom: 6px; display: block;
+    }
+    .fact-val {
+        font-size: 1.05rem; color: var(--light);
+        line-height: 1.6;
+    }
+    .fact-val strong { color: var(--white); font-weight: 600; }
+
+    /* stats row */
+    .stat-row {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1px;
+        background: rgba(255,255,255,.08);
+        margin-top: 60px;
+        border: 1px solid rgba(255,255,255,.08);
+    }
+    .stat-cell {
+        background: var(--off);
+        padding: 32px 20px;
+        text-align: center;
+        transition: background .2s;
+    }
+    .stat-cell:hover { background: rgba(200,255,0,.06); }
+    .stat-big {
+        display: block;
+        font-size: 2.8rem; font-weight: 700;
+        color: var(--lime); line-height: 1;
+        margin-bottom: 8px;
+    }
+    .stat-small {
+        font-family: var(--mono); font-size: .68rem;
+        letter-spacing: .1em; text-transform: uppercase;
+        color: var(--grey);
+    }
+
+    .about-cv {
+        display: inline-flex; align-items: center; gap: 8px;
+        margin-top: 36px;
+        padding: 12px 28px;
+        border: 1px solid rgba(255,255,255,.2) !important;
+        color: var(--light) !important;
+        text-decoration: none !important;
+        font-family: var(--mono); font-size: .82rem;
+        letter-spacing: .06em; text-transform: uppercase;
+        border-radius: 2px;
+        transition: border-color .2s, color .2s, background .2s;
+        cursor: none;
+    }
+    .about-cv:hover {
+        border-color: var(--lime) !important;
+        color: var(--lime) !important;
+        background: rgba(200,255,0,.05);
+    }
+
+    /* ═══════════════════════════════════════
+       BACK TO TOP
+    ═══════════════════════════════════════ */
+    #backToTop {
+        display: none;
+        position: fixed; bottom: 28px; right: 28px; z-index: 99;
+        width: 48px; height: 48px;
+        border-radius: 4px;
+        border: 1px solid rgba(200,255,0,.4) !important;
+        outline: none;
+        background: var(--black);
+        color: var(--lime);
+        cursor: none;
+        font-family: var(--mono); font-size: 18px; font-weight: 700;
+        box-shadow: 0 4px 0 rgba(200,255,0,.15), 0 0 14px rgba(200,255,0,.1);
+        transition: box-shadow .1s, transform .1s;
+        align-items: center; justify-content: center;
+    }
+    #backToTop:hover {
+        box-shadow: 0 2px 0 rgba(200,255,0,.15), 0 0 24px rgba(200,255,0,.25);
+        transform: translateY(2px);
+    }
+    #backToTop:active { transform: translateY(4px); }
+
+    /* ═══════════════════════════════════════
+       COOKIE
+    ═══════════════════════════════════════ */
+    #cookieConsent {
+        position: fixed; bottom: 20px; left: 20px; right: 20px;
+        background: rgba(10,10,10,.97); border: 1px solid rgba(200,255,0,.2);
+        color: var(--light); padding: 12px 24px;
+        border-radius: 4px; text-align: center; z-index: 2000;
+        font-family: var(--mono); font-size: .8rem;
+        backdrop-filter: blur(10px);
+    }
+    #cookieConsent button {
+        background: var(--lime); border: none; color: var(--black);
+        padding: 6px 16px; cursor: pointer; margin-left: 16px;
+        border-radius: 3px; font-weight: 700; font-size: .8rem;
+        font-family: var(--mono);
+    }
+
+    /* ═══════════════════════════════════════
+       RESPONSIVE
+    ═══════════════════════════════════════ */
+    @media (max-width: 900px) {
+        #header { padding: 0 20px !important; }
+        #hdr-nav { display: none !important; }
+        .hero-badge { display: none; }
+        .about-grid { grid-template-columns: 1fr; gap: 56px; }
+        .stat-row { grid-template-columns: 1fr 1fr; }
+        .skill-row { grid-template-columns: 48px 1fr auto; }
+        .sk-arrow { display: none; }
+        #one { padding: 80px 20px !important; }
+        #two { padding: 80px 20px !important; }
+        .hero-wrap { padding: 100px 20px 60px; }
+    }
+    </style>
+</head>
+<body>
+
+    <!-- custom cursor -->
+    <div id="cursor"></div>
+
+    <div id="cookieConsent">
+        <span data-i18n="cookie-text">This website uses cookies to ensure you get the best experience on our website.</span>
+        <button onclick="acceptCookies()" data-i18n="cookie-btn">Got it!</button>
+    </div>
+
+    <!-- ─── HEADER ─── -->
+    <header id="header">
+        <div id="hdr-left">
+            <a href="#intro" id="hdr-wordmark">EA</a>
+            <div id="lang-switcher">
+                <button id="lang-current">
+                    <span id="lang-flag">🇬🇧</span>
+                    <span class="arrow">▼</span>
+                </button>
+                <div id="lang-dropdown">
+                    <button onclick="setLang('en')" data-lang="en" class="active"><span class="flag">🇬🇧</span> English</button>
+                    <button onclick="setLang('it')" data-lang="it"><span class="flag">🇮🇹</span> Italiano</button>
+                    <button onclick="setLang('es')" data-lang="es"><span class="flag">🇪🇸</span> Español</button>
+                    <button onclick="setLang('zh')" data-lang="zh"><span class="flag">🇨🇳</span> 中文</button>
+                    <button onclick="setLang('ja')" data-lang="ja"><span class="flag">🇯🇵</span> 日本語</button>
+                </div>
+            </div>
+        </div>
+        <nav id="hdr-nav">
+            <ul>
+                <li><a href="#intro"   data-i18n="nav-home">home</a></li>
+                <li><a href="#one"     data-i18n="nav-what">skills</a></li>
+                <li><a href="#two"     data-i18n="nav-who">about</a></li>
+                <li><a href="#work"    data-i18n="nav-project">work</a></li>
+                <li><a href="#contact" data-i18n="nav-contact">contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- ─── HERO ─── -->
+    <section id="intro">
+        <div class="hero-wrap">
+            <!-- rotating badge top-right -->
+            <div class="hero-badge">
+                <svg class="badge-svg" viewBox="0 0 200 200" width="160" height="160">
+                    <defs>
+                        <path id="cp" d="M100,100 m-72,0 a72,72 0 1,1 144,0 a72,72 0 1,1 -144,0"/>
+                    </defs>
+                    <text font-family="'JetBrains Mono',monospace" font-size="11.5" fill="#c8ff00" letter-spacing="2.8" font-weight="700">
+                        <textPath href="#cp" data-i18n="badge-text">COMPUTER ENGINEER · DEVELOPER · BERGAMO ·&nbsp;&nbsp;</textPath>
+                    </text>
+                </svg>
+                <div class="badge-center">🇮🇹</div>
+            </div>
+
+            <span class="hero-label" data-i18n="hero-label">// Portfolio — 2025</span>
+
+            <div class="hero-name">
+                <span class="name-solid">Edward</span>
+                <span class="name-outline">Attuati</span>
+            </div>
+
+            <div class="hero-bottom">
+                <div>
+                    <p class="hero-greeting-row">
+                        <span data-i18n="hero-greeting-prefix">Saying hi right now: </span>
+                        <span id="hero-greeting">Hello</span>
+                    </p>
+                </div>
+                <p class="hero-status" data-i18n="hero-status-text">
+                    status → <span>open to opportunities 🚀</span>
+                </p>
+                <a href="#one" class="hero-cta" data-i18n="intro-more">Explore ↓</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ─── MARQUEE ─── -->
+    <div class="marquee-strip" aria-hidden="true">
+        <div class="marquee-inner" id="marquee-inner">
+            <!-- duplicated for seamless loop -->
+        </div>
+    </div>
+
+    <!-- ─── SECTION ONE: SKILLS ─── -->
+    <section id="one" class="main style2 right dark fullscreen">
+        <div class="skills-header">
+            <h2 class="skills-h2" data-i18n="one-title">What I Do</h2>
+            <span class="skills-eyebrow" data-i18n="sec1-eyebrow">04 disciplines</span>
+        </div>
+
+        <div class="skill-rows">
+            <div class="skill-row">
+                <span class="sk-num">01</span>
+                <span class="sk-name" data-i18n="skill1-name">Programming</span>
+                <span class="sk-tags" data-i18n="skill1-tags">Python · C · Java</span>
+                <span class="sk-arrow">→</span>
+            </div>
+            <div class="skill-row">
+                <span class="sk-num">02</span>
+                <span class="sk-name" data-i18n="skill2-name">Web Dev</span>
+                <span class="sk-tags" data-i18n="skill2-tags">HTML · CSS · JS</span>
+                <span class="sk-arrow">→</span>
+            </div>
+            <div class="skill-row">
+                <span class="sk-num">03</span>
+                <span class="sk-name" data-i18n="skill3-name">Databases</span>
+                <span class="sk-tags" data-i18n="skill3-tags">SQL · PostgreSQL · ER</span>
+                <span class="sk-arrow">→</span>
+            </div>
+            <div class="skill-row">
+                <span class="sk-num">04</span>
+                <span class="sk-name" data-i18n="skill4-name">IT & Networking</span>
+                <span class="sk-tags" data-i18n="skill4-tags">Infrastructure · Support</span>
+                <span class="sk-arrow">→</span>
+            </div>
+        </div>
+
+        <div class="skills-cta-row">
+            <a href="https://edwardattuati.com/aboutme.html" class="hero-cta" data-i18n="one-btn">Full profile →</a>
+        </div>
+    </section>
+
+    <!-- ─── SECTION TWO: ABOUT ─── -->
+    <section id="two" class="main style2 left dark fullscreen">
+        <div class="about-grid">
+            <!-- quote side -->
+            <div class="about-quote-wrap">
+                <div class="about-quote-bg">"</div>
+                <span class="about-eyebrow" data-i18n="sec2-eyebrow">// about_me.txt</span>
+                <h2 class="about-h2">
+                    <span data-i18n-html="two-h2">Who I <em>Am</em></span>
+                </h2>
+                <div class="fact-block">
+                    <span class="fact-key" data-i18n="fact1-k">origin</span>
+                    <p class="fact-val" data-i18n-html="fact1-v">Italian, from <strong>Bergamo</strong>. Studying Computer Engineering at <strong>Università di Brescia</strong>.</p>
+                </div>
+                <div class="fact-block">
+                    <span class="fact-key" data-i18n="fact2-k">approach</span>
+                    <p class="fact-val" data-i18n="fact2-v">Proactive and precise. I dig into problems until they make sense — then I build the solution.</p>
+                </div>
+                <div class="fact-block">
+                    <span class="fact-key" data-i18n="fact3-k">outside code</span>
+                    <p class="fact-val" data-i18n="fact3-v">Obsessed with languages and cultures. That's why this site says hello in 38 of them.</p>
+                </div>
+                <a href="https://drive.google.com/file/d/1-E2bqezgbpLPmgdB6b2z4Sz3yz7MCwua/view?usp=share_link" target="_blank" class="about-cv" data-i18n="two-cv">📄 View CV</a>
+            </div>
+
+            <!-- stats side -->
+            <div class="about-facts">
+                <div class="stat-row">
+                    <div class="stat-cell">
+                        <span class="stat-big">3+</span>
+                        <span class="stat-small" data-i18n="stat1">Years Coding</span>
+                    </div>
+                    <div class="stat-cell">
+                        <span class="stat-big">5</span>
+                        <span class="stat-small" data-i18n="stat2">Languages</span>
+                    </div>
+                    <div class="stat-cell">
+                        <span class="stat-big">6+</span>
+                        <span class="stat-small" data-i18n="stat3">Projects</span>
+                    </div>
+                    <div class="stat-cell">
+                        <span class="stat-big">∞</span>
+                        <span class="stat-small" data-i18n="stat4">Curiosity</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ─── WORK (Cyberpunk — unchanged) ─── -->
+    <section id="work" class="main style3 primary cyber-section">
+        <div class="scanlines"></div>
+        <div class="cyber-grid-bg"></div>
+        <div class="content" style="position:relative;z-index:2;">
+            <header>
+                <h2 class="glitch-title" data-text="My Work" data-i18n="work-title">My Work</h2>
+                <p data-i18n="work-sub" style="font-family:monospace;letter-spacing:.1em;opacity:.6;color:#0ff;">&gt; Move your mouse to explore ←→</p>
+            </header>
+        </div>
+        <div class="cyber-viewport">
+            <div class="cyber-track">
+                <div class="cyber-card" data-neon="#00ffff" data-title="University Project" data-sub="Computer Engineering — Università di Brescia" data-detail="Studying Computer Engineering at the University of Brescia. Focused on algorithms, data structures, operating systems and software engineering." data-tags="C · Java · Python · Algorithms">
+                    <div class="cyber-corner tl"></div><div class="cyber-corner tr"></div><div class="cyber-corner bl"></div><div class="cyber-corner br"></div>
+                    <div class="cyber-card-content"><div class="cyber-label">// PROJECT_01</div><div class="cyber-icon">💻</div><h3 class="cyber-h3">University Project</h3><p class="cyber-p">Computer Engineering — Università di Brescia</p><div class="cyber-status"><span class="blink">▮</span> LOADING...</div></div>
+                    <div class="cyber-border-glow"></div>
+                </div>
+                <div class="cyber-card" data-neon="#ff00ff" data-title="IT Internship" data-sub="Soluzione1 — Ghisalba, Bergamo" data-detail="Professional internship at Soluzione1, an IT company based in Ghisalba. Gained hands-on experience in a real-world IT environment." data-tags="IT Support · Networking · Teamwork">
+                    <div class="cyber-corner tl"></div><div class="cyber-corner tr"></div><div class="cyber-corner bl"></div><div class="cyber-corner br"></div>
+                    <div class="cyber-card-content"><div class="cyber-label">// PROJECT_02</div><div class="cyber-icon">🏢</div><h3 class="cyber-h3">IT Internship</h3><p class="cyber-p">Soluzione1 — Ghisalba, Bergamo</p><div class="cyber-status"><span class="blink">▮</span> LOADING...</div></div>
+                    <div class="cyber-border-glow"></div>
+                </div>
+                <div class="cyber-card" data-neon="#00ff88" data-title="Web Portfolio" data-sub="edwardattuati.com" data-detail="This very website — designed and built from scratch. Custom language switcher, animated sections, modern UX." data-tags="HTML · CSS · JavaScript · GitHub Pages">
+                    <div class="cyber-corner tl"></div><div class="cyber-corner tr"></div><div class="cyber-corner bl"></div><div class="cyber-corner br"></div>
+                    <div class="cyber-card-content"><div class="cyber-label">// PROJECT_03</div><div class="cyber-icon">🌐</div><h3 class="cyber-h3">Web Portfolio</h3><p class="cyber-p">edwardattuati.com</p><div class="cyber-status"><span class="blink">▮</span> LIVE</div></div>
+                    <div class="cyber-border-glow"></div>
+                </div>
+                <div class="cyber-card" data-neon="#ffaa00" data-title="Algorithm Study" data-sub="University coursework" data-detail="Deep-dive into sorting algorithms, graph theory, dynamic programming and complexity analysis." data-tags="Python · C · Data Structures · Complexity">
+                    <div class="cyber-corner tl"></div><div class="cyber-corner tr"></div><div class="cyber-corner bl"></div><div class="cyber-corner br"></div>
+                    <div class="cyber-card-content"><div class="cyber-label">// PROJECT_04</div><div class="cyber-icon">🧮</div><h3 class="cyber-h3">Algorithm Study</h3><p class="cyber-p">University coursework</p><div class="cyber-status"><span class="blink">▮</span> LOADING...</div></div>
+                    <div class="cyber-border-glow"></div>
+                </div>
+                <div class="cyber-card" data-neon="#ff4466" data-title="Database Project" data-sub="Relational DB design &amp; queries" data-detail="Designed and implemented a relational database system. ER modelling, normalisation, SQL queries." data-tags="SQL · ER Modelling · PostgreSQL">
+                    <div class="cyber-corner tl"></div><div class="cyber-corner tr"></div><div class="cyber-corner bl"></div><div class="cyber-corner br"></div>
+                    <div class="cyber-card-content"><div class="cyber-label">// PROJECT_05</div><div class="cyber-icon">🗄️</div><h3 class="cyber-h3">Database Project</h3><p class="cyber-p">Relational DB design &amp; queries</p><div class="cyber-status"><span class="blink">▮</span> LOADING...</div></div>
+                    <div class="cyber-border-glow"></div>
+                </div>
+                <div class="cyber-card" data-neon="#ccff00" data-title="Next Project" data-sub="Something big is coming..." data-detail="The next project is currently in stealth mode. If you have an idea, reach out." data-tags="??? · TBD · Coming Soon">
+                    <div class="cyber-corner tl"></div><div class="cyber-corner tr"></div><div class="cyber-corner bl"></div><div class="cyber-corner br"></div>
+                    <div class="cyber-card-content"><div class="cyber-label">// PROJECT_06</div><div class="cyber-icon">🚀</div><h3 class="cyber-h3">Next Project</h3><p class="cyber-p">Something big is coming...</p><div class="cyber-status"><span class="blink">▮</span> CLASSIFIED</div></div>
+                    <div class="cyber-border-glow"></div>
+                </div>
+            </div>
+        </div>
+        <div class="cyber-hint-bar" style="position:relative;z-index:2;"><div class="cyber-hint-fill"></div></div>
+    </section>
+
+    <!-- Modal -->
+    <div id="cyber-modal" aria-modal="true" role="dialog">
+        <div id="cyber-modal-box">
+            <button id="cyber-modal-close">&#10005;</button>
+            <div id="cyber-modal-inner">
+                <div class="modal-corner tl"></div><div class="modal-corner tr"></div><div class="modal-corner bl"></div><div class="modal-corner br"></div>
+                <div id="modal-label" class="cyber-label"></div>
+                <div id="modal-icon" class="cyber-icon" style="font-size:3em;margin:12px 0;"></div>
+                <h2 id="modal-title" style="margin:0 0 6px;color:#fff;font-family:monospace;letter-spacing:.06em;"></h2>
+                <p id="modal-sub" style="font-family:monospace;font-size:.82em;color:rgba(255,255,255,.45);margin:0 0 18px;"></p>
+                <p id="modal-detail" style="font-size:.95em;color:rgba(255,255,255,.75);line-height:1.7;margin:0 0 22px;"></p>
+                <div id="modal-tags"></div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .cyber-section{position:relative;background:#050510 !important;overflow:hidden}
+        .scanlines{position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,255,255,.015) 2px,rgba(0,255,255,.015) 4px);pointer-events:none;z-index:1}
+        .cyber-grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(0,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,255,.04) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:1}
+        .glitch-title{position:relative;color:#fff !important;font-family:monospace !important;letter-spacing:.12em}
+        .glitch-title::before,.glitch-title::after{content:attr(data-text);position:absolute;left:0;top:0;width:100%}
+        .glitch-title::before{color:#0ff;animation:gb 3s infinite;clip-path:polygon(0 20%,100% 20%,100% 40%,0 40%)}
+        .glitch-title::after{color:#f0f;animation:ga 3s infinite;clip-path:polygon(0 60%,100% 60%,100% 80%,0 80%)}
+        @keyframes gb{0%,90%,100%{transform:translateX(0);opacity:0}92%{transform:translateX(-4px);opacity:.8}95%{transform:translateX(4px);opacity:.8}}
+        @keyframes ga{0%,90%,100%{transform:translateX(0);opacity:0}93%{transform:translateX(4px);opacity:.7}96%{transform:translateX(-4px);opacity:.7}}
+        .cyber-viewport{width:100%;overflow:hidden;cursor:none;position:relative;z-index:2;padding:20px 0 30px}
+        .cyber-track{display:flex;gap:24px;width:max-content;padding:10px 60px;will-change:transform}
+        .cyber-card{position:relative;width:240px;min-height:260px;background:rgba(0,10,20,.9);border:1px solid rgba(0,255,255,.2);padding:26px 22px;cursor:none;flex-shrink:0;transition:transform .25s,border-color .25s;clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,14px 100%,0 calc(100% - 14px))}
+        .cyber-card:hover{transform:translateY(-8px) scale(1.04);border-color:var(--neon,#0ff)}
+        .cyber-card:hover .cyber-border-glow{opacity:1}
+        .cyber-card:hover .cyber-h3{animation:glitch-text-anim .4s steps(1) infinite}
+        .cyber-border-glow{position:absolute;inset:-1px;opacity:0;transition:opacity .3s;pointer-events:none;clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,14px 100%,0 calc(100% - 14px));box-shadow:0 0 14px var(--neon,#0ff),0 0 32px var(--neon,#0ff),inset 0 0 14px var(--neon,#0ff)}
+        .cyber-corner{position:absolute;width:13px;height:13px;border-color:var(--neon,#0ff);border-style:solid;opacity:.8}
+        .cyber-corner.tl{top:5px;left:5px;border-width:2px 0 0 2px}.cyber-corner.tr{top:5px;right:5px;border-width:2px 2px 0 0}
+        .cyber-corner.bl{bottom:5px;left:5px;border-width:0 0 2px 2px}.cyber-corner.br{bottom:5px;right:5px;border-width:0 2px 2px 0}
+        .cyber-card-content{display:flex;flex-direction:column;gap:10px}
+        .cyber-label{font-family:monospace;font-size:.68em;color:var(--neon,#0ff);letter-spacing:.12em;opacity:.7}
+        .cyber-icon{font-size:2.2em;filter:drop-shadow(0 0 8px var(--neon,#0ff))}
+        .cyber-h3{margin:0;font-family:monospace !important;font-size:1em !important;color:#fff !important;letter-spacing:.05em}
+        .cyber-p{font-family:monospace;font-size:.8em;color:rgba(255,255,255,.45);margin:0;line-height:1.5}
+        .cyber-status{font-family:monospace;font-size:.7em;color:var(--neon,#0ff);letter-spacing:.1em;margin-top:6px;padding:4px 10px;border:1px solid var(--neon,#0ff);width:fit-content;background:rgba(0,255,255,.05)}
+        .blink{animation:blink 1s step-start infinite}@keyframes blink{50%{opacity:0}}
+        @keyframes glitch-text-anim{0%{text-shadow:2px 0 #f0f,-2px 0 #0ff}25%{text-shadow:-2px 0 #f0f,2px 0 #0ff}50%{text-shadow:2px 0 #0ff,-2px 0 #f0f}75%{text-shadow:0 0 transparent}}
+        .cyber-hint-bar{width:180px;height:2px;background:rgba(0,255,255,.15);margin:0 auto 30px;border-radius:2px;overflow:hidden}
+        .cyber-hint-fill{height:100%;width:20%;background:#0ff;border-radius:2px;transition:width .05s linear;box-shadow:0 0 8px #0ff}
+        .cyber-cursor{position:fixed;pointer-events:none;z-index:9999;width:24px;height:24px;border:2px solid #0ff;border-radius:50%;transform:translate(-50%,-50%);transition:opacity .2s;mix-blend-mode:screen;box-shadow:0 0 10px #0ff}
+        #cyber-modal{display:none;position:fixed;inset:0;z-index:9000;background:rgba(0,0,10,.8);backdrop-filter:blur(12px);align-items:center;justify-content:center}
+        #cyber-modal.open{display:flex}
+        #cyber-modal-box{position:relative;width:min(720px,92vw);max-height:85vh;overflow-y:auto;background:rgba(0,8,18,.97);border:1px solid rgba(0,255,255,.3);clip-path:polygon(0 0,calc(100% - 24px) 0,100% 24px,100% 100%,24px 100%,0 calc(100% - 24px));animation:modal-in .35s cubic-bezier(.22,1,.36,1) both}
+        @keyframes modal-in{from{opacity:0;transform:scale(.9) translateY(30px)}to{opacity:1;transform:scale(1) translateY(0)}}
+        #cyber-modal-inner{padding:48px 44px}
+        #cyber-modal-close{position:absolute;top:16px;right:20px;background:none;border:1px solid rgba(0,255,255,.3);color:rgba(255,255,255,.6);font-size:1em;width:32px;height:32px;cursor:none;z-index:1;transition:color .2s,border-color .2s}
+        #cyber-modal-close:hover{color:#fff;border-color:#0ff}
+        .modal-corner{position:absolute;width:16px;height:16px;border-color:#0ff;border-style:solid;opacity:.6}
+        .modal-corner.tl{top:8px;left:8px;border-width:2px 0 0 2px}.modal-corner.tr{top:8px;right:8px;border-width:2px 2px 0 0}
+        .modal-corner.bl{bottom:8px;left:8px;border-width:0 0 2px 2px}.modal-corner.br{bottom:8px;right:8px;border-width:0 2px 2px 0}
+        #modal-tags{display:flex;flex-wrap:wrap;gap:8px}
+        .modal-tag{font-family:monospace;font-size:.72em;letter-spacing:.08em;padding:4px 12px;border:1px solid rgba(0,255,255,.3);color:#0ff;background:rgba(0,255,255,.07)}
+    </style>
+
+    <script>
+    (function(){
+        const cards=Array.from(document.querySelectorAll('.cyber-card'));
+        cards.forEach(c=>c.style.setProperty('--neon',c.dataset.neon||'#0ff'));
+        const vp=document.querySelector('.cyber-viewport'),tr=document.querySelector('.cyber-track'),fill=document.querySelector('.cyber-hint-fill');
+        let tx=0,cx=0;
+        vp.addEventListener('mousemove',e=>{const r=vp.getBoundingClientRect(),ratio=Math.max(0,Math.min(1,(e.clientX-r.left)/r.width));tx=ratio*(tr.scrollWidth-vp.clientWidth);fill.style.width=(ratio*100)+'%';cc.style.left=e.clientX+'px';cc.style.top=e.clientY+'px';cc.style.opacity='1';});
+        vp.addEventListener('mouseleave',()=>cc.style.opacity='0');
+        (function loop(){cx+=(tx-cx)*.07;tr.style.transform=`translateX(-${cx}px)`;requestAnimationFrame(loop);})();
+        const cc=document.createElement('div');cc.className='cyber-cursor';cc.style.opacity='0';document.body.appendChild(cc);
+        const modal=document.getElementById('cyber-modal'),mLabel=document.getElementById('modal-label'),mIcon=document.getElementById('modal-icon'),mTitle=document.getElementById('modal-title'),mSub=document.getElementById('modal-sub'),mDetail=document.getElementById('modal-detail'),mTags=document.getElementById('modal-tags'),mClose=document.getElementById('cyber-modal-close');
+        cards.forEach((card,i)=>{card.addEventListener('click',()=>{const neon=card.dataset.neon||'#0ff';mLabel.textContent=`// PROJECT_0${i+1}`;mLabel.style.color=neon;mIcon.textContent=card.querySelector('.cyber-icon').textContent;mIcon.style.filter=`drop-shadow(0 0 16px ${neon})`;mTitle.textContent=card.dataset.title;mSub.textContent=card.dataset.sub;mDetail.textContent=card.dataset.detail;mTags.innerHTML='';card.dataset.tags.split('·').forEach(t=>{const s=document.createElement('span');s.className='modal-tag';s.style.borderColor=neon+'66';s.style.color=neon;s.textContent=t.trim();mTags.appendChild(s);});document.querySelector('#cyber-modal-box').style.borderColor=neon+'55';modal.classList.add('open');document.body.style.overflow='hidden';});});
+        function closeModal(){modal.classList.remove('open');document.body.style.overflow='';}
+        mClose.addEventListener('click',closeModal);modal.addEventListener('click',e=>{if(e.target===modal)closeModal();});document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+    })();
+    </script>
+
+    <!-- ─── CONTACT ─── -->
+    <section id="contact" class="main style3 secondary">
+        <div class="content">
+            <header>
+                <h2 data-i18n="contact-title">Get In Touch</h2>
+                <p data-i18n="contact-desc">Feel free to reach out — I'm open to new opportunities and collaborations.</p>
+            </header>
+            <ul class="icons">
+                <li><a href="https://m.facebook.com/edward.attuati.9" class="icon brands fa-facebook-f" target="_blank"><span class="label">Facebook</span></a></li>
+                <li><a href="https://www.instagram.com/edwardattuati/" class="icon brands fa-instagram" target="_blank"><span class="label">Instagram</span></a></li>
+                <li><a href="https://it.linkedin.com/in/edward-attuati-41a54823b" class="icon brands fa-linkedin-in" target="_blank"><span class="label">LinkedIn</span></a></li>
+                <li><a href="https://github.com/edward070707" class="icon brands fa-github" target="_blank"><span class="label">GitHub</span></a></li>
+            </ul>
+            <div>
+                <div class="email" onclick="copyToClipboard('edwardattuati@icloud.com');window.location.href='mailto:edwardattuati@icloud.com';">edwardattuati@icloud.com</div>
+                <div id="copyMessage" style="display:none;border:1px solid #ccc;padding:10px;margin-top:10px;" data-i18n="email-copied">Email copied!</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ─── FOOTER ─── -->
+    <footer id="footer">
+        <ul class="icons">
+            <li><a href="https://m.facebook.com/edward.attuati.9" class="icon brands fa-facebook-f" target="_blank"><span class="label">Facebook</span></a></li>
+            <li><a href="https://www.instagram.com/edwardattuati/" class="icon brands fa-instagram" target="_blank"><span class="label">Instagram</span></a></li>
+            <li><a href="https://it.linkedin.com/in/edward-attuati-41a54823b" class="icon brands fa-linkedin-in" target="_blank"><span class="label">LinkedIn</span></a></li>
+        </ul>
+        <ul class="copyright">
+            <li>&copy; edwardattuati</li><li>Design: <a href="http://html5up.net">Edward Attuati</a></li>
+        </ul>
+    </footer>
+
+    <button onclick="topFunction()" id="backToTop" title="Go to top">^</button>
+
+    <!-- Scripts -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/jquery.poptrox.min.js"></script>
+    <script src="assets/js/jquery.scrolly.min.js"></script>
+    <script src="assets/js/jquery.scrollex.min.js"></script>
+    <script src="assets/js/browser.min.js"></script>
+    <script src="assets/js/breakpoints.min.js"></script>
+    <script src="assets/js/util.js"></script>
+    <script src="assets/js/main.js"></script>
+
+    <script>
+    /* ══════════════════════════════════════════
+       TRANSLATIONS
+    ══════════════════════════════════════════ */
+    const translations = {
+        en: {
+            'nav-home':'home','nav-what':'skills','nav-who':'about','nav-project':'work','nav-contact':'contact',
+            'cookie-text':'This website uses cookies to ensure you get the best experience on our website.','cookie-btn':'Got it!',
+            'badge-text':'COMPUTER ENGINEER · DEVELOPER · BERGAMO ·  ',
+            'hero-label':'// Portfolio — 2025',
+            'hero-greeting-prefix':'Saying hi right now: ',
+            'hero-status-text':'status → open to opportunities 🚀',
+            'intro-more':'Explore ↓',
+            'sec1-eyebrow':'04 disciplines',
+            'one-title':'What I Do',
+            'skill1-name':'Programming','skill1-tags':'Python · C · Java',
+            'skill2-name':'Web Dev','skill2-tags':'HTML · CSS · JS',
+            'skill3-name':'Databases','skill3-tags':'SQL · PostgreSQL · ER',
+            'skill4-name':'IT & Networking','skill4-tags':'Infrastructure · Support',
+            'one-btn':'Full profile →',
+            'sec2-eyebrow':'// about_me.txt',
+            'two-h2':'Who I <em>Am</em>',
+            'fact1-k':'origin','fact1-v':'Italian, from <strong>Bergamo</strong>. Studying Computer Engineering at <strong>Università di Brescia</strong>.',
+            'fact2-k':'approach','fact2-v':'Proactive and precise. I dig into problems until they make sense — then I build the solution.',
+            'fact3-k':'outside code','fact3-v':'Obsessed with languages and cultures. That\'s why this site says hello in 38 of them.',
+            'two-cv':'📄 View CV',
+            'stat1':'Years Coding','stat2':'Languages','stat3':'Projects','stat4':'Curiosity',
+            'work-title':'My Work','work-sub':'> Move your mouse to explore ←→',
+            'contact-title':'Get In Touch','contact-desc':"Feel free to reach out — I'm open to new opportunities and collaborations.",
+            'email-copied':'Email copied!',
+            projects:[
+                {title:'University Project',sub:'Computer Engineering — Università di Brescia',detail:'Studying Computer Engineering at the University of Brescia. Algorithms, data structures, OS, software engineering.',tags:'C · Java · Python · Algorithms'},
+                {title:'IT Internship',sub:'Soluzione1 — Ghisalba, Bergamo',detail:'Professional internship at Soluzione1. Hands-on experience in a real IT environment.',tags:'IT Support · Networking · Teamwork'},
+                {title:'Web Portfolio',sub:'edwardattuati.com',detail:'This website — built from scratch. Language switcher, animations, modern UX on GitHub Pages.',tags:'HTML · CSS · JavaScript · GitHub Pages'},
+                {title:'Algorithm Study',sub:'University coursework',detail:'Sorting algorithms, graph theory, dynamic programming and complexity analysis.',tags:'Python · C · Data Structures · Complexity'},
+                {title:'Database Project',sub:'Relational DB design & queries',detail:'Relational DB system: ER modelling, normalisation, SQL queries and optimisation.',tags:'SQL · ER Modelling · PostgreSQL'},
+                {title:'Next Project',sub:'Something big is coming...',detail:'Currently in stealth mode. If you have an interesting idea, feel free to reach out.',tags:'??? · TBD · Coming Soon'},
+            ],
+        },
+        it: {
+            'nav-home':'home','nav-what':'skills','nav-who':'about','nav-project':'lavori','nav-contact':'contatti',
+            'cookie-text':'Questo sito utilizza i cookie per garantirti la migliore esperienza.','cookie-btn':'Capito!',
+            'badge-text':'INGEGNERIA INFORMATICA · DEVELOPER · BERGAMO ·  ',
+            'hero-label':'// Portfolio — 2025',
+            'hero-greeting-prefix':'In questo momento dico: ',
+            'hero-status-text':'status → aperto a opportunità 🚀',
+            'intro-more':'Esplora ↓',
+            'sec1-eyebrow':'04 discipline',
+            'one-title':'Cosa Faccio',
+            'skill1-name':'Programmazione','skill1-tags':'Python · C · Java',
+            'skill2-name':'Web Dev','skill2-tags':'HTML · CSS · JS',
+            'skill3-name':'Database','skill3-tags':'SQL · PostgreSQL · ER',
+            'skill4-name':'IT & Networking','skill4-tags':'Infrastruttura · Supporto',
+            'one-btn':'Profilo completo →',
+            'sec2-eyebrow':'// chi_sono.txt',
+            'two-h2':'Chi <em>Sono</em>',
+            'fact1-k':'origine','fact1-v':'Italiano, di <strong>Bergamo</strong>. Studio Ingegneria Informatica a <strong>UniBS</strong>.',
+            'fact2-k':'approccio','fact2-v':'Proattivo e preciso. Scavo nei problemi finché non li capisco — poi costruisco la soluzione.',
+            'fact3-k':'fuori dal codice','fact3-v':'Ossessionato da lingue e culture. Ecco perché questo sito saluta in 38 lingue.',
+            'two-cv':'📄 Visualizza CV',
+            'stat1':'Anni di Coding','stat2':'Lingue','stat3':'Progetti','stat4':'Curiosità',
+            'work-title':'I Miei Lavori','work-sub':'> Muovi il mouse per esplorare ←→',
+            'contact-title':'Contattami','contact-desc':'Non esitare a scrivermi — sono aperto a nuove opportunità.',
+            'email-copied':'Email copiata!',
+            projects:[
+                {title:'Progetto Universitario',sub:'Ingegneria Informatica — UniBS',detail:'Algoritmi, strutture dati, sistemi operativi e ingegneria del software.',tags:'C · Java · Python · Algoritmi'},
+                {title:'Stage IT',sub:'Soluzione1 — Ghisalba, Bergamo',detail:'Stage professionale in ambiente IT reale.',tags:'IT Support · Networking · Teamwork'},
+                {title:'Portfolio Web',sub:'edwardattuati.com',detail:'Sito costruito da zero: selettore lingua, animazioni, UX moderna.',tags:'HTML · CSS · JavaScript · GitHub Pages'},
+                {title:'Studio Algoritmi',sub:'Corsi universitari',detail:'Ordinamento, grafi, programmazione dinamica, complessità.',tags:'Python · C · Strutture · Complessità'},
+                {title:'Progetto Database',sub:'DB relazionale',detail:'Sistema DB: ER, normalizzazione, SQL, ottimizzazione.',tags:'SQL · ER · PostgreSQL'},
+                {title:'Prossimo Progetto',sub:'Qualcosa di grande...',detail:'In sviluppo. Se hai un\'idea interessante, contattami.',tags:'??? · TBD · In Arrivo'},
+            ],
+        },
+        es: {
+            'nav-home':'inicio','nav-what':'skills','nav-who':'sobre mí','nav-project':'trabajo','nav-contact':'contacto',
+            'cookie-text':'Este sitio utiliza cookies para garantizarte la mejor experiencia.','cookie-btn':'¡Entendido!',
+            'badge-text':'INGENIERÍA INFORMÁTICA · DEVELOPER · BÉRGAMO ·  ',
+            'hero-label':'// Portfolio — 2025',
+            'hero-greeting-prefix':'Ahora mismo digo: ',
+            'hero-status-text':'estado → abierto a oportunidades 🚀',
+            'intro-more':'Explorar ↓',
+            'sec1-eyebrow':'04 disciplinas',
+            'one-title':'Lo que Hago',
+            'skill1-name':'Programación','skill1-tags':'Python · C · Java',
+            'skill2-name':'Web Dev','skill2-tags':'HTML · CSS · JS',
+            'skill3-name':'Bases de Datos','skill3-tags':'SQL · PostgreSQL · ER',
+            'skill4-name':'IT & Redes','skill4-tags':'Infraestructura · Soporte',
+            'one-btn':'Perfil completo →',
+            'sec2-eyebrow':'// sobre_mi.txt',
+            'two-h2':'Quién <em>Soy</em>',
+            'fact1-k':'origen','fact1-v':'Italiano de <strong>Bérgamo</strong>. Estudio Ingeniería Informática en la <strong>Università di Brescia</strong>.',
+            'fact2-k':'enfoque','fact2-v':'Proactivo y preciso. Profundizo en los problemas hasta entenderlos — luego construyo la solución.',
+            'fact3-k':'fuera del código','fact3-v':'Obsesionado con idiomas y culturas. Por eso este sitio saluda en 38 de ellos.',
+            'two-cv':'📄 Ver CV',
+            'stat1':'Años Programando','stat2':'Idiomas','stat3':'Proyectos','stat4':'Curiosidad',
+            'work-title':'Mi Trabajo','work-sub':'> Mueve el ratón para explorar ←→',
+            'contact-title':'Contáctame','contact-desc':'No dudes en escribirme — estoy abierto a nuevas oportunidades.',
+            'email-copied':'¡Correo copiado!',
+            projects:[
+                {title:'Proyecto Universitario',sub:'Ingeniería Informática — UniBS',detail:'Algoritmos, estructuras de datos, SO e ingeniería del software.',tags:'C · Java · Python · Algoritmos'},
+                {title:'Prácticas IT',sub:'Soluzione1 — Ghisalba, Bérgamo',detail:'Prácticas en entorno IT real.',tags:'IT Support · Networking · Teamwork'},
+                {title:'Portfolio Web',sub:'edwardattuati.com',detail:'Sitio construido desde cero.',tags:'HTML · CSS · JavaScript · GitHub Pages'},
+                {title:'Estudio de Algoritmos',sub:'Proyectos universitarios',detail:'Ordenación, grafos, PD, complejidad.',tags:'Python · C · Estructuras · Complejidad'},
+                {title:'Proyecto BD',sub:'Diseño relacional',detail:'ER, normalización, SQL.',tags:'SQL · ER · PostgreSQL'},
+                {title:'Próximo Proyecto',sub:'Algo grande...',detail:'En desarrollo. Contáctame si tienes una idea.',tags:'??? · TBD · Próximamente'},
+            ],
+        },
+        zh: {
+            'nav-home':'首页','nav-what':'技能','nav-who':'关于','nav-project':'作品','nav-contact':'联系',
+            'cookie-text':'本网站使用 Cookie 以确保最佳体验。','cookie-btn':'明白了！',
+            'badge-text':'计算机工程 · 开发者 · 贝尔加莫 ·  ',
+            'hero-label':'// 作品集 — 2025',
+            'hero-greeting-prefix':'现在打招呼: ',
+            'hero-status-text':'状态 → 寻找机会 🚀',
+            'intro-more':'探索 ↓',
+            'sec1-eyebrow':'04 技能方向',
+            'one-title':'我的工作',
+            'skill1-name':'编程','skill1-tags':'Python · C · Java',
+            'skill2-name':'前端开发','skill2-tags':'HTML · CSS · JS',
+            'skill3-name':'数据库','skill3-tags':'SQL · PostgreSQL · ER',
+            'skill4-name':'IT与网络','skill4-tags':'基础设施 · 技术支持',
+            'one-btn':'完整资料 →',
+            'sec2-eyebrow':'// 关于我.txt',
+            'two-h2':'我<em>是谁</em>',
+            'fact1-k':'来自','fact1-v':'意大利<strong>贝尔加莫</strong>，在<strong>布雷西亚大学</strong>学习计算机工程。',
+            'fact2-k':'方式','fact2-v':'积极主动，精益求精。深入研究问题直到理解，然后构建解决方案。',
+            'fact3-k':'编程之外','fact3-v':'痴迷于语言和文化，所以这个网站用38种语言打招呼。',
+            'two-cv':'📄 查看简历',
+            'stat1':'编程年限','stat2':'语言','stat3':'项目','stat4':'好奇心',
+            'work-title':'我的作品','work-sub':'> 移动鼠标探索 ←→',
+            'contact-title':'联系我','contact-desc':'欢迎随时联系——对新机会和合作持开放态度。',
+            'email-copied':'邮箱已复制！',
+            projects:[
+                {title:'大学项目',sub:'计算机工程 — 布雷西亚大学',detail:'算法、数据结构、操作系统和软件工程。',tags:'C · Java · Python · 算法'},
+                {title:'IT实习',sub:'Soluzione1 — 吉萨尔巴',detail:'在真实IT环境中的专业实习经验。',tags:'IT支持 · 网络 · 团队协作'},
+                {title:'个人网站',sub:'edwardattuati.com',detail:'从零构建，自定义语言切换、动画、现代UX。',tags:'HTML · CSS · JavaScript · GitHub Pages'},
+                {title:'算法研究',sub:'大学课程',detail:'排序、图论、动态规划、复杂度分析。',tags:'Python · C · 数据结构 · 复杂度'},
+                {title:'数据库项目',sub:'关系型数据库',detail:'ER建模、范式化、SQL优化。',tags:'SQL · ER · PostgreSQL'},
+                {title:'下一个项目',sub:'大事即将...',detail:'保密阶段，敬请期待。',tags:'??? · 待定 · 即将推出'},
+            ],
+        },
+        ja: {
+            'nav-home':'ホーム','nav-what':'スキル','nav-who':'自己紹介','nav-project':'作品','nav-contact':'連絡',
+            'cookie-text':'当サイトではCookieを使用しています。','cookie-btn':'了解！',
+            'badge-text':'コンピューターエンジニア · デベロッパー · ベルガモ ·  ',
+            'hero-label':'// ポートフォリオ — 2025',
+            'hero-greeting-prefix':'今のあいさつ: ',
+            'hero-status-text':'ステータス → 機会を探しています 🚀',
+            'intro-more':'探索する ↓',
+            'sec1-eyebrow':'04 専門分野',
+            'one-title':'仕事内容',
+            'skill1-name':'プログラミング','skill1-tags':'Python · C · Java',
+            'skill2-name':'Web開発','skill2-tags':'HTML · CSS · JS',
+            'skill3-name':'データベース','skill3-tags':'SQL · PostgreSQL · ER',
+            'skill4-name':'IT・ネットワーク','skill4-tags':'インフラ · サポート',
+            'one-btn':'詳しいプロフィール →',
+            'sec2-eyebrow':'// 自己紹介.txt',
+            'two-h2':'私は<em>誰か</em>',
+            'fact1-k':'出身','fact1-v':'イタリアの<strong>ベルガモ</strong>出身。<strong>ブレシア大学</strong>でコンピューターエンジニアリングを学習中。',
+            'fact2-k':'アプローチ','fact2-v':'積極的で精確。問題を理解するまで掘り下げ — その後解決策を構築する。',
+            'fact3-k':'コード以外','fact3-v':'言語と文化に魅了されている。だからこのサイトは38言語で挨拶します。',
+            'two-cv':'📄 履歴書を見る',
+            'stat1':'コーディング歴','stat2':'言語','stat3':'プロジェクト','stat4':'好奇心',
+            'work-title':'作品集','work-sub':'> マウスを動かして探索 ←→',
+            'contact-title':'お問い合わせ','contact-desc':'お気軽にご連絡ください。',
+            'email-copied':'メールをコピーしました！',
+            projects:[
+                {title:'大学プロジェクト',sub:'コンピューターエンジニアリング — UniBS',detail:'アルゴリズム、データ構造、OS、ソフトウェア工学。',tags:'C · Java · Python · アルゴリズム'},
+                {title:'ITインターン',sub:'Soluzione1 — ギサルバ',detail:'実際のIT環境での実務経験。',tags:'ITサポート · ネットワーク · チームワーク'},
+                {title:'Webポートフォリオ',sub:'edwardattuati.com',detail:'ゼロから設計・開発したポートフォリオサイト。',tags:'HTML · CSS · JavaScript · GitHub Pages'},
+                {title:'アルゴリズム研究',sub:'大学コース',detail:'ソート、グラフ理論、動的計画法、計算量。',tags:'Python · C · データ構造 · 計算量'},
+                {title:'DBプロジェクト',sub:'リレーショナルDB',detail:'ER、正規化、SQL最適化。',tags:'SQL · ER · PostgreSQL'},
+                {title:'次のプロジェクト',sub:'大きなことが...',detail:'ステルスモード中。アイデアがあれば連絡を。',tags:'??? · 未定 · Coming Soon'},
+            ],
+        }
+    };
+
+    const langFlags = {en:'🇬🇧',it:'🇮🇹',es:'🇪🇸',zh:'🇨🇳',ja:'🇯🇵'};
+
+    function setLang(lang) {
+        if (!translations[lang]) return;
+        localStorage.setItem('ea-lang', lang);
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const k = el.getAttribute('data-i18n');
+            if (translations[lang][k] !== undefined) el.textContent = translations[lang][k];
+        });
+        document.querySelectorAll('[data-i18n-html]').forEach(el => {
+            const k = el.getAttribute('data-i18n-html');
+            if (translations[lang][k] !== undefined) el.innerHTML = translations[lang][k];
+        });
+        document.getElementById('lang-flag').textContent = langFlags[lang];
+        document.querySelectorAll('#lang-dropdown button').forEach(btn =>
+            btn.classList.toggle('active', btn.getAttribute('data-lang') === lang));
+        const projects = translations[lang].projects;
+        if (projects) {
+            document.querySelectorAll('.cyber-card').forEach((card, i) => {
+                const p = projects[i]; if (!p) return;
+                const h3 = card.querySelector('.cyber-h3'), desc = card.querySelector('.cyber-p');
+                if (h3) h3.textContent = p.title;
+                if (desc) desc.textContent = p.sub;
+                card.dataset.title = p.title; card.dataset.sub = p.sub;
+                card.dataset.detail = p.detail; card.dataset.tags = p.tags;
+            });
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        setLang(localStorage.getItem('ea-lang') || 'en');
+    });
+
+    /* ── Scroll ── */
+    window.addEventListener('scroll', () => {
+        const y = window.scrollY;
+        document.getElementById('header').classList.toggle('scrolled', y > 30);
+        document.getElementById('backToTop').style.display = y > 80 ? 'flex' : 'none';
+    });
+    function topFunction() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+
+    /* ── Clipboard ── */
+    function copyToClipboard(text) {
+        navigator.clipboard.writeText(text).then(() => {
+            const m = document.getElementById('copyMessage');
+            m.style.display = 'block';
+            setTimeout(() => m.style.display = 'none', 2000);
+        });
+    }
+
+    /* ── Cookie ── */
+    function acceptCookies() {
+        document.cookie = "cookieConsent=true; path=/; max-age=" + 60*60*24*30;
+        document.getElementById('cookieConsent').style.display = 'none';
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+        if (document.cookie.split(';').some(i => i.trim().startsWith('cookieConsent=')))
+            document.getElementById('cookieConsent').style.display = 'none';
+    });
+
+    /* ══════════════════════════════════════════
+       CUSTOM CURSOR
+    ══════════════════════════════════════════ */
+    (function () {
+        const cur = document.getElementById('cursor');
+        document.addEventListener('mousemove', e => {
+            cur.style.left = e.clientX + 'px';
+            cur.style.top  = e.clientY + 'px';
+        });
+        document.querySelectorAll('a, button, .skill-row, .stat-cell, .bio-stat').forEach(el => {
+            el.addEventListener('mouseenter', () => cur.classList.add('big'));
+            el.addEventListener('mouseleave', () => cur.classList.remove('big'));
+        });
+    })();
+
+    /* ══════════════════════════════════════════
+       MARQUEE — build dynamically
+    ══════════════════════════════════════════ */
+    (function () {
+        const words = ['Python','C','Java','JavaScript','HTML','CSS','SQL','Algorithms','Networking','PostgreSQL','GitHub','Linux','Problem Solving'];
+        const sep = ' · ';
+        const inner = document.getElementById('marquee-inner');
+        if (!inner) return;
+        // build two copies for seamless loop
+        for (let copy = 0; copy < 2; copy++) {
+            words.forEach((w, i) => {
+                const s = document.createElement('span'); s.textContent = w; inner.appendChild(s);
+                if (i < words.length - 1) {
+                    const d = document.createElement('span'); d.className = 'marquee-sep'; d.textContent = sep; inner.appendChild(d);
+                }
+            });
+            if (copy === 0) {
+                const d = document.createElement('span'); d.className = 'marquee-sep'; d.textContent = sep; inner.appendChild(d);
+            }
+        }
+    })();
+
+    /* ══════════════════════════════════════════
+       GREETING
+    ══════════════════════════════════════════ */
+    (function () {
+        const greetings = ["Hello","Bonjour","Hola","Ciao","こんにちは","Guten Tag","Olá","नमस्ते","سلام","Hej","Merhaba","안녕하세요","你好","Sawubona","Shalom","Szia","Selamat","Dobrý den","Aloha","Jambo","Hoi","Salut","Привіт","Γεια σου","Halló","Hei","Сайн уу","Kamusta","Привет","مرحبا","Sveiki","Päivää","Kia ora","Hallo","नमस्कार","Moi","Kaixo"];
+        const el = document.getElementById('hero-greeting');
+        if (!el) return;
+        let idx = Math.floor(Math.random() * greetings.length);
+        el.textContent = greetings[idx];
+        setInterval(() => {
+            el.style.opacity = '0';
+            setTimeout(() => { idx = (idx + 1) % greetings.length; el.textContent = greetings[idx]; el.style.opacity = '1'; }, 260);
+        }, 3000);
+    })();
+    </script>
+</body>
+</html>
