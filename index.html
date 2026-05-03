@@ -8,9 +8,36 @@
     <link rel="stylesheet" href="assets/css/main.css" />
     <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
     <meta name="ahrefs-site-verification" content="29088d3383737ed2174455d76734d5fb86ac2de57ad6f096a2146a96756cc6f2">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* ─── GLOBAL ─── */
-        *, *::before, *::after { box-sizing: border-box; }
+        /* ─── BASE ─── */
+        :root {
+            --bg:       #0f1117;
+            --bg2:      #161b27;
+            --bg3:      #1c2333;
+            --border:   rgba(255,255,255,0.07);
+            --text:     #e2e8f0;
+            --muted:    rgba(226,232,240,0.45);
+            --accent:   #58a6ff;
+            --accent2:  #79c0ff;
+            --green:    #3fb950;
+            --orange:   #f0883e;
+            --purple:   #d2a8ff;
+            --red:      #ff7b72;
+            --yellow:   #e3b341;
+            --mono:     'JetBrains Mono', 'Fira Code', monospace;
+            --sans:     'Inter', -apple-system, sans-serif;
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--sans);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
 
         /* ─── HEADER ─── */
         #header {
@@ -18,11 +45,11 @@
             top: 0 !important; left: 0 !important; right: 0 !important;
             bottom: auto !important;
             width: 100% !important;
-            height: 64px !important;
-            padding: 0 40px !important;
-            background: transparent !important;
-            border: none !important;
-            transition: background 0.4s ease, box-shadow 0.4s ease !important;
+            height: 58px !important;
+            padding: 0 32px !important;
+            background: rgba(15,17,23,0) !important;
+            border-bottom: 1px solid transparent !important;
+            transition: background 0.35s, border-color 0.35s !important;
             z-index: 1000 !important;
             display: flex !important;
             align-items: center !important;
@@ -30,503 +57,499 @@
             flex-direction: row !important;
         }
         #header.scrolled {
-            background: rgba(6, 6, 20, 0.93) !important;
-            backdrop-filter: blur(16px) !important;
-            -webkit-backdrop-filter: blur(16px) !important;
-            box-shadow: 0 1px 0 rgba(255,255,255,0.06) !important;
+            background: rgba(15,17,23,0.96) !important;
+            border-bottom-color: var(--border) !important;
+            backdrop-filter: blur(10px) !important;
+            -webkit-backdrop-filter: blur(10px) !important;
         }
-        /* Kill the template's h1 styling inside our header */
         #header h1, #header h2 { display: none !important; }
 
         #hdr-brand {
             display: flex;
             align-items: center;
-            gap: 14px;
-            flex-shrink: 0;
+            gap: 12px;
         }
+        /* terminal prompt before the name */
+        #hdr-name-wrap {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-family: var(--mono);
+            font-size: 0.88rem;
+            text-decoration: none;
+        }
+        #hdr-prompt { color: var(--green); font-weight: 700; }
         #hdr-name {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: #fff !important;
+            color: var(--accent2) !important;
+            font-weight: 500;
             text-decoration: none !important;
-            letter-spacing: 0.05em;
-            text-shadow: 0 0 24px rgba(79,142,247,0.5);
-            transition: color 0.2s;
             border: none !important;
+            transition: color 0.2s;
         }
-        #hdr-name:hover { color: #7aaeff !important; }
+        #hdr-name:hover { color: #fff !important; }
+        #hdr-cursor {
+            display: inline-block;
+            width: 7px; height: 14px;
+            background: var(--accent);
+            margin-left: 1px;
+            animation: blink-cursor 1s step-start infinite;
+            vertical-align: middle;
+        }
+        @keyframes blink-cursor { 50% { opacity: 0; } }
 
         #hdr-nav ul {
             display: flex !important;
             align-items: center !important;
-            gap: 30px !important;
-            margin: 0 !important;
-            padding: 0 !important;
-            list-style: none !important;
-            border: none !important;
+            gap: 6px !important;
+            margin: 0 !important; padding: 0 !important;
+            list-style: none !important; border: none !important;
         }
         #hdr-nav ul li { padding: 0 !important; border: none !important; }
         #hdr-nav ul li a {
+            display: inline-block;
+            padding: 5px 12px !important;
+            font-family: var(--mono) !important;
             font-size: 0.78rem !important;
-            font-weight: 500 !important;
-            color: rgba(255,255,255,0.55) !important;
+            font-weight: 400 !important;
+            color: var(--muted) !important;
             text-decoration: none !important;
-            letter-spacing: 0.1em !important;
-            text-transform: uppercase !important;
-            transition: color 0.2s !important;
-            padding: 0 !important;
-            border: none !important;
+            border: 1px solid transparent !important;
+            border-radius: 5px !important;
+            transition: color 0.2s, border-color 0.2s, background 0.2s !important;
             background: none !important;
+            letter-spacing: 0 !important;
+            text-transform: none !important;
         }
-        #hdr-nav ul li a:hover { color: #fff !important; }
+        #hdr-nav ul li a:hover {
+            color: var(--text) !important;
+            border-color: var(--border) !important;
+            background: var(--bg2) !important;
+        }
 
         /* ─── LANG SWITCHER ─── */
-        #lang-switcher {
-            position: relative;
-            display: inline-flex;
-            align-items: center;
-        }
+        #lang-switcher { position: relative; display: inline-flex; align-items: center; }
         #lang-current {
-            background: rgba(255,255,255,0.08);
-            border: 1px solid rgba(255,255,255,0.18);
-            border-radius: 7px;
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: 6px;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 15px;
             padding: 4px 8px;
-            line-height: 1;
+            display: flex; align-items: center; gap: 4px;
+            color: var(--muted);
             transition: border-color 0.2s, background 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            color: rgba(255,255,255,0.8);
         }
-        #lang-current:hover,
-        #lang-switcher:hover #lang-current {
-            border-color: rgba(255,255,255,0.45);
-            background: rgba(255,255,255,0.13);
+        #lang-current:hover, #lang-switcher:hover #lang-current {
+            border-color: rgba(88,166,255,0.4);
+            background: var(--bg3);
+            color: var(--text);
         }
-        #lang-current .arrow { font-size: 8px; opacity: 0.55; }
+        #lang-current .arrow { font-size: 8px; opacity: 0.5; }
         #lang-dropdown {
-            display: none;
-            position: absolute;
-            top: calc(100% + 8px);
-            left: 0;
-            background: rgba(8, 8, 26, 0.98);
-            border: 1px solid rgba(255,255,255,0.12);
-            border-radius: 10px;
-            overflow: hidden;
-            z-index: 300;
-            min-width: 145px;
-            box-shadow: 0 16px 40px rgba(0,0,0,0.7);
+            display: none; position: absolute; top: calc(100% + 6px); left: 0;
+            background: var(--bg2); border: 1px solid var(--border);
+            border-radius: 8px; overflow: hidden; z-index: 300;
+            min-width: 148px; box-shadow: 0 12px 32px rgba(0,0,0,0.6);
         }
         #lang-switcher:hover #lang-dropdown { display: block; }
         #lang-dropdown button {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            width: 100%;
-            background: none;
-            border: none;
-            padding: 10px 15px;
-            cursor: pointer;
-            font-size: 14px;
-            color: rgba(255,255,255,0.75);
-            transition: background 0.15s;
-            white-space: nowrap;
+            display: flex; align-items: center; gap: 10px; width: 100%;
+            background: none; border: none; padding: 9px 14px; cursor: pointer;
+            font-family: var(--mono); font-size: 13px; color: var(--muted);
+            transition: background 0.15s, color 0.15s; white-space: nowrap;
         }
-        #lang-dropdown button:hover { background: rgba(255,255,255,0.09); }
-        #lang-dropdown button.active { color: #fff; font-weight: 700; }
-        #lang-dropdown button .flag { font-size: 20px; }
+        #lang-dropdown button:hover { background: var(--bg3); color: var(--text); }
+        #lang-dropdown button.active { color: var(--accent2); font-weight: 700; }
+        #lang-dropdown button .flag { font-size: 18px; }
 
         /* ─── HERO ─── */
         #intro {
             position: relative !important;
-            width: 100% !important;
-            height: 100vh !important;
-            min-height: 600px !important;
-            overflow: hidden !important;
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            background: #050514 !important;
-            padding: 0 !important;
-            text-align: center;
+            min-height: 100vh !important;
+            display: flex !important; align-items: center !important;
+            background: var(--bg) !important;
+            padding: 100px 32px 60px !important;
+            height: auto !important;
+            overflow: visible !important;
         }
-        #particle-canvas {
-            position: absolute;
-            inset: 0;
+        .hero-inner {
+            max-width: 860px;
+            margin: 0 auto;
             width: 100%;
-            height: 100%;
         }
-        /* subtle radial gradient overlay */
-        #intro::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(ellipse at center, rgba(79,142,247,0.07) 0%, transparent 65%);
-            pointer-events: none;
-        }
-        #hero-content {
-            position: relative;
-            z-index: 2;
-            padding: 20px;
-            max-width: 800px;
-        }
-        #hero-greeting-wrap {
-            overflow: hidden;
-            height: 3.4rem;
-            margin-bottom: 10px;
+
+        /* file tab bar */
+        .file-tabs {
             display: flex;
             align-items: flex-end;
-            justify-content: center;
+            gap: 0;
+            margin-bottom: 0;
+            font-family: var(--mono);
+            font-size: 0.78rem;
         }
-        #hero-greeting {
-            display: block;
-            font-size: 2.2rem;
-            font-weight: 300;
-            color: #7aaeff;
-            font-family: 'Georgia', serif;
-            letter-spacing: 0.04em;
-            animation: greetIn 0.65s cubic-bezier(0.22,1,0.36,1) both;
+        .file-tab {
+            padding: 7px 18px;
+            border: 1px solid var(--border);
+            border-bottom: none;
+            border-radius: 6px 6px 0 0;
+            color: var(--muted);
+            background: var(--bg2);
+            cursor: default;
         }
-        @keyframes greetIn {
-            from { transform: translateY(110%); opacity: 0; }
-            to   { transform: translateY(0);    opacity: 1; }
+        .file-tab.active {
+            background: var(--bg3);
+            color: var(--accent2);
+            border-color: rgba(88,166,255,0.2);
         }
-        @keyframes greetOut {
-            from { transform: translateY(0);     opacity: 1; }
-            to   { transform: translateY(-110%); opacity: 0; }
+        .file-tab .dot { color: var(--orange); margin-right: 5px; }
+
+        /* code editor card */
+        .editor-card {
+            background: var(--bg3);
+            border: 1px solid rgba(88,166,255,0.15);
+            border-radius: 0 8px 8px 8px;
+            padding: 32px 36px;
+            font-family: var(--mono);
+            font-size: 0.93rem;
+            line-height: 1.9;
+            position: relative;
         }
-        #hero-name {
-            font-size: clamp(3rem, 6.5vw, 5.5rem) !important;
-            font-weight: 800 !important;
-            background: linear-gradient(135deg, #ffffff 25%, #7aaeff 65%, #b57bff 100%);
-            -webkit-background-clip: text !important;
-            background-clip: text !important;
-            -webkit-text-fill-color: transparent !important;
-            color: transparent !important;
-            margin: 0 0 18px !important;
-            line-height: 1.1 !important;
-            letter-spacing: -0.01em !important;
+        /* line numbers */
+        .editor-card .lines {
+            position: absolute;
+            left: 0; top: 32px;
+            padding: 0 14px 0 12px;
+            text-align: right;
+            color: rgba(255,255,255,0.12);
+            font-size: 0.8rem;
+            line-height: 1.9;
+            user-select: none;
+            border-right: 1px solid var(--border);
         }
-        #hero-sub {
-            font-size: 0.95rem;
-            color: rgba(255,255,255,0.4);
-            letter-spacing: 0.14em;
-            margin: 0 0 52px !important;
-            text-transform: uppercase;
-            font-weight: 400;
+        .editor-card .code {
+            padding-left: 52px;
         }
-        #hero-cta {
+
+        /* syntax colours */
+        .c-comment  { color: rgba(255,255,255,0.25); font-style: italic; }
+        .c-kw       { color: var(--purple); }
+        .c-fn       { color: var(--accent2); }
+        .c-str      { color: var(--orange); }
+        .c-num      { color: var(--green); }
+        .c-key      { color: var(--accent); }
+        .c-val      { color: var(--text); }
+        .c-punct    { color: rgba(255,255,255,0.35); }
+        .c-type     { color: var(--yellow); }
+
+        /* typing cursor in the editor */
+        .type-cursor {
             display: inline-block;
-            padding: 14px 38px;
-            border: 1px solid rgba(122,174,255,0.45);
-            color: #fff !important;
+            width: 2px; height: 1em;
+            background: var(--accent);
+            animation: blink-cursor 0.9s step-start infinite;
+            vertical-align: text-bottom;
+            margin-left: 1px;
+        }
+
+        /* hero CTA row */
+        .hero-actions {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-top: 36px;
+            flex-wrap: wrap;
+        }
+        .btn-primary {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 11px 26px;
+            background: var(--accent);
+            color: #0f1117 !important;
+            font-family: var(--mono);
+            font-size: 0.86rem; font-weight: 700;
             text-decoration: none !important;
             border-radius: 6px;
-            font-size: 0.88rem;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            background: rgba(79,142,247,0.09);
-            transition: background 0.3s, border-color 0.3s, transform 0.25s;
-            font-weight: 500;
+            border: none !important;
+            transition: background 0.2s, transform 0.2s;
         }
-        #hero-cta:hover {
-            background: rgba(79,142,247,0.18);
-            border-color: rgba(122,174,255,0.75);
-            transform: translateY(-3px);
+        .btn-primary:hover { background: var(--accent2); transform: translateY(-2px); }
+        .btn-ghost {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 10px 24px;
+            background: none;
+            color: var(--muted) !important;
+            font-family: var(--mono);
+            font-size: 0.86rem;
+            text-decoration: none !important;
+            border: 1px solid var(--border) !important;
+            border-radius: 6px;
+            transition: border-color 0.2s, color 0.2s, background 0.2s;
         }
-        /* Scroll indicator line */
-        #hero-scroll {
-            position: absolute;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 2;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
+        .btn-ghost:hover {
+            border-color: rgba(88,166,255,0.35) !important;
+            color: var(--text) !important;
+            background: var(--bg2);
         }
-        #hero-scroll span {
-            display: block;
-            width: 1px;
-            height: 44px;
-            background: linear-gradient(to bottom, transparent, rgba(122,174,255,0.6));
-            animation: scrollPulse 2s ease-in-out infinite;
+        .hero-greeting-small {
+            font-family: var(--mono);
+            font-size: 0.82rem;
+            color: var(--muted);
+            margin-top: 24px;
         }
-        @keyframes scrollPulse {
-            0%, 100% { opacity: 0.3; transform: scaleY(1); }
-            50%       { opacity: 0.8; transform: scaleY(1.1); }
-        }
+        #inline-greeting { color: var(--green); }
 
-        /* ─── SECTION ONE — WHAT I DO ─── */
-        #one {
+        /* ─── SECTION SHARED ─── */
+        .dev-section {
+            padding: 110px 32px !important;
             position: relative !important;
-            background: #080818 !important;
-            padding: 130px 40px !important;
             display: block !important;
-            height: auto !important;
-            min-height: auto !important;
+            height: auto !important; min-height: auto !important;
             float: none !important;
         }
-        /* Kill template floats/boxes */
-        #one .content, #one .box, #one .box.style2 { all: unset; display: block; }
-        #one > a.button.style2.down { display: none !important; }
+        .dev-section .content, .dev-section .box { all: unset; display: block; }
+        .dev-section > a.button.style2.down { display: none !important; }
 
-        .section-inner {
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-        .section-label {
-            font-family: monospace;
+        #one { background: var(--bg2) !important; }
+        #two { background: var(--bg)  !important; }
+
+        .dev-inner { max-width: 1060px; margin: 0 auto; }
+
+        .sec-eyebrow {
+            font-family: var(--mono);
             font-size: 0.72rem;
-            letter-spacing: 0.22em;
-            color: #7aaeff;
+            color: var(--green);
+            letter-spacing: 0.14em;
             text-transform: uppercase;
-            opacity: 0.7;
-            margin: 0 0 10px;
+            margin-bottom: 10px;
             display: block;
         }
-        .section-title {
-            font-size: clamp(2rem, 4vw, 3rem) !important;
+        .sec-eyebrow::before { content: '// '; color: rgba(255,255,255,0.18); }
+
+        .sec-title {
+            font-family: var(--sans);
+            font-size: clamp(1.8rem, 3.5vw, 2.6rem) !important;
             font-weight: 700 !important;
-            color: #fff !important;
-            margin: 0 0 14px !important;
-            line-height: 1.1 !important;
-            letter-spacing: -0.01em !important;
+            color: var(--text) !important;
+            margin: 0 0 8px !important;
+            line-height: 1.15 !important;
         }
-        .section-divider {
-            width: 36px;
-            height: 2px;
-            background: linear-gradient(90deg, #7aaeff, #b57bff);
-            margin: 0 0 60px;
-            border-radius: 2px;
+        .sec-sub {
+            font-size: 1rem;
+            color: var(--muted);
+            margin: 0 0 56px;
+            max-width: 520px;
+            line-height: 1.7;
         }
 
-        .skill-cards {
+        /* ─── SKILL CARDS (section one) ─── */
+        .skill-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-            gap: 20px;
-            margin-bottom: 56px;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-bottom: 52px;
         }
         .skill-card {
-            background: rgba(255,255,255,0.025);
-            border: 1px solid rgba(255,255,255,0.07);
-            border-radius: 14px;
-            padding: 34px 26px;
-            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-            position: relative;
-            overflow: hidden;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 26px 24px;
+            transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
             cursor: default;
         }
-        .skill-card::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: var(--glow, rgba(79,142,247,0.06));
-            opacity: 0;
-            transition: opacity 0.35s;
-            border-radius: 14px;
-        }
-        .skill-card:hover::before { opacity: 1; }
         .skill-card:hover {
-            border-color: var(--accent, rgba(79,142,247,0.4));
-            transform: translateY(-7px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            border-color: var(--accent);
+            transform: translateY(-5px);
+            box-shadow: 0 12px 32px rgba(0,0,0,0.3), 0 0 0 1px rgba(88,166,255,0.08);
         }
-        .skill-icon {
-            font-size: 2.4rem;
-            margin-bottom: 18px;
-            display: block;
+        .skill-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 14px;
         }
-        .skill-name {
-            font-size: 1.05rem;
+        .skill-dot {
+            width: 10px; height: 10px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        .skill-card-title {
+            font-family: var(--mono);
+            font-size: 0.88rem;
             font-weight: 700;
-            color: #fff;
-            margin: 0 0 10px;
+            color: var(--text);
         }
-        .skill-desc {
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 12px;
+        }
+        .tag {
+            font-family: var(--mono);
+            font-size: 0.7rem;
+            padding: 2px 9px;
+            border-radius: 4px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid var(--border);
+            color: var(--muted);
+        }
+        .skill-card p {
             font-size: 0.84rem;
-            color: rgba(255,255,255,0.4);
-            line-height: 1.65;
+            color: var(--muted);
+            line-height: 1.6;
             margin: 0;
         }
-        .section-cta {
-            display: inline-flex;
+
+        /* ─── BIO / WHO I AM (section two) ─── */
+        .bio-wrap {
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 72px;
+            align-items: start;
+        }
+
+        /* terminal-style about block */
+        .terminal-block {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .terminal-titlebar {
+            display: flex;
             align-items: center;
             gap: 8px;
-            padding: 14px 34px;
-            background: linear-gradient(135deg, #4f8ef7, #a259ff);
-            color: #fff !important;
-            text-decoration: none !important;
+            padding: 10px 16px;
+            background: var(--bg3);
+            border-bottom: 1px solid var(--border);
+        }
+        .term-dot { width: 12px; height: 12px; border-radius: 50%; }
+        .term-dot.r { background: #ff5f56; }
+        .term-dot.y { background: #ffbd2e; }
+        .term-dot.g { background: #27c93f; }
+        .terminal-titlebar span {
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            color: var(--muted);
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .terminal-body {
+            padding: 24px 24px;
+            font-family: var(--mono);
+            font-size: 0.84rem;
+            line-height: 2;
+        }
+        .t-prompt { color: var(--green); }
+        .t-cmd    { color: var(--accent2); }
+        .t-out    { color: var(--muted); padding-left: 16px; display: block; }
+        .t-out strong { color: var(--text); font-weight: 500; }
+        .t-blank  { height: 8px; display: block; }
+
+        /* stats */
+        .stat-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+        .stat-box {
+            background: var(--bg2);
+            border: 1px solid var(--border);
             border-radius: 8px;
-            font-size: 0.9rem;
-            font-weight: 700;
-            letter-spacing: 0.04em;
-            transition: opacity 0.25s, transform 0.25s;
-            border: none !important;
-        }
-        .section-cta:hover { opacity: 0.82; transform: translateY(-3px); }
-
-        /* ─── SECTION TWO — WHO I AM ─── */
-        #two {
-            position: relative !important;
-            background: #060616 !important;
-            padding: 130px 40px !important;
-            display: block !important;
-            height: auto !important;
-            min-height: auto !important;
-            float: none !important;
-        }
-        #two .content, #two .box, #two .box.style2 { all: unset; display: block; }
-        #two > a.button.style2.down { display: none !important; }
-
-        .bio-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 80px;
-            align-items: center;
-        }
-        .bio-text p {
-            color: rgba(255,255,255,0.5);
-            font-size: 1.05rem;
-            line-height: 1.85;
-            margin: 0 0 22px;
-        }
-        .bio-text p strong {
-            color: rgba(255,255,255,0.88);
-            font-weight: 600;
-        }
-        .bio-cv {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 12px 28px;
-            border: 1px solid rgba(255,255,255,0.18);
-            color: rgba(255,255,255,0.75) !important;
-            text-decoration: none !important;
-            border-radius: 7px;
-            font-size: 0.87rem;
-            letter-spacing: 0.06em;
-            text-transform: uppercase;
-            transition: border-color 0.25s, color 0.25s, background 0.25s;
-            margin-top: 8px;
-        }
-        .bio-cv:hover {
-            border-color: rgba(122,174,255,0.5);
-            color: #fff !important;
-            background: rgba(79,142,247,0.08);
-        }
-
-        .bio-stats {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-        .bio-stat {
-            background: rgba(255,255,255,0.025);
-            border: 1px solid rgba(255,255,255,0.07);
-            border-radius: 12px;
-            padding: 28px 20px;
+            padding: 20px 16px;
             text-align: center;
-            transition: border-color 0.25s, background 0.25s, transform 0.25s;
+            transition: border-color 0.2s, transform 0.2s;
             cursor: default;
         }
-        .bio-stat:hover {
-            border-color: rgba(79,142,247,0.35);
-            background: rgba(79,142,247,0.05);
-            transform: translateY(-4px);
+        .stat-box:hover {
+            border-color: rgba(88,166,255,0.3);
+            transform: translateY(-3px);
         }
-        .bio-stat-num {
+        .stat-num {
             display: block;
-            font-size: 2.2rem;
-            font-weight: 800;
-            color: #7aaeff;
-            margin-bottom: 6px;
+            font-family: var(--mono);
+            font-size: 1.85rem;
+            font-weight: 700;
+            color: var(--accent);
             line-height: 1;
+            margin-bottom: 6px;
         }
-        .bio-stat-label {
-            font-size: 0.75rem;
-            color: rgba(255,255,255,0.38);
-            letter-spacing: 0.1em;
+        .stat-lbl {
+            font-size: 0.73rem;
+            color: var(--muted);
             text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+        .bio-cv {
+            display: inline-flex; align-items: center; gap: 8px;
+            margin-top: 20px;
+            padding: 10px 22px;
+            font-family: var(--mono); font-size: 0.83rem;
+            border: 1px solid var(--border) !important;
+            border-radius: 6px;
+            color: var(--muted) !important;
+            text-decoration: none !important;
+            transition: border-color 0.2s, color 0.2s, background 0.2s;
+        }
+        .bio-cv:hover {
+            border-color: rgba(88,166,255,0.4) !important;
+            color: var(--text) !important;
+            background: var(--bg2);
         }
 
         /* ─── BACK TO TOP ─── */
         #backToTop {
             display: none;
-            position: fixed;
-            bottom: 28px;
-            right: 28px;
-            z-index: 99;
-            width: 48px;
-            height: 48px;
+            position: fixed; bottom: 28px; right: 28px; z-index: 99;
+            width: 48px; height: 48px;
             border-radius: 10px;
-            border: 1px solid rgba(79,142,247,0.5);
+            border: 1px solid rgba(88,166,255,0.4);
             outline: none;
-            background: #0d0d1e;
-            color: #4f8ef7;
+            background: var(--bg2);
+            color: var(--accent);
             cursor: pointer;
-            font-family: monospace;
-            font-size: 20px;
-            font-weight: bold;
-            box-shadow:
-                0 5px 0 #06060f,
-                0 0 18px rgba(79,142,247,0.25),
-                inset 0 1px 0 rgba(255,255,255,0.07);
-            transition: box-shadow 0.1s ease, transform 0.1s ease, color 0.2s;
-            align-items: center;
-            justify-content: center;
+            font-family: var(--mono);
+            font-size: 18px; font-weight: bold;
+            box-shadow: 0 5px 0 rgba(0,0,0,0.4), 0 0 14px rgba(88,166,255,0.15), inset 0 1px 0 rgba(255,255,255,0.05);
+            transition: box-shadow 0.1s, transform 0.1s, color 0.2s;
+            align-items: center; justify-content: center;
         }
         #backToTop:hover {
-            color: #a259ff;
-            border-color: rgba(162,89,255,0.6);
-            box-shadow:
-                0 3px 0 #06060f,
-                0 0 24px rgba(162,89,255,0.4),
-                inset 0 1px 0 rgba(255,255,255,0.07);
+            color: var(--purple);
+            border-color: rgba(210,168,255,0.5);
+            box-shadow: 0 3px 0 rgba(0,0,0,0.4), 0 0 20px rgba(210,168,255,0.25), inset 0 1px 0 rgba(255,255,255,0.05);
             transform: translateY(2px);
         }
         #backToTop:active {
-            box-shadow: 0 1px 0 #06060f, inset 0 1px 0 rgba(255,255,255,0.05);
+            box-shadow: 0 1px 0 rgba(0,0,0,0.4);
             transform: translateY(4px);
         }
 
-        /* ─── COOKIE BANNER ─── */
+        /* ─── COOKIE ─── */
         #cookieConsent {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            right: 20px;
-            background: rgba(6, 6, 22, 0.92);
-            border: 1px solid rgba(255,255,255,0.1);
-            color: white;
-            padding: 12px 24px;
-            border-radius: 10px;
-            text-align: center;
-            z-index: 2000;
+            position: fixed; bottom: 20px; left: 20px; right: 20px;
+            background: rgba(22,27,39,0.97);
+            border: 1px solid var(--border);
+            color: var(--text); padding: 12px 24px;
+            border-radius: 10px; text-align: center; z-index: 2000;
+            font-family: var(--mono); font-size: 0.83rem;
             backdrop-filter: blur(12px);
         }
         #cookieConsent button {
-            background: #4f8ef7;
-            border: none;
-            color: #fff;
-            padding: 6px 16px;
-            cursor: pointer;
-            margin-left: 16px;
-            border-radius: 6px;
-            font-weight: 600;
-            font-size: 0.88rem;
+            background: var(--accent); border: none;
+            color: #0f1117; padding: 6px 16px;
+            cursor: pointer; margin-left: 16px;
+            border-radius: 5px; font-weight: 700; font-size: 0.83rem;
+            font-family: var(--mono);
         }
 
         /* ─── RESPONSIVE ─── */
         @media (max-width: 820px) {
-            #header { padding: 0 20px !important; }
+            #header { padding: 0 18px !important; }
             #hdr-nav { display: none !important; }
-            .bio-grid { grid-template-columns: 1fr; gap: 48px; }
-            #one { padding: 100px 24px !important; }
-            #two { padding: 100px 24px !important; }
+            .bio-wrap { grid-template-columns: 1fr; gap: 40px; }
+            .dev-section { padding: 80px 20px !important; }
+            #intro { padding: 90px 20px 50px !important; }
+            .editor-card { padding: 22px 20px 22px 60px; font-size: 0.82rem; }
         }
     </style>
 </head>
@@ -540,7 +563,11 @@
     <!-- ─── HEADER ─── -->
     <header id="header">
         <div id="hdr-brand">
-            <a href="#intro" id="hdr-name">Edward Attuati</a>
+            <a href="#intro" id="hdr-name-wrap">
+                <span id="hdr-prompt">~$</span>
+                <span id="hdr-name">edward.attuati</span>
+                <span id="hdr-cursor"></span>
+            </a>
             <div id="lang-switcher">
                 <button id="lang-current">
                     <span id="lang-flag">🇬🇧</span>
@@ -557,89 +584,166 @@
         </div>
         <nav id="hdr-nav">
             <ul>
-                <li><a href="#intro" data-i18n="nav-home">Home</a></li>
-                <li><a href="#one" data-i18n="nav-what">What I Do</a></li>
-                <li><a href="#two" data-i18n="nav-who">Who I Am</a></li>
-                <li><a href="#work" data-i18n="nav-project">My Work</a></li>
-                <li><a href="#contact" data-i18n="nav-contact">Contact</a></li>
+                <li><a href="#intro" data-i18n="nav-home">home</a></li>
+                <li><a href="#one" data-i18n="nav-what">skills</a></li>
+                <li><a href="#two" data-i18n="nav-who">about</a></li>
+                <li><a href="#work" data-i18n="nav-project">work</a></li>
+                <li><a href="#contact" data-i18n="nav-contact">contact</a></li>
             </ul>
         </nav>
     </header>
 
     <!-- ─── HERO ─── -->
     <section id="intro">
-        <canvas id="particle-canvas"></canvas>
-        <div id="hero-content">
-            <div id="hero-greeting-wrap">
-                <span id="hero-greeting">Hello</span>
+        <div class="hero-inner">
+            <!-- file tab bar -->
+            <div class="file-tabs">
+                <div class="file-tab active"><span class="dot">●</span>portfolio.ts</div>
+                <div class="file-tab">README.md</div>
             </div>
-            <h1 id="hero-name">Edward Attuati</h1>
-            <p id="hero-sub" data-i18n="hero-sub">Computer Engineering Student · Developer · Builder</p>
-            <a href="#one" id="hero-cta" data-i18n="intro-more">Explore ↓</a>
-        </div>
-        <div id="hero-scroll"><span></span></div>
-    </section>
 
-    <!-- ─── SECTION ONE: WHAT I DO ─── -->
-    <section id="one" class="main style2 right dark fullscreen">
-        <div class="section-inner">
-            <span class="section-label">// WHAT I DO</span>
-            <h2 class="section-title" data-i18n="one-title">What I Do</h2>
-            <div class="section-divider"></div>
-            <div class="skill-cards">
-                <div class="skill-card" style="--accent:rgba(79,142,247,0.5);--glow:rgba(79,142,247,0.07)">
-                    <span class="skill-icon">{ }</span>
-                    <h3 class="skill-name" data-i18n="skill1-name">Programming</h3>
-                    <p class="skill-desc" data-i18n="skill1-desc">Python · C · Java — from algorithms to system-level code.</p>
+            <!-- code editor card -->
+            <div class="editor-card">
+                <div class="lines" id="line-nums">
+                    1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15
                 </div>
-                <div class="skill-card" style="--accent:rgba(181,123,255,0.5);--glow:rgba(181,123,255,0.07)">
-                    <span class="skill-icon">🌐</span>
-                    <h3 class="skill-name" data-i18n="skill2-name">Web Dev</h3>
-                    <p class="skill-desc" data-i18n="skill2-desc">HTML · CSS · JS — building modern, responsive interfaces.</p>
-                </div>
-                <div class="skill-card" style="--accent:rgba(0,220,180,0.4);--glow:rgba(0,220,180,0.06)">
-                    <span class="skill-icon">🗄️</span>
-                    <h3 class="skill-name" data-i18n="skill3-name">Databases</h3>
-                    <p class="skill-desc" data-i18n="skill3-desc">SQL · ER modelling · PostgreSQL — designing data systems.</p>
-                </div>
-                <div class="skill-card" style="--accent:rgba(255,195,0,0.4);--glow:rgba(255,195,0,0.06)">
-                    <span class="skill-icon">🔧</span>
-                    <h3 class="skill-name" data-i18n="skill4-name">IT & Networking</h3>
-                    <p class="skill-desc" data-i18n="skill4-desc">Hands-on IT support experience from a professional internship.</p>
+                <div class="code">
+                    <span class="c-comment">/** <span data-i18n="hero-comment">Edward Attuati — Computer Engineering Student</span> */</span><br>
+                    <br>
+                    <span class="c-kw">const</span> <span class="c-fn">developer</span> <span class="c-punct">= {</span><br>
+                    &nbsp;&nbsp;<span class="c-key">name</span><span class="c-punct">:</span>     <span class="c-str">"Edward Attuati"</span><span class="c-punct">,</span><br>
+                    &nbsp;&nbsp;<span class="c-key">based</span><span class="c-punct">:</span>    <span class="c-str">"Bergamo, Italy 🇮🇹"</span><span class="c-punct">,</span><br>
+                    &nbsp;&nbsp;<span class="c-key">studying</span><span class="c-punct">:</span> <span class="c-str" data-i18n="hero-studying">"Computer Engineering @ UniBS"</span><span class="c-punct">,</span><br>
+                    &nbsp;&nbsp;<span class="c-key">langs</span><span class="c-punct">:</span>    <span class="c-punct">[</span><span class="c-str">"Python"</span><span class="c-punct">,</span> <span class="c-str">"C"</span><span class="c-punct">,</span> <span class="c-str">"Java"</span><span class="c-punct">,</span> <span class="c-str">"JS"</span><span class="c-punct">],</span><br>
+                    &nbsp;&nbsp;<span class="c-key">interests</span><span class="c-punct">:</span> <span class="c-punct">[</span><span class="c-str" data-i18n="hero-int1">"software dev"</span><span class="c-punct">,</span> <span class="c-str" data-i18n="hero-int2">"problem solving"</span><span class="c-punct">,</span> <span class="c-str" data-i18n="hero-int3">"cultures"</span><span class="c-punct">],</span><br>
+                    &nbsp;&nbsp;<span class="c-key">status</span><span class="c-punct">:</span>   <span class="c-str" id="hero-status">"open to opportunities 🚀"</span><span class="c-punct">,</span><br>
+                    <span class="c-punct">};</span><br>
+                    <br>
+                    <span class="c-comment">// says hi in 40+ languages</span><br>
+                    <span class="c-fn">greet</span><span class="c-punct">(</span><span class="c-str">"<span id="hero-greeting">Hello</span>"</span><span class="c-punct">);</span>
+                    <span class="type-cursor"></span><br>
+                    <br>
+                    <span class="c-comment">// <span data-i18n="hero-scroll-hint">scroll down to see my work ↓</span></span>
                 </div>
             </div>
-            <a href="https://edwardattuati.com/aboutme.html" class="section-cta" data-i18n="one-btn">More About Me →</a>
+
+            <!-- CTA row -->
+            <div class="hero-actions">
+                <a href="#one" class="btn-primary" data-i18n="intro-more">View my work</a>
+                <a href="https://edwardattuati.com/aboutme.html" class="btn-ghost" data-i18n="one-btn">About me →</a>
+            </div>
         </div>
     </section>
 
-    <!-- ─── SECTION TWO: WHO I AM ─── -->
-    <section id="two" class="main style2 left dark fullscreen">
-        <div class="section-inner">
-            <span class="section-label">// WHO I AM</span>
-            <h2 class="section-title" data-i18n="two-title">Who I Am</h2>
-            <div class="section-divider"></div>
-            <div class="bio-grid">
-                <div class="bio-text">
-                    <p data-i18n-html="two-bio1">I'm <strong>Edward</strong>, an Italian guy from <strong>Bergamo</strong> studying Computer Engineering at the University of Brescia. Proactive, precise, and always chasing new challenges.</p>
-                    <p data-i18n-html="two-bio2">Outside of coding, I love learning about <strong>different cultures</strong> and languages — which is why this site greets you in 40+ languages.</p>
+    <!-- ─── SECTION ONE: SKILLS ─── -->
+    <section id="one" class="dev-section main style2 right dark fullscreen">
+        <div class="dev-inner">
+            <span class="sec-eyebrow" data-i18n="sec1-eyebrow">what I work with</span>
+            <h2 class="sec-title" data-i18n="one-title">What I Do</h2>
+            <p class="sec-sub" data-i18n="one-sub">From university coursework to real-world projects — here's my toolkit.</p>
+
+            <div class="skill-grid">
+                <div class="skill-card">
+                    <div class="skill-header">
+                        <div class="skill-dot" style="background:#58a6ff"></div>
+                        <span class="skill-card-title" data-i18n="skill1-name">Programming</span>
+                    </div>
+                    <p data-i18n="skill1-desc">From low-level C to Python scripting and Java OOP — comfortable across the stack.</p>
+                    <div class="skill-tags">
+                        <span class="tag">Python</span><span class="tag">C</span><span class="tag">Java</span><span class="tag">Algorithms</span>
+                    </div>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-header">
+                        <div class="skill-dot" style="background:#d2a8ff"></div>
+                        <span class="skill-card-title" data-i18n="skill2-name">Web Dev</span>
+                    </div>
+                    <p data-i18n="skill2-desc">Hand-coded HTML/CSS/JS — this very site is proof. Clean, responsive, no shortcuts.</p>
+                    <div class="skill-tags">
+                        <span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">GitHub Pages</span>
+                    </div>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-header">
+                        <div class="skill-dot" style="background:#3fb950"></div>
+                        <span class="skill-card-title" data-i18n="skill3-name">Databases</span>
+                    </div>
+                    <p data-i18n="skill3-desc">ER modelling, normalisation, SQL queries and optimisation from uni projects.</p>
+                    <div class="skill-tags">
+                        <span class="tag">SQL</span><span class="tag">PostgreSQL</span><span class="tag">ER Modelling</span>
+                    </div>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-header">
+                        <div class="skill-dot" style="background:#f0883e"></div>
+                        <span class="skill-card-title" data-i18n="skill4-name">IT & Networking</span>
+                    </div>
+                    <p data-i18n="skill4-desc">Real-world hands-on from a professional IT internship at Soluzione1.</p>
+                    <div class="skill-tags">
+                        <span class="tag">IT Support</span><span class="tag">Networking</span><span class="tag">Linux</span>
+                    </div>
+                </div>
+            </div>
+
+            <a href="https://edwardattuati.com/aboutme.html" class="btn-primary" data-i18n="one-btn">More About Me →</a>
+        </div>
+    </section>
+
+    <!-- ─── SECTION TWO: ABOUT ─── -->
+    <section id="two" class="dev-section main style2 left dark fullscreen">
+        <div class="dev-inner">
+            <span class="sec-eyebrow" data-i18n="sec2-eyebrow">the human behind the code</span>
+            <h2 class="sec-title" data-i18n="two-title">Who I Am</h2>
+            <p class="sec-sub" data-i18n="two-sub">Not just a computer — I promise.</p>
+
+            <div class="bio-wrap">
+                <!-- terminal block -->
+                <div>
+                    <div class="terminal-block">
+                        <div class="terminal-titlebar">
+                            <span class="term-dot r"></span>
+                            <span class="term-dot y"></span>
+                            <span class="term-dot g"></span>
+                            <span>bash — edward@portfolio</span>
+                        </div>
+                        <div class="terminal-body">
+                            <span><span class="t-prompt">edward@portfolio</span><span class="c-punct">:</span><span class="c-key">~</span><span class="c-punct">$</span> <span class="t-cmd">whoami</span></span><br>
+                            <span class="t-out" data-i18n="terminal-whoami">Italian dev from Bergamo, studying Computer Engineering at UniBS.</span>
+                            <span class="t-blank"></span>
+                            <span><span class="t-prompt">edward@portfolio</span><span class="c-punct">:</span><span class="c-key">~</span><span class="c-punct">$</span> <span class="t-cmd">cat traits.txt</span></span><br>
+                            <span class="t-out" data-i18n="terminal-traits">> proactive, precise, always learning</span>
+                            <span class="t-blank"></span>
+                            <span><span class="t-prompt">edward@portfolio</span><span class="c-punct">:</span><span class="c-key">~</span><span class="c-punct">$</span> <span class="t-cmd">ls hobbies/</span></span><br>
+                            <span class="t-out" data-i18n="terminal-hobbies">cultures/  languages/  coding/  exploring/</span>
+                            <span class="t-blank"></span>
+                            <span><span class="t-prompt">edward@portfolio</span><span class="c-punct">:</span><span class="c-key">~</span><span class="c-punct">$</span> <span class="t-cmd">echo $GOAL</span></span><br>
+                            <span class="t-out" data-i18n="terminal-goal">build things that matter, keep learning, connect people</span>
+                            <span class="t-blank"></span>
+                            <span><span class="t-prompt">edward@portfolio</span><span class="c-punct">:</span><span class="c-key">~</span><span class="c-punct">$</span> <span class="type-cursor"></span></span>
+                        </div>
+                    </div>
                     <a href="https://drive.google.com/file/d/1-E2bqezgbpLPmgdB6b2z4Sz3yz7MCwua/view?usp=share_link" target="_blank" class="bio-cv" data-i18n="two-cv">📄 View My CV</a>
                 </div>
-                <div class="bio-stats">
-                    <div class="bio-stat">
-                        <span class="bio-stat-num">3+</span>
-                        <span class="bio-stat-label" data-i18n="stat1">Years Coding</span>
-                    </div>
-                    <div class="bio-stat">
-                        <span class="bio-stat-num">5</span>
-                        <span class="bio-stat-label" data-i18n="stat2">Languages Spoken</span>
-                    </div>
-                    <div class="bio-stat">
-                        <span class="bio-stat-num">6+</span>
-                        <span class="bio-stat-label" data-i18n="stat3">Projects</span>
-                    </div>
-                    <div class="bio-stat">
-                        <span class="bio-stat-num">∞</span>
-                        <span class="bio-stat-label" data-i18n="stat4">Curiosity</span>
+
+                <!-- stats -->
+                <div>
+                    <div class="stat-grid">
+                        <div class="stat-box">
+                            <span class="stat-num">3+</span>
+                            <span class="stat-lbl" data-i18n="stat1">Years Coding</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="stat-num">5</span>
+                            <span class="stat-lbl" data-i18n="stat2">Languages Spoken</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="stat-num">6+</span>
+                            <span class="stat-lbl" data-i18n="stat3">Projects</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="stat-num">∞</span>
+                            <span class="stat-lbl" data-i18n="stat4">Curiosity</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -650,22 +754,17 @@
     <section id="work" class="main style3 primary cyber-section">
         <div class="scanlines"></div>
         <div class="cyber-grid-bg"></div>
-
         <div class="content" style="position:relative;z-index:2;">
             <header>
                 <h2 class="glitch-title" data-text="My Work" data-i18n="work-title">My Work</h2>
                 <p data-i18n="work-sub" style="font-family:monospace;letter-spacing:.1em;opacity:.6;color:#0ff;">&gt; Move your mouse to explore ←→</p>
             </header>
         </div>
-
         <div class="cyber-viewport">
             <div class="cyber-track">
-
-                <div class="cyber-card"
-                     data-neon="#00ffff"
-                     data-title="University Project"
-                     data-sub="Computer Engineering — Università di Brescia"
-                     data-detail="Studying Computer Engineering at the University of Brescia. Focused on algorithms, data structures, operating systems and software engineering. Always looking for new challenges to apply theory to practice."
+                <div class="cyber-card" data-neon="#00ffff"
+                     data-title="University Project" data-sub="Computer Engineering — Università di Brescia"
+                     data-detail="Studying Computer Engineering at the University of Brescia. Focused on algorithms, data structures, operating systems and software engineering."
                      data-tags="C · Java · Python · Algorithms">
                     <div class="cyber-corner tl"></div><div class="cyber-corner tr"></div>
                     <div class="cyber-corner bl"></div><div class="cyber-corner br"></div>
@@ -678,12 +777,9 @@
                     </div>
                     <div class="cyber-border-glow"></div>
                 </div>
-
-                <div class="cyber-card"
-                     data-neon="#ff00ff"
-                     data-title="IT Internship"
-                     data-sub="Soluzione1 — Ghisalba, Bergamo"
-                     data-detail="Professional internship at Soluzione1, an IT company based in Ghisalba. Gained hands-on experience in a real-world IT environment, working with the team on infrastructure and software tasks."
+                <div class="cyber-card" data-neon="#ff00ff"
+                     data-title="IT Internship" data-sub="Soluzione1 — Ghisalba, Bergamo"
+                     data-detail="Professional internship at Soluzione1, an IT company based in Ghisalba. Gained hands-on experience in a real-world IT environment."
                      data-tags="IT Support · Networking · Teamwork">
                     <div class="cyber-corner tl"></div><div class="cyber-corner tr"></div>
                     <div class="cyber-corner bl"></div><div class="cyber-corner br"></div>
@@ -696,12 +792,9 @@
                     </div>
                     <div class="cyber-border-glow"></div>
                 </div>
-
-                <div class="cyber-card"
-                     data-neon="#00ff88"
-                     data-title="Web Portfolio"
-                     data-sub="edwardattuati.com"
-                     data-detail="This very website — designed and built from scratch. Custom language switcher (EN/IT/ES/ZH/JA), animated sections, and modern UX. Hosted on GitHub Pages with a custom domain."
+                <div class="cyber-card" data-neon="#00ff88"
+                     data-title="Web Portfolio" data-sub="edwardattuati.com"
+                     data-detail="This very website — designed and built from scratch. Custom language switcher, animated sections, and modern UX. Hosted on GitHub Pages."
                      data-tags="HTML · CSS · JavaScript · GitHub Pages">
                     <div class="cyber-corner tl"></div><div class="cyber-corner tr"></div>
                     <div class="cyber-corner bl"></div><div class="cyber-corner br"></div>
@@ -714,12 +807,9 @@
                     </div>
                     <div class="cyber-border-glow"></div>
                 </div>
-
-                <div class="cyber-card"
-                     data-neon="#ffaa00"
-                     data-title="Algorithm Study"
-                     data-sub="University coursework"
-                     data-detail="Deep-dive into sorting algorithms, graph theory, dynamic programming and complexity analysis. Implemented and benchmarked various algorithms as part of university coursework."
+                <div class="cyber-card" data-neon="#ffaa00"
+                     data-title="Algorithm Study" data-sub="University coursework"
+                     data-detail="Deep-dive into sorting algorithms, graph theory, dynamic programming and complexity analysis."
                      data-tags="Python · C · Data Structures · Complexity">
                     <div class="cyber-corner tl"></div><div class="cyber-corner tr"></div>
                     <div class="cyber-corner bl"></div><div class="cyber-corner br"></div>
@@ -732,12 +822,9 @@
                     </div>
                     <div class="cyber-border-glow"></div>
                 </div>
-
-                <div class="cyber-card"
-                     data-neon="#ff4466"
-                     data-title="Database Project"
-                     data-sub="Relational DB design &amp; queries"
-                     data-detail="Designed and implemented a relational database system as part of a university project. Covered ER modelling, normalisation, SQL queries and optimisation techniques."
+                <div class="cyber-card" data-neon="#ff4466"
+                     data-title="Database Project" data-sub="Relational DB design &amp; queries"
+                     data-detail="Designed and implemented a relational database system. ER modelling, normalisation, SQL queries and optimisation."
                      data-tags="SQL · ER Modelling · PostgreSQL">
                     <div class="cyber-corner tl"></div><div class="cyber-corner tr"></div>
                     <div class="cyber-corner bl"></div><div class="cyber-corner br"></div>
@@ -750,12 +837,9 @@
                     </div>
                     <div class="cyber-border-glow"></div>
                 </div>
-
-                <div class="cyber-card"
-                     data-neon="#ccff00"
-                     data-title="Next Project"
-                     data-sub="Something big is coming..."
-                     data-detail="The next project is currently in stealth mode. Stay tuned — something big is being built. If you have an interesting idea or collaboration in mind, feel free to reach out."
+                <div class="cyber-card" data-neon="#ccff00"
+                     data-title="Next Project" data-sub="Something big is coming..."
+                     data-detail="The next project is currently in stealth mode. Stay tuned — if you have an interesting idea, feel free to reach out."
                      data-tags="??? · TBD · Coming Soon">
                     <div class="cyber-corner tl"></div><div class="cyber-corner tr"></div>
                     <div class="cyber-corner bl"></div><div class="cyber-corner br"></div>
@@ -768,10 +852,8 @@
                     </div>
                     <div class="cyber-border-glow"></div>
                 </div>
-
-            </div><!-- /.cyber-track -->
-        </div><!-- /.cyber-viewport -->
-
+            </div>
+        </div>
         <div class="cyber-hint-bar" style="position:relative;z-index:2;">
             <div class="cyber-hint-fill"></div>
         </div>
@@ -795,260 +877,72 @@
     </div>
 
     <style>
-        /* ── Cyberpunk Work Section ── */
-        .cyber-section {
-            position: relative;
-            background: #050510 !important;
-            overflow: hidden;
-        }
-        .scanlines {
-            position: absolute; inset: 0;
-            background: repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,255,255,.015) 2px,rgba(0,255,255,.015) 4px);
-            pointer-events: none; z-index: 1;
-        }
-        .cyber-grid-bg {
-            position: absolute; inset: 0;
-            background-image:
-                linear-gradient(rgba(0,255,255,.04) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0,255,255,.04) 1px, transparent 1px);
-            background-size: 40px 40px;
-            pointer-events: none; z-index: 1;
-        }
-        .glitch-title {
-            position: relative;
-            color: #fff !important;
-            font-family: monospace !important;
-            letter-spacing: .12em;
-        }
-        .glitch-title::before, .glitch-title::after {
-            content: attr(data-text);
-            position: absolute; left: 0; top: 0; width: 100%;
-        }
-        .glitch-title::before {
-            color: #0ff;
-            animation: gb 3s infinite;
-            clip-path: polygon(0 20%,100% 20%,100% 40%,0 40%);
-        }
-        .glitch-title::after {
-            color: #f0f;
-            animation: ga 3s infinite;
-            clip-path: polygon(0 60%,100% 60%,100% 80%,0 80%);
-        }
+        .cyber-section { position:relative; background:#050510 !important; overflow:hidden; }
+        .scanlines { position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,255,255,.015) 2px,rgba(0,255,255,.015) 4px);pointer-events:none;z-index:1; }
+        .cyber-grid-bg { position:absolute;inset:0;background-image:linear-gradient(rgba(0,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,255,.04) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:1; }
+        .glitch-title { position:relative;color:#fff !important;font-family:monospace !important;letter-spacing:.12em; }
+        .glitch-title::before,.glitch-title::after { content:attr(data-text);position:absolute;left:0;top:0;width:100%; }
+        .glitch-title::before { color:#0ff;animation:gb 3s infinite;clip-path:polygon(0 20%,100% 20%,100% 40%,0 40%); }
+        .glitch-title::after  { color:#f0f;animation:ga 3s infinite;clip-path:polygon(0 60%,100% 60%,100% 80%,0 80%); }
         @keyframes gb { 0%,90%,100%{transform:translateX(0);opacity:0} 92%{transform:translateX(-4px);opacity:.8} 95%{transform:translateX(4px);opacity:.8} }
         @keyframes ga { 0%,90%,100%{transform:translateX(0);opacity:0} 93%{transform:translateX(4px);opacity:.7} 96%{transform:translateX(-4px);opacity:.7} }
-
-        .cyber-viewport {
-            width: 100%;
-            overflow: hidden;
-            cursor: none;
-            position: relative;
-            z-index: 2;
-            padding: 20px 0 30px;
-        }
-        .cyber-track {
-            display: flex;
-            gap: 24px;
-            width: max-content;
-            padding: 10px 60px;
-            will-change: transform;
-        }
-        .cyber-card {
-            position: relative;
-            width: 240px;
-            min-height: 260px;
-            background: rgba(0,10,20,.9);
-            border: 1px solid rgba(0,255,255,.2);
-            padding: 26px 22px;
-            cursor: pointer;
-            flex-shrink: 0;
-            transition: transform .25s ease, border-color .25s ease;
-            clip-path: polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,14px 100%,0 calc(100% - 14px));
-        }
-        .cyber-card:hover {
-            transform: translateY(-8px) scale(1.04);
-            border-color: var(--neon,#0ff);
-        }
-        .cyber-card:hover .cyber-border-glow { opacity: 1; }
-        .cyber-card:hover .cyber-h3 { animation: glitch-text-anim .4s steps(1) infinite; }
-        .cyber-border-glow {
-            position: absolute; inset: -1px; opacity: 0;
-            transition: opacity .3s; pointer-events: none;
-            clip-path: polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,14px 100%,0 calc(100% - 14px));
-            box-shadow: 0 0 14px var(--neon,#0ff), 0 0 32px var(--neon,#0ff), inset 0 0 14px var(--neon,#0ff);
-        }
-        .cyber-corner {
-            position: absolute; width: 13px; height: 13px;
-            border-color: var(--neon,#0ff); border-style: solid; opacity: .8;
-        }
-        .cyber-corner.tl { top:5px;  left:5px;  border-width:2px 0 0 2px; }
-        .cyber-corner.tr { top:5px;  right:5px; border-width:2px 2px 0 0; }
-        .cyber-corner.bl { bottom:5px; left:5px; border-width:0 0 2px 2px; }
-        .cyber-corner.br { bottom:5px; right:5px; border-width:0 2px 2px 0; }
-        .cyber-card-content { display:flex; flex-direction:column; gap:10px; }
-        .cyber-label { font-family:monospace; font-size:.68em; color:var(--neon,#0ff); letter-spacing:.12em; opacity:.7; }
-        .cyber-icon  { font-size:2.2em; filter:drop-shadow(0 0 8px var(--neon,#0ff)); }
-        .cyber-h3    { margin:0; font-family:monospace !important; font-size:1em !important; color:#fff !important; letter-spacing:.05em; }
-        .cyber-p     { font-family:monospace; font-size:.8em; color:rgba(255,255,255,.45); margin:0; line-height:1.5; }
-        .cyber-status {
-            font-family:monospace; font-size:.7em; color:var(--neon,#0ff); letter-spacing:.1em;
-            margin-top:6px; padding:4px 10px; border:1px solid var(--neon,#0ff);
-            width:fit-content; background:rgba(0,255,255,.05);
-        }
-        .blink { animation: blink 1s step-start infinite; }
-        @keyframes blink { 50%{opacity:0} }
-        @keyframes glitch-text-anim {
-            0%  {text-shadow:2px 0 #f0f,-2px 0 #0ff}
-            25% {text-shadow:-2px 0 #f0f,2px 0 #0ff}
-            50% {text-shadow:2px 0 #0ff,-2px 0 #f0f}
-            75% {text-shadow:0 0 transparent}
-        }
-        .cyber-hint-bar {
-            width: 180px; height: 2px;
-            background: rgba(0,255,255,.15);
-            margin: 0 auto 30px;
-            border-radius: 2px; overflow: hidden;
-        }
-        .cyber-hint-fill {
-            height: 100%; width: 20%;
-            background: #0ff;
-            border-radius: 2px;
-            transition: width .05s linear;
-            box-shadow: 0 0 8px #0ff;
-        }
-        .cyber-cursor {
-            position: fixed;
-            pointer-events: none;
-            z-index: 9999;
-            width: 24px; height: 24px;
-            border: 2px solid #0ff;
-            border-radius: 50%;
-            transform: translate(-50%,-50%);
-            transition: width .15s, height .15s, opacity .2s;
-            mix-blend-mode: screen;
-            box-shadow: 0 0 10px #0ff;
-        }
-        /* ── Modal ── */
-        #cyber-modal {
-            display: none;
-            position: fixed; inset: 0; z-index: 9000;
-            background: rgba(0,0,10,.8);
-            backdrop-filter: blur(12px);
-            align-items: center;
-            justify-content: center;
-        }
-        #cyber-modal.open { display: flex; }
-        #cyber-modal-box {
-            position: relative;
-            width: min(720px, 92vw);
-            max-height: 85vh;
-            overflow-y: auto;
-            background: rgba(0,8,18,.97);
-            border: 1px solid rgba(0,255,255,.3);
-            clip-path: polygon(0 0,calc(100% - 24px) 0,100% 24px,100% 100%,24px 100%,0 calc(100% - 24px));
-            animation: modal-in .35s cubic-bezier(.22,1,.36,1) both;
-        }
-        @keyframes modal-in {
-            from { opacity:0; transform:scale(.9) translateY(30px); }
-            to   { opacity:1; transform:scale(1) translateY(0); }
-        }
-        #cyber-modal-inner { padding: 48px 44px; }
-        #cyber-modal-close {
-            position: absolute; top: 16px; right: 20px;
-            background: none; border: 1px solid rgba(0,255,255,.3);
-            color: rgba(255,255,255,.6); font-size: 1em;
-            width: 32px; height: 32px; cursor: pointer; z-index: 1;
-            transition: color .2s, border-color .2s;
-        }
-        #cyber-modal-close:hover { color:#fff; border-color:#0ff; }
-        .modal-corner {
-            position: absolute; width: 16px; height: 16px;
-            border-color: #0ff; border-style: solid; opacity: .6;
-        }
-        .modal-corner.tl { top:8px;  left:8px;  border-width:2px 0 0 2px; }
-        .modal-corner.tr { top:8px;  right:8px; border-width:2px 2px 0 0; }
-        .modal-corner.bl { bottom:8px; left:8px; border-width:0 0 2px 2px; }
-        .modal-corner.br { bottom:8px; right:8px; border-width:0 2px 2px 0; }
-        #modal-tags { display:flex; flex-wrap:wrap; gap:8px; }
-        .modal-tag {
-            font-family: monospace; font-size:.72em; letter-spacing:.08em;
-            padding: 4px 12px; border: 1px solid rgba(0,255,255,.3);
-            color: #0ff; background: rgba(0,255,255,.07);
-        }
+        .cyber-viewport { width:100%;overflow:hidden;cursor:none;position:relative;z-index:2;padding:20px 0 30px; }
+        .cyber-track { display:flex;gap:24px;width:max-content;padding:10px 60px;will-change:transform; }
+        .cyber-card { position:relative;width:240px;min-height:260px;background:rgba(0,10,20,.9);border:1px solid rgba(0,255,255,.2);padding:26px 22px;cursor:pointer;flex-shrink:0;transition:transform .25s,border-color .25s;clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,14px 100%,0 calc(100% - 14px)); }
+        .cyber-card:hover { transform:translateY(-8px) scale(1.04);border-color:var(--neon,#0ff); }
+        .cyber-card:hover .cyber-border-glow { opacity:1; }
+        .cyber-card:hover .cyber-h3 { animation:glitch-text-anim .4s steps(1) infinite; }
+        .cyber-border-glow { position:absolute;inset:-1px;opacity:0;transition:opacity .3s;pointer-events:none;clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,14px 100%,0 calc(100% - 14px));box-shadow:0 0 14px var(--neon,#0ff),0 0 32px var(--neon,#0ff),inset 0 0 14px var(--neon,#0ff); }
+        .cyber-corner { position:absolute;width:13px;height:13px;border-color:var(--neon,#0ff);border-style:solid;opacity:.8; }
+        .cyber-corner.tl{top:5px;left:5px;border-width:2px 0 0 2px} .cyber-corner.tr{top:5px;right:5px;border-width:2px 2px 0 0}
+        .cyber-corner.bl{bottom:5px;left:5px;border-width:0 0 2px 2px} .cyber-corner.br{bottom:5px;right:5px;border-width:0 2px 2px 0}
+        .cyber-card-content{display:flex;flex-direction:column;gap:10px}
+        .cyber-label{font-family:monospace;font-size:.68em;color:var(--neon,#0ff);letter-spacing:.12em;opacity:.7}
+        .cyber-icon{font-size:2.2em;filter:drop-shadow(0 0 8px var(--neon,#0ff))}
+        .cyber-h3{margin:0;font-family:monospace !important;font-size:1em !important;color:#fff !important;letter-spacing:.05em}
+        .cyber-p{font-family:monospace;font-size:.8em;color:rgba(255,255,255,.45);margin:0;line-height:1.5}
+        .cyber-status{font-family:monospace;font-size:.7em;color:var(--neon,#0ff);letter-spacing:.1em;margin-top:6px;padding:4px 10px;border:1px solid var(--neon,#0ff);width:fit-content;background:rgba(0,255,255,.05)}
+        .blink{animation:blink 1s step-start infinite} @keyframes blink{50%{opacity:0}}
+        @keyframes glitch-text-anim{0%{text-shadow:2px 0 #f0f,-2px 0 #0ff}25%{text-shadow:-2px 0 #f0f,2px 0 #0ff}50%{text-shadow:2px 0 #0ff,-2px 0 #f0f}75%{text-shadow:0 0 transparent}}
+        .cyber-hint-bar{width:180px;height:2px;background:rgba(0,255,255,.15);margin:0 auto 30px;border-radius:2px;overflow:hidden}
+        .cyber-hint-fill{height:100%;width:20%;background:#0ff;border-radius:2px;transition:width .05s linear;box-shadow:0 0 8px #0ff}
+        .cyber-cursor{position:fixed;pointer-events:none;z-index:9999;width:24px;height:24px;border:2px solid #0ff;border-radius:50%;transform:translate(-50%,-50%);transition:width .15s,height .15s,opacity .2s;mix-blend-mode:screen;box-shadow:0 0 10px #0ff}
+        #cyber-modal{display:none;position:fixed;inset:0;z-index:9000;background:rgba(0,0,10,.8);backdrop-filter:blur(12px);align-items:center;justify-content:center}
+        #cyber-modal.open{display:flex}
+        #cyber-modal-box{position:relative;width:min(720px,92vw);max-height:85vh;overflow-y:auto;background:rgba(0,8,18,.97);border:1px solid rgba(0,255,255,.3);clip-path:polygon(0 0,calc(100% - 24px) 0,100% 24px,100% 100%,24px 100%,0 calc(100% - 24px));animation:modal-in .35s cubic-bezier(.22,1,.36,1) both}
+        @keyframes modal-in{from{opacity:0;transform:scale(.9) translateY(30px)}to{opacity:1;transform:scale(1) translateY(0)}}
+        #cyber-modal-inner{padding:48px 44px}
+        #cyber-modal-close{position:absolute;top:16px;right:20px;background:none;border:1px solid rgba(0,255,255,.3);color:rgba(255,255,255,.6);font-size:1em;width:32px;height:32px;cursor:pointer;z-index:1;transition:color .2s,border-color .2s}
+        #cyber-modal-close:hover{color:#fff;border-color:#0ff}
+        .modal-corner{position:absolute;width:16px;height:16px;border-color:#0ff;border-style:solid;opacity:.6}
+        .modal-corner.tl{top:8px;left:8px;border-width:2px 0 0 2px}.modal-corner.tr{top:8px;right:8px;border-width:2px 2px 0 0}
+        .modal-corner.bl{bottom:8px;left:8px;border-width:0 0 2px 2px}.modal-corner.br{bottom:8px;right:8px;border-width:0 2px 2px 0}
+        #modal-tags{display:flex;flex-wrap:wrap;gap:8px}
+        .modal-tag{font-family:monospace;font-size:.72em;letter-spacing:.08em;padding:4px 12px;border:1px solid rgba(0,255,255,.3);color:#0ff;background:rgba(0,255,255,.07)}
     </style>
 
     <script>
     (function(){
         const cards = Array.from(document.querySelectorAll('.cyber-card'));
         cards.forEach(c => c.style.setProperty('--neon', c.dataset.neon || '#0ff'));
-
         const viewport = document.querySelector('.cyber-viewport');
-        const track    = document.querySelector('.cyber-track');
-        const fill     = document.querySelector('.cyber-hint-fill');
+        const track = document.querySelector('.cyber-track');
+        const fill  = document.querySelector('.cyber-hint-fill');
         let targetX = 0, currentX = 0;
-
         viewport.addEventListener('mousemove', e => {
             const r = viewport.getBoundingClientRect();
             const ratio = Math.max(0, Math.min(1, (e.clientX - r.left) / r.width));
-            const maxScroll = track.scrollWidth - viewport.clientWidth;
-            targetX = ratio * maxScroll;
+            targetX = ratio * (track.scrollWidth - viewport.clientWidth);
             fill.style.width = (ratio * 100) + '%';
-            moveCursor(e.clientX, e.clientY);
+            cursor.style.left = e.clientX+'px'; cursor.style.top = e.clientY+'px'; cursor.style.opacity='1';
         });
-        viewport.addEventListener('mouseleave', () => hideCursor());
-
-        function animate() {
-            currentX += (targetX - currentX) * 0.07;
-            track.style.transform = `translateX(-${currentX}px)`;
-            requestAnimationFrame(animate);
-        }
-        animate();
-
-        const cursor = document.createElement('div');
-        cursor.className = 'cyber-cursor';
-        cursor.style.opacity = '0';
-        document.body.appendChild(cursor);
-        function moveCursor(x, y) { cursor.style.left = x+'px'; cursor.style.top = y+'px'; cursor.style.opacity = '1'; }
-        function hideCursor() { cursor.style.opacity = '0'; }
-
-        const modal  = document.getElementById('cyber-modal');
-        const mLabel = document.getElementById('modal-label');
-        const mIcon  = document.getElementById('modal-icon');
-        const mTitle = document.getElementById('modal-title');
-        const mSub   = document.getElementById('modal-sub');
-        const mDetail= document.getElementById('modal-detail');
-        const mTags  = document.getElementById('modal-tags');
-        const mClose = document.getElementById('cyber-modal-close');
-
-        cards.forEach((card, i) => {
-            card.addEventListener('click', () => {
-                const neon = card.dataset.neon || '#0ff';
-                mLabel.textContent  = `// PROJECT_0${i+1}`;
-                mLabel.style.color  = neon;
-                mIcon.textContent   = card.querySelector('.cyber-icon').textContent;
-                mIcon.style.filter  = `drop-shadow(0 0 16px ${neon})`;
-                mTitle.textContent  = card.dataset.title;
-                mTitle.style.color  = '#fff';
-                mSub.textContent    = card.dataset.sub;
-                mDetail.textContent = card.dataset.detail;
-                mTags.innerHTML = '';
-                card.dataset.tags.split('·').forEach(t => {
-                    const span = document.createElement('span');
-                    span.className = 'modal-tag';
-                    span.style.borderColor = neon + '66';
-                    span.style.color = neon;
-                    span.textContent = t.trim();
-                    mTags.appendChild(span);
-                });
-                document.querySelector('#cyber-modal-box').style.borderColor = neon + '55';
-                modal.classList.add('open');
-                document.body.style.overflow = 'hidden';
-            });
-        });
-
-        function closeModal() { modal.classList.remove('open'); document.body.style.overflow = ''; }
-        mClose.addEventListener('click', closeModal);
-        modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
-        document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+        viewport.addEventListener('mouseleave', () => cursor.style.opacity='0');
+        (function loop(){ currentX += (targetX - currentX)*0.07; track.style.transform=`translateX(-${currentX}px)`; requestAnimationFrame(loop); })();
+        const cursor = document.createElement('div'); cursor.className='cyber-cursor'; cursor.style.opacity='0'; document.body.appendChild(cursor);
+        const modal=document.getElementById('cyber-modal'),mLabel=document.getElementById('modal-label'),mIcon=document.getElementById('modal-icon'),mTitle=document.getElementById('modal-title'),mSub=document.getElementById('modal-sub'),mDetail=document.getElementById('modal-detail'),mTags=document.getElementById('modal-tags'),mClose=document.getElementById('cyber-modal-close');
+        cards.forEach((card,i)=>{ card.addEventListener('click',()=>{ const neon=card.dataset.neon||'#0ff'; mLabel.textContent=`// PROJECT_0${i+1}`; mLabel.style.color=neon; mIcon.textContent=card.querySelector('.cyber-icon').textContent; mIcon.style.filter=`drop-shadow(0 0 16px ${neon})`; mTitle.textContent=card.dataset.title; mSub.textContent=card.dataset.sub; mDetail.textContent=card.dataset.detail; mTags.innerHTML=''; card.dataset.tags.split('·').forEach(t=>{ const s=document.createElement('span'); s.className='modal-tag'; s.style.borderColor=neon+'66'; s.style.color=neon; s.textContent=t.trim(); mTags.appendChild(s); }); document.querySelector('#cyber-modal-box').style.borderColor=neon+'55'; modal.classList.add('open'); document.body.style.overflow='hidden'; }); });
+        function closeModal(){ modal.classList.remove('open'); document.body.style.overflow=''; }
+        mClose.addEventListener('click',closeModal); modal.addEventListener('click',e=>{ if(e.target===modal)closeModal(); }); document.addEventListener('keydown',e=>{ if(e.key==='Escape')closeModal(); });
     })();
     </script>
 
@@ -1067,7 +961,7 @@
             </ul>
             <div>
                 <div class="email" onclick="copyToClipboard('edwardattuati@icloud.com'); window.location.href='mailto:edwardattuati@icloud.com';">edwardattuati@icloud.com</div>
-                <div id="copyMessage" style="display: none; border: 1px solid #ccc; padding: 10px; margin-top: 10px;" data-i18n="email-copied">Email copied!</div>
+                <div id="copyMessage" style="display:none;border:1px solid #ccc;padding:10px;margin-top:10px;" data-i18n="email-copied">Email copied!</div>
             </div>
         </div>
     </section>
@@ -1084,7 +978,6 @@
         </ul>
     </footer>
 
-    <!-- Back to Top -->
     <button onclick="topFunction()" id="backToTop" title="Go to top">^</button>
 
     <!-- Scripts -->
@@ -1103,158 +996,191 @@
     ══════════════════════════════════════════ */
     const translations = {
         en: {
-            'nav-home': 'Home', 'nav-what': 'What I Do', 'nav-who': 'Who I Am',
-            'nav-project': 'My Work', 'nav-contact': 'Contact',
-            'cookie-text': 'This website uses cookies to ensure you get the best experience on our website.',
-            'cookie-btn': 'Got it!',
-            'hero-sub': 'Computer Engineering Student · Developer · Builder',
-            'intro-more': 'Explore ↓',
-            'one-title': 'What I Do',
-            'skill1-name': 'Programming', 'skill1-desc': 'Python · C · Java — from algorithms to system-level code.',
-            'skill2-name': 'Web Dev',     'skill2-desc': 'HTML · CSS · JS — building modern, responsive interfaces.',
-            'skill3-name': 'Databases',   'skill3-desc': 'SQL · ER modelling · PostgreSQL — designing data systems.',
-            'skill4-name': 'IT & Networking', 'skill4-desc': 'Hands-on IT support experience from a professional internship.',
-            'one-btn': 'More About Me →',
-            'two-title': 'Who I Am',
-            'two-bio1': "I'm <strong>Edward</strong>, an Italian guy from <strong>Bergamo</strong> studying Computer Engineering at the University of Brescia. Proactive, precise, and always chasing new challenges.",
-            'two-bio2': "Outside of coding, I love learning about <strong>different cultures</strong> and languages — which is why this site greets you in 40+ languages.",
-            'two-cv': '📄 View My CV',
-            'stat1': 'Years Coding', 'stat2': 'Languages Spoken', 'stat3': 'Projects', 'stat4': 'Curiosity',
-            'work-title': 'My Work', 'work-sub': '> Move your mouse to explore ←→',
-            'contact-title': 'Get In Touch',
-            'contact-desc': "Feel free to reach out — I'm open to new opportunities and collaborations.",
-            'email-copied': 'Email copied!',
-            projects: [
-                { title:'University Project', sub:'Computer Engineering — Università di Brescia', detail:'Studying Computer Engineering at the University of Brescia. Focused on algorithms, data structures, operating systems and software engineering. Always looking for new challenges to apply theory to practice.', tags:'C · Java · Python · Algorithms' },
-                { title:'IT Internship', sub:'Soluzione1 — Ghisalba, Bergamo', detail:'Professional internship at Soluzione1, an IT company based in Ghisalba. Gained hands-on experience in a real-world IT environment, working with the team on infrastructure and software tasks.', tags:'IT Support · Networking · Teamwork' },
-                { title:'Web Portfolio', sub:'edwardattuati.com', detail:'This very website — designed and built from scratch. Custom language switcher (EN/IT/ES/ZH/JA), animated sections, and modern UX. Hosted on GitHub Pages with a custom domain.', tags:'HTML · CSS · JavaScript · GitHub Pages' },
-                { title:'Algorithm Study', sub:'University coursework', detail:'Deep-dive into sorting algorithms, graph theory, dynamic programming and complexity analysis. Implemented and benchmarked various algorithms as part of university coursework.', tags:'Python · C · Data Structures · Complexity' },
-                { title:'Database Project', sub:'Relational DB design & queries', detail:'Designed and implemented a relational database system as part of a university project. Covered ER modelling, normalisation, SQL queries and optimisation techniques.', tags:'SQL · ER Modelling · PostgreSQL' },
-                { title:'Next Project', sub:'Something big is coming...', detail:'The next project is currently in stealth mode. Stay tuned — something big is being built. If you have an interesting idea or collaboration in mind, feel free to reach out.', tags:'??? · TBD · Coming Soon' },
+            'nav-home':'home','nav-what':'skills','nav-who':'about','nav-project':'work','nav-contact':'contact',
+            'cookie-text':'This website uses cookies to ensure you get the best experience on our website.',
+            'cookie-btn':'Got it!',
+            'hero-comment':'Edward Attuati — Computer Engineering Student',
+            'hero-studying':'"Computer Engineering @ UniBS"',
+            'hero-int1':'"software dev"','hero-int2':'"problem solving"','hero-int3':'"cultures"',
+            'hero-scroll-hint':'scroll down to see my work ↓',
+            'intro-more':'View my work',
+            'sec1-eyebrow':'what I work with',
+            'one-title':'What I Do',
+            'one-sub':'From university coursework to real-world projects — here\'s my toolkit.',
+            'skill1-name':'Programming','skill1-desc':'From low-level C to Python scripting and Java OOP — comfortable across the stack.',
+            'skill2-name':'Web Dev','skill2-desc':'Hand-coded HTML/CSS/JS — this very site is proof. Clean, responsive, no shortcuts.',
+            'skill3-name':'Databases','skill3-desc':'ER modelling, normalisation, SQL queries and optimisation from uni projects.',
+            'skill4-name':'IT & Networking','skill4-desc':'Real-world hands-on from a professional IT internship at Soluzione1.',
+            'one-btn':'More About Me →',
+            'sec2-eyebrow':'the human behind the code',
+            'two-title':'Who I Am',
+            'two-sub':'Not just a computer — I promise.',
+            'terminal-whoami':'Italian dev from Bergamo, studying Computer Engineering at UniBS.',
+            'terminal-traits':'> proactive, precise, always learning',
+            'terminal-hobbies':'cultures/  languages/  coding/  exploring/',
+            'terminal-goal':'build things that matter, keep learning, connect people',
+            'two-cv':'📄 View My CV',
+            'stat1':'Years Coding','stat2':'Languages Spoken','stat3':'Projects','stat4':'Curiosity',
+            'work-title':'My Work','work-sub':'> Move your mouse to explore ←→',
+            'contact-title':'Get In Touch','contact-desc':"Feel free to reach out — I'm open to new opportunities and collaborations.",
+            'email-copied':'Email copied!',
+            projects:[
+                {title:'University Project',sub:'Computer Engineering — Università di Brescia',detail:'Studying Computer Engineering at the University of Brescia. Focused on algorithms, data structures, operating systems and software engineering.',tags:'C · Java · Python · Algorithms'},
+                {title:'IT Internship',sub:'Soluzione1 — Ghisalba, Bergamo',detail:'Professional internship at Soluzione1, an IT company based in Ghisalba. Gained hands-on experience in a real-world IT environment.',tags:'IT Support · Networking · Teamwork'},
+                {title:'Web Portfolio',sub:'edwardattuati.com',detail:'This very website — designed and built from scratch. Custom language switcher, animated sections, modern UX. Hosted on GitHub Pages.',tags:'HTML · CSS · JavaScript · GitHub Pages'},
+                {title:'Algorithm Study',sub:'University coursework',detail:'Deep-dive into sorting algorithms, graph theory, dynamic programming and complexity analysis.',tags:'Python · C · Data Structures · Complexity'},
+                {title:'Database Project',sub:'Relational DB design & queries',detail:'Designed and implemented a relational database system. ER modelling, normalisation, SQL queries and optimisation.',tags:'SQL · ER Modelling · PostgreSQL'},
+                {title:'Next Project',sub:'Something big is coming...',detail:'The next project is currently in stealth mode. If you have an interesting idea or collaboration in mind, feel free to reach out.',tags:'??? · TBD · Coming Soon'},
             ],
         },
         it: {
-            'nav-home': 'Home', 'nav-what': 'Cosa Faccio', 'nav-who': 'Chi Sono',
-            'nav-project': 'Progetti', 'nav-contact': 'Contatti',
-            'cookie-text': 'Questo sito utilizza i cookie per garantirti la migliore esperienza di navigazione.',
-            'cookie-btn': 'Capito!',
-            'hero-sub': 'Studente di Ingegneria Informatica · Sviluppatore · Builder',
-            'intro-more': 'Esplora ↓',
-            'one-title': 'Cosa Faccio',
-            'skill1-name': 'Programmazione', 'skill1-desc': 'Python · C · Java — dagli algoritmi al codice di sistema.',
-            'skill2-name': 'Web Dev',        'skill2-desc': 'HTML · CSS · JS — interfacce moderne e responsive.',
-            'skill3-name': 'Database',       'skill3-desc': 'SQL · ER · PostgreSQL — progettazione di sistemi dati.',
-            'skill4-name': 'IT & Networking','skill4-desc': 'Esperienza pratica di supporto IT da stage professionale.',
-            'one-btn': 'Scopri di più →',
-            'two-title': 'Chi Sono',
-            'two-bio1': "Sono <strong>Edward</strong>, un ragazzo italiano di <strong>Bergamo</strong> che studia Ingegneria Informatica all'Università di Brescia. Proattivo, preciso e sempre alla ricerca di nuove sfide.",
-            'two-bio2': "Oltre al coding, adoro scoprire <strong>culture diverse</strong> e lingue — ecco perché questo sito ti saluta in 40+ lingue.",
-            'two-cv': '📄 Visualizza il mio CV',
-            'stat1': 'Anni di Coding', 'stat2': 'Lingue Parlate', 'stat3': 'Progetti', 'stat4': 'Curiosità',
-            'work-title': 'I Miei Lavori', 'work-sub': '> Muovi il mouse per esplorare ←→',
-            'contact-title': 'Contattami',
-            'contact-desc': "Non esitare a scrivermi — sono aperto a nuove opportunità e collaborazioni.",
-            'email-copied': 'Email copiata!',
-            projects: [
-                { title:'Progetto Universitario', sub:'Ingegneria Informatica — Università di Brescia', detail:"Studio l'Ingegneria Informatica all'Università di Brescia. Mi concentro su algoritmi, strutture dati, sistemi operativi e ingegneria del software.", tags:'C · Java · Python · Algoritmi' },
-                { title:'Stage IT', sub:'Soluzione1 — Ghisalba, Bergamo', detail:"Stage professionale presso Soluzione1, azienda IT di Ghisalba. Esperienza pratica in un ambiente IT reale, lavorando con il team su attività infrastrutturali e software.", tags:'IT Support · Networking · Lavoro di squadra' },
-                { title:'Portfolio Web', sub:'edwardattuati.com', detail:"Questo sito — progettato e sviluppato da zero. Selettore lingua personalizzato (EN/IT/ES/ZH/JA), sezioni animate e UX moderna. Ospitato su GitHub Pages con dominio personalizzato.", tags:'HTML · CSS · JavaScript · GitHub Pages' },
-                { title:'Studio degli Algoritmi', sub:'Progetti universitari', detail:'Approfondimento su algoritmi di ordinamento, teoria dei grafi, programmazione dinamica e analisi della complessità.', tags:'Python · C · Strutture Dati · Complessità' },
-                { title:'Progetto Database', sub:'Progettazione DB relazionale e query', detail:'Progettazione e implementazione di un sistema di database relazionale. Copertura di modellazione ER, normalizzazione, query SQL e tecniche di ottimizzazione.', tags:'SQL · Modellazione ER · PostgreSQL' },
-                { title:'Prossimo Progetto', sub:'Qualcosa di grande sta arrivando...', detail:"Il prossimo progetto è ancora in fase di sviluppo. Resta sintonizzato — qualcosa di grande è in costruzione.", tags:'??? · TBD · In Arrivo' },
+            'nav-home':'home','nav-what':'skills','nav-who':'about','nav-project':'lavori','nav-contact':'contatti',
+            'cookie-text':'Questo sito utilizza i cookie per garantirti la migliore esperienza di navigazione.',
+            'cookie-btn':'Capito!',
+            'hero-comment':'Edward Attuati — Studente di Ingegneria Informatica',
+            'hero-studying':'"Ingegneria Informatica @ UniBS"',
+            'hero-int1':'"sviluppo software"','hero-int2':'"problem solving"','hero-int3':'"culture"',
+            'hero-scroll-hint':'scorri per vedere i miei lavori ↓',
+            'intro-more':'Vedi i miei lavori',
+            'sec1-eyebrow':'con cosa lavoro',
+            'one-title':'Cosa Faccio',
+            'one-sub':'Dai progetti universitari alle esperienze reali — il mio toolkit.',
+            'skill1-name':'Programmazione','skill1-desc':'Dal C di basso livello a Python e Java OOP — a mio agio su tutto lo stack.',
+            'skill2-name':'Web Dev','skill2-desc':'HTML/CSS/JS scritti a mano — questo sito ne è la prova. Pulito, responsive, niente scorciatoie.',
+            'skill3-name':'Database','skill3-desc':'Modellazione ER, normalizzazione, query SQL e ottimizzazione da progetti uni.',
+            'skill4-name':'IT & Networking','skill4-desc':'Esperienza pratica reale dallo stage professionale presso Soluzione1.',
+            'one-btn':'Scopri di più →',
+            'sec2-eyebrow':'il lato umano del codice',
+            'two-title':'Chi Sono',
+            'two-sub':'Non solo un computer — promesso.',
+            'terminal-whoami':'Dev italiano di Bergamo, studio Ingegneria Informatica a UniBS.',
+            'terminal-traits':'> proattivo, preciso, sempre in apprendimento',
+            'terminal-hobbies':'culture/  lingue/  coding/  esplorare/',
+            'terminal-goal':'costruire cose che contano, imparare sempre, connettere persone',
+            'two-cv':'📄 Visualizza il mio CV',
+            'stat1':'Anni di Coding','stat2':'Lingue Parlate','stat3':'Progetti','stat4':'Curiosità',
+            'work-title':'I Miei Lavori','work-sub':'> Muovi il mouse per esplorare ←→',
+            'contact-title':'Contattami','contact-desc':'Non esitare a scrivermi — sono aperto a nuove opportunità e collaborazioni.',
+            'email-copied':'Email copiata!',
+            projects:[
+                {title:'Progetto Universitario',sub:'Ingegneria Informatica — Università di Brescia',detail:'Studio Ingegneria Informatica a UniBS, con focus su algoritmi, strutture dati, sistemi operativi e ingegneria del software.',tags:'C · Java · Python · Algoritmi'},
+                {title:'Stage IT',sub:'Soluzione1 — Ghisalba, Bergamo',detail:'Stage professionale presso Soluzione1. Esperienza pratica in un ambiente IT reale.',tags:'IT Support · Networking · Teamwork'},
+                {title:'Portfolio Web',sub:'edwardattuati.com',detail:'Questo sito — progettato e sviluppato da zero. Selettore lingua, sezioni animate, UX moderna.',tags:'HTML · CSS · JavaScript · GitHub Pages'},
+                {title:'Studio Algoritmi',sub:'Corsi universitari',detail:'Approfondimento su ordinamento, grafi, programmazione dinamica e complessità.',tags:'Python · C · Strutture Dati · Complessità'},
+                {title:'Progetto Database',sub:'Progettazione DB relazionale',detail:'Sistema di database relazionale: ER, normalizzazione, SQL, ottimizzazione.',tags:'SQL · Modellazione ER · PostgreSQL'},
+                {title:'Prossimo Progetto',sub:'Qualcosa di grande sta arrivando...',detail:'Il prossimo progetto è in sviluppo. Se hai un\'idea interessante, contattami.',tags:'??? · TBD · In Arrivo'},
             ],
         },
         es: {
-            'nav-home': 'Inicio', 'nav-what': 'Lo que Hago', 'nav-who': 'Quién Soy',
-            'nav-project': 'Mi Trabajo', 'nav-contact': 'Contacto',
-            'cookie-text': 'Este sitio web utiliza cookies para garantizarte la mejor experiencia de navegación.',
-            'cookie-btn': '¡Entendido!',
-            'hero-sub': 'Estudiante de Ingeniería Informática · Desarrollador · Builder',
-            'intro-more': 'Explorar ↓',
-            'one-title': 'Lo que Hago',
-            'skill1-name': 'Programación', 'skill1-desc': 'Python · C · Java — de algoritmos a código de sistema.',
-            'skill2-name': 'Web Dev',      'skill2-desc': 'HTML · CSS · JS — interfaces modernas y responsivas.',
-            'skill3-name': 'Bases de Datos','skill3-desc': 'SQL · ER · PostgreSQL — diseño de sistemas de datos.',
-            'skill4-name': 'IT & Redes',   'skill4-desc': 'Experiencia práctica de soporte IT en prácticas profesionales.',
-            'one-btn': 'Más sobre mí →',
-            'two-title': 'Quién Soy',
-            'two-bio1': "Soy <strong>Edward</strong>, un chico italiano de <strong>Bérgamo</strong> que estudia Ingeniería Informática en la Universidad de Brescia. Proactivo, preciso y siempre buscando nuevos retos.",
-            'two-bio2': "Fuera del código, me encanta aprender sobre <strong>diferentes culturas</strong> e idiomas — por eso este sitio te saluda en 40+ idiomas.",
-            'two-cv': '📄 Ver mi CV',
-            'stat1': 'Años Programando', 'stat2': 'Idiomas Hablados', 'stat3': 'Proyectos', 'stat4': 'Curiosidad',
-            'work-title': 'Mi Trabajo', 'work-sub': '> Mueve el ratón para explorar ←→',
-            'contact-title': 'Contáctame',
-            'contact-desc': "No dudes en escribirme — estoy abierto a nuevas oportunidades y colaboraciones.",
-            'email-copied': '¡Correo copiado!',
-            projects: [
-                { title:'Proyecto Universitario', sub:'Ingeniería Informática — Università di Brescia', detail:'Estudio Ingeniería Informática en la Universidad de Brescia. Me centro en algoritmos, estructuras de datos, sistemas operativos e ingeniería del software.', tags:'C · Java · Python · Algoritmos' },
-                { title:'Prácticas IT', sub:'Soluzione1 — Ghisalba, Bérgamo', detail:'Prácticas profesionales en Soluzione1, empresa IT de Ghisalba. Experiencia práctica en un entorno IT real.', tags:'IT Support · Networking · Trabajo en equipo' },
-                { title:'Portfolio Web', sub:'edwardattuati.com', detail:'Este mismo sitio web — diseñado y construido desde cero. Selector de idioma, secciones animadas y UX moderna.', tags:'HTML · CSS · JavaScript · GitHub Pages' },
-                { title:'Estudio de Algoritmos', sub:'Proyectos universitarios', detail:'Profundización en algoritmos de ordenación, teoría de grafos, programación dinámica y análisis de complejidad.', tags:'Python · C · Estructuras de Datos · Complejidad' },
-                { title:'Proyecto Base de Datos', sub:'Diseño de BD relacional y consultas', detail:'Diseño e implementación de un sistema de base de datos relacional. Modelado ER, normalización, SQL.', tags:'SQL · Modelado ER · PostgreSQL' },
-                { title:'Próximo Proyecto', sub:'Algo grande está por llegar...', detail:'El próximo proyecto está en modo sigiloso. Estate atento — se está construyendo algo grande.', tags:'??? · TBD · Próximamente' },
+            'nav-home':'inicio','nav-what':'skills','nav-who':'sobre mí','nav-project':'trabajo','nav-contact':'contacto',
+            'cookie-text':'Este sitio web utiliza cookies para garantizarte la mejor experiencia.',
+            'cookie-btn':'¡Entendido!',
+            'hero-comment':'Edward Attuati — Estudiante de Ingeniería Informática',
+            'hero-studying':'"Ingeniería Informática @ UniBS"',
+            'hero-int1':'"dev de software"','hero-int2':'"resolución de problemas"','hero-int3':'"culturas"',
+            'hero-scroll-hint':'desplázate para ver mi trabajo ↓',
+            'intro-more':'Ver mi trabajo',
+            'sec1-eyebrow':'con qué trabajo',
+            'one-title':'Lo que Hago',
+            'one-sub':'Desde proyectos universitarios hasta experiencias reales — mi toolkit.',
+            'skill1-name':'Programación','skill1-desc':'De C de bajo nivel a Python y Java OOP — cómodo en todo el stack.',
+            'skill2-name':'Web Dev','skill2-desc':'HTML/CSS/JS escritos a mano — este sitio lo demuestra.',
+            'skill3-name':'Bases de Datos','skill3-desc':'Modelado ER, normalización, consultas SQL y optimización.',
+            'skill4-name':'IT & Redes','skill4-desc':'Experiencia real de las prácticas profesionales en Soluzione1.',
+            'one-btn':'Más sobre mí →',
+            'sec2-eyebrow':'el humano detrás del código',
+            'two-title':'Quién Soy',
+            'two-sub':'No solo un ordenador — lo prometo.',
+            'terminal-whoami':'Dev italiano de Bérgamo, estudio Ingeniería Informática en UniBS.',
+            'terminal-traits':'> proactivo, preciso, siempre aprendiendo',
+            'terminal-hobbies':'culturas/  idiomas/  coding/  explorar/',
+            'terminal-goal':'construir cosas que importan, seguir aprendiendo, conectar personas',
+            'two-cv':'📄 Ver mi CV',
+            'stat1':'Años Programando','stat2':'Idiomas Hablados','stat3':'Proyectos','stat4':'Curiosidad',
+            'work-title':'Mi Trabajo','work-sub':'> Mueve el ratón para explorar ←→',
+            'contact-title':'Contáctame','contact-desc':'No dudes en escribirme — estoy abierto a oportunidades y colaboraciones.',
+            'email-copied':'¡Correo copiado!',
+            projects:[
+                {title:'Proyecto Universitario',sub:'Ingeniería Informática — Università di Brescia',detail:'Estudio Ingeniería Informática en UniBS, con foco en algoritmos, estructuras de datos, SO e ingeniería del software.',tags:'C · Java · Python · Algoritmos'},
+                {title:'Prácticas IT',sub:'Soluzione1 — Ghisalba, Bérgamo',detail:'Prácticas en Soluzione1. Experiencia real en entorno IT.',tags:'IT Support · Networking · Teamwork'},
+                {title:'Portfolio Web',sub:'edwardattuati.com',detail:'Este sitio — diseñado y construido desde cero.',tags:'HTML · CSS · JavaScript · GitHub Pages'},
+                {title:'Estudio de Algoritmos',sub:'Proyectos universitarios',detail:'Algoritmos de ordenación, grafos, programación dinámica, complejidad.',tags:'Python · C · Estructuras · Complejidad'},
+                {title:'Proyecto Base de Datos',sub:'Diseño BD relacional',detail:'Sistema BD relacional: ER, normalización, SQL.',tags:'SQL · Modelado ER · PostgreSQL'},
+                {title:'Próximo Proyecto',sub:'Algo grande está por llegar...',detail:'Proyecto en desarrollo. Si tienes una idea, contáctame.',tags:'??? · TBD · Próximamente'},
             ],
         },
         zh: {
-            'nav-home': '首页', 'nav-what': '我的工作', 'nav-who': '关于我',
-            'nav-project': '我的项目', 'nav-contact': '联系',
-            'cookie-text': '本网站使用 Cookie，以确保您获得最佳的浏览体验。',
-            'cookie-btn': '明白了！',
-            'hero-sub': '计算机工程学生 · 开发者 · 创造者',
-            'intro-more': '探索 ↓',
-            'one-title': '我的工作',
-            'skill1-name': '编程', 'skill1-desc': 'Python · C · Java — 从算法到系统级代码。',
-            'skill2-name': '前端开发','skill2-desc': 'HTML · CSS · JS — 构建现代响应式界面。',
-            'skill3-name': '数据库',  'skill3-desc': 'SQL · ER建模 · PostgreSQL — 数据系统设计。',
-            'skill4-name': 'IT与网络','skill4-desc': '来自专业实习的IT支持实践经验。',
-            'one-btn': '了解更多 →',
-            'two-title': '关于我',
-            'two-bio1': "我是 <strong>Edward</strong>，一个来自意大利 <strong>贝尔加莫</strong> 的男孩，正在布雷西亚大学学习计算机工程。积极主动、做事精准，始终寻求新的挑战。",
-            'two-bio2': "除了编程，我热爱探索<strong>不同文化</strong>和语言——这就是为什么这个网站用40多种语言问候你。",
-            'two-cv': '📄 查看我的简历',
-            'stat1': '编程年限', 'stat2': '掌握语言', 'stat3': '项目数', 'stat4': '好奇心',
-            'work-title': '我的作品', 'work-sub': '> 移动鼠标探索 ←→',
-            'contact-title': '联系我',
-            'contact-desc': "欢迎随时联系我——我对新的机会和合作持开放态度。",
-            'email-copied': '邮箱已复制！',
-            projects: [
-                { title:'大学项目', sub:'计算机工程 — 布雷西亚大学', detail:'在布雷西亚大学学习计算机工程，专注于算法、数据结构、操作系统和软件工程。', tags:'C · Java · Python · 算法' },
-                { title:'IT 实习', sub:'Soluzione1 — 吉萨尔巴，贝尔加莫', detail:'在 IT 公司 Soluzione1 完成专业实习，积累了真实 IT 环境中的实践经验。', tags:'IT支持 · 网络 · 团队协作' },
-                { title:'个人网站', sub:'edwardattuati.com', detail:'这个网站由我从零设计开发，包含自定义语言切换器、动画区块和现代用户体验。', tags:'HTML · CSS · JavaScript · GitHub Pages' },
-                { title:'算法研究', sub:'大学课程项目', detail:'深入研究排序算法、图论、动态规划和复杂度分析。', tags:'Python · C · 数据结构 · 复杂度' },
-                { title:'数据库项目', sub:'关系型数据库设计与查询', detail:'设计并实现了一个关系型数据库系统，涵盖 ER 建模、范式化、SQL 查询和优化技术。', tags:'SQL · ER建模 · PostgreSQL' },
-                { title:'下一个项目', sub:'大事即将发生...', detail:'下一个项目目前处于保密阶段，敬请期待。', tags:'??? · 待定 · 即将推出' },
+            'nav-home':'首页','nav-what':'技能','nav-who':'关于','nav-project':'作品','nav-contact':'联系',
+            'cookie-text':'本网站使用 Cookie 以确保最佳浏览体验。','cookie-btn':'明白了！',
+            'hero-comment':'Edward Attuati — 计算机工程学生',
+            'hero-studying':'"计算机工程 @ UniBS"',
+            'hero-int1':'"软件开发"','hero-int2':'"问题解决"','hero-int3':'"文化探索"',
+            'hero-scroll-hint':'向下滚动查看我的作品 ↓',
+            'intro-more':'查看我的作品',
+            'sec1-eyebrow':'我的技术栈',
+            'one-title':'我的工作',
+            'one-sub':'从大学课程到真实项目——这是我的工具箱。',
+            'skill1-name':'编程','skill1-desc':'从底层C到Python和Java OOP——熟悉整个技术栈。',
+            'skill2-name':'前端开发','skill2-desc':'手写HTML/CSS/JS——这个网站本身就是证明。',
+            'skill3-name':'数据库','skill3-desc':'ER建模、范式化、SQL查询与优化。',
+            'skill4-name':'IT与网络','skill4-desc':'在Soluzione1实习中获得的真实IT经验。',
+            'one-btn':'了解更多 →',
+            'sec2-eyebrow':'代码背后的人',
+            'two-title':'关于我',
+            'two-sub':'不只是一台电脑——我保证。',
+            'terminal-whoami':'来自贝尔加莫的意大利开发者，在UniBS学习计算机工程。',
+            'terminal-traits':'> 积极主动，精益求精，持续学习',
+            'terminal-hobbies':'文化/  语言/  编程/  探索/',
+            'terminal-goal':'构建有意义的事物，持续学习，连接人与人',
+            'two-cv':'📄 查看我的简历',
+            'stat1':'编程年限','stat2':'掌握语言','stat3':'项目数','stat4':'好奇心',
+            'work-title':'我的作品','work-sub':'> 移动鼠标探索 ←→',
+            'contact-title':'联系我','contact-desc':'欢迎随时联系——我对新机会和合作持开放态度。',
+            'email-copied':'邮箱已复制！',
+            projects:[
+                {title:'大学项目',sub:'计算机工程 — 布雷西亚大学',detail:'在UniBS学习计算机工程，专注算法、数据结构、操作系统和软件工程。',tags:'C · Java · Python · 算法'},
+                {title:'IT实习',sub:'Soluzione1 — 吉萨尔巴',detail:'在Soluzione1完成专业实习，积累真实IT环境经验。',tags:'IT支持 · 网络 · 团队协作'},
+                {title:'个人网站',sub:'edwardattuati.com',detail:'从零设计开发，自定义语言切换器、动画区块、现代UX。',tags:'HTML · CSS · JavaScript · GitHub Pages'},
+                {title:'算法研究',sub:'大学课程',detail:'排序算法、图论、动态规划和复杂度分析。',tags:'Python · C · 数据结构 · 复杂度'},
+                {title:'数据库项目',sub:'关系型数据库设计',detail:'设计实现关系型数据库系统：ER建模、范式化、SQL。',tags:'SQL · ER建模 · PostgreSQL'},
+                {title:'下一个项目',sub:'大事即将发生...',detail:'下一个项目处于保密阶段，敬请期待。',tags:'??? · 待定 · 即将推出'},
             ],
         },
         ja: {
-            'nav-home': 'ホーム', 'nav-what': '仕事内容', 'nav-who': '私について',
-            'nav-project': 'プロジェクト', 'nav-contact': 'お問い合わせ',
-            'cookie-text': '当サイトでは、最適なブラウジング体験を提供するために Cookie を使用しています。',
-            'cookie-btn': '了解！',
-            'hero-sub': 'コンピューターエンジニアリング学生 · デベロッパー · ビルダー',
-            'intro-more': '探索する ↓',
-            'one-title': '仕事内容',
-            'skill1-name': 'プログラミング','skill1-desc': 'Python · C · Java — アルゴリズムからシステムコードまで。',
-            'skill2-name': 'Web開発',       'skill2-desc': 'HTML · CSS · JS — モダンでレスポンシブなインターフェース。',
-            'skill3-name': 'データベース',   'skill3-desc': 'SQL · ERモデリング · PostgreSQL — データシステム設計。',
-            'skill4-name': 'IT・ネットワーク','skill4-desc': 'インターンシップでのIT実務サポート経験。',
-            'one-btn': '詳しく見る →',
-            'two-title': '私について',
-            'two-bio1': "私は<strong>エドワード</strong>、イタリアの<strong>ベルガモ</strong>出身でブレシア大学のコンピューターエンジニアリングを学んでいます。積極的で細かく、新しい挑戦を常に求めています。",
-            'two-bio2': "コーディング以外に、<strong>異なる文化</strong>や言語を学ぶことが大好きです——だからこのサイトは40以上の言語で挨拶します。",
-            'two-cv': '📄 履歴書を見る',
-            'stat1': 'コーディング歴', 'stat2': '話せる言語', 'stat3': 'プロジェクト', 'stat4': '好奇心',
-            'work-title': '作品集', 'work-sub': '> マウスを動かして探索 ←→',
-            'contact-title': 'お問い合わせ',
-            'contact-desc': "お気軽にご連絡ください——新しい機会やコラボレーションを歓迎しています。",
-            'email-copied': 'メールアドレスをコピーしました！',
-            projects: [
-                { title:'大学プロジェクト', sub:'コンピューターエンジニアリング — ブレシア大学', detail:'ブレシア大学でコンピューターエンジニアリングを学んでいます。アルゴリズム、データ構造、OS、ソフトウェア工学に注力。', tags:'C · Java · Python · アルゴリズム' },
-                { title:'ITインターンシップ', sub:'Soluzione1 — ギサルバ、ベルガモ', detail:'ギサルバのIT企業 Soluzione1 でのプロフェッショナルインターンシップ。実際のIT環境で実践的な経験を積みました。', tags:'ITサポート · ネットワーク · チームワーク' },
-                { title:'Webポートフォリオ', sub:'edwardattuati.com', detail:'このサイト自体をゼロから設計・開発しました。カスタム言語切替、アニメーション付きセクション、モダンUXを実装。', tags:'HTML · CSS · JavaScript · GitHub Pages' },
-                { title:'アルゴリズム研究', sub:'大学のコース課題', detail:'ソートアルゴリズム、グラフ理論、動的計画法、計算量解析を深く探求しました。', tags:'Python · C · データ構造 · 計算量' },
-                { title:'データベースプロジェクト', sub:'リレーショナルDB設計とクエリ', detail:'大学プロジェクトとしてリレーショナルデータベースシステムを設計・実装しました。', tags:'SQL · ERモデリング · PostgreSQL' },
-                { title:'次のプロジェクト', sub:'大きなことが起きようとしている...', detail:'次のプロジェクトは現在ステルスモードです。お楽しみに！', tags:'??? · 未定 · Coming Soon' },
+            'nav-home':'ホーム','nav-what':'スキル','nav-who':'自己紹介','nav-project':'作品','nav-contact':'連絡',
+            'cookie-text':'当サイトでは最適な体験のために Cookie を使用しています。','cookie-btn':'了解！',
+            'hero-comment':'Edward Attuati — コンピューターエンジニアリング学生',
+            'hero-studying':'"コンピューターエンジニアリング @ UniBS"',
+            'hero-int1':'"ソフトウェア開発"','hero-int2':'"問題解決"','hero-int3':'"異文化"',
+            'hero-scroll-hint':'下にスクロールして作品を見る ↓',
+            'intro-more':'作品を見る',
+            'sec1-eyebrow':'使用技術',
+            'one-title':'仕事内容',
+            'one-sub':'大学の課題から実務経験まで — 私のツールキット。',
+            'skill1-name':'プログラミング','skill1-desc':'低レベルCからPython・Java OOPまで、スタック全体に精通。',
+            'skill2-name':'Web開発','skill2-desc':'手書きHTML/CSS/JS — このサイトがその証拠。',
+            'skill3-name':'データベース','skill3-desc':'ERモデリング、正規化、SQLクエリと最適化。',
+            'skill4-name':'IT・ネットワーク','skill4-desc':'Soluzione1でのインターンシップで得た実務経験。',
+            'one-btn':'詳しく見る →',
+            'sec2-eyebrow':'コードの裏側にいる人間',
+            'two-title':'私について',
+            'two-sub':'コンピューターだけじゃない — 本当に。',
+            'terminal-whoami':'ベルガモ出身のイタリア人開発者、UniBSでコンピューターエンジニアリングを学習中。',
+            'terminal-traits':'> 積極的、精確、常に学習中',
+            'terminal-hobbies':'文化/  言語/  コーディング/  探索/',
+            'terminal-goal':'意味のあるものを作る、学び続ける、人々をつなぐ',
+            'two-cv':'📄 履歴書を見る',
+            'stat1':'コーディング歴','stat2':'話せる言語','stat3':'プロジェクト','stat4':'好奇心',
+            'work-title':'作品集','work-sub':'> マウスを動かして探索 ←→',
+            'contact-title':'お問い合わせ','contact-desc':'お気軽にご連絡ください — 新しい機会やコラボを歓迎します。',
+            'email-copied':'メールアドレスをコピーしました！',
+            projects:[
+                {title:'大学プロジェクト',sub:'コンピューターエンジニアリング — ブレシア大学',detail:'UniBSでアルゴリズム、データ構造、OS、ソフトウェア工学を学習中。',tags:'C · Java · Python · アルゴリズム'},
+                {title:'ITインターンシップ',sub:'Soluzione1 — ギサルバ、ベルガモ',detail:'Soluzione1でのプロフェッショナルインターンシップ。実際のIT環境での実務経験。',tags:'ITサポート · ネットワーク · チームワーク'},
+                {title:'Webポートフォリオ',sub:'edwardattuati.com',detail:'このサイトをゼロから設計・開発。カスタム言語切替、アニメーション、モダンUX。',tags:'HTML · CSS · JavaScript · GitHub Pages'},
+                {title:'アルゴリズム研究',sub:'大学コース課題',detail:'ソートアルゴリズム、グラフ理論、動的計画法、計算量解析。',tags:'Python · C · データ構造 · 計算量'},
+                {title:'データベースプロジェクト',sub:'リレーショナルDB設計',detail:'リレーショナルDBシステム設計：ERモデリング、正規化、SQL。',tags:'SQL · ERモデリング · PostgreSQL'},
+                {title:'次のプロジェクト',sub:'大きなことが起きようとしている...',detail:'次のプロジェクトはステルスモード中。お楽しみに！',tags:'??? · 未定 · Coming Soon'},
             ],
         }
     };
@@ -1264,35 +1190,27 @@
     function setLang(lang) {
         if (!translations[lang]) return;
         localStorage.setItem('ea-lang', lang);
-
         document.querySelectorAll('[data-i18n]').forEach(el => {
-            const key = el.getAttribute('data-i18n');
-            if (translations[lang][key] !== undefined) el.textContent = translations[lang][key];
+            const k = el.getAttribute('data-i18n');
+            if (translations[lang][k] !== undefined) el.textContent = translations[lang][k];
         });
         document.querySelectorAll('[data-i18n-html]').forEach(el => {
-            const key = el.getAttribute('data-i18n-html');
-            if (translations[lang][key] !== undefined) el.innerHTML = translations[lang][key];
+            const k = el.getAttribute('data-i18n-html');
+            if (translations[lang][k] !== undefined) el.innerHTML = translations[lang][k];
         });
-
         document.getElementById('lang-flag').textContent = langFlags[lang];
         document.querySelectorAll('#lang-dropdown button').forEach(btn => {
             btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
         });
-
-        // Update cyber cards + modal data
         const projects = translations[lang].projects;
         if (projects) {
             document.querySelectorAll('.cyber-card').forEach((card, i) => {
-                const p = projects[i];
-                if (!p) return;
-                const h3   = card.querySelector('.cyber-h3');
-                const desc = card.querySelector('.cyber-p');
-                if (h3)   h3.textContent  = p.title;
+                const p = projects[i]; if (!p) return;
+                const h3 = card.querySelector('.cyber-h3'), desc = card.querySelector('.cyber-p');
+                if (h3) h3.textContent = p.title;
                 if (desc) desc.textContent = p.sub;
-                card.dataset.title  = p.title;
-                card.dataset.sub    = p.sub;
-                card.dataset.detail = p.detail;
-                card.dataset.tags   = p.tags;
+                card.dataset.title = p.title; card.dataset.sub = p.sub;
+                card.dataset.detail = p.detail; card.dataset.tags = p.tags;
             });
         }
     }
@@ -1301,137 +1219,59 @@
         setLang(localStorage.getItem('ea-lang') || 'en');
     });
 
-    /* ── Clipboard ── */
-    function copyToClipboard(text) {
-        navigator.clipboard.writeText(text).then(() => {
-            const msg = document.getElementById('copyMessage');
-            msg.style.display = 'block';
-            setTimeout(() => { msg.style.display = 'none'; }, 2000);
-        });
-    }
-
-    /* ── Scroll: header + back-to-top ── */
+    /* ── Scroll ── */
     window.addEventListener('scroll', () => {
         const y = window.scrollY || window.pageYOffset;
         document.getElementById('header').classList.toggle('scrolled', y > 30);
         document.getElementById('backToTop').style.display = y > 80 ? 'flex' : 'none';
     });
+    function topFunction() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
 
-    function topFunction() {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+    /* ── Clipboard ── */
+    function copyToClipboard(text) {
+        navigator.clipboard.writeText(text).then(() => {
+            const m = document.getElementById('copyMessage');
+            m.style.display = 'block';
+            setTimeout(() => m.style.display = 'none', 2000);
+        });
     }
 
-    /* ── Cookie consent ── */
+    /* ── Cookie ── */
     function acceptCookies() {
-        document.cookie = "cookieConsent=true; path=/; max-age=" + 60 * 60 * 24 * 30;
+        document.cookie = "cookieConsent=true; path=/; max-age=" + 60*60*24*30;
         document.getElementById('cookieConsent').style.display = 'none';
     }
     document.addEventListener('DOMContentLoaded', () => {
-        if (document.cookie.split(';').some(item => item.trim().startsWith('cookieConsent='))) {
+        if (document.cookie.split(';').some(i => i.trim().startsWith('cookieConsent=')))
             document.getElementById('cookieConsent').style.display = 'none';
-        }
     });
 
     /* ══════════════════════════════════════════
-       PARTICLE CANVAS
-    ══════════════════════════════════════════ */
-    (function () {
-        const canvas = document.getElementById('particle-canvas');
-        if (!canvas) return;
-        const ctx = canvas.getContext('2d');
-        const NUM = 75, CONNECT_DIST = 130;
-        let W, H, particles = [];
-
-        function resize() {
-            W = canvas.width  = window.innerWidth;
-            H = canvas.height = window.innerHeight;
-        }
-
-        function Particle() {
-            this.x  = Math.random() * W;
-            this.y  = Math.random() * H;
-            this.vx = (Math.random() - 0.5) * 0.45;
-            this.vy = (Math.random() - 0.5) * 0.45;
-            this.r  = Math.random() * 1.5 + 0.5;
-            this.a  = Math.random() * 0.45 + 0.15;
-        }
-        Particle.prototype.update = function () {
-            this.x += this.vx; this.y += this.vy;
-            if (this.x < 0 || this.x > W) this.vx *= -1;
-            if (this.y < 0 || this.y > H) this.vy *= -1;
-        };
-        Particle.prototype.draw = function () {
-            ctx.beginPath();
-            ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(122,174,255,${this.a})`;
-            ctx.fill();
-        };
-
-        function init() {
-            resize();
-            particles = Array.from({ length: NUM }, () => new Particle());
-        }
-
-        function connect() {
-            for (let i = 0; i < particles.length; i++) {
-                for (let j = i + 1; j < particles.length; j++) {
-                    const dx = particles[i].x - particles[j].x;
-                    const dy = particles[i].y - particles[j].y;
-                    const d  = Math.sqrt(dx * dx + dy * dy);
-                    if (d < CONNECT_DIST) {
-                        ctx.beginPath();
-                        ctx.moveTo(particles[i].x, particles[i].y);
-                        ctx.lineTo(particles[j].x, particles[j].y);
-                        ctx.strokeStyle = `rgba(122,174,255,${(1 - d / CONNECT_DIST) * 0.18})`;
-                        ctx.lineWidth   = 0.6;
-                        ctx.stroke();
-                    }
-                }
-            }
-        }
-
-        function loop() {
-            ctx.clearRect(0, 0, W, H);
-            particles.forEach(p => { p.update(); p.draw(); });
-            connect();
-            requestAnimationFrame(loop);
-        }
-
-        window.addEventListener('resize', resize);
-        init();
-        loop();
-    })();
-
-    /* ══════════════════════════════════════════
-       GREETING ANIMATION
+       GREETING — code-line swap animation
     ══════════════════════════════════════════ */
     (function () {
         const greetings = [
             "Hello","Bonjour","Hola","Ciao","こんにちは","Guten Tag","Olá","नमस्ते",
             "سلام","Hej","Merhaba","안녕하세요","你好","Sawubona","Shalom","Szia",
-            "Selamat pagi","Dobrý den","Aloha","Jambo","Nǐ hǎo","Hoi","Salut",
-            "Привіт","Γεια σου","Halló","Hei","Сайн уу","Kamusta","Привет",
-            "مرحبا","Sveiki","Päivää","Kia ora","Hallo","नमस्कार","Moi","Kaixo"
+            "Selamat pagi","Dobrý den","Aloha","Jambo","Hoi","Salut","Привіт",
+            "Γεια σου","Halló","Hei","Сайн уу","Kamusta","Привет","مرحبا",
+            "Sveiki","Päivää","Kia ora","Hallo","नमस्कार","Moi","Kaixo"
         ];
         const el = document.getElementById('hero-greeting');
         if (!el) return;
         let idx = Math.floor(Math.random() * greetings.length);
         el.textContent = greetings[idx];
 
-        function nextGreeting() {
-            // Slide out
-            el.style.animation = 'greetOut 0.45s cubic-bezier(0.4,0,1,1) both';
+        setInterval(() => {
+            // quick fade out
+            el.style.transition = 'opacity 0.25s';
+            el.style.opacity = '0';
             setTimeout(() => {
                 idx = (idx + 1) % greetings.length;
                 el.textContent = greetings[idx];
-                el.style.animation = 'none';
-                // Force reflow then slide in
-                void el.offsetWidth;
-                el.style.animation = 'greetIn 0.6s cubic-bezier(0.22,1,0.36,1) both';
-            }, 440);
-        }
-
-        setInterval(nextGreeting, 3200);
+                el.style.opacity = '1';
+            }, 260);
+        }, 3000);
     })();
     </script>
 </body>
