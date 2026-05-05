@@ -510,6 +510,47 @@
     /* cursor hint on orb */
     .hero-orb-wrap { cursor: none; }
 
+    /* drag hint above atom */
+    #drag-hint {
+        position: absolute;
+        top: -30px; left: 50%;
+        transform: translateX(-50%);
+        font-family: var(--mono);
+        font-size: .52rem;
+        letter-spacing: .2em;
+        text-transform: uppercase;
+        color: rgba(124,58,237,0.75);
+        opacity: 0;
+        transition: opacity .4s;
+        white-space: nowrap;
+        pointer-events: none;
+        z-index: 25;
+    }
+    .hero-orb-wrap:hover #drag-hint:not(.gone) { opacity: 1; }
+
+    /* cursor ring: dragging state */
+    #cursor-ring.atom-drag {
+        width: 18px; height: 18px;
+        border-color: rgba(124,58,237,1);
+        background: rgba(124,58,237,0.22);
+        transition: width .12s, height .12s, border-color .12s, background .12s;
+    }
+
+    /* atom gravity field — radial glow that follows the atom on the background */
+    #atom-gravity {
+        position: absolute;
+        border-radius: 50%;
+        width: 500px; height: 500px;
+        pointer-events: none;
+        background: radial-gradient(circle, rgba(124,58,237,0.12) 0%, transparent 65%);
+        transform: translate(-50%, -50%);
+        transition: background .5s;
+        z-index: 1;
+    }
+    #hero-orb-layer.atom-excited  ~ #atom-gravity,
+    #hero-orb-layer.atom-excited  + * #atom-gravity { background: radial-gradient(circle, rgba(251,146,60,0.12) 0%, transparent 65%); }
+    #hero-orb-layer.atom-quantum  ~ #atom-gravity   { background: radial-gradient(circle, rgba(52,211,153,0.12) 0%, transparent 65%); }
+
     /* ── hero text content ── */
     .hero-text {
         position: relative;
@@ -1226,8 +1267,14 @@
                 <span id="ab-state">GROUND</span>
                 <span id="ab-hint">// click to excite</span>
             </div>
+
+            <!-- drag hint -->
+            <div id="drag-hint">⟨ grab &amp; drag ⟩</div>
         </div>
     </div>
+
+    <!-- gravitational glow that follows atom position -->
+    <div id="atom-gravity"></div>
 
     <div class="hero-scroll">
         <div class="scroll-mouse"><div class="scroll-wheel"></div></div>
@@ -1815,36 +1862,161 @@ document.addEventListener('DOMContentLoaded', () => setLang(localStorage.getItem
 function topFunction() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
 
 /* ══════════════════════════════════
-   MOUSE PARALLAX (hero layers with lerp)
+   HERO PARALLAX + ATOM DRAG + TEXT GRAVITY
 ══════════════════════════════════ */
 (function () {
+    const hero      = document.getElementById('intro');
     const textLayer = document.getElementById('hero-text-layer');
     const orbLayer  = document.getElementById('hero-orb-layer');
-    if (!textLayer || !orbLayer) return;
+    const gradBg    = document.querySelector('.hero-gradient-bg');
+    const gravity   = document.getElementById('atom-gravity');
+    const dragHint  = document.getElementById('drag-hint');
+    const cursorRing= document.getElementById('cursor-ring');
+    if (!textLayer || !orbLayer || !hero) return;
 
-    let tx = 0, ty = 0, ox = 0, oy = 0;
-    let ctx = 0, cty = 0, cox = 0, coy = 0;
-    let raf;
+    /* ── Mouse parallax targets ── */
+    let ptx = 0, pty = 0;   // text parallax
+    let pox = 0, poy = 0;   // orb parallax
+    let ctxx = 0, ctxy = 0; // lerped text parallax
+    let cox  = 0, coy  = 0; // lerped orb parallax
 
-    document.getElementById('intro').addEventListener('mousemove', e => {
-        const r = document.getElementById('intro').getBoundingClientRect();
+    /* ── Drag state ── */
+    let isDragging = false;
+    let dragX = 0, dragY = 0;    // current atom displacement
+    let dragVX = 0, dragVY = 0;  // spring velocity
+    let startMX = 0, startMY = 0;
+    let startDX = 0, startDY = 0;
+
+    /* ── Smooth gravity glow position ── */
+    let gGlowX = 0, gGlowY = 0; // target (hero px)
+    let cgx = 0, cgy = 0;        // current lerped
+
+    /* ── Text gravity target ── */
+    let textGX = 0, textGY = 0;  // extra force on text from atom
+    let ctgx = 0, ctgy = 0;      // lerped
+
+    /* ── Mouse move (hero, non-drag parallax) ── */
+    hero.addEventListener('mousemove', e => {
+        const r  = hero.getBoundingClientRect();
         const mx = (e.clientX - r.left - r.width  / 2) / r.width;
         const my = (e.clientY - r.top  - r.height / 2) / r.height;
-        tx = mx * -14; ty = my * -14;   // text moves gently opposite
-        ox = mx * 22;  oy = my * 22;    // orb moves more, same dir
+        ptx = mx * -14; pty = my * -14;
+        if (!isDragging) { pox = mx * 22; poy = my * 22; }
+    });
+    hero.addEventListener('mouseleave', () => {
+        if (!isDragging) { ptx = 0; pty = 0; pox = 0; poy = 0; }
     });
 
-    document.getElementById('intro').addEventListener('mouseleave', () => {
-        tx = 0; ty = 0; ox = 0; oy = 0;
+    /* ── Drag START ── */
+    orbLayer.addEventListener('mousedown', e => {
+        isDragging = true;
+        startMX = e.clientX; startMY = e.clientY;
+        startDX = dragX;     startDY = dragY;
+        dragVX  = 0;         dragVY  = 0;
+        if (dragHint) dragHint.classList.add('gone');
+        if (cursorRing) cursorRing.classList.add('atom-drag');
+        if (gradBg) gradBg.style.animationPlayState = 'paused';
+        e.preventDefault(); e.stopPropagation();
     });
 
+    /* ── Drag MOVE ── */
+    document.addEventListener('mousemove', e => {
+        if (!isDragging) return;
+        dragX = startDX + (e.clientX - startMX);
+        dragY = startDY + (e.clientY - startMY);
+    });
+
+    /* ── Drag END ── */
+    document.addEventListener('mouseup', () => {
+        if (!isDragging) return;
+        isDragging = false;
+        if (cursorRing) cursorRing.classList.remove('atom-drag');
+        // let spring settle, then resume CSS gradient animation
+        setTimeout(() => {
+            if (gradBg) gradBg.style.animationPlayState = 'running';
+        }, 1400);
+    });
+
+    /* ── Clamp drag within hero bounds ── */
+    function clampDrag() {
+        const r = hero.getBoundingClientRect();
+        // Atom CSS anchor: right:8% top:50% → approx left = r.width*0.84, top = r.height*0.5
+        const anchorX = r.width  * 0.84;
+        const anchorY = r.height * 0.5;
+        const margin  = 80;
+        dragX = Math.max(-anchorX + margin,          Math.min(r.width  - anchorX - margin, dragX));
+        dragY = Math.max(-anchorY + margin,           Math.min(r.height - anchorY - margin, dragY));
+    }
+
+    /* ── Main RAF loop ── */
     (function loop() {
-        ctx += (tx - ctx) * 0.07;
-        cty += (ty - cty) * 0.07;
-        cox += (ox - cox) * 0.06;
-        coy += (oy - coy) * 0.06;
-        textLayer.style.transform = `translate(${ctx}px, ${cty}px)`;
-        orbLayer.style.transform  = `translateY(-50%) translate(${cox}px, ${coy}px)`;
+        const heroR = hero.getBoundingClientRect();
+
+        /* 1. Spring return when not dragging */
+        if (!isDragging) {
+            dragVX = (dragVX + (0 - dragX) * 0.1) * 0.74;
+            dragVY = (dragVY + (0 - dragY) * 0.1) * 0.74;
+            dragX += dragVX;
+            dragY += dragVY;
+        } else {
+            clampDrag();
+        }
+
+        /* 2. Lerp parallax */
+        ctxx += (ptx - ctxx) * 0.07;
+        ctxy += (pty - ctxy) * 0.07;
+        cox  += (pox - cox)  * 0.06;
+        coy  += (poy - coy)  * 0.06;
+
+        /* 3. Atom world position in hero px (used for gravity + text push) */
+        const atomX = heroR.width  * 0.84 + cox + dragX;
+        const atomY = heroR.height * 0.5  + coy + dragY;
+
+        /* 4. Gravity glow follows atom */
+        gGlowX = atomX; gGlowY = atomY;
+        cgx += (gGlowX - cgx) * 0.08;
+        cgy += (gGlowY - cgy) * 0.08;
+        if (gravity) {
+            gravity.style.left = cgx + 'px';
+            gravity.style.top  = cgy + 'px';
+        }
+
+        /* 5. Update CSS gradient to follow atom (during drag) */
+        if (isDragging && gradBg) {
+            const pctX = Math.max(5, Math.min(95, (atomX / heroR.width)  * 100)).toFixed(1);
+            const pctY = Math.max(5, Math.min(95, (atomY / heroR.height) * 100)).toFixed(1);
+            gradBg.style.setProperty('--gx1', pctX + '%');
+            gradBg.style.setProperty('--gy1', pctY + '%');
+        }
+
+        /* 6. Text gravity: attraction when far, repulsion when close */
+        const textCX = heroR.width  * 0.27; // approx text center X in hero
+        const textCY = heroR.height * 0.5;
+        const dx   = atomX - textCX;
+        const dy   = atomY - textCY;
+        const dist = Math.hypot(dx, dy) || 1;
+        const REPULSE_THRESHOLD = 280;
+
+        if (dist < REPULSE_THRESHOLD) {
+            // Repulsion: text pushed away from atom
+            const force = (1 - dist / REPULSE_THRESHOLD) * 38;
+            textGX = -(dx / dist) * force;
+            textGY = -(dy / dist) * force;
+        } else {
+            // Attraction: text leans gently toward atom (subtle gravity)
+            textGX = (dx / heroR.width)  * 7;
+            textGY = (dy / heroR.height) * 4;
+        }
+        ctgx += (textGX - ctgx) * 0.055;
+        ctgy += (textGY - ctgy) * 0.055;
+
+        /* 7. Apply transforms */
+        orbLayer.style.transform  = `translateY(-50%) translate(${cox + dragX}px, ${coy + dragY}px)`;
+        textLayer.style.transform = `translate(${ctxx + ctgx}px, ${ctxy + ctgy}px)`;
+
+        /* 8. Expose atom state for canvas (drag trails) */
+        window._atomWorld = { isDragging, x: atomX, y: atomY, vx: dragVX, vy: dragVY };
+
         requestAnimationFrame(loop);
     })();
 })();
@@ -2151,12 +2323,41 @@ document.addEventListener('DOMContentLoaded', () => {
         ctx.globalAlpha = 1;
     }
 
+    /* ─── DRAG TRAIL SPARKS ─── */
+    function spawnDragSparks() {
+        const state = window._atomWorld;
+        if (!state || !state.isDragging) return;
+        const speed = Math.hypot(state.vx || 0, state.vy || 0);
+        const count = Math.min(4, Math.floor(speed * 0.4 + 1));
+        const cr = canvas.getBoundingClientRect();
+        const core = document.getElementById('d-core');
+        if (!core) return;
+        const cr2 = core.getBoundingClientRect();
+        const cx = cr2.left + cr2.width  / 2 - cr.left;
+        const cy = cr2.top  + cr2.height / 2 - cr.top;
+        for (let i = 0; i < count; i++) {
+            const angle = Math.random() * Math.PI * 2;
+            const spd   = 0.4 + Math.random() * 1.2;
+            particles.push({
+                x: cx + (Math.random() - .5) * 20,
+                y: cy + (Math.random() - .5) * 20,
+                vx: Math.cos(angle) * spd,
+                vy: Math.sin(angle) * spd,
+                life: 0.6 + Math.random() * 0.3,
+                decay: 0.028 + Math.random() * 0.02,
+                r: 0.7 + Math.random() * 1.8,
+                color: currentStateColor
+            });
+        }
+    }
+
     /* ─── MAIN CANVAS LOOP ─── */
     (function renderLoop() {
         ctx.clearRect(0, 0, CW, CH);
 
         sampleDots();
         drawTrails();
+        spawnDragSparks();
 
         // particles
         for (let i = particles.length - 1; i >= 0; i--) {
