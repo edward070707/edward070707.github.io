@@ -785,7 +785,14 @@
        WORK — break out of sidebar (full width)
     ═══════════════════════════════════════════════ */
     #work {
+        display: block !important;          /* override template flex-row */
+        padding: 64px 0 0 !important;
         border-top: 1px solid rgba(124,58,237,0.15) !important;
+    }
+    #work .content {
+        padding: 0 64px 32px !important;
+        width: 100% !important;
+        max-width: none !important;
     }
 
     /* ═══════════════════════════════════════════════
@@ -1211,9 +1218,9 @@
     .glitch-title::after{color:#f0f;animation:ga 3s infinite;clip-path:polygon(0 60%,100% 60%,100% 80%,0 80%)}
     @keyframes gb{0%,90%,100%{transform:translateX(0);opacity:0}92%{transform:translateX(-4px);opacity:.8}95%{transform:translateX(4px);opacity:.8}}
     @keyframes ga{0%,90%,100%{transform:translateX(0);opacity:0}93%{transform:translateX(4px);opacity:.7}96%{transform:translateX(-4px);opacity:.7}}
-    .cyber-viewport{width:100%;overflow:hidden;cursor:none;position:relative;z-index:2;padding:20px 0 30px}
-    .cyber-track{display:flex;gap:24px;width:max-content;padding:10px 60px;will-change:transform}
-    .cyber-card{position:relative;width:240px;min-height:260px;background:rgba(0,10,20,.9);border:1px solid rgba(0,255,255,.2);padding:26px 22px;cursor:pointer;flex-shrink:0;transition:transform .25s,border-color .25s;clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,14px 100%,0 calc(100% - 14px))}
+    .cyber-viewport{width:100%;overflow:hidden;cursor:none;position:relative;z-index:2;padding:0 0 40px}
+    .cyber-track{display:flex;gap:28px;width:max-content;padding:20px 72px 20px;will-change:transform;align-items:stretch}
+    .cyber-card{position:relative;width:300px;min-height:340px;background:rgba(0,10,20,.9);border:1px solid rgba(0,255,255,.2);padding:32px 28px;cursor:pointer;flex-shrink:0;transition:transform .25s,border-color .25s;clip-path:polygon(0 0,calc(100% - 18px) 0,100% 18px,100% 100%,18px 100%,0 calc(100% - 18px))}
     .cyber-card:hover{transform:translateY(-8px) scale(1.04);border-color:var(--neon,#0ff)}
     .cyber-card:hover .cyber-border-glow{opacity:1}
     .cyber-card:hover .cyber-h3{animation:glitch-text-anim .4s steps(1) infinite}
@@ -1265,15 +1272,139 @@
 </div><!-- /dim-main -->
 
 <!-- ─── FOOTER ─── -->
-<footer id="footer" style="margin-left:var(--sb-w)">
-    <ul class="icons">
-        <li><a href="https://m.facebook.com/edward.attuati.9" class="icon brands fa-facebook-f" target="_blank"><span class="label">Facebook</span></a></li>
-        <li><a href="https://www.instagram.com/edwardattuati/" class="icon brands fa-instagram" target="_blank"><span class="label">Instagram</span></a></li>
-        <li><a href="https://it.linkedin.com/in/edward-attuati-41a54823b" class="icon brands fa-linkedin-in" target="_blank"><span class="label">LinkedIn</span></a></li>
-    </ul>
-    <ul class="copyright">
-        <li>&copy; edwardattuati</li><li>Design: <a href="http://html5up.net">Edward Attuati</a></li>
-    </ul>
+<footer id="footer">
+    <style>
+    #footer {
+        margin-left: var(--sb-w) !important;
+        background: var(--void) !important;
+        padding: 0 !important;
+        border-top: 1px solid var(--border) !important;
+        position: relative;
+        overflow: hidden;
+    }
+    /* gradient top accent */
+    #footer::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 1px;
+        background: linear-gradient(90deg, transparent 0%, var(--violet) 30%, var(--cyan) 70%, transparent 100%);
+    }
+    /* subtle grid overlay */
+    #footer::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image:
+            linear-gradient(rgba(124,58,237,0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(124,58,237,0.03) 1px, transparent 1px);
+        background-size: 64px 64px;
+        pointer-events: none;
+    }
+    .dim-footer-inner {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 32px 64px;
+        gap: 32px;
+        flex-wrap: wrap;
+    }
+    /* left: brand */
+    .dim-footer-brand {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+    .dim-footer-logo {
+        font-family: var(--sg);
+        font-size: 1.4rem;
+        font-weight: 700;
+        letter-spacing: .06em;
+        background: linear-gradient(135deg, var(--violet), var(--cyan));
+        -webkit-background-clip: text; background-clip: text;
+        -webkit-text-fill-color: transparent;
+        line-height: 1;
+    }
+    .dim-footer-tagline {
+        font-family: var(--mono);
+        font-size: .58rem;
+        letter-spacing: .2em;
+        text-transform: uppercase;
+        color: var(--low);
+    }
+    /* center: social links */
+    .dim-footer-socials {
+        display: flex;
+        gap: 12px;
+        list-style: none;
+        padding: 0; margin: 0;
+    }
+    .dim-footer-socials li a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 38px; height: 38px;
+        border: 1px solid var(--border);
+        border-radius: 2px;
+        color: var(--muted) !important;
+        font-size: .85rem;
+        text-decoration: none !important;
+        transition: color .2s, border-color .2s, box-shadow .2s, background .2s;
+        background: var(--surface);
+    }
+    .dim-footer-socials li a:hover {
+        color: var(--violet) !important;
+        border-color: rgba(124,58,237,0.5) !important;
+        box-shadow: 0 0 16px rgba(124,58,237,0.25);
+        background: rgba(124,58,237,0.06);
+    }
+    /* right: copyright */
+    .dim-footer-copy {
+        text-align: right;
+    }
+    .dim-footer-copy p {
+        font-family: var(--mono);
+        font-size: .6rem;
+        letter-spacing: .12em;
+        text-transform: uppercase;
+        color: var(--low);
+        line-height: 1.8;
+        margin: 0;
+    }
+    .dim-footer-copy span {
+        color: var(--violet);
+    }
+    @media (max-width: 768px) {
+        .dim-footer-inner {
+            padding: 28px 24px;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        .dim-footer-copy { text-align: center; }
+    }
+    </style>
+
+    <div class="dim-footer-inner">
+        <div class="dim-footer-brand">
+            <span class="dim-footer-logo">EA</span>
+            <span class="dim-footer-tagline">Edward Attuati</span>
+        </div>
+
+        <ul class="dim-footer-socials">
+            <li><a href="https://m.facebook.com/edward.attuati.9" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a></li>
+            <li><a href="https://www.instagram.com/edwardattuati/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a></li>
+            <li><a href="https://it.linkedin.com/in/edward-attuati-41a54823b" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a></li>
+            <li><a href="https://github.com/edward070707" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a></li>
+        </ul>
+
+        <div class="dim-footer-copy">
+            <p>&copy; 2025 <span>Edward Attuati</span></p>
+            <p>Built from scratch &mdash; no frameworks</p>
+        </div>
+    </div>
 </footer>
 
 <button onclick="topFunction()" id="backToTop" title="Go to top">↑</button>
