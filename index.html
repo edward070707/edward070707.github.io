@@ -2215,6 +2215,7 @@ function setLang(lang) {
         });
     }
     if (typeof restartTypewriter === 'function') restartTypewriter();
+    if (typeof window._botSetLang === 'function') window._botSetLang(lang);
 }
 document.addEventListener('DOMContentLoaded', () => setLang(localStorage.getItem('ea-lang') || 'en'));
 
@@ -2927,7 +2928,7 @@ document.addEventListener('DOMContentLoaded', () => {
 })();
 
 /* ══════════════════════════════════
-   CHATBOT
+   CHATBOT — multilingual EA Bot
 ══════════════════════════════════ */
 (function () {
     const toggle   = document.getElementById('chat-toggle');
@@ -2937,149 +2938,244 @@ document.addEventListener('DOMContentLoaded', () => {
     const input    = document.getElementById('chat-input');
     const sendBtn  = document.getElementById('chat-send');
     const chipsEl  = document.getElementById('chat-chips');
+    const statusEl = document.querySelector('.ch-status');
     if (!toggle || !win) return;
 
     let isOpen = false;
     let firstOpen = true;
 
-    /* ── Toggle ── */
     toggle.addEventListener('click', () => {
         isOpen = !isOpen;
         win.classList.toggle('open', isOpen);
         if (isOpen && firstOpen) {
             firstOpen = false;
-            setTimeout(() => botSay(GREET, GREET_CHIPS), 300);
+            setTimeout(() => { const k = getCurrKB(); botSay(k.greet, ['who','skills','projects','contact']); }, 300);
         }
         if (isOpen) setTimeout(() => input.focus(), 300);
     });
     closeBtn.addEventListener('click', () => { isOpen = false; win.classList.remove('open'); });
 
-    /* ─────────────────────────────────────
-       KNOWLEDGE BASE
-    ───────────────────────────────────── */
-    const KB = {
-        bio: `I'm <strong>Edward Attuati</strong>, a Computer Engineering student from <strong>Bergamo, Italy</strong>, studying at the <strong>Università di Brescia</strong>. Proactive, precise, and passionate about code, design, and building things that work beautifully.`,
-        edu: `🎓 <strong>Computer Engineering</strong> @ Università di Brescia<br>Studying algorithms, data structures, operating systems, and software engineering. Currently in my 2nd year.`,
-        skills: `Here's what I bring:<br><br><span class="tag">Python</span><span class="tag">C</span><span class="tag">Java</span><span class="tag">Algorithms</span><br><span class="tag">HTML/CSS/JS</span><span class="tag">GitHub Pages</span><br><span class="tag">SQL</span><span class="tag">PostgreSQL</span><span class="tag">ER Modelling</span><br><span class="tag">Linux</span><span class="tag">Networking</span><span class="tag">IT Support</span>`,
-        langs: `I speak <strong>5 languages</strong>:<br>🇮🇹 Italian (native) · 🇬🇧 English · 🇪🇸 Spanish · 🇨🇳 Mandarin · 🇯🇵 Japanese<br><br>That's also why this portfolio greets you in 38 different languages — languages and cultures are a big passion of mine.`,
-        projects: `Some of my work:<br><br><strong>🌐 Web Portfolio</strong> — this site, built from scratch, no frameworks<br><strong>🗄️ Database Project</strong> — ER modelling, normalisation, SQL optimisation<br><strong>🧮 Algorithm Studies</strong> — sorting, graphs, dynamic programming, complexity<br><strong>💻 University Project</strong> — algorithms & data structures coursework<br><strong>🏢 IT Internship</strong> — Soluzione1, Ghisalba (Bergamo)`,
-        contact: `You can reach Edward at:<br><br>📧 <a href="mailto:edwardattuati@icloud.com">edwardattuati@icloud.com</a><br>💼 <a href="https://it.linkedin.com/in/edward-attuati-41a54823b" target="_blank">LinkedIn</a><br>🐙 <a href="https://github.com/edward070707" target="_blank">GitHub</a><br>📷 <a href="https://www.instagram.com/edwardattuati/" target="_blank">Instagram</a>`,
-        cv: `You can view/download Edward's CV here:<br><a href="https://drive.google.com/file/d/1-E2bqezgbpLPmgdB6b2z4Sz3yz7MCwua/view?usp=share_link" target="_blank">📄 Open CV on Google Drive →</a>`,
-        exp: `Edward completed a <strong>professional IT internship</strong> at <strong>Soluzione1</strong> in Ghisalba, Bergamo. He worked in a real IT environment gaining hands-on experience in IT support, networking, and teamwork.`,
-        web: `Edward builds websites by hand — <strong>HTML, CSS, JavaScript</strong>, no frameworks. This portfolio is a perfect example: custom animations, CSS Houdini @property gradients, 3D transforms, and mouse parallax, all vanilla JS.`,
-        db: `Strong in relational databases: <strong>ER modelling</strong>, schema normalisation, advanced <strong>SQL queries</strong>, and query optimisation with <strong>PostgreSQL</strong>.`,
-        interests: `Outside of code, Edward is fascinated by <strong>languages and cultures</strong> (he speaks 5!), design, and problem-solving. He's the kind of person who digs into a problem until it makes sense.`,
-        site: `This portfolio was built entirely from scratch by Edward — no templates, no frameworks. It features CSS Houdini <code>@property</code> animated gradients, 3D orbital rings, mouse parallax with lerp, a draggable atom, and a 20-click easter egg. 😉`,
-        easter: `Pssst... try clicking the atom on the home page 20 times. Something cool happens. 🤫`,
-        location: `Edward is from <strong>Bergamo, Italy</strong> 🇮🇹 — studying at the Università di Brescia, which is about 50km from Bergamo.`,
-        fallback: `I'm not sure about that! Try asking me about Edward's <strong>skills</strong>, <strong>projects</strong>, <strong>education</strong>, <strong>languages</strong>, <strong>experience</strong>, or how to <strong>contact</strong> him. 😊`,
+    /* ── MULTILINGUAL KNOWLEDGE BASE ── */
+    const KB_ALL = {
+      en: {
+        greet:    `Hey! 👋 I'm <strong>EA Bot</strong>, Edward's personal assistant. Ask me about his skills, projects, background, or his little secret... 🤫`,
+        bio:      `I'm <strong>Edward Attuati</strong>, a Computer Engineering student born on <strong>7 July 2001</strong> in Bergamo, Italy. Currently in my <strong>3rd year</strong> at the <strong>Università degli Studi di Brescia</strong>. Proactive, precise, and passionate about code, design, and building things that actually work.`,
+        edu:      `🎓 <strong>Computer Engineering</strong> — Università degli Studi di Brescia (2020 – present), <strong>3rd year</strong>.<br>📚 Algorithms, data structures, operating systems, databases, software engineering.<br><br>🏫 <strong>High school:</strong> Liceo Don Milani, Romano di Lombardia (2015–2020) — Maturità`,
+        skills:   `My full tech stack:<br><br><span class="tag">Python</span><span class="tag">C</span><span class="tag">C#</span><span class="tag">Java</span><span class="tag">DotNet</span><br><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">PHP</span><br><span class="tag">SQL</span><span class="tag">MySQL</span><span class="tag">PostgreSQL</span><br><span class="tag">Entity Framework</span><span class="tag">ER Modelling</span><br><span class="tag">XCode</span><span class="tag">Android Studio</span><span class="tag">VS Code</span><br><span class="tag">Linux</span><span class="tag">Networking</span><span class="tag">IT Support</span><br><span class="tag">Office 365</span><span class="tag">Git</span><span class="tag">GitHub Pages</span>`,
+        langs:    `I speak <strong>5 languages</strong>:<br>🇮🇹 Italian — native<br>🇬🇧 English — C1 (certified B2, now C1)<br>🇪🇸 Spanish<br>🇨🇳 Mandarin Chinese<br>🇯🇵 Japanese<br><br>Languages and cultures are a deep passion of mine — which is why this site greets you in 38 languages.`,
+        projects: `My key projects:<br><br>🌐 <strong>Web Portfolio</strong> — this site, zero frameworks, built from scratch<br>🗄️ <strong>Database project</strong> — ER modelling, normalisation, advanced SQL<br>🧮 <strong>Algorithm studies</strong> — sorting, graphs, dynamic programming<br>🎮 <strong>Unity Junior Programmer</strong> — game dev, certified on Credly<br>💻 <strong>IT Internship</strong> — real-world work at Soluzione1, Ghisalba (BG)`,
+        contact:  `Reach Edward here:<br><br>📧 <a href="mailto:edwardattuati@icloud.com">edwardattuati@icloud.com</a><br>💼 <a href="https://it.linkedin.com/in/edward-attuati-41a54823b" target="_blank">LinkedIn</a><br>🐙 <a href="https://github.com/edward070707" target="_blank">GitHub</a><br>📷 <a href="https://www.instagram.com/edwardattuati/" target="_blank">Instagram</a>`,
+        cv:       `📄 View / download Edward's CV:<br><a href="https://drive.google.com/file/d/1-E2bqezgbpLPmgdB6b2z4Sz3yz7MCwua/view?usp=share_link" target="_blank">Open CV on Google Drive →</a>`,
+        exp:      `💼 <strong>IT Developer Intern</strong> — Soluzione1, Ghisalba (BG)<br><em>April – June 2024</em><br><br>• SQL training &amp; query development<br>• 1st &amp; 2nd level customer support<br>• Application &amp; system training<br>• Daily collaboration with senior developers`,
+        web:      `Edward builds the web the pure way — <strong>HTML, CSS, JavaScript</strong>, zero frameworks. This portfolio proves it: CSS Houdini <code>@property</code> gradients, 3D orbital atom, lerp parallax, spring-physics drag, 20-click easter egg — all vanilla JS.`,
+        db:       `Strong in relational databases:<br>• <strong>ER Modelling</strong> &amp; schema normalisation<br>• Advanced <strong>SQL</strong> queries &amp; optimisation<br>• <strong>MySQL</strong> &amp; <strong>PostgreSQL</strong><br>• <strong>Entity Framework</strong> (C# / DotNet)<br>• Applied at UniBS and during the Soluzione1 internship`,
+        interests:`Outside of code, Edward is fascinated by <strong>languages &amp; cultures</strong> (he speaks 5!), design, UX, and problem-solving. He's the kind of person who digs into a problem until it truly makes sense.`,
+        certs:    `📜 <strong>Unity Junior Programmer</strong> — Unity Technologies (Jan–May 2021)<br>Full skill list on <a href="https://www.credly.com" target="_blank">Credly</a><br><br>🇬🇧 <strong>Cambridge English B2</strong> (2017) — now achieved C1 through continuous practice`,
+        site:     `This portfolio was built entirely from scratch — no templates, no frameworks:<br>• CSS Houdini <code>@property</code> animated gradients<br>• 3D orbital rings with 7 electrons<br>• Mouse parallax with lerp smoothing<br>• Draggable atom with spring physics<br>• Text gravity system<br>• 20-click easter egg<br>• Custom cursor &amp; multilingual (5 languages) 😉`,
+        easter:   `Pssst... try clicking the atom on the home page <strong>20 times</strong>. Something special happens. 🤫 Don't tell anyone.`,
+        location: `Edward is from <strong>Romano di Lombardia</strong> (Bergamo province), Italy 🇮🇹 — studying at UniBS in Brescia, ~50km from home.`,
+        fallback: `I'm not sure about that! Try asking about Edward's <strong>skills</strong>, <strong>projects</strong>, <strong>education</strong>, <strong>experience</strong>, <strong>languages</strong>, or <strong>contact</strong>. 😊`,
+        help:     `I can answer questions about:<br><br>• <strong>Bio</strong> &amp; background<br>• <strong>Skills</strong> &amp; tech stack<br>• <strong>Projects</strong> &amp; portfolio<br>• <strong>Education</strong> (UniBS + high school)<br>• <strong>Languages</strong> spoken (5!)<br>• <strong>Work experience</strong> &amp; internship<br>• <strong>Certifications</strong> (Unity, English B2→C1)<br>• <strong>Contact</strong> &amp; CV<br>• 🤫 Secrets`,
+        linkedin: `🔗 <a href="https://it.linkedin.com/in/edward-attuati-41a54823b" target="_blank">Edward on LinkedIn →</a>`,
+        github:   `🐙 <a href="https://github.com/edward070707" target="_blank">Edward on GitHub →</a>`,
+        instagram:`📷 <a href="https://www.instagram.com/edwardattuati/" target="_blank">Edward on Instagram →</a>`,
+        placeholder:`Ask me anything about Edward...`, status:`online`,
+      },
+      it: {
+        greet:    `Ciao! 👋 Sono <strong>EA Bot</strong>, l'assistente di Edward. Chiedimi di competenze, progetti, esperienze o del suo piccolo segreto... 🤫`,
+        bio:      `Sono <strong>Edward Attuati</strong>, studente di Ingegneria Informatica nato il <strong>7 luglio 2001</strong> a Bergamo, Italia. Attualmente al <strong>3° anno</strong> presso l'<strong>Università degli Studi di Brescia</strong>. Proattivo, preciso e appassionato di codice, design e tutto ciò che funziona davvero bene.`,
+        edu:      `🎓 <strong>Ingegneria Informatica</strong> — Università degli Studi di Brescia (2020 – oggi), <strong>3° anno</strong>.<br>📚 Algoritmi, strutture dati, sistemi operativi, basi di dati, ingegneria del software.<br><br>🏫 <strong>Maturità:</strong> Liceo Don Milani, Romano di Lombardia (2015–2020)`,
+        skills:   `Stack tecnologico completo:<br><br><span class="tag">Python</span><span class="tag">C</span><span class="tag">C#</span><span class="tag">Java</span><span class="tag">DotNet</span><br><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">PHP</span><br><span class="tag">SQL</span><span class="tag">MySQL</span><span class="tag">PostgreSQL</span><br><span class="tag">Entity Framework</span><span class="tag">Modellazione ER</span><br><span class="tag">XCode</span><span class="tag">Android Studio</span><span class="tag">VS Code</span><br><span class="tag">Linux</span><span class="tag">Networking</span><span class="tag">Supporto IT</span><br><span class="tag">Office 365</span><span class="tag">Git</span><span class="tag">GitHub Pages</span>`,
+        langs:    `Parlo <strong>5 lingue</strong>:<br>🇮🇹 Italiano — madrelingua<br>🇬🇧 Inglese — C1 (certificato B2, ora C1)<br>🇪🇸 Spagnolo<br>🇨🇳 Cinese mandarino<br>🇯🇵 Giapponese<br><br>Le lingue e le culture sono una mia grande passione — per questo il sito ti saluta in 38 lingue diverse.`,
+        projects: `I miei progetti principali:<br><br>🌐 <strong>Portfolio Web</strong> — questo sito, da zero, nessun framework<br>🗄️ <strong>Progetto Database</strong> — modellazione ER, normalizzazione, SQL avanzato<br>🧮 <strong>Algoritmi</strong> — ordinamento, grafi, programmazione dinamica<br>🎮 <strong>Unity Junior Programmer</strong> — sviluppo giochi, certificato su Credly<br>💻 <strong>Stage IT</strong> — lavoro reale da Soluzione1, Ghisalba (BG)`,
+        contact:  `Puoi contattare Edward qui:<br><br>📧 <a href="mailto:edwardattuati@icloud.com">edwardattuati@icloud.com</a><br>💼 <a href="https://it.linkedin.com/in/edward-attuati-41a54823b" target="_blank">LinkedIn</a><br>🐙 <a href="https://github.com/edward070707" target="_blank">GitHub</a><br>📷 <a href="https://www.instagram.com/edwardattuati/" target="_blank">Instagram</a>`,
+        cv:       `📄 Visualizza o scarica il CV di Edward:<br><a href="https://drive.google.com/file/d/1-E2bqezgbpLPmgdB6b2z4Sz3yz7MCwua/view?usp=share_link" target="_blank">Apri CV su Google Drive →</a>`,
+        exp:      `💼 <strong>Sviluppatore Tirocinante</strong> — Soluzione1, Ghisalba (BG)<br><em>Aprile – Giugno 2024</em><br><br>• Formazione SQL e sviluppo query<br>• Supporto clienti di 1° e 2° livello<br>• Training su applicazioni e sistemi<br>• Collaborazione quotidiana con sviluppatori senior`,
+        web:      `Edward costruisce siti nel modo più puro — <strong>HTML, CSS, JavaScript</strong>, zero framework. Questo portfolio lo dimostra: gradienti CSS Houdini <code>@property</code>, atomo 3D, parallasse con lerp, fisica drag a molla, easter egg a 20 click — tutto vanilla JS.`,
+        db:       `Forte nei database relazionali:<br>• <strong>Modellazione ER</strong> e normalizzazione degli schemi<br>• Query <strong>SQL</strong> avanzate e ottimizzazione<br>• <strong>MySQL</strong> e <strong>PostgreSQL</strong><br>• <strong>Entity Framework</strong> (C# / DotNet)<br>• Applicato nei corsi UniBS e nello stage Soluzione1`,
+        interests:`Fuori dal codice, Edward è affascinato da <strong>lingue e culture</strong> (ne parla 5!), design, UX e problem-solving. È il tipo di persona che studia un problema finché non lo capisce davvero.`,
+        certs:    `📜 <strong>Unity Junior Programmer</strong> — Unity Technologies (gen–mag 2021)<br>Lista completa su <a href="https://www.credly.com" target="_blank">Credly</a><br><br>🇬🇧 <strong>Cambridge English B2</strong> (2017) — ora al livello C1 grazie a pratica costante`,
+        site:     `Questo portfolio è stato costruito da zero — nessun template, nessun framework:<br>• Gradienti animati CSS Houdini <code>@property</code><br>• Anelli orbitali 3D con 7 elettroni<br>• Parallasse con smoothing lerp<br>• Atomo trascinabile con fisica a molla<br>• Sistema di gravità del testo<br>• Easter egg a 20 click<br>• Cursore personalizzato &amp; multilingua (5 lingue) 😉`,
+        easter:   `Ssss... prova a cliccare l'atomo nella home page <strong>20 volte</strong>. Succede qualcosa di speciale. 🤫 Non dirlo a nessuno.`,
+        location: `Edward viene da <strong>Romano di Lombardia</strong> (provincia di Bergamo), Italia 🇮🇹 — studia all'Università di Brescia, a circa 50km da casa.`,
+        fallback: `Non sono sicuro! Prova a chiedermi delle <strong>competenze</strong>, <strong>progetti</strong>, <strong>università</strong>, <strong>esperienza</strong>, <strong>lingue</strong> o come <strong>contattare</strong> Edward. 😊`,
+        help:     `Posso rispondere a domande su:<br><br>• <strong>Bio</strong> e background<br>• <strong>Competenze</strong> e stack tecnologico<br>• <strong>Progetti</strong> e portfolio<br>• <strong>Università</strong> e liceo<br>• <strong>Lingue</strong> parlate (5!)<br>• <strong>Esperienza lavorativa</strong> e stage<br>• <strong>Certificazioni</strong> (Unity, Inglese B2→C1)<br>• <strong>Contatti</strong> e CV<br>• 🤫 Segreti`,
+        linkedin: `🔗 <a href="https://it.linkedin.com/in/edward-attuati-41a54823b" target="_blank">Edward su LinkedIn →</a>`,
+        github:   `🐙 <a href="https://github.com/edward070707" target="_blank">Edward su GitHub →</a>`,
+        instagram:`📷 <a href="https://www.instagram.com/edwardattuati/" target="_blank">Edward su Instagram →</a>`,
+        placeholder:`Chiedimi qualcosa su Edward...`, status:`online`,
+      },
+      es: {
+        greet:    `¡Hola! 👋 Soy <strong>EA Bot</strong>, el asistente de Edward. ¡Pregúntame sobre habilidades, proyectos, experiencia o su secreto... 🤫`,
+        bio:      `Soy <strong>Edward Attuati</strong>, estudiante de Ingeniería Informática nacido el <strong>7 de julio de 2001</strong> en Bérgamo, Italia. Actualmente en mi <strong>3er año</strong> en la <strong>Universidad de Brescia</strong>. Proactivo, preciso y apasionado por el código, el diseño y las cosas que realmente funcionan.`,
+        edu:      `🎓 <strong>Ingeniería Informática</strong> — Universidad de Brescia (2020 – hoy), <strong>3er año</strong>.<br>📚 Algoritmos, estructuras de datos, SO, bases de datos, ingeniería de software.<br><br>🏫 <strong>Bachillerato:</strong> Liceo Don Milani, Romano di Lombardia (2015–2020)`,
+        skills:   `Mi stack tecnológico completo:<br><br><span class="tag">Python</span><span class="tag">C</span><span class="tag">C#</span><span class="tag">Java</span><span class="tag">DotNet</span><br><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">PHP</span><br><span class="tag">SQL</span><span class="tag">MySQL</span><span class="tag">PostgreSQL</span><br><span class="tag">Entity Framework</span><span class="tag">Modelado ER</span><br><span class="tag">XCode</span><span class="tag">Android Studio</span><span class="tag">VS Code</span><br><span class="tag">Linux</span><span class="tag">Networking</span><span class="tag">Soporte IT</span><br><span class="tag">Office 365</span><span class="tag">Git</span><span class="tag">GitHub Pages</span>`,
+        langs:    `Hablo <strong>5 idiomas</strong>:<br>🇮🇹 Italiano — nativo<br>🇬🇧 Inglés — C1 (certificado B2, ahora C1)<br>🇪🇸 Español<br>🇨🇳 Chino mandarín<br>🇯🇵 Japonés<br><br>Los idiomas y las culturas son una gran pasión mía — por eso este sitio te saluda en 38 idiomas.`,
+        projects: `Mis proyectos principales:<br><br>🌐 <strong>Portfolio Web</strong> — este sitio, sin frameworks, desde cero<br>🗄️ <strong>Proyecto de Base de Datos</strong> — modelado ER, normalización, SQL avanzado<br>🧮 <strong>Algoritmos</strong> — ordenamiento, grafos, programación dinámica<br>🎮 <strong>Unity Junior Programmer</strong> — desarrollo de juegos, certificado en Credly<br>💻 <strong>Prácticas IT</strong> — trabajo real en Soluzione1, Ghisalba (BG)`,
+        contact:  `Puedes contactar a Edward aquí:<br><br>📧 <a href="mailto:edwardattuati@icloud.com">edwardattuati@icloud.com</a><br>💼 <a href="https://it.linkedin.com/in/edward-attuati-41a54823b" target="_blank">LinkedIn</a><br>🐙 <a href="https://github.com/edward070707" target="_blank">GitHub</a><br>📷 <a href="https://www.instagram.com/edwardattuati/" target="_blank">Instagram</a>`,
+        cv:       `📄 Ver o descargar el CV de Edward:<br><a href="https://drive.google.com/file/d/1-E2bqezgbpLPmgdB6b2z4Sz3yz7MCwua/view?usp=share_link" target="_blank">Abrir CV en Google Drive →</a>`,
+        exp:      `💼 <strong>Desarrollador en Prácticas</strong> — Soluzione1, Ghisalba (BG)<br><em>Abril – Junio 2024</em><br><br>• Formación SQL y desarrollo de consultas<br>• Soporte al cliente de 1° y 2° nivel<br>• Training en aplicaciones y sistemas<br>• Colaboración diaria con desarrolladores senior`,
+        web:      `Edward construye la web de la manera más pura — <strong>HTML, CSS, JavaScript</strong>, sin frameworks. Este portfolio lo demuestra: gradientes CSS Houdini <code>@property</code>, átomo 3D, parallax lerp, física resorte, easter egg de 20 clics — todo vanilla JS.`,
+        db:       `Fuerte en bases de datos relacionales:<br>• <strong>Modelado ER</strong> y normalización de esquemas<br>• Consultas <strong>SQL</strong> avanzadas y optimización<br>• <strong>MySQL</strong> y <strong>PostgreSQL</strong><br>• <strong>Entity Framework</strong> (C# / DotNet)<br>• Aplicado en UniBS y prácticas en Soluzione1`,
+        interests:`Fuera del código, Edward se fascina por <strong>idiomas y culturas</strong> (¡habla 5!), diseño, UX y resolución de problemas. Es el tipo que estudia un problema hasta entenderlo de verdad.`,
+        certs:    `📜 <strong>Unity Junior Programmer</strong> — Unity Technologies (ene–may 2021)<br>Lista completa en <a href="https://www.credly.com" target="_blank">Credly</a><br><br>🇬🇧 <strong>Cambridge English B2</strong> (2017) — ahora en nivel C1 gracias a práctica constante`,
+        site:     `Este portfolio fue construido desde cero — sin plantillas, sin frameworks:<br>• Gradientes animados CSS Houdini <code>@property</code><br>• Anillos orbitales 3D con 7 electrones<br>• Parallax con suavizado lerp<br>• Átomo arrastrable con física de resorte<br>• Easter egg de 20 clics<br>• Cursor personalizado &amp; multilingüe (5 idiomas) 😉`,
+        easter:   `Psst... intenta hacer clic en el átomo <strong>20 veces</strong>. Pasa algo especial. 🤫 No se lo digas a nadie.`,
+        location: `Edward es de <strong>Romano di Lombardia</strong> (provincia de Bérgamo), Italia 🇮🇹 — estudia en la Universidad de Brescia, a ~50km de casa.`,
+        fallback: `¡No estoy seguro de eso! Intenta preguntarme sobre <strong>habilidades</strong>, <strong>proyectos</strong>, <strong>educación</strong>, <strong>experiencia</strong>, <strong>idiomas</strong> o cómo <strong>contactar</strong> a Edward. 😊`,
+        help:     `Puedo responder sobre:<br><br>• <strong>Bio</strong> y background<br>• <strong>Habilidades</strong> y stack<br>• <strong>Proyectos</strong> y portfolio<br>• <strong>Universidad</strong> e instituto<br>• <strong>Idiomas</strong> (¡5!)<br>• <strong>Experiencia</strong> y prácticas<br>• <strong>Certificaciones</strong> (Unity, Inglés B2→C1)<br>• <strong>Contacto</strong> y CV<br>• 🤫 Secretos`,
+        linkedin: `🔗 <a href="https://it.linkedin.com/in/edward-attuati-41a54823b" target="_blank">Edward en LinkedIn →</a>`,
+        github:   `🐙 <a href="https://github.com/edward070707" target="_blank">Edward en GitHub →</a>`,
+        instagram:`📷 <a href="https://www.instagram.com/edwardattuati/" target="_blank">Edward en Instagram →</a>`,
+        placeholder:`Pregúntame sobre Edward...`, status:`en línea`,
+      },
+      zh: {
+        greet:    `你好！👋 我是 <strong>EA Bot</strong>，Edward 的个人助手。问我关于技能、项目、经历，或者他的秘密... 🤫`,
+        bio:      `我是 <strong>Edward Attuati</strong>，计算机工程专业学生，<strong>2001年7月7日</strong>生于意大利贝加莫。目前在<strong>布雷西亚大学</strong>就读<strong>大三</strong>。做事主动、精益求精，热爱编程、设计和构建真正好用的东西。`,
+        edu:      `🎓 <strong>计算机工程</strong> — 布雷西亚大学（2020至今），目前<strong>大三</strong>。<br>📚 算法、数据结构、操作系统、数据库、软件工程。<br><br>🏫 <strong>高中：</strong> Liceo Don Milani，Romano di Lombardia（2015–2020）`,
+        skills:   `我的技术栈：<br><br><span class="tag">Python</span><span class="tag">C</span><span class="tag">C#</span><span class="tag">Java</span><span class="tag">DotNet</span><br><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">PHP</span><br><span class="tag">SQL</span><span class="tag">MySQL</span><span class="tag">PostgreSQL</span><br><span class="tag">Entity Framework</span><span class="tag">ER建模</span><br><span class="tag">XCode</span><span class="tag">Android Studio</span><span class="tag">VS Code</span><br><span class="tag">Linux</span><span class="tag">网络</span><span class="tag">IT支持</span><br><span class="tag">Office 365</span><span class="tag">Git</span><span class="tag">GitHub Pages</span>`,
+        langs:    `我会说 <strong>5种语言</strong>：<br>🇮🇹 意大利语 — 母语<br>🇬🇧 英语 — C1级（已认证B2，现已C1）<br>🇪🇸 西班牙语<br>🇨🇳 普通话<br>🇯🇵 日语<br><br>语言和文化是我的热情所在——这也是为什么这个网站用38种语言向你打招呼。`,
+        projects: `我的主要项目：<br><br>🌐 <strong>个人作品集</strong> — 本站，从零手写，无框架<br>🗄️ <strong>数据库项目</strong> — ER建模、范式化、高级SQL<br>🧮 <strong>算法研究</strong> — 排序、图、动态规划<br>🎮 <strong>Unity初级程序员</strong> — 游戏开发，Credly认证<br>💻 <strong>IT实习</strong> — 在Soluzione1（Ghisalba）的真实项目`,
+        contact:  `联系 Edward 的方式：<br><br>📧 <a href="mailto:edwardattuati@icloud.com">edwardattuati@icloud.com</a><br>💼 <a href="https://it.linkedin.com/in/edward-attuati-41a54823b" target="_blank">LinkedIn</a><br>🐙 <a href="https://github.com/edward070707" target="_blank">GitHub</a><br>📷 <a href="https://www.instagram.com/edwardattuati/" target="_blank">Instagram</a>`,
+        cv:       `📄 查看或下载 Edward 的简历：<br><a href="https://drive.google.com/file/d/1-E2bqezgbpLPmgdB6b2z4Sz3yz7MCwua/view?usp=share_link" target="_blank">在 Google Drive 上打开简历 →</a>`,
+        exp:      `💼 <strong>IT开发实习生</strong> — Soluzione1，Ghisalba（贝加莫省）<br><em>2024年4月 – 6月</em><br><br>• SQL培训与查询开发<br>• 一线和二线客户支持<br>• 应用系统培训<br>• 与高级开发人员的日常协作`,
+        web:      `Edward 用最纯粹的方式构建网页——<strong>HTML、CSS、JavaScript</strong>，零框架。这个作品集就是证明：CSS Houdini <code>@property</code>渐变、3D轨道原子、lerp视差、弹簧物理拖拽、20次点击彩蛋——全是原生JS。`,
+        db:       `关系数据库的强项：<br>• <strong>ER建模</strong>与模式范式化<br>• 高级 <strong>SQL</strong> 查询与优化<br>• <strong>MySQL</strong> 和 <strong>PostgreSQL</strong><br>• <strong>Entity Framework</strong>（C# / DotNet）<br>• 在UniBS课程和Soluzione1实习中实践应用`,
+        interests:`编程之外，Edward 对<strong>语言和文化</strong>（他会说5种语言！）、设计、UX和解决问题充满热情。他是那种会深挖问题直到真正理解为止的人。`,
+        certs:    `📜 <strong>Unity初级程序员</strong> — Unity Technologies（2021年1–5月）<br>完整技能列表在 <a href="https://www.credly.com" target="_blank">Credly</a><br><br>🇬🇧 <strong>剑桥英语B2证书</strong>（2017年）——通过持续练习现已达C1水平`,
+        site:     `本网站由 Edward 完全从零构建——无模板、无框架：<br>• CSS Houdini <code>@property</code>动态渐变<br>• 3D轨道环，含7个电子<br>• lerp平滑视差效果<br>• 弹簧物理可拖动原子<br>• 文字引力系统<br>• 20次点击彩蛋<br>• 自定义光标 &amp; 多语言（5种）😉`,
+        easter:   `嘘... 试着在主页上点击原子 <strong>20次</strong>。会有特别的事情发生。🤫 别告诉别人哦。`,
+        location: `Edward 来自意大利🇮🇹 <strong>Romano di Lombardia</strong>（贝加莫省）——在距家约50km的布雷西亚大学就读。`,
+        fallback: `我不太确定这个！试着问我 Edward 的<strong>技能</strong>、<strong>项目</strong>、<strong>教育</strong>、<strong>工作经历</strong>、<strong>语言</strong>或<strong>联系方式</strong>。😊`,
+        help:     `我可以回答关于以下内容的问题：<br><br>• <strong>简介</strong>与背景<br>• <strong>技能</strong>与技术栈<br>• <strong>项目</strong>与作品集<br>• <strong>大学</strong>与高中经历<br>• 掌握的<strong>语言</strong>（5种！）<br>• <strong>工作经历</strong>与实习<br>• <strong>证书</strong>（Unity、英语B2→C1）<br>• <strong>联系方式</strong>与简历<br>• 🤫 秘密`,
+        linkedin: `🔗 <a href="https://it.linkedin.com/in/edward-attuati-41a54823b" target="_blank">Edward 的 LinkedIn →</a>`,
+        github:   `🐙 <a href="https://github.com/edward070707" target="_blank">Edward 的 GitHub →</a>`,
+        instagram:`📷 <a href="https://www.instagram.com/edwardattuati/" target="_blank">Edward 的 Instagram →</a>`,
+        placeholder:`询问关于 Edward 的任何问题...`, status:`在线`,
+      },
+      ja: {
+        greet:    `こんにちは！👋 私は <strong>EA Bot</strong>、Edwardのアシスタントです。スキル・プロジェクト・経歴・秘密まで何でも聞いてください... 🤫`,
+        bio:      `<strong>Edward Attuati</strong> は、イタリアのベルガモ出身のコンピューター工学の学生で、<strong>2001年7月7日</strong>生まれ。現在、<strong>ブレシア大学</strong>の<strong>3年生</strong>。積極的で精密、コード・デザイン・本当に機能するものを作ることに情熱を持っています。`,
+        edu:      `🎓 <strong>コンピューター工学</strong> — ブレシア大学（2020年〜現在）、<strong>3年生</strong>。<br>📚 アルゴリズム・データ構造・OS・データベース・ソフトウェア工学。<br><br>🏫 <strong>高校：</strong> Liceo Don Milani、Romano di Lombardia（2015–2020）`,
+        skills:   `私の技術スタック：<br><br><span class="tag">Python</span><span class="tag">C</span><span class="tag">C#</span><span class="tag">Java</span><span class="tag">DotNet</span><br><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">PHP</span><br><span class="tag">SQL</span><span class="tag">MySQL</span><span class="tag">PostgreSQL</span><br><span class="tag">Entity Framework</span><span class="tag">ERモデリング</span><br><span class="tag">XCode</span><span class="tag">Android Studio</span><span class="tag">VS Code</span><br><span class="tag">Linux</span><span class="tag">ネットワーク</span><span class="tag">ITサポート</span><br><span class="tag">Office 365</span><span class="tag">Git</span><span class="tag">GitHub Pages</span>`,
+        langs:    `<strong>5言語</strong>を話します：<br>🇮🇹 イタリア語 — 母語<br>🇬🇧 英語 — C1（B2認定取得、現在C1）<br>🇪🇸 スペイン語<br>🇨🇳 中国語（普通話）<br>🇯🇵 日本語<br><br>言語と文化への情熱から、このポートフォリオは38言語で挨拶します。`,
+        projects: `主なプロジェクト：<br><br>🌐 <strong>Webポートフォリオ</strong> — このサイト、フレームワークなし、ゼロから作成<br>🗄️ <strong>データベースプロジェクト</strong> — ERモデリング・正規化・高度なSQL<br>🧮 <strong>アルゴリズム研究</strong> — ソート・グラフ・動的計画法<br>🎮 <strong>Unity Junior Programmer</strong> — ゲーム開発、Credly認定<br>💻 <strong>ITインターンシップ</strong> — Soluzione1（Ghisalba）での実務`,
+        contact:  `Edwardへの連絡先：<br><br>📧 <a href="mailto:edwardattuati@icloud.com">edwardattuati@icloud.com</a><br>💼 <a href="https://it.linkedin.com/in/edward-attuati-41a54823b" target="_blank">LinkedIn</a><br>🐙 <a href="https://github.com/edward070707" target="_blank">GitHub</a><br>📷 <a href="https://www.instagram.com/edwardattuati/" target="_blank">Instagram</a>`,
+        cv:       `📄 EdwardのCVを閲覧・ダウンロード：<br><a href="https://drive.google.com/file/d/1-E2bqezgbpLPmgdB6b2z4Sz3yz7MCwua/view?usp=share_link" target="_blank">Google DriveでCVを開く →</a>`,
+        exp:      `💼 <strong>IT開発インターン</strong> — Soluzione1、Ghisalba（ベルガモ県）<br><em>2024年4月 – 6月</em><br><br>• SQLトレーニングとクエリ開発<br>• 一次・二次顧客サポート<br>• アプリケーション・システムのトレーニング<br>• シニア開発者との日々の協業`,
+        web:      `EdwardはWebを最も純粋な方法で作ります——<strong>HTML・CSS・JavaScript</strong>、フレームワークゼロ。このポートフォリオがその証拠：CSS Houdini <code>@property</code>グラデーション・3D軌道原子・lerpパララックス・スプリング物理ドラッグ・20クリックイースターエッグ——全バニラJS。`,
+        db:       `リレーショナルデータベースの強み：<br>• <strong>ERモデリング</strong>とスキーマ正規化<br>• 高度な <strong>SQL</strong> クエリと最適化<br>• <strong>MySQL</strong> と <strong>PostgreSQL</strong><br>• <strong>Entity Framework</strong>（C# / DotNet）<br>• UniBS授業とSoluzione1インターンで実践`,
+        interests:`コード以外では、<strong>言語と文化</strong>（5言語話す！）・デザイン・UX・問題解決に情熱を持っています。物事を本当に理解するまで掘り下げるタイプです。`,
+        certs:    `📜 <strong>Unity Junior Programmer</strong> — Unity Technologies（2021年1〜5月）<br>完全なスキルリストは <a href="https://www.credly.com" target="_blank">Credly</a> に掲載<br><br>🇬🇧 <strong>ケンブリッジ英語B2証明書</strong>（2017年）——継続練習でC1レベルに到達`,
+        site:     `このポートフォリオはEdwardがゼロから構築——テンプレートなし・フレームワークなし：<br>• CSS Houdini <code>@property</code>アニメーショングラデーション<br>• 7電子付き3D軌道リング<br>• lerpスムージングパララックス<br>• スプリング物理ドラッグ可能な原子<br>• テキスト重力システム<br>• 20クリックイースターエッグ<br>• カスタムカーソル &amp; 多言語（5言語）😉`,
+        easter:   `シー... ホームページの原子を<strong>20回</strong>クリックしてみてください。特別なことが起きます。🤫 誰にも言わないでね。`,
+        location: `Edwardはイタリア🇮🇹 <strong>Romano di Lombardia</strong>（ベルガモ県）出身——約50km離れたブレシア大学で学んでいます。`,
+        fallback: `それについてはわかりません！Edwardの<strong>スキル</strong>・<strong>プロジェクト</strong>・<strong>学歴</strong>・<strong>経験</strong>・<strong>言語</strong>または<strong>連絡先</strong>について質問してみてください。😊`,
+        help:     `以下についての質問に答えられます：<br><br>• <strong>プロフィール</strong>と経歴<br>• <strong>スキル</strong>と技術スタック<br>• <strong>プロジェクト</strong>とポートフォリオ<br>• <strong>大学</strong>と高校の学歴<br>• 話す<strong>言語</strong>（5つ！）<br>• <strong>職務経験</strong>とインターン<br>• <strong>資格</strong>（Unity・英語B2→C1）<br>• <strong>連絡先</strong>と履歴書<br>• 🤫 秘密`,
+        linkedin: `🔗 <a href="https://it.linkedin.com/in/edward-attuati-41a54823b" target="_blank">EdwardのLinkedIn →</a>`,
+        github:   `🐙 <a href="https://github.com/edward070707" target="_blank">EdwardのGitHub →</a>`,
+        instagram:`📷 <a href="https://www.instagram.com/edwardattuati/" target="_blank">EdwardのInstagram →</a>`,
+        placeholder:`Edwardについて何でも聞いてください...`, status:`オンライン`,
+      },
     };
 
-    const GREET = `Hey! 👋 I'm Edward's personal bot. Ask me anything about his skills, projects, background, or how to get in touch!`;
-    const GREET_CHIPS = ['Who is Edward?', 'Skills', 'Projects', 'Contact', 'CV'];
+    /* chip labels per language */
+    const CHIP_L = {
+      en:{ who:'Who is Edward?',    skills:'Skills',      edu:'Education',   langs:'Languages',  projects:'Projects',  contact:'Contact',   cv:'CV',     exp:'Experience', web:'Web Dev',  db:'Databases',     interests:'Interests',  site:'This site',          easter:'Easter egg 🤫',linkedin:'LinkedIn',github:'GitHub',instagram:'Instagram',help:'Help',certs:'Certifications',try:'Try it!' },
+      it:{ who:'Chi è Edward?',     skills:'Competenze',  edu:'Università',  langs:'Lingue',     projects:'Progetti',  contact:'Contatti',  cv:'CV',     exp:'Esperienza', web:'Web Dev',  db:'Database',      interests:'Interessi',  site:'Questo sito',        easter:'Easter egg 🤫',linkedin:'LinkedIn',github:'GitHub',instagram:'Instagram',help:'Aiuto',certs:'Certificazioni',try:'Provalo!' },
+      es:{ who:'¿Quién es Edward?', skills:'Habilidades', edu:'Universidad', langs:'Idiomas',    projects:'Proyectos', contact:'Contacto',  cv:'CV',     exp:'Experiencia',web:'Web Dev',  db:'Bases de datos',interests:'Intereses',  site:'Este sitio',         easter:'Easter egg 🤫',linkedin:'LinkedIn',github:'GitHub',instagram:'Instagram',help:'Ayuda',certs:'Certificaciones',try:'¡Inténtalo!' },
+      zh:{ who:'关于Edward',         skills:'技能',        edu:'教育',        langs:'语言',       projects:'项目',      contact:'联系方式',   cv:'简历',   exp:'工作经历',   web:'Web开发',  db:'数据库',        interests:'兴趣爱好',   site:'关于本站',           easter:'彩蛋 🤫',      linkedin:'LinkedIn',github:'GitHub',instagram:'Instagram',help:'帮助',certs:'证书',try:'试试看！' },
+      ja:{ who:'Edwardとは',         skills:'スキル',      edu:'学歴',        langs:'言語',       projects:'プロジェクト',contact:'連絡先',  cv:'履歴書', exp:'経験',       web:'Web開発',  db:'データベース',  interests:'趣味',       site:'このサイトについて', easter:'イースターエッグ 🤫',linkedin:'LinkedIn',github:'GitHub',instagram:'Instagram',help:'ヘルプ',certs:'資格',try:'やってみよう！' },
+    };
 
-    /* ─────────────────────────────────────
-       PATTERN MATCHING
-    ───────────────────────────────────── */
+    function getCurrKB() { return KB_ALL[currentLang] || KB_ALL.en; }
+    function getCurrCL() { return CHIP_L[currentLang]  || CHIP_L.en; }
+
+    /* ── PATTERN MATCHING ── */
     const RULES = [
-        { keys: ['hello','hi','hey','ciao','hola','salut','bonjour','yo'],         ans: GREET,           chips: ['Skills', 'Projects', 'Contact'] },
-        { keys: ['who','chi','about edward','tell me','presentati','su di te'],     ans: KB.bio,          chips: ['Skills', 'Education', 'Languages'] },
-        { keys: ['skill','competenz','cosa sai','what can','program','code','coda'],ans: KB.skills,       chips: ['Web dev', 'Databases', 'Experience'] },
-        { keys: ['university','università','studio','study','studi','course','engineering','ingegneria'], ans: KB.edu, chips: ['Skills', 'Projects', 'CV'] },
-        { keys: ['language','lingua','lingue','speak','parli','parla','5 lang'],    ans: KB.langs,        chips: ['Interests', 'Who is Edward?'] },
-        { keys: ['project','progetto','lavori','portfolio','lavoro','work'],        ans: KB.projects,     chips: ['Skills', 'Contact', 'CV'] },
-        { keys: ['contact','contatt','email','reach','scrivere','write','message'], ans: KB.contact,      chips: ['CV', 'LinkedIn', 'GitHub'] },
-        { keys: ['cv','curriculum','resume','vitae'],                               ans: KB.cv,           chips: ['Contact', 'Projects'] },
-        { keys: ['experience','esperienza','internship','stage','soluzione','lavoro professionale'], ans: KB.exp, chips: ['Skills', 'Projects'] },
-        { keys: ['web','html','css','javascript','frontend','front-end'],           ans: KB.web,          chips: ['Skills', 'Projects', 'Contact'] },
-        { keys: ['database','db','sql','postgres','er model'],                      ans: KB.db,           chips: ['Skills', 'Projects'] },
-        { keys: ['interest','passion','hobby','passione','outside','fuori','oltre'],ans: KB.interests,    chips: ['Languages', 'Who is Edward?'] },
-        { keys: ['site','website','portfolio','sito','fatto','built','how made'],   ans: KB.site,         chips: ['Skills', 'Easter egg 🤫'] },
-        { keys: ['easter','secret','segreto','20','click','atom'],                  ans: KB.easter,       chips: ['Try it!'] },
-        { keys: ['where','dove','location','bergamo','brescia','italy','italia'],   ans: KB.location,     chips: ['Who is Edward?', 'Education'] },
-        { keys: ['linkedin'],  ans: `🔗 <a href="https://it.linkedin.com/in/edward-attuati-41a54823b" target="_blank">Edward on LinkedIn →</a>`, chips: ['Contact', 'CV'] },
-        { keys: ['github'],    ans: `🐙 <a href="https://github.com/edward070707" target="_blank">Edward on GitHub →</a>`,    chips: ['Projects', 'Skills'] },
-        { keys: ['instagram'], ans: `📷 <a href="https://www.instagram.com/edwardattuati/" target="_blank">Edward on Instagram →</a>`, chips: ['Contact'] },
-        { keys: ['help','cosa','what','aiuto','cosa puoi'],                         ans: `I can answer questions about:<br><br>• <strong>Bio</strong> & background<br>• <strong>Skills</strong> & tech stack<br>• <strong>Projects</strong> & portfolio<br>• <strong>Education</strong> at UniBS<br>• <strong>Languages</strong> spoken<br>• <strong>Work experience</strong><br>• <strong>Contact</strong> info & CV<br>• 🤫 Secret stuff`, chips: ['Skills', 'Projects', 'Contact'] },
+        { keys:['hello','hi','hey','ciao','hola','你好','こんにちは','bonjour'],              key:'greet',    chips:['who','skills','projects','contact'] },
+        { keys:['who','chi è','about edward','tell me','presentati','quien','quién','关于edward','edwardとは'], key:'bio', chips:['skills','edu','langs'] },
+        { keys:['skill','competenz','program','code','stack','技能','スキル','habilidad'],    key:'skills',   chips:['web','db','exp'] },
+        { keys:['university','università','unibs','brescia','ingegneria','engineering','liceo','don milani','maturit','大学','universidad'], key:'edu', chips:['skills','projects','cv'] },
+        { keys:['language','lingua','lingue','speak','parli','idioma','habla','语言','言語'],  key:'langs',    chips:['interests','who'] },
+        { keys:['project','progetto','portfolio','proyecto'],                                key:'projects', chips:['skills','contact','cv'] },
+        { keys:['contact','contatt','email','reach','contacto','联系','連絡'],               key:'contact',  chips:['cv','linkedin','github'] },
+        { keys:['cv','curriculum','resume','vitae','履歴書','简历'],                         key:'cv',       chips:['contact','projects'] },
+        { keys:['experience','esperienza','internship','stage','tirocin','practicas','实习','インターン','soluzione'], key:'exp', chips:['skills','projects'] },
+        { keys:['web','html','css','javascript','frontend','php'],                           key:'web',      chips:['skills','projects','contact'] },
+        { keys:['database','db','sql','postgres','mysql','entity'],                          key:'db',       chips:['skills','projects'] },
+        { keys:['interest','passion','hobby','passione','outside','fuori','兴趣','趣味'],     key:'interests',chips:['langs','who'] },
+        { keys:['site','sito','come fatto','built','how made','本站','このサイト'],           key:'site',     chips:['skills','easter'] },
+        { keys:['easter','secret','segreto','彩蛋','イースター'],                            key:'easter',   chips:['try'] },
+        { keys:['where','dove','location','bergamo','romano','italy','italia','哪里','どこ'], key:'location', chips:['who','edu'] },
+        { keys:['unity','game','gioco','juego','credly','certif','certs'],                   key:'certs',    chips:['skills','projects'] },
+        { keys:['linkedin'],   key:'linkedin',  chips:['contact','cv'] },
+        { keys:['github'],     key:'github',    chips:['projects','skills'] },
+        { keys:['instagram'],  key:'instagram', chips:['contact'] },
+        { keys:['help','aiuto','ayuda','帮助','ヘルプ'],                                     key:'help',     chips:['skills','projects','contact'] },
     ];
 
     function findAnswer(text) {
         const q = text.toLowerCase().trim();
         for (const rule of RULES) {
-            if (rule.keys.some(k => q.includes(k))) {
-                return { ans: rule.ans, chips: rule.chips || [] };
-            }
+            if (rule.keys.some(k => q.includes(k))) return { key: rule.key, chips: rule.chips };
         }
-        return { ans: KB.fallback, chips: ['Skills', 'Projects', 'Contact', 'CV'] };
+        return { key: 'fallback', chips: ['skills','projects','contact','cv'] };
     }
 
-    /* ─────────────────────────────────────
-       UI HELPERS
-    ───────────────────────────────────── */
+    /* ── UI HELPERS ── */
     function now() {
         const d = new Date();
         return d.getHours().toString().padStart(2,'0') + ':' + d.getMinutes().toString().padStart(2,'0');
     }
-
     function addMessage(html, type) {
-        const wrap = document.createElement('div');
-        wrap.className = `cm ${type}`;
-        const bubble = document.createElement('div');
-        bubble.className = 'cm-bubble';
-        bubble.innerHTML = html;
-        const time = document.createElement('div');
-        time.className = 'cm-time';
-        time.textContent = now();
-        wrap.appendChild(bubble);
-        wrap.appendChild(time);
-        msgArea.appendChild(wrap);
-        msgArea.scrollTop = msgArea.scrollHeight;
+        const wrap = document.createElement('div'); wrap.className = `cm ${type}`;
+        const bubble = document.createElement('div'); bubble.className = 'cm-bubble'; bubble.innerHTML = html;
+        const time = document.createElement('div'); time.className = 'cm-time'; time.textContent = now();
+        wrap.appendChild(bubble); wrap.appendChild(time);
+        msgArea.appendChild(wrap); msgArea.scrollTop = msgArea.scrollHeight;
         return wrap;
     }
-
     function showTyping() {
-        const w = document.createElement('div');
-        w.className = 'cm bot cm-typing';
+        const w = document.createElement('div'); w.className = 'cm bot cm-typing';
         w.innerHTML = '<div class="cm-bubble"><span></span><span></span><span></span></div>';
-        msgArea.appendChild(w);
-        msgArea.scrollTop = msgArea.scrollHeight;
+        msgArea.appendChild(w); msgArea.scrollTop = msgArea.scrollHeight;
         return w;
     }
-
-    function setChips(arr) {
-        chipsEl.innerHTML = '';
-        arr.forEach(label => {
-            const btn = document.createElement('button');
-            btn.className = 'chip';
-            btn.textContent = label;
-            btn.addEventListener('click', () => handleQuery(label));
+    function setChips(chipKeys) {
+        const cl = getCurrCL(); chipsEl.innerHTML = '';
+        chipKeys.forEach(key => {
+            const btn = document.createElement('button'); btn.className = 'chip';
+            btn.textContent = cl[key] || key;
+            btn.addEventListener('click', () => handleQuery(key));
             chipsEl.appendChild(btn);
         });
     }
-
-    function botSay(html, chips = []) {
+    function botSay(html, chipKeys = []) {
         const typing = showTyping();
-        setTimeout(() => {
-            typing.remove();
-            addMessage(html, 'bot');
-            setChips(chips);
-        }, 680 + Math.random() * 300);
+        setTimeout(() => { typing.remove(); addMessage(html, 'bot'); setChips(chipKeys); }, 680 + Math.random() * 300);
     }
 
-    /* ─────────────────────────────────────
-       SEND / RECEIVE
-    ───────────────────────────────────── */
+    /* ── SEND / RECEIVE ── */
     function handleQuery(text) {
         if (!text.trim()) return;
-        addMessage(text, 'user');
-        chipsEl.innerHTML = '';
-        input.value = '';
-        const { ans, chips } = findAnswer(text);
-        botSay(ans, chips);
+        const cl = getCurrCL();
+        addMessage(cl[text] || text, 'user');
+        chipsEl.innerHTML = ''; input.value = '';
+        const { key, chips } = findAnswer(text);
+        const kb = getCurrKB();
+        botSay(kb[key] || kb.fallback, chips);
     }
 
-    sendBtn.addEventListener('click', () => handleQuery(input.value));
-    input.addEventListener('keydown', e => { if (e.key === 'Enter') handleQuery(input.value); });
+    /* ── LANGUAGE CHANGE HOOK ── */
+    window._botSetLang = function(lang) {
+        const kb = KB_ALL[lang] || KB_ALL.en;
+        input.placeholder = kb.placeholder;
+        if (statusEl) statusEl.textContent = kb.status;
+    };
+
+    sendBtn.addEventListener('click',  () => handleQuery(input.value));
+    input.addEventListener('keydown',  e => { if (e.key === 'Enter') handleQuery(input.value); });
 })();
 
 /* ══════════════════════════════════
