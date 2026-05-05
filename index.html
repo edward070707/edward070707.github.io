@@ -282,6 +282,7 @@
         width: 340px; height: 340px;
         position: relative;
         transform-style: preserve-3d;
+        transform: rotateX(var(--atom-rx,0deg)) rotateY(var(--atom-ry,0deg));
     }
 
     .d-ring {
@@ -380,6 +381,134 @@
         0%,100% { transform: scale(1); box-shadow: 0 0 40px rgba(124,58,237,0.7), 0 0 80px rgba(14,165,233,0.3); }
         50%      { transform: scale(1.15); box-shadow: 0 0 60px rgba(124,58,237,0.9), 0 0 120px rgba(14,165,233,0.5), 0 0 160px rgba(34,211,238,0.2); }
     }
+
+    /* ═══════════════════════════════════════════════
+       INTERACTIVE ATOM — extra electrons, states, badge, canvas
+    ═══════════════════════════════════════════════ */
+
+    /* canvas overlay for trails + particle bursts */
+    #atom-canvas {
+        position: absolute;
+        top: 50%; left: 50%;
+        transform: translate(-50%,-50%);
+        width: 480px; height: 480px;
+        pointer-events: none;
+        z-index: 20;
+    }
+
+    /* extra orbital electron containers */
+    .d-orb-e {
+        position: absolute;
+        border-radius: 50%;
+        top: 50%; left: 50%;
+    }
+    .d-orb-e .d-orbital-dot { top: 0; left: 50%; margin-left: -3.5px; margin-top: 0; }
+    .orb1e2 { width:340px; height:340px; margin:-170px 0 0 -170px; animation: orb1 9s linear infinite; animation-delay:-3s; }
+    .orb1e3 { width:340px; height:340px; margin:-170px 0 0 -170px; animation: orb1 9s linear infinite; animation-delay:-6s; }
+    .orb2e2 { width:280px; height:280px; margin:-140px 0 0 -140px; animation: orb2 13s linear infinite reverse; animation-delay:-6.5s; }
+    .orb3e2 { width:220px; height:220px; margin:-110px 0 0 -110px; animation: orb3 7s  linear infinite; animation-delay:-3.5s; }
+    .orb4e2 { width:160px; height:160px; margin:-80px  0 0 -80px;  animation: orb4 11s linear infinite reverse; animation-delay:-5.5s; }
+
+    /* color variants for extra dots */
+    .dot-v { background: var(--violet) !important; box-shadow: 0 0 12px var(--violet), 0 0 24px rgba(124,58,237,0.5) !important; }
+    .dot-b { background: var(--blue)   !important; box-shadow: 0 0 12px var(--blue),   0 0 24px rgba(14,165,233,0.5)  !important; }
+    .dot-c { background: var(--cyan)   !important; box-shadow: 0 0 12px var(--cyan),   0 0 24px rgba(34,211,238,0.5)  !important; }
+    .dot-p { background: #a78bfa       !important; box-shadow: 0 0 12px #a78bfa,       0 0 24px rgba(167,139,250,0.5) !important; }
+
+    /* click ripple */
+    .d-ripple {
+        position: absolute;
+        top: 50%; left: 50%;
+        width: 10px; height: 10px;
+        border-radius: 50%;
+        border: 1.5px solid rgba(124,58,237,0.9);
+        transform: translate(-50%,-50%) scale(1);
+        pointer-events: none;
+        animation: atomRipple .9s cubic-bezier(.15,.85,.5,1) forwards;
+        z-index: 21;
+    }
+    @keyframes atomRipple {
+        from { transform: translate(-50%,-50%) scale(1);  opacity: 1; }
+        to   { transform: translate(-50%,-50%) scale(40); opacity: 0; }
+    }
+
+    /* atom info badge */
+    #atom-badge {
+        position: absolute;
+        bottom: -54px; left: 50%;
+        transform: translateX(-50%);
+        display: flex; align-items: center; gap: 10px;
+        font-family: var(--mono);
+        font-size: .58rem;
+        letter-spacing: .14em;
+        text-transform: uppercase;
+        white-space: nowrap;
+        opacity: 0;
+        transition: opacity .35s;
+        pointer-events: none;
+        z-index: 10;
+    }
+    .hero-orb-wrap:hover #atom-badge { opacity: 1; }
+
+    #ab-e    { color: var(--cyan); }
+    #ab-state {
+        color: var(--violet);
+        border: 1px solid rgba(124,58,237,0.35);
+        padding: 2px 8px; border-radius: 2px;
+        transition: color .4s, border-color .4s;
+    }
+    #ab-hint { color: var(--low); }
+
+    /* ── EXCITED state (orange/red) ── */
+    #hero-orb-layer.atom-excited .d-ring-1 {
+        border-color: rgba(251,146,60,0.6) rgba(251,146,60,0.08) rgba(251,146,60,0.6) rgba(251,146,60,0.08);
+        box-shadow: 0 0 24px rgba(251,146,60,0.15) inset;
+    }
+    #hero-orb-layer.atom-excited .d-ring-2 {
+        border-color: rgba(239,68,68,0.5) rgba(239,68,68,0.08) rgba(239,68,68,0.5) rgba(239,68,68,0.08);
+    }
+    #hero-orb-layer.atom-excited .d-ring-3 {
+        border-color: rgba(245,158,11,0.5) rgba(245,158,11,0.06) rgba(245,158,11,0.5) rgba(245,158,11,0.06);
+    }
+    #hero-orb-layer.atom-excited .d-ring-4 {
+        border-color: rgba(251,146,60,0.4) transparent rgba(251,146,60,0.4) transparent;
+    }
+    #hero-orb-layer.atom-excited .d-core {
+        background: radial-gradient(circle, rgba(251,146,60,0.9) 0%, rgba(239,68,68,0.5) 50%, transparent 75%);
+        box-shadow: 0 0 40px rgba(251,146,60,0.7), 0 0 80px rgba(239,68,68,0.3), 0 0 120px rgba(251,146,60,0.15);
+    }
+    #hero-orb-layer.atom-excited #ab-state { color: #fb923c; border-color: rgba(251,146,60,0.4); }
+    #hero-orb-layer.atom-excited .dot-v    { background: #fb923c !important; box-shadow: 0 0 12px #fb923c, 0 0 24px rgba(251,146,60,0.5) !important; }
+    #hero-orb-layer.atom-excited .dot-b    { background: #ef4444 !important; box-shadow: 0 0 12px #ef4444, 0 0 24px rgba(239,68,68,0.5)  !important; }
+    #hero-orb-layer.atom-excited .dot-c    { background: #f59e0b !important; box-shadow: 0 0 12px #f59e0b, 0 0 24px rgba(245,158,11,0.5) !important; }
+    #hero-orb-layer.atom-excited .d-ripple { border-color: rgba(251,146,60,0.9); }
+
+    /* ── QUANTUM state (green/lime) ── */
+    #hero-orb-layer.atom-quantum .d-ring-1 {
+        border-color: rgba(52,211,153,0.6) rgba(52,211,153,0.08) rgba(52,211,153,0.6) rgba(52,211,153,0.08);
+        box-shadow: 0 0 24px rgba(52,211,153,0.15) inset;
+    }
+    #hero-orb-layer.atom-quantum .d-ring-2 {
+        border-color: rgba(163,230,53,0.5) rgba(163,230,53,0.08) rgba(163,230,53,0.5) rgba(163,230,53,0.08);
+    }
+    #hero-orb-layer.atom-quantum .d-ring-3 {
+        border-color: rgba(34,211,238,0.5) rgba(34,211,238,0.06) rgba(34,211,238,0.5) rgba(34,211,238,0.06);
+    }
+    #hero-orb-layer.atom-quantum .d-ring-4 {
+        border-color: rgba(52,211,153,0.4) transparent rgba(52,211,153,0.4) transparent;
+    }
+    #hero-orb-layer.atom-quantum .d-core {
+        background: radial-gradient(circle, rgba(52,211,153,0.9) 0%, rgba(163,230,53,0.5) 50%, transparent 75%);
+        box-shadow: 0 0 40px rgba(52,211,153,0.7), 0 0 80px rgba(163,230,53,0.3), 0 0 120px rgba(52,211,153,0.15);
+    }
+    #hero-orb-layer.atom-quantum #ab-state { color: #34d399; border-color: rgba(52,211,153,0.4); }
+    #hero-orb-layer.atom-quantum .dot-v    { background: #34d399 !important; box-shadow: 0 0 12px #34d399, 0 0 24px rgba(52,211,153,0.5)  !important; }
+    #hero-orb-layer.atom-quantum .dot-b    { background: #a3e635 !important; box-shadow: 0 0 12px #a3e635, 0 0 24px rgba(163,230,53,0.5) !important; }
+    #hero-orb-layer.atom-quantum .dot-c    { background: #22d3ee !important; box-shadow: 0 0 12px #22d3ee, 0 0 24px rgba(34,211,238,0.5)  !important; }
+    #hero-orb-layer.atom-quantum .d-ripple { border-color: rgba(52,211,153,0.9); }
+
+    /* cursor hint on orb */
+    .hero-orb-wrap { cursor: none; }
 
     /* ── hero text content ── */
     .hero-text {
@@ -1062,18 +1191,41 @@
         </div>
     </div>
 
-    <!-- 3D orb (parallax layer 2) -->
+    <!-- 3D orb (parallax layer 2) — interactive atom -->
     <div class="hero-orb-wrap" id="hero-orb-layer">
-        <div class="d-orb">
+        <div class="d-orb" id="d-orb">
+
+            <!-- 4 orbital rings -->
             <div class="d-ring d-ring-1"></div>
             <div class="d-ring d-ring-2"></div>
             <div class="d-ring d-ring-3"></div>
             <div class="d-ring d-ring-4"></div>
+
+            <!-- original 2 electrons (ring 1) -->
             <div class="d-orbital">
-                <div class="d-orbital-dot"></div>
-                <div class="d-orbital-dot d-orbital-dot-2"></div>
+                <div class="d-orbital-dot dot-v"></div>
+                <div class="d-orbital-dot d-orbital-dot-2 dot-c"></div>
             </div>
-            <div class="d-core"></div>
+
+            <!-- extra electrons: ring 1 (+2), ring 2, ring 3, ring 4 -->
+            <div class="d-orb-e orb1e2"><div class="d-orbital-dot dot-v"></div></div>
+            <div class="d-orb-e orb1e3"><div class="d-orbital-dot dot-v"></div></div>
+            <div class="d-orb-e orb2e2"><div class="d-orbital-dot dot-b"></div></div>
+            <div class="d-orb-e orb3e2"><div class="d-orbital-dot dot-c"></div></div>
+            <div class="d-orb-e orb4e2"><div class="d-orbital-dot dot-p"></div></div>
+
+            <!-- glowing core -->
+            <div class="d-core" id="d-core"></div>
+
+            <!-- canvas: trails + particle bursts -->
+            <canvas id="atom-canvas" width="480" height="480"></canvas>
+
+            <!-- info badge (visible on hover) -->
+            <div id="atom-badge">
+                <span id="ab-e">e⁻ ×7</span>
+                <span id="ab-state">GROUND</span>
+                <span id="ab-hint">// click to excite</span>
+            </div>
         </div>
     </div>
 
@@ -1831,6 +1983,203 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     if (modalClose) modalClose.addEventListener('click', () => modal.classList.remove('open'));
     modal.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('open'); });
+})();
+
+/* ══════════════════════════════════
+   INTERACTIVE ATOM
+══════════════════════════════════ */
+(function () {
+    const orbWrap = document.getElementById('hero-orb-layer');
+    const orb     = document.getElementById('d-orb');
+    const canvas  = document.getElementById('atom-canvas');
+    const abState = document.getElementById('ab-state');
+    const abHint  = document.getElementById('ab-hint');
+    const abE     = document.getElementById('ab-e');
+    if (!orb || !canvas || !orbWrap) return;
+
+    const ctx = canvas.getContext('2d');
+    const CW = canvas.width, CH = canvas.height;
+
+    // All animated ring/orbital elements
+    const allAnimated = () => [
+        ...document.querySelectorAll('.d-ring, .d-orbital, .d-orb-e')
+    ];
+
+    /* ─── STATE MACHINE ─── */
+    const STATES = [
+        { name: 'GROUND',  cls: '',              hint: '// click to excite', e: 'e⁻ ×7',  speed: 1,   color: '#7c3aed' },
+        { name: 'EXCITED', cls: 'atom-excited',  hint: '// click: quantum',  e: 'e⁻ ×∞',  speed: 2.2, color: '#fb923c' },
+        { name: 'QUANTUM', cls: 'atom-quantum',  hint: '// click to ground', e: 'e⁻ ×⊗',  speed: 3.5, color: '#34d399' },
+    ];
+    let stateIdx = 0;
+
+    function applyState(idx) {
+        stateIdx = idx % STATES.length;
+        const s = STATES[stateIdx];
+        STATES.forEach(ss => { if (ss.cls) orbWrap.classList.remove(ss.cls); });
+        if (s.cls) orbWrap.classList.add(s.cls);
+        abState.textContent = s.name;
+        abHint.textContent  = s.hint;
+        abE.textContent     = s.e;
+        allAnimated().forEach(el => el.getAnimations().forEach(a => { a.playbackRate = s.speed; }));
+        currentStateColor = s.color;
+    }
+
+    let currentStateColor = STATES[0].color;
+
+    /* ─── 3D TILT (lerp) ─── */
+    let tRX = 0, tRY = 0, cRX = 0, cRY = 0;
+
+    document.addEventListener('mousemove', e => {
+        const r  = orbWrap.getBoundingClientRect();
+        const dx = (e.clientX - (r.left + r.width  / 2)) / (r.width  * 0.55);
+        const dy = (e.clientY - (r.top  + r.height / 2)) / (r.height * 0.55);
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 1.8) { tRX = dy * -28; tRY = dx * 28; }
+        else            { tRX = 0;        tRY = 0;       }
+    });
+
+    (function tiltLoop() {
+        cRX += (tRX - cRX) * 0.075;
+        cRY += (tRY - cRY) * 0.075;
+        orb.style.setProperty('--atom-rx', cRX.toFixed(2) + 'deg');
+        orb.style.setProperty('--atom-ry', cRY.toFixed(2) + 'deg');
+        requestAnimationFrame(tiltLoop);
+    })();
+
+    /* ─── HOVER SPEED BOOST ─── */
+    let hovered = false, boostTO;
+    orbWrap.addEventListener('mouseenter', () => {
+        hovered = true;
+        clearTimeout(boostTO);
+        const s = STATES[stateIdx];
+        allAnimated().forEach(el => el.getAnimations().forEach(a => { a.playbackRate = s.speed * 1.8; }));
+    });
+    orbWrap.addEventListener('mouseleave', () => {
+        hovered = false;
+        boostTO = setTimeout(() => {
+            allAnimated().forEach(el => el.getAnimations().forEach(a => { a.playbackRate = STATES[stateIdx].speed; }));
+        }, 500);
+    });
+
+    /* ─── CLICK: state cycle + ripple + burst ─── */
+    orbWrap.addEventListener('click', e => {
+        // burst at click point relative to canvas center
+        const r  = canvas.getBoundingClientRect();
+        const bx = e.clientX - r.left;
+        const by = e.clientY - r.top;
+        spawnBurst(bx, by, currentStateColor, 30);
+
+        // extra speed flash
+        allAnimated().forEach(el => el.getAnimations().forEach(a => { a.playbackRate = 6; }));
+        setTimeout(() => {
+            const ns = STATES[(stateIdx + 1) % STATES.length];
+            allAnimated().forEach(el => el.getAnimations().forEach(a => {
+                a.playbackRate = hovered ? ns.speed * 1.8 : ns.speed;
+            }));
+        }, 400);
+
+        spawnRipple();
+        applyState(stateIdx + 1);
+    });
+
+    /* ─── DOM RIPPLE ─── */
+    function spawnRipple() {
+        const d = document.createElement('div');
+        d.className = 'd-ripple';
+        orb.appendChild(d);
+        d.addEventListener('animationend', () => d.remove(), { once: true });
+    }
+
+    /* ─── CANVAS: PARTICLE BURST ─── */
+    let particles = [];
+
+    function spawnBurst(x, y, color, count) {
+        for (let i = 0; i < count; i++) {
+            const angle = (Math.PI * 2 * i / count) + (Math.random() - .5) * 0.5;
+            const spd   = 1.2 + Math.random() * 3.8;
+            particles.push({
+                x, y,
+                vx: Math.cos(angle) * spd,
+                vy: Math.sin(angle) * spd,
+                life: 1,
+                decay: 0.016 + Math.random() * 0.022,
+                r: 1.2 + Math.random() * 2.8,
+                color
+            });
+        }
+    }
+
+    /* ─── CANVAS: ELECTRON TRAILS ─── */
+    const MAX_TRAIL = 22;
+    const trailBufs = new Map(); // key → [{x,y}]
+
+    function sampleDots() {
+        const cr = canvas.getBoundingClientRect();
+        if (cr.width === 0) return;
+        document.querySelectorAll('#d-orb .d-orbital-dot').forEach((dot, i) => {
+            const dr = dot.getBoundingClientRect();
+            if (dr.width === 0) return;
+            const x = dr.left + dr.width  / 2 - cr.left;
+            const y = dr.top  + dr.height / 2 - cr.top;
+            if (!trailBufs.has(i)) trailBufs.set(i, []);
+            const buf = trailBufs.get(i);
+            // only push if dot moved enough (avoids static trails)
+            const last = buf[buf.length - 1];
+            if (!last || Math.hypot(x - last.x, y - last.y) > 0.5) {
+                buf.push({ x, y });
+                if (buf.length > MAX_TRAIL) buf.shift();
+            }
+        });
+    }
+
+    function drawTrails() {
+        trailBufs.forEach(buf => {
+            if (buf.length < 3) return;
+            for (let i = 1; i < buf.length; i++) {
+                const t = i / buf.length;
+                ctx.beginPath();
+                ctx.moveTo(buf[i - 1].x, buf[i - 1].y);
+                ctx.lineTo(buf[i].x,     buf[i].y);
+                ctx.strokeStyle = currentStateColor;
+                ctx.globalAlpha = t * 0.45;
+                ctx.lineWidth   = t * 1.8;
+                ctx.lineCap     = 'round';
+                ctx.stroke();
+            }
+        });
+        ctx.globalAlpha = 1;
+    }
+
+    /* ─── MAIN CANVAS LOOP ─── */
+    (function renderLoop() {
+        ctx.clearRect(0, 0, CW, CH);
+
+        sampleDots();
+        drawTrails();
+
+        // particles
+        for (let i = particles.length - 1; i >= 0; i--) {
+            const p = particles[i];
+            ctx.save();
+            ctx.globalAlpha = p.life * 0.88;
+            ctx.fillStyle   = p.color;
+            ctx.shadowBlur  = 10;
+            ctx.shadowColor = p.color;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r * Math.sqrt(p.life), 0, Math.PI * 2);
+            ctx.fill();
+            ctx.restore();
+            p.x    += p.vx;  p.y    += p.vy;
+            p.vx   *= 0.93;  p.vy   *= 0.93;
+            p.life -= p.decay;
+            if (p.life <= 0) particles.splice(i, 1);
+        }
+
+        requestAnimationFrame(renderLoop);
+    })();
+
+    applyState(0);
 })();
 
 /* ══════════════════════════════════
