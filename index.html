@@ -869,6 +869,90 @@
     .reveal { opacity: 0; transform: translateY(20px); transition: opacity .8s ease, transform .8s ease; }
     .reveal.in { opacity: 1; transform: none; }
 
+    /* ═══════════════════════════════════════════════
+       CUSTOM CURSOR
+    ═══════════════════════════════════════════════ */
+    @media (pointer: fine) {
+        body { cursor: none; }
+        a, button, [role="button"], .sb-dot, .dim-skill-card, .cyber-card { cursor: none; }
+    }
+
+    #cursor-ring {
+        position: fixed;
+        top: 0; left: 0;
+        width: 36px; height: 36px;
+        border: 1.5px solid rgba(124,58,237,0.6);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 99999;
+        transform: translate(-50%,-50%);
+        transition: width .25s, height .25s, border-color .25s, background .25s, opacity .3s;
+        will-change: transform;
+        mix-blend-mode: normal;
+    }
+    #cursor-dot {
+        position: fixed;
+        top: 0; left: 0;
+        width: 5px; height: 5px;
+        border-radius: 50%;
+        background: var(--violet);
+        pointer-events: none;
+        z-index: 99999;
+        transform: translate(-50%,-50%);
+        will-change: transform;
+        box-shadow: 0 0 8px var(--violet);
+        transition: opacity .3s;
+    }
+    #cursor-ring.hovered {
+        width: 48px; height: 48px;
+        border-color: rgba(124,58,237,0.9);
+        background: rgba(124,58,237,0.07);
+    }
+    #cursor-ring.clicking {
+        width: 28px; height: 28px;
+        background: rgba(124,58,237,0.18);
+    }
+
+    /* ═══════════════════════════════════════════════
+       SIDEBAR dot pulse ring
+    ═══════════════════════════════════════════════ */
+    .sb-dot.active::before {
+        content: '';
+        position: absolute;
+        inset: -6px;
+        border-radius: 50%;
+        border: 1px solid var(--violet);
+        animation: dotPulse 2s ease-out infinite;
+        pointer-events: none;
+    }
+    @keyframes dotPulse {
+        0%   { transform: scale(1);   opacity: .8; }
+        100% { transform: scale(2.4); opacity: 0; }
+    }
+
+    /* improved brand hover */
+    .sb-brand {
+        transition: filter .25s, text-shadow .25s;
+    }
+    .sb-brand:hover {
+        filter: brightness(1.3);
+        text-shadow: 0 0 20px rgba(124,58,237,0.6);
+    }
+
+    /* pill greeting transition */
+    #pill-greeting {
+        display: inline-block;
+        transition: opacity .28s, transform .28s;
+    }
+    #pill-greeting.fade-out {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+    #pill-greeting.fade-in {
+        opacity: 1;
+        transform: none;
+    }
+
     /* ── responsive ── */
     @media (max-width: 1024px) {
         .dim-skill-grid { grid-template-columns: 1fr 1fr; }
@@ -886,6 +970,10 @@
     </style>
 </head>
 <body class="is-preload">
+
+<!-- ─── CUSTOM CURSOR ─── -->
+<div id="cursor-ring"></div>
+<div id="cursor-dot"></div>
 
 <!-- ─── COOKIE ─── -->
 <div id="cookieConsent">
@@ -1539,8 +1627,14 @@ document.querySelectorAll('.reveal').forEach(el => revObs.observe(el));
     let idx = Math.floor(Math.random() * greetings.length);
     el.textContent = greetings[idx];
     setInterval(() => {
-        el.style.opacity = '0';
-        setTimeout(() => { idx = (idx+1) % greetings.length; el.textContent = greetings[idx]; el.style.opacity = '1'; }, 300);
+        el.classList.add('fade-out');
+        setTimeout(() => {
+            idx = (idx + 1) % greetings.length;
+            el.textContent = greetings[idx];
+            el.classList.remove('fade-out');
+            el.classList.add('fade-in');
+            setTimeout(() => el.classList.remove('fade-in'), 280);
+        }, 280);
     }, 2800);
 })();
 
@@ -1606,6 +1700,76 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     if (modalClose) modalClose.addEventListener('click', () => modal.classList.remove('open'));
     modal.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('open'); });
+})();
+
+/* ══════════════════════════════════
+   CUSTOM CURSOR (lerp ring + dot)
+══════════════════════════════════ */
+(function () {
+    const ring = document.getElementById('cursor-ring');
+    const dot  = document.getElementById('cursor-dot');
+    if (!ring || !dot) return;
+
+    // Only on fine pointer (mouse, not touch)
+    if (!window.matchMedia('(pointer: fine)').matches) {
+        ring.style.display = 'none';
+        dot.style.display  = 'none';
+        return;
+    }
+
+    let mx = window.innerWidth / 2, my = window.innerHeight / 2;
+    let rx = mx, ry = my;
+
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+
+    (function loop() {
+        rx += (mx - rx) * 0.12;
+        ry += (my - ry) * 0.12;
+        ring.style.transform = `translate(calc(${rx}px - 50%), calc(${ry}px - 50%))`;
+        dot.style.transform  = `translate(calc(${mx}px - 50%), calc(${my}px - 50%))`;
+        requestAnimationFrame(loop);
+    })();
+
+    // hover state
+    const interactables = 'a, button, [role="button"], .sb-dot, .dim-skill-card, .cyber-card, .btn-dim-primary, .btn-dim-ghost';
+    document.addEventListener('mouseover', e => {
+        if (e.target.closest(interactables)) ring.classList.add('hovered');
+    });
+    document.addEventListener('mouseout', e => {
+        if (e.target.closest(interactables)) ring.classList.remove('hovered');
+    });
+    document.addEventListener('mousedown', () => ring.classList.add('clicking'));
+    document.addEventListener('mouseup',   () => ring.classList.remove('clicking'));
+})();
+
+/* ══════════════════════════════════
+   COUNTER ANIMATION (stat numbers)
+══════════════════════════════════ */
+(function () {
+    const statNums = document.querySelectorAll('.dim-stat-num[data-count]');
+    if (!statNums.length) return;
+
+    const countObs = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (!entry.isIntersecting) return;
+            const el = entry.target;
+            const target = parseInt(el.dataset.count, 10);
+            const suffix = el.dataset.suffix || '';
+            const dur = 1400;
+            const startTime = performance.now();
+
+            function update(now) {
+                const t    = Math.min((now - startTime) / dur, 1);
+                const ease = 1 - Math.pow(1 - t, 3); // cubic ease-out
+                el.textContent = Math.round(ease * target) + suffix;
+                if (t < 1) requestAnimationFrame(update);
+            }
+            requestAnimationFrame(update);
+            countObs.unobserve(el);
+        });
+    }, { threshold: 0.6 });
+
+    statNums.forEach(el => countObs.observe(el));
 })();
 </script>
 </body>
