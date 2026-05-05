@@ -538,48 +538,118 @@
         box-shadow: 0 0 6px var(--violet);
     }
 
-    /* explosion overlay — created by JS */
-    .atom-blast-overlay {
+    /* ─── LOADING SCREEN (easter egg redirect) ─── */
+    #atom-loader {
         position: fixed;
-        border-radius: 50%;
+        top: 50%;
+        left: calc(50% + var(--sb-w) / 2);
+        transform: translate(-50%, -50%);
         z-index: 9500;
-        pointer-events: none;
-        transform: translate(-50%, -50%) scale(0.05);
-        opacity: 1;
-    }
-    .atom-blast-overlay.fire {
-        animation: atomBlast 1.8s cubic-bezier(.25,0,.2,1) forwards;
-    }
-    @keyframes atomBlast {
-        0%   { transform: translate(-50%,-50%) scale(0.05); }
-        12%  { transform: translate(-50%,-50%) scale(0.6); }
-        35%  { transform: translate(-50%,-50%) scale(3); }
-        65%  { transform: translate(-50%,-50%) scale(10); }
-        100% { transform: translate(-50%,-50%) scale(28); }
-    }
-
-    /* message on explosion */
-    .atom-blast-msg {
-        position: fixed;
-        z-index: 9501;
-        pointer-events: none;
         display: flex;
         flex-direction: column;
-        align-items: center;
+        align-items: flex-start;
+        gap: 18px;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity .55s ease;
+        min-width: 340px;
+    }
+    #atom-loader.show { opacity: 1; }
+
+    /* title row */
+    .al-header {
+        display: flex;
+        align-items: baseline;
         gap: 10px;
-        transform: translate(-50%, -50%);
-        animation: blastMsg 1.8s ease forwards;
     }
-    @keyframes blastMsg {
-        0%   { opacity: 0; letter-spacing: .5em; }
-        18%  { opacity: 1; letter-spacing: .2em; }
-        72%  { opacity: 1; }
-        100% { opacity: 0; }
+    .al-slash {
+        font-family: var(--mono);
+        font-size: .72rem;
+        letter-spacing: .1em;
+        color: var(--cyan);
     }
-    .bm-label { font-family: var(--mono); font-size: .6rem; letter-spacing: .25em; text-transform: uppercase; color: rgba(255,255,255,.5); }
-    .bm-title { font-family: 'Space Grotesk', sans-serif; font-size: 2.2rem; font-weight: 700; letter-spacing: .12em; color: #fff; text-transform: uppercase; }
-    .bm-arrow { font-family: var(--mono); font-size: 1.2rem; color: rgba(255,255,255,.6); animation: arrowPulse .5s ease-in-out infinite alternate; }
-    @keyframes arrowPulse { from { transform: translateY(0); } to { transform: translateY(6px); } }
+    .al-title {
+        font-family: var(--sg);
+        font-size: 2.6rem;
+        font-weight: 700;
+        letter-spacing: .08em;
+        line-height: 1;
+        background: linear-gradient(135deg, var(--text) 0%, var(--violet) 60%, var(--cyan) 100%);
+        -webkit-background-clip: text; background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    /* progress track */
+    .al-track {
+        width: 100%;
+        height: 2px;
+        background: rgba(255,255,255,0.08);
+        border-radius: 2px;
+        position: relative;
+        overflow: visible;
+    }
+    #atom-loader-fill {
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, var(--violet), var(--blue), var(--cyan));
+        border-radius: 2px;
+        box-shadow: 0 0 14px rgba(124,58,237,0.8), 0 0 28px rgba(34,211,238,0.3);
+        transition: width 1.55s cubic-bezier(.4,0,.15,1);
+        position: relative;
+    }
+    /* glow dot at fill tip */
+    #atom-loader-fill::after {
+        content: '';
+        position: absolute;
+        right: -3px; top: -3px;
+        width: 8px; height: 8px;
+        border-radius: 50%;
+        background: var(--cyan);
+        box-shadow: 0 0 10px var(--cyan), 0 0 20px rgba(34,211,238,0.6);
+    }
+
+    /* percentage */
+    .al-pct-row {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        margin-top: -10px;
+    }
+    #atom-loader-pct {
+        font-family: var(--mono);
+        font-size: .58rem;
+        letter-spacing: .16em;
+        color: var(--cyan);
+        text-align: right;
+    }
+    .al-pct-label {
+        font-family: var(--mono);
+        font-size: .58rem;
+        letter-spacing: .16em;
+        color: var(--low);
+    }
+
+    /* terminal log */
+    .al-log {
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+        margin-top: 4px;
+    }
+    .al-line {
+        font-family: var(--mono);
+        font-size: .62rem;
+        letter-spacing: .08em;
+        color: rgba(240,244,255,0.35);
+        opacity: 0;
+        transform: translateX(-10px);
+        transition: opacity .28s ease, transform .28s ease;
+        white-space: nowrap;
+    }
+    .al-line.show { opacity: 1; transform: none; }
+    .al-line .al-cmd  { color: var(--violet); }
+    .al-line .al-ok   { color: var(--cyan); }
+    .al-line .al-done { color: #34d399; }
 
     /* hero shake (charged state) */
     @keyframes heroShake {
@@ -1700,6 +1770,22 @@
 
 <button onclick="topFunction()" id="backToTop" title="Go to top">↑</button>
 
+<!-- ─── EASTER EGG LOADER ─── -->
+<div id="atom-loader">
+    <div class="al-header">
+        <span class="al-slash">//</span>
+        <span class="al-title">ABOUT.ME</span>
+    </div>
+    <div class="al-track">
+        <div id="atom-loader-fill"></div>
+    </div>
+    <div class="al-pct-row">
+        <span class="al-pct-label">loading profile...</span>
+        <span id="atom-loader-pct">0%</span>
+    </div>
+    <div class="al-log" id="atom-loader-log"></div>
+</div>
+
 <!-- Scripts -->
 <script src="assets/js/jquery.min.js"></script>
 <script src="assets/js/jquery.poptrox.min.js"></script>
@@ -2383,53 +2469,76 @@ document.addEventListener('DOMContentLoaded', () => {
         if (ecountEl) ecountEl.style.opacity = '0';
         heroSection.classList.remove('charging', 'charging-hard');
 
-        // Stop all ring animations
-        allAnimated().forEach(el => el.getAnimations().forEach(a => { a.playbackRate = 15; }));
+        // Slow the atom way down (keeps it visible but calm)
+        allAnimated().forEach(el => el.getAnimations().forEach(a => { a.playbackRate = 0.2; }));
 
-        // Get atom center in viewport coords
-        const coreEl  = document.getElementById('d-core');
-        const coreRect = coreEl ? coreEl.getBoundingClientRect() : orbWrap.getBoundingClientRect();
-        const cx = coreRect.left + coreRect.width  / 2;
-        const cy = coreRect.top  + coreRect.height / 2;
+        // Final particle burst from core
+        spawnBurst(CW / 2, CH / 2, currentStateColor, 55);
 
-        // Size: big enough to fill any screen
-        const size = Math.hypot(window.innerWidth, window.innerHeight) * 2.2;
+        // 1. Fade out hero content layers
+        const textLayer  = document.getElementById('hero-text-layer');
+        const scrollCue  = document.querySelector('.hero-scroll');
+        const gridOverlay = document.querySelector('.hero-grid-overlay');
 
-        // Choose explosion color based on current state
-        const explosionColor = currentStateColor;
-        const gradient = `radial-gradient(circle, ${explosionColor} 0%, #0a0a1e 55%, #05050f 100%)`;
+        [textLayer, scrollCue].forEach(el => {
+            if (el) { el.style.transition = 'opacity .5s ease'; el.style.opacity = '0'; }
+        });
 
-        // Create overlay circle
-        const overlay = document.createElement('div');
-        overlay.className = 'atom-blast-overlay';
-        overlay.style.cssText = `
-            left:${cx}px; top:${cy}px;
-            width:${size}px; height:${size}px;
-            background:${gradient};
-        `;
-        document.body.appendChild(overlay);
-
-        // Create message (independent of overlay scale)
-        const msg = document.createElement('div');
-        msg.className = 'atom-blast-msg';
-        msg.style.cssText = `left:${cx}px; top:${cy}px;`;
-        msg.innerHTML = `
-            <span class="bm-label">// access granted</span>
-            <span class="bm-title">About Me</span>
-            <span class="bm-arrow">↓</span>
-        `;
-        document.body.appendChild(msg);
-
-        // Massive final particle burst on canvas
-        spawnBurst(CW / 2, CH / 2, explosionColor, 80);
-
-        // Trigger explosion
-        requestAnimationFrame(() => overlay.classList.add('fire'));
-
-        // Navigate after animation
+        // 2. After content fades, show loading screen
         setTimeout(() => {
-            window.location.href = 'https://edwardattuati.com/aboutme.html';
-        }, 1700);
+            const loader  = document.getElementById('atom-loader');
+            const fillEl  = document.getElementById('atom-loader-fill');
+            const pctEl   = document.getElementById('atom-loader-pct');
+            const logEl   = document.getElementById('atom-loader-log');
+            if (!loader) return;
+
+            loader.classList.add('show');
+
+            // Terminal log lines with staggered reveal
+            const LOG_LINES = [
+                { delay: 120,  html: '<span class="al-cmd">&gt; init</span>    edward.attuati' },
+                { delay: 380,  html: '<span class="al-cmd">&gt; fetch</span>   about_me.json' },
+                { delay: 660,  html: '<span class="al-cmd">&gt; parse</span>   skill_set[ 7 ]' },
+                { delay: 940,  html: '<span class="al-cmd">&gt; mount</span>   profile.component' },
+                { delay: 1280, html: '<span class="al-done">&gt; done</span>    <span class="al-ok">redirecting →</span>' },
+            ];
+            LOG_LINES.forEach(({ delay, html }) => {
+                setTimeout(() => {
+                    if (!logEl) return;
+                    const line = document.createElement('div');
+                    line.className = 'al-line';
+                    line.innerHTML = html;
+                    logEl.appendChild(line);
+                    requestAnimationFrame(() => requestAnimationFrame(() => line.classList.add('show')));
+                }, delay);
+            });
+
+            // Start bar filling
+            requestAnimationFrame(() => requestAnimationFrame(() => {
+                if (fillEl) fillEl.style.width = '100%';
+            }));
+
+            // Count up percentage (non-linear to feel like real loading)
+            let pct = 0;
+            const ticker = setInterval(() => {
+                // Fast at first, slow near 90, fast finish
+                const remaining = 100 - pct;
+                const step = pct < 70
+                    ? 3.5 + Math.random() * 3
+                    : pct < 92
+                        ? 0.8 + Math.random() * 1.2
+                        : 2 + Math.random() * 2;
+                pct = Math.min(pct + step, 100);
+                if (pctEl) pctEl.textContent = Math.floor(pct) + '%';
+                if (pct >= 100) clearInterval(ticker);
+            }, 22);
+
+            // Navigate
+            setTimeout(() => {
+                window.location.href = 'https://edwardattuati.com/aboutme.html';
+            }, 1900);
+
+        }, 520);
     }
 
     /* ─── CLICK: state cycle + ripple + burst + easter egg ─── */
