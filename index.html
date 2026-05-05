@@ -507,6 +507,92 @@
     #hero-orb-layer.atom-quantum .dot-c    { background: #22d3ee !important; box-shadow: 0 0 12px #22d3ee, 0 0 24px rgba(34,211,238,0.5)  !important; }
     #hero-orb-layer.atom-quantum .d-ripple { border-color: rgba(52,211,153,0.9); }
 
+    /* ─── EASTER EGG: 20 clicks ─── */
+
+    /* click counter badge */
+    #atom-ecount {
+        position: absolute;
+        top: -48px; left: 50%;
+        transform: translateX(-50%);
+        font-family: var(--mono);
+        font-size: .52rem;
+        letter-spacing: .18em;
+        text-transform: uppercase;
+        color: var(--violet);
+        opacity: 0;
+        transition: opacity .4s, color .4s;
+        white-space: nowrap;
+        pointer-events: none;
+        z-index: 27;
+    }
+
+    /* progress bar inside counter */
+    .ecount-bar {
+        display: block;
+        height: 1px;
+        margin-top: 5px;
+        background: linear-gradient(90deg, var(--violet), var(--cyan));
+        width: 0%;
+        transition: width .35s cubic-bezier(.4,0,.2,1);
+        border-radius: 1px;
+        box-shadow: 0 0 6px var(--violet);
+    }
+
+    /* explosion overlay — created by JS */
+    .atom-blast-overlay {
+        position: fixed;
+        border-radius: 50%;
+        z-index: 9500;
+        pointer-events: none;
+        transform: translate(-50%, -50%) scale(0.05);
+        opacity: 1;
+    }
+    .atom-blast-overlay.fire {
+        animation: atomBlast 1.8s cubic-bezier(.25,0,.2,1) forwards;
+    }
+    @keyframes atomBlast {
+        0%   { transform: translate(-50%,-50%) scale(0.05); }
+        12%  { transform: translate(-50%,-50%) scale(0.6); }
+        35%  { transform: translate(-50%,-50%) scale(3); }
+        65%  { transform: translate(-50%,-50%) scale(10); }
+        100% { transform: translate(-50%,-50%) scale(28); }
+    }
+
+    /* message on explosion */
+    .atom-blast-msg {
+        position: fixed;
+        z-index: 9501;
+        pointer-events: none;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        transform: translate(-50%, -50%);
+        animation: blastMsg 1.8s ease forwards;
+    }
+    @keyframes blastMsg {
+        0%   { opacity: 0; letter-spacing: .5em; }
+        18%  { opacity: 1; letter-spacing: .2em; }
+        72%  { opacity: 1; }
+        100% { opacity: 0; }
+    }
+    .bm-label { font-family: var(--mono); font-size: .6rem; letter-spacing: .25em; text-transform: uppercase; color: rgba(255,255,255,.5); }
+    .bm-title { font-family: 'Space Grotesk', sans-serif; font-size: 2.2rem; font-weight: 700; letter-spacing: .12em; color: #fff; text-transform: uppercase; }
+    .bm-arrow { font-family: var(--mono); font-size: 1.2rem; color: rgba(255,255,255,.6); animation: arrowPulse .5s ease-in-out infinite alternate; }
+    @keyframes arrowPulse { from { transform: translateY(0); } to { transform: translateY(6px); } }
+
+    /* hero shake (charged state) */
+    @keyframes heroShake {
+        0%,100% { transform: none; }
+        15%  { transform: translate(-3px,  1px) rotate(.2deg); }
+        30%  { transform: translate( 2px, -2px) rotate(-.1deg); }
+        50%  { transform: translate(-2px,  3px) rotate(.15deg); }
+        70%  { transform: translate( 3px, -1px) rotate(-.2deg); }
+        85%  { transform: translate(-1px,  2px) rotate(.1deg); }
+    }
+    #intro.charging { animation: heroShake .18s linear infinite; }
+    #intro.charging-hard { animation: heroShake .1s linear infinite; }
+
     /* cursor hint on orb */
     .hero-orb-wrap { cursor: none; }
 
@@ -1270,6 +1356,12 @@
 
             <!-- drag hint -->
             <div id="drag-hint">⟨ grab &amp; drag ⟩</div>
+
+            <!-- easter egg click counter (appears after 5 clicks) -->
+            <div id="atom-ecount">
+                <span id="ecount-text"></span>
+                <span class="ecount-bar" id="ecount-bar"></span>
+            </div>
         </div>
     </div>
 
@@ -2234,16 +2326,128 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 500);
     });
 
-    /* ─── CLICK: state cycle + ripple + burst ─── */
+    /* ─── EASTER EGG: 20-click countdown ─── */
+    const EASTER_TARGET = 20;
+    let clickCount = 0;
+    let easterTriggered = false;
+
+    const ecountEl   = document.getElementById('atom-ecount');
+    const ecountText = document.getElementById('ecount-text');
+    const ecountBar  = document.getElementById('ecount-bar');
+    const heroSection = document.getElementById('intro');
+
+    function updateCounter() {
+        if (!ecountEl || !ecountText || !ecountBar) return;
+        const pct = (clickCount / EASTER_TARGET * 100).toFixed(0);
+
+        // Messages that escalate
+        let msg;
+        if (clickCount < 10)      msg = `[ ${clickCount} / ${EASTER_TARGET} ]  keep clicking...`;
+        else if (clickCount < 15) msg = `[ ${clickCount} / ${EASTER_TARGET} ]  something is happening...`;
+        else if (clickCount < 18) msg = `[ ${clickCount} / ${EASTER_TARGET} ]  ⚡ almost there...`;
+        else if (clickCount < 20) msg = `[ ${clickCount} / ${EASTER_TARGET} ]  ⚡⚡ DON'T STOP...`;
+
+        ecountText.textContent = msg;
+        ecountBar.style.width  = pct + '%';
+        ecountEl.style.opacity = '1';
+
+        // Color escalation
+        if (clickCount >= 15) {
+            ecountEl.style.color = '#fb923c';
+            ecountBar.style.background = 'linear-gradient(90deg, #fb923c, #ef4444)';
+            ecountBar.style.boxShadow  = '0 0 8px #fb923c';
+        }
+        if (clickCount >= 18) {
+            ecountEl.style.color = '#ef4444';
+        }
+    }
+
+    function triggerMilestone(count) {
+        // Big particle burst from canvas center
+        spawnBurst(CW / 2, CH / 2, currentStateColor, count === 10 ? 60 : 80);
+        // Ring speed spike
+        allAnimated().forEach(el => el.getAnimations().forEach(a => { a.playbackRate = 9; }));
+        setTimeout(() => {
+            allAnimated().forEach(el => el.getAnimations().forEach(a => {
+                a.playbackRate = hovered ? STATES[stateIdx].speed * 1.8 : STATES[stateIdx].speed;
+            }));
+        }, 700);
+        // Extra ripple rings
+        for (let i = 0; i < 3; i++) {
+            setTimeout(spawnRipple, i * 120);
+        }
+    }
+
+    function triggerExplosion() {
+        easterTriggered = true;
+        if (ecountEl) ecountEl.style.opacity = '0';
+        heroSection.classList.remove('charging', 'charging-hard');
+
+        // Stop all ring animations
+        allAnimated().forEach(el => el.getAnimations().forEach(a => { a.playbackRate = 15; }));
+
+        // Get atom center in viewport coords
+        const coreEl  = document.getElementById('d-core');
+        const coreRect = coreEl ? coreEl.getBoundingClientRect() : orbWrap.getBoundingClientRect();
+        const cx = coreRect.left + coreRect.width  / 2;
+        const cy = coreRect.top  + coreRect.height / 2;
+
+        // Size: big enough to fill any screen
+        const size = Math.hypot(window.innerWidth, window.innerHeight) * 2.2;
+
+        // Choose explosion color based on current state
+        const explosionColor = currentStateColor;
+        const gradient = `radial-gradient(circle, ${explosionColor} 0%, #0a0a1e 55%, #05050f 100%)`;
+
+        // Create overlay circle
+        const overlay = document.createElement('div');
+        overlay.className = 'atom-blast-overlay';
+        overlay.style.cssText = `
+            left:${cx}px; top:${cy}px;
+            width:${size}px; height:${size}px;
+            background:${gradient};
+        `;
+        document.body.appendChild(overlay);
+
+        // Create message (independent of overlay scale)
+        const msg = document.createElement('div');
+        msg.className = 'atom-blast-msg';
+        msg.style.cssText = `left:${cx}px; top:${cy}px;`;
+        msg.innerHTML = `
+            <span class="bm-label">// access granted</span>
+            <span class="bm-title">About Me</span>
+            <span class="bm-arrow">↓</span>
+        `;
+        document.body.appendChild(msg);
+
+        // Massive final particle burst on canvas
+        spawnBurst(CW / 2, CH / 2, explosionColor, 80);
+
+        // Trigger explosion
+        requestAnimationFrame(() => overlay.classList.add('fire'));
+
+        // Navigate after animation
+        setTimeout(() => {
+            window.location.href = 'https://edwardattuati.com/aboutme.html';
+        }, 1700);
+    }
+
+    /* ─── CLICK: state cycle + ripple + burst + easter egg ─── */
     orbWrap.addEventListener('click', e => {
-        // burst at click point relative to canvas center
+        if (easterTriggered) return;
+
         const r  = canvas.getBoundingClientRect();
         const bx = e.clientX - r.left;
         const by = e.clientY - r.top;
-        spawnBurst(bx, by, currentStateColor, 30);
 
-        // extra speed flash
-        allAnimated().forEach(el => el.getAnimations().forEach(a => { a.playbackRate = 6; }));
+        // Standard: burst + ripple + state
+        const burstCount = 30 + Math.min(clickCount * 2, 40); // more particles as count rises
+        spawnBurst(bx, by, currentStateColor, burstCount);
+        spawnRipple();
+        applyState(stateIdx + 1);
+
+        // Speed flash
+        allAnimated().forEach(el => el.getAnimations().forEach(a => { a.playbackRate = 6 + clickCount * 0.3; }));
         setTimeout(() => {
             const ns = STATES[(stateIdx + 1) % STATES.length];
             allAnimated().forEach(el => el.getAnimations().forEach(a => {
@@ -2251,8 +2455,26 @@ document.addEventListener('DOMContentLoaded', () => {
             }));
         }, 400);
 
-        spawnRipple();
-        applyState(stateIdx + 1);
+        clickCount++;
+
+        // Show counter after 5th click
+        if (clickCount >= 5) updateCounter();
+
+        // Milestones
+        if (clickCount === 10) triggerMilestone(10);
+        if (clickCount === 15) triggerMilestone(15);
+
+        // Hero charging shake at 15
+        if (clickCount === 15 && heroSection) heroSection.classList.add('charging');
+        if (clickCount === 18 && heroSection) {
+            heroSection.classList.remove('charging');
+            heroSection.classList.add('charging-hard');
+        }
+
+        // EASTER EGG at 20!
+        if (clickCount >= EASTER_TARGET) {
+            triggerExplosion();
+        }
     });
 
     /* ─── DOM RIPPLE ─── */
