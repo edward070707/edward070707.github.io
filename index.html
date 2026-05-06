@@ -1570,7 +1570,7 @@
         </p>
 
         <div class="hero-ctas">
-            <a href="#work" class="btn-dim-primary" data-i18n="intro-more" onclick="var t=document.getElementById('work');if(t){event.preventDefault();t.scrollIntoView({behavior:'smooth'});}">Explore my work</a>
+            <a href="#work" class="btn-dim-primary" data-i18n="intro-more" onclick="(function(e){var t=document.getElementById('work');if(t){e.preventDefault();e.stopImmediatePropagation();var s=window.pageYOffset,d=t.getBoundingClientRect().top,dur=Math.min(900,Math.max(400,Math.abs(d)*0.4)),st=null;function step(ts){if(!st)st=ts;var p=Math.min((ts-st)/dur,1),q=1-Math.pow(1-p,3);window.scrollTo(0,s+d*q);if(p<1)requestAnimationFrame(step);}requestAnimationFrame(step);}})(event)">Explore my work</a>
             <a href="https://edwardattuati.com/aboutme.html" class="btn-dim-ghost" data-i18n="one-btn">About me</a>
         </div>
     </div>
@@ -1971,8 +1971,11 @@
 
     /* sticky viewport zone */
     .tl-sticky-zone {
+        position: -webkit-sticky; /* iOS Safari < 13 */
         position: sticky; top: 0;
-        height: 100vh; overflow: hidden;
+        height: 100vh;          /* fallback */
+        height: calc(var(--vh, 1vh) * 100); /* JS-corrected for iOS */
+        overflow: hidden;
         display: flex; flex-direction: column;
         justify-content: center; align-items: stretch;
     }
@@ -2273,6 +2276,33 @@
         /* skills mobile */
         #one { padding: 60px 20px !important; }
         .dim-skill-grid { gap: 14px !important; }
+
+        /* ── Touch target sizes (Apple HIG: min 44×44pt) ── */
+        .mob-nav-btn { min-height: 44px; min-width: 44px; padding: 6px 8px; }
+        .mob-lang-btn { min-height: 44px; }
+
+        /* ── Prevent horizontal overflow (common iOS layout bug) ── */
+        body, #dim-main { overflow-x: hidden; }
+        .tl-inner { padding: 0 16px !important; }
+        .tl-hd { margin-bottom: 32px; }
+
+        /* ── Footer mobile ── */
+        #footer { margin-left: 0 !important; }
+        .dim-footer-inner { flex-direction: column; gap: 16px; padding: 24px 20px 96px; text-align: center; }
+
+        /* ── Skill cards ── */
+        .dim-skill-card { touch-action: manipulation; }
+
+        /* ── Chatbot ── */
+        #ea-chat { right: 12px !important; }
+        #ea-chat-btn { width: 50px !important; height: 50px !important; }
+
+        /* ── About section ── */
+        .about-grid { flex-direction: column !important; }
+        .about-stats { grid-template-columns: 1fr 1fr !important; }
+
+        /* ── Work section ── */
+        .proj-grid { grid-template-columns: 1fr !important; }
     }
 
 </style>
@@ -2490,6 +2520,26 @@
 <script src="assets/js/main.js"></script>
 
 <script>
+/* ══════════════════════════════════
+   iOS VIEWPORT HEIGHT FIX
+   iOS Safari reports 100vh = full height including hidden address bar,
+   causing sticky elements to be too tall. We set --vh to the real
+   inner height so CSS can use calc(var(--vh,1vh)*100) instead.
+══════════════════════════════════ */
+(function () {
+    function setVH() {
+        var vh = window.innerHeight * 0.01;
+        document.documentElement.style.setProperty('--vh', vh + 'px');
+    }
+    setVH();
+    // Re-run on resize and on orientation change (iPhone rotation)
+    window.addEventListener('resize', setVH, { passive: true });
+    window.addEventListener('orientationchange', function() {
+        // iOS fires orientationchange before innerHeight updates, delay slightly
+        setTimeout(setVH, 200);
+    });
+})();
+
 /* ══════════════════════════════════
    TRANSLATIONS
 ══════════════════════════════════ */
@@ -3890,17 +3940,45 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('scroll', updateActive, { passive: true });
     updateActive();
 
-    // smooth scroll on mobile nav links (prevent Stellar JS issues)
+    // ── Robust smooth-scroll: iOS Safari compat ──────────────────
+    // scrollIntoView({behavior:'smooth'}) broken on iOS < 15.4
+    // window.scrollTo({behavior:'smooth'}) broken on iOS < 14
+    // → manual rAF scroll as universal fallback
+    function iosSmoothScroll(el) {
+        // small offset so the element isn't hidden under potential top bar
+        var targetY = el.getBoundingClientRect().top + window.pageYOffset;
+        var startY  = window.pageYOffset;
+        var dist    = targetY - startY;
+        if (Math.abs(dist) < 2) return;
+        var dur     = Math.min(900, Math.max(400, Math.abs(dist) * 0.4));
+        var startT  = null;
+        function step(ts) {
+            if (!startT) startT = ts;
+            var p = Math.min((ts - startT) / dur, 1);
+            // ease-out cubic
+            var e = 1 - Math.pow(1 - p, 3);
+            window.scrollTo(0, startY + dist * e);
+            if (p < 1) requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+    }
+
+    // smooth scroll on mobile nav links
+    // stopImmediatePropagation prevents jQuery scrolly (Stellar template) from also firing
     mobBtns.forEach(btn => {
-        if (!btn.href) return;
-        btn.addEventListener('click', e => {
-            const id = btn.getAttribute('href').replace('#','');
-            const target = document.getElementById(id);
+        if (!btn.getAttribute('href')) return;
+        btn.addEventListener('click', function(e) {
+            var id = btn.getAttribute('href').replace('#','');
+            var target = document.getElementById(id);
             if (target) {
                 e.preventDefault();
-                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                e.stopImmediatePropagation(); // block jQuery scrolly handler
+                langPanel.classList.remove('open'); // close lang panel if open
+                iosSmoothScroll(target);
+                // update active state immediately for snappy feel
+                setTimeout(updateActive, 300);
             }
-        });
+        }, true); // capture phase → fires before ANY bubble-phase handler
     });
 })();
 
