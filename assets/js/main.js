@@ -1,7 +1,7 @@
 /*
 	Big Picture by HTML5 UP
 	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+	Libero per uso personale e commerciale sotto licenza CCA 3.0 (html5up.net/license)
 */
 
 (function($) {
@@ -11,7 +11,7 @@
 		$header = $('#header'),
 		$all = $body.add($header);
 
-	// Breakpoints.
+	// Breakpoint responsivi.
 		breakpoints({
 			xxlarge: [ '1681px',  '1920px' ],
 			xlarge:  [ '1281px',  '1680px' ],
@@ -21,14 +21,14 @@
 			xsmall:  [ null,      '480px'  ]
 		});
 
-	// Play initial animations on page load.
+	// Avvia le animazioni iniziali al caricamento pagina.
 		$window.on('load', function() {
 			setTimeout(function() {
 				$body.removeClass('is-preload');
 			}, 100);
 		});
 
-	// Touch mode.
+	// Modalità touch.
 		if (browser.mobile)
 			$body.addClass('is-touch');
 		else {
@@ -43,7 +43,7 @@
 
 		}
 
-	// Fix: IE flexbox fix.
+	// Fix: correzione flexbox per IE.
 		if (browser.name == 'ie') {
 
 			var $main = $('.main.fullscreen'),
@@ -76,7 +76,7 @@
 
 		}
 
-	// Gallery.
+	// Galleria foto.
 		$window.on('load', function() {
 
 			var $gallery = $('.gallery');
@@ -94,7 +94,7 @@
 				usePopupNav: true
 			});
 
-			// Hack: Adjust margins when 'small' activates.
+			// Hack: aggiusta i margini quando scatta il breakpoint 'small'.
 				breakpoints.on('>small', function() {
 					$gallery.each(function() {
 						$(this)[0]._poptrox.windowMargin = 50;
@@ -109,12 +109,12 @@
 
 		});
 
-	// Section transitions.
+	// Transizioni sezioni.
 		if (browser.canUse('transition')) {
 
 			var on = function() {
 
-				// Galleries.
+				// Gallerie.
 					$('.gallery')
 						.scrollex({
 							top:		'30vh',
@@ -126,7 +126,7 @@
 							leave:		function() { $(this).addClass('inactive'); }
 						});
 
-				// Generic sections.
+				// Sezioni generiche.
 					$('.main.style1')
 						.scrollex({
 							mode:		'middle',
@@ -147,7 +147,7 @@
 							leave:		function() { $(this).addClass('inactive'); }
 						});
 
-				// Contact.
+				// Contatti.
 					$('#contact')
 						.scrollex({
 							top:		'50%',
@@ -162,18 +162,18 @@
 
 			var off = function() {
 
-				// Galleries.
+				// Gallerie.
 					$('.gallery')
 						.unscrollex();
 
-				// Generic sections.
+				// Sezioni generiche.
 					$('.main.style1')
 						.unscrollex();
 
 					$('.main.style2')
 						.unscrollex();
 
-				// Contact.
+				// Contatti.
 					$('#contact')
 						.unscrollex();
 
@@ -184,26 +184,26 @@
 
 		}
 
-	// Events.
+	// Gestione eventi.
 		var resizeTimeout, resizeScrollTimeout;
 
 		$window
 			.on('resize', function() {
 
-				// Disable animations/transitions.
+				// Disabilita animazioni/transizioni.
 					$body.addClass('is-resizing');
 
 				clearTimeout(resizeTimeout);
 
 				resizeTimeout = setTimeout(function() {
 
-					// Update scrolly links.
+					// Aggiorna i link scrolly.
 						$('a[href^="#"]').scrolly({
 							speed: 1500,
 							offset: $header.outerHeight() - 1
 						});
 
-					// Re-enable animations/transitions.
+					// Riabilita animazioni/transizioni.
 						setTimeout(function() {
 							$body.removeClass('is-resizing');
 							$window.trigger('scroll');

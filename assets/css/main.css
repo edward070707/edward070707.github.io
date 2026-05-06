@@ -4,7 +4,7 @@
 /*
 	Big Picture by HTML5 UP
 	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+	Libero per uso personale e commerciale sotto licenza CCA 3.0 (html5up.net/license)
 */
 
 html, body, div, span, applet, object,
@@ -72,7 +72,7 @@ input, select, textarea {
 	appearance: none;
 }
 
-/* Basic */
+/* Stili base */
 
 	@-ms-viewport {
 		width: device-width;
@@ -107,7 +107,7 @@ input, select, textarea {
 			transition: none !important;
 		}
 
-/* Spinner */
+/* Spinner di caricamento */
 
 	@-moz-keyframes spinner-rotate {
 		0% {
@@ -173,7 +173,7 @@ input, select, textarea {
 		}
 	}
 
-/* Loader */
+/* Schermata di caricamento */
 
 	@-moz-keyframes spinner-show {
 		0% {
@@ -497,7 +497,7 @@ input, select, textarea {
 
 	}
 
-/* Type */
+/* Tipografia */
 
 	body, input, textarea, select {
 		font-family: "Source Sans Pro", "sans-serif";
@@ -618,7 +618,7 @@ input, select, textarea {
 		margin-bottom: 1em;
 	}
 
-/* Box */
+/* Riquadro */
 
 	.box {
 		background: #ffffff;
@@ -647,7 +647,7 @@ input, select, textarea {
 
 		}
 
-/* Button */
+/* Pulsanti */
 
 	input[type="button"],
 	input[type="submit"],
@@ -914,7 +914,7 @@ input, select, textarea {
 		opacity: 0.375;
 	}
 
-/* Icon */
+/* Icone */
 
 	.icon {
 		text-decoration: none;
@@ -951,7 +951,7 @@ input, select, textarea {
 			font-family: 'Font Awesome 5 Brands';
 		}
 
-/* Image */
+/* Immagini */
 
 	.image {
 		position: relative;
@@ -999,7 +999,7 @@ input, select, textarea {
 				width: auto;
 			}
 
-/* List */
+/* Liste */
 
 	ul.default {
 		list-style: disc;
@@ -1037,7 +1037,7 @@ input, select, textarea {
 			padding-left: 0.25em;
 		}
 
-/* Actions */
+/* Azioni */
 
 	ul.actions {
 		display: -moz-flex;
@@ -1159,7 +1159,7 @@ input, select, textarea {
 
 		}
 
-/* Icons */
+/* Icone social */
 
 	ul.icons {
 		cursor: default;
@@ -1178,7 +1178,7 @@ input, select, textarea {
 			border: 0;
 		}
 
-/* Sections/Article */
+/* Sezioni/Articoli */
 
 	header {
 		margin-bottom: 1em;
@@ -1194,7 +1194,7 @@ input, select, textarea {
 		margin-top: 2em;
 	}
 
-/* Table */
+/* Tabelle */
 
 	table {
 		width: 100%;
@@ -1227,7 +1227,7 @@ input, select, textarea {
 				background: #e5e6e7;
 			}
 
-/* Poptrox */
+/* Poptrox (lightbox) */
 
 	.poptrox-popup {
 		-moz-box-sizing: content-box;
@@ -1416,7 +1416,7 @@ input, select, textarea {
 
 		}
 
-/* Gallery */
+/* Galleria foto */
 
 	.gallery {
 		display: -moz-flex;
@@ -1824,7 +1824,7 @@ input, select, textarea {
 
 		}
 
-/* Header */
+/* Intestazione */
 
 	#header {
 		position: fixed;
@@ -1917,7 +1917,7 @@ input, select, textarea {
 
 		}
 
-/* Main */
+/* Contenuto principale */
 
 	.main {
 		display: -moz-flex;
@@ -2157,7 +2157,7 @@ input, select, textarea {
 
 		}
 
-/* Footer */
+/* Piè di pagina */
 
 	#footer {
 		display: -moz-flex;
@@ -2241,7 +2241,7 @@ input, select, textarea {
 
 		}
 
-/* Intro */
+/* Sezione intro */
 
 	#intro {
 		background: url("images/overlay.png"), url("../../images/intro.jpg");
@@ -2251,7 +2251,7 @@ input, select, textarea {
 		background-repeat: repeat, no-repeat;
 	}
 
-/* One */
+/* Sezione One */
 
 	#one {
 		background: url("images/overlay.png"), url("../../images/one.jpg");
@@ -2260,7 +2260,7 @@ input, select, textarea {
 		background-position: top left, center center;
 	}
 
-/* Two */
+/* Sezione Two */
 
 	#two {
 		background: url("images/overlay.png"), url("../../images/two.jpg");
@@ -2269,7 +2269,7 @@ input, select, textarea {
 		background-position: top left, center center;
 	}
 
-/* Contact */
+/* Sezione contatti */
 
 	#contact {
 		overflow: hidden;

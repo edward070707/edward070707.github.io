@@ -17,7 +17,7 @@
             overflow-x: hidden;
         }
 
-        /* ── Top bar (home btn + lang switcher) ── */
+        /* ── Barra superiore (btn home + selettore lingua) ── */
         #top-bar {
             position: fixed;
             top: 20px;
@@ -51,7 +51,7 @@
             transform: translateX(-3px);
         }
 
-        /* ── Language Switcher (same style as index.html) ── */
+        /* ── Selettore lingua (stesso stile di index.html) ── */
         #lang-switcher {
             position: relative;
             display: inline-block;
@@ -112,7 +112,7 @@
         #lang-dropdown button.active { color: #fff; font-weight: bold; }
         #lang-dropdown button .flag { font-size: 18px; }
 
-        /* ── Hero ── */
+        /* ── Sezione hero ── */
         .am-hero {
             text-align: center;
             padding: 120px 24px 60px;
@@ -147,7 +147,7 @@
             letter-spacing: 0.08em;
         }
 
-        /* ── Floating particles background ── */
+        /* ── Particelle fluttuanti di sfondo ── */
         #am-particles {
             position: fixed;
             inset: 0;
@@ -168,7 +168,7 @@
             100% { transform: translateY(-10vh) scale(1); opacity: 0; }
         }
 
-        /* ── Cards grid ── */
+        /* ── Griglia di card ── */
         .am-grid {
             display: flex;
             flex-wrap: wrap;
@@ -181,7 +181,7 @@
             z-index: 1;
         }
 
-        /* ── Tilt card ── */
+        /* ── Card con effetto tilt 3D ── */
         .am-card {
             position: relative;
             width: 300px;
@@ -234,7 +234,7 @@
             100% { transform: translate(var(--tx),var(--ty)) scale(0); opacity: 0; }
         }
 
-        /* ── Skill bars ── */
+        /* ── Barre delle competenze ── */
         .am-skill { margin-bottom: 14px; }
         .am-skill-label {
             display: flex; justify-content: space-between;
@@ -252,7 +252,7 @@
 
     <div id="am-particles"></div>
 
-    <!-- Top bar -->
+    <!-- Barra superiore -->
     <div id="top-bar">
         <a id="home-btn" href="https://edwardattuati.com/">
             <span>←</span> <span data-i18n="home-btn">Back to Home</span>
@@ -273,7 +273,7 @@
         </div>
     </div>
 
-    <!-- Hero -->
+    <!-- Sezione hero -->
     <div class="am-hero">
         <img src="imagesAboutMe/pic01.jpg" alt="Edward Attuati" class="am-hero-avatar"
              onerror="this.style.display='none'">
@@ -281,7 +281,7 @@
         <p data-i18n="hero-sub">Computer Engineering Student · Bergamo, Italy</p>
     </div>
 
-    <!-- Cards -->
+    <!-- Card informative -->
     <div class="am-grid">
 
         <div class="am-card" data-color="#4f8ef7">
@@ -387,7 +387,7 @@
     </div>
 
     <script>
-    /* ── Translations ── */
+    /* ── Traduzioni ── */
     const translations = {
         en: {
             'home-btn': 'Back to Home',
@@ -495,12 +495,12 @@
         );
     }
 
-    // Restore saved language (default: English)
+    // Ripristina la lingua salvata (default: inglese)
     document.addEventListener('DOMContentLoaded', () => {
         setLang(localStorage.getItem('ea-lang') || 'en');
     });
 
-    /* ── Floating particles ── */
+    /* ── Particelle fluttuanti ── */
     (function(){
         const container = document.getElementById('am-particles');
         const colors = ['#4f8ef7','#a259ff','#00d4aa','#ff6b6b','#ffaa00'];
@@ -513,7 +513,7 @@
         }
     })();
 
-    /* ── Tilt 3D + Glow + Burst ── */
+    /* ── Tilt 3D + bagliore + esplosione particelle ── */
     document.querySelectorAll('.am-card').forEach(card => {
         const color = card.dataset.color || '#fff';
         card.style.setProperty('--glow-color', color + '44');
@@ -541,7 +541,7 @@
         });
     });
 
-    /* ── Skill bars on scroll ── */
+    /* ── Barre competenze animate allo scroll ── */
     const obs = new IntersectionObserver(entries => {
         entries.forEach(e => { if(e.isIntersecting){ e.target.style.width=e.target.dataset.w+'%'; obs.unobserve(e.target); } });
     }, { threshold: 0.3 });

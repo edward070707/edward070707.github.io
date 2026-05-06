@@ -1,7 +1,7 @@
 (function($) {
 
 	/**
-	 * Generate an indented list of links from a nav. Meant for use with panel().
+	 * Genera una lista indentata di link da un nav. Pensata per l'uso con panel().
 	 * @return {jQuery} jQuery object.
 	 */
 	$.fn.navList = function() {
@@ -35,17 +35,17 @@
 	};
 
 	/**
-	 * Panel-ify an element.
-	 * @param {object} userConfig User config.
+	 * Trasforma un elemento in pannello.
+	 * @param {object} userConfig Configurazione utente.
 	 * @return {jQuery} jQuery object.
 	 */
 	$.fn.panel = function(userConfig) {
 
-		// No elements?
+		// Nessun elemento? Usciamo.
 			if (this.length == 0)
 				return $this;
 
-		// Multiple elements?
+		// Elementi multipli?
 			if (this.length > 1) {
 
 				for (var i=0; i < this.length; i++)
@@ -55,59 +55,59 @@
 
 			}
 
-		// Vars.
+		// Variabili.
 			var	$this = $(this),
 				$body = $('body'),
 				$window = $(window),
 				id = $this.attr('id'),
 				config;
 
-		// Config.
+		// Configurazione.
 			config = $.extend({
 
-				// Delay.
+				// Ritardo.
 					delay: 0,
 
-				// Hide panel on link click.
+				// Nascondi il pannello al click su un link.
 					hideOnClick: false,
 
-				// Hide panel on escape keypress.
+				// Nascondi il pannello alla pressione di Escape.
 					hideOnEscape: false,
 
-				// Hide panel on swipe.
+				// Nascondi il pannello allo swipe.
 					hideOnSwipe: false,
 
-				// Reset scroll position on hide.
+				// Resetta la posizione di scroll alla chiusura.
 					resetScroll: false,
 
-				// Reset forms on hide.
+				// Resetta i form alla chiusura.
 					resetForms: false,
 
-				// Side of viewport the panel will appear.
+				// Lato del viewport dove appare il pannello.
 					side: null,
 
-				// Target element for "class".
+				// Elemento target per la classe.
 					target: $this,
 
-				// Class to toggle.
+				// Classe da togglare.
 					visibleClass: 'visible'
 
 			}, userConfig);
 
-			// Expand "target" if it's not a jQuery object already.
+			// Espandi "target" se non è già un jQuery object.
 				if (typeof config.target != 'jQuery')
 					config.target = $(config.target);
 
-		// Panel.
+		// Pannello.
 
-			// Methods.
+			// Metodi.
 				$this._hide = function(event) {
 
-					// Already hidden? Bail.
+					// Già nascosto? Usciamo.
 						if (!config.target.hasClass(config.visibleClass))
 							return;
 
-					// If an event was provided, cancel it.
+					// Se è stato passato un evento, annullalo.
 						if (event) {
 
 							event.preventDefault();
@@ -115,17 +115,17 @@
 
 						}
 
-					// Hide.
+					// Nascondi.
 						config.target.removeClass(config.visibleClass);
 
-					// Post-hide stuff.
+					// Operazioni post-hide.
 						window.setTimeout(function() {
 
-							// Reset scroll position.
+							// Resetta la posizione di scroll.
 								if (config.resetScroll)
 									$this.scrollTop(0);
 
-							// Reset forms.
+							// Resetta i form.
 								if (config.resetForms)
 									$this.find('form').each(function() {
 										this.reset();
@@ -135,12 +135,12 @@
 
 				};
 
-			// Vendor fixes.
+			// Fix vendor.
 				$this
 					.css('-ms-overflow-style', '-ms-autohiding-scrollbar')
 					.css('-webkit-overflow-scrolling', 'touch');
 
-			// Hide on click.
+			// Nascondi al click.
 				if (config.hideOnClick) {
 
 					$this.find('a')
@@ -156,14 +156,14 @@
 							if (!href || href == '#' || href == '' || href == '#' + id)
 								return;
 
-							// Cancel original event.
+							// Annulla l'evento originale.
 								event.preventDefault();
 								event.stopPropagation();
 
-							// Hide panel.
+							// Nascondi il pannello.
 								$this._hide();
 
-							// Redirect to href.
+							// Reindirizza all'href.
 								window.setTimeout(function() {
 
 									if (target == '_blank')
@@ -177,7 +177,7 @@
 
 				}
 
-			// Event: Touch stuff.
+			// Evento: gestione touch.
 				$this.on('touchstart', function(event) {
 
 					$this.touchPosX = event.originalEvent.touches[0].pageX;
@@ -196,7 +196,7 @@
 						th = $this.outerHeight(),
 						ts = ($this.get(0).scrollHeight - $this.scrollTop());
 
-					// Hide on swipe?
+					// Nascondi allo swipe?
 						if (config.hideOnSwipe) {
 
 							var result = false,
@@ -238,7 +238,7 @@
 
 						}
 
-					// Prevent vertical scrolling past the top or bottom.
+					// Impedisce lo scroll verticale oltre i limiti.
 						if (($this.scrollTop() < 0 && diffY < 0)
 						|| (ts > (th - 2) && ts < (th + 2) && diffY > 0)) {
 
@@ -249,12 +249,12 @@
 
 				});
 
-			// Event: Prevent certain events inside the panel from bubbling.
+			// Evento: blocca il bubbling di certi eventi all'interno del pannello.
 				$this.on('click touchend touchstart touchmove', function(event) {
 					event.stopPropagation();
 				});
 
-			// Event: Hide panel if a child anchor tag pointing to its ID is clicked.
+			// Evento: nascondi il pannello se viene cliccato un link figlio che punta al suo ID.
 				$this.on('click', 'a[href="#' + id + '"]', function(event) {
 
 					event.preventDefault();
@@ -266,12 +266,12 @@
 
 		// Body.
 
-			// Event: Hide panel on body click/tap.
+			// Evento: nascondi il pannello al click/tap sul body.
 				$body.on('click touchend', function(event) {
 					$this._hide(event);
 				});
 
-			// Event: Toggle.
+			// Evento: toggle.
 				$body.on('click', 'a[href="#' + id + '"]', function(event) {
 
 					event.preventDefault();
@@ -283,7 +283,7 @@
 
 		// Window.
 
-			// Event: Hide on ESC.
+			// Evento: nascondi con ESC.
 				if (config.hideOnEscape)
 					$window.on('keydown', function(event) {
 
@@ -297,20 +297,20 @@
 	};
 
 	/**
-	 * Apply "placeholder" attribute polyfill to one or more forms.
+	 * Applica il polyfill dell'attributo "placeholder" a uno o più form.
 	 * @return {jQuery} jQuery object.
 	 */
 	$.fn.placeholder = function() {
 
-		// Browser natively supports placeholders? Bail.
+		// Il browser supporta i placeholder nativamente? Usciamo.
 			if (typeof (document.createElement('input')).placeholder != 'undefined')
 				return $(this);
 
-		// No elements?
+		// Nessun elemento? Usciamo.
 			if (this.length == 0)
 				return $this;
 
-		// Multiple elements?
+		// Elementi multipli?
 			if (this.length > 1) {
 
 				for (var i=0; i < this.length; i++)
@@ -320,7 +320,7 @@
 
 			}
 
-		// Vars.
+		// Variabili.
 			var $this = $(this);
 
 		// Text, TextArea.
@@ -363,7 +363,7 @@
 
 				});
 
-		// Password.
+		// Campo password.
 			$this.find('input[type=password]')
 				.each(function() {
 
@@ -430,7 +430,7 @@
 
 				});
 
-		// Events.
+		// Gestione eventi.
 			$this
 				.on('submit', function() {
 
@@ -519,63 +519,63 @@
 	};
 
 	/**
-	 * Moves elements to/from the first positions of their respective parents.
-	 * @param {jQuery} $elements Elements (or selector) to move.
-	 * @param {bool} condition If true, moves elements to the top. Otherwise, moves elements back to their original locations.
+	 * Sposta gli elementi verso/da la prima posizione del rispettivo genitore.
+	 * @param {jQuery} $elements Elementi (o selettore) da spostare.
+	 * @param {bool} condition Se true, sposta gli elementi in cima. Altrimenti, li riporta nella posizione originale.
 	 */
 	$.prioritize = function($elements, condition) {
 
 		var key = '__prioritize';
 
-		// Expand $elements if it's not already a jQuery object.
+		// Espandi $elements se non è già un jQuery object.
 			if (typeof $elements != 'jQuery')
 				$elements = $($elements);
 
-		// Step through elements.
+		// Itera sugli elementi.
 			$elements.each(function() {
 
 				var	$e = $(this), $p,
 					$parent = $e.parent();
 
-				// No parent? Bail.
+				// Nessun genitore? Usciamo.
 					if ($parent.length == 0)
 						return;
 
-				// Not moved? Move it.
+				// Non ancora spostato? Spostalo.
 					if (!$e.data(key)) {
 
-						// Condition is false? Bail.
+						// Condizione falsa? Usciamo.
 							if (!condition)
 								return;
 
-						// Get placeholder (which will serve as our point of reference for when this element needs to move back).
+						// Ottieni il segnaposto (riferimento per riportare l'elemento nella posizione originale).
 							$p = $e.prev();
 
-							// Couldn't find anything? Means this element's already at the top, so bail.
+							// Nulla trovato? L'elemento è già in cima, usciamo.
 								if ($p.length == 0)
 									return;
 
-						// Move element to top of parent.
+						// Sposta l'elemento in cima al genitore.
 							$e.prependTo($parent);
 
-						// Mark element as moved.
+						// Segna l'elemento come spostato.
 							$e.data(key, $p);
 
 					}
 
-				// Moved already?
+				// Già spostato?
 					else {
 
-						// Condition is true? Bail.
+						// Condizione vera? Usciamo.
 							if (condition)
 								return;
 
 						$p = $e.data(key);
 
-						// Move element back to its original location (using our placeholder).
+						// Riporta l'elemento nella posizione originale (usando il segnaposto).
 							$e.insertAfter($p);
 
-						// Unmark element as moved.
+						// Rimuovi il segno di spostamento.
 							$e.removeData(key);
 
 					}

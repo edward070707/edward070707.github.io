@@ -13,8 +13,8 @@
 
     <style>
     /* ═══════════════════════════════════════════════
-       @property — animatable CSS custom properties
-       (This is what makes senior devs go "wait, HOW?")
+       @property — proprietà CSS custom animabili
+       (quello che fa dire ai senior dev "ma come?!")
     ═══════════════════════════════════════════════ */
     @property --gx1 { syntax: '<percentage>'; inherits: false; initial-value: 18%; }
     @property --gy1 { syntax: '<percentage>'; inherits: false; initial-value: 22%; }
@@ -26,7 +26,7 @@
     @property --ga2 { syntax: '<number>';     inherits: false; initial-value: 0.40; }
 
     /* ═══════════════════════════════════════════════
-       ROOT
+       VARIABILI ROOT
     ═══════════════════════════════════════════════ */
     :root {
         --void:    #05050f;
@@ -54,11 +54,11 @@
         overflow-x: hidden;
     }
 
-    /* template overrides */
+    /* override stili template */
     #header { display: none !important; }
 
     /* ═══════════════════════════════════════════════
-       SIDEBAR — fixed vertical navigation
+       SIDEBAR — navigazione verticale fissa
     ═══════════════════════════════════════════════ */
     #dim-sidebar {
         position: fixed;
@@ -76,12 +76,12 @@
         z-index: 600;
     }
 
-    /* scrolled: subtle violet left border glow */
+    /* scroll attivo: lieve bagliore viola sul bordo sinistro */
     #dim-sidebar.active-scroll {
         border-right-color: rgba(124,58,237,0.3);
     }
 
-    /* brand */
+    /* logo/brand */
     .sb-brand {
         font-family: var(--sg);
         font-size: 1rem;
@@ -95,7 +95,7 @@
         line-height: 1;
     }
 
-    /* lang switcher (compact) */
+    /* selettore lingua (compatto) */
     .sb-lang {
         position: relative;
         display: flex; flex-direction: column; align-items: center;
@@ -134,7 +134,7 @@
     #lang-dropdown button.active { color: var(--violet); font-weight: 600; }
     #lang-dropdown .flag { font-size: 15px; }
 
-    /* dot navigation */
+    /* navigazione a punti */
     .sb-dots {
         display: flex;
         flex-direction: column;
@@ -181,7 +181,7 @@
         transform: scale(1.2);
     }
 
-    /* scroll progress bar */
+    /* barra di avanzamento scroll */
     .sb-progress {
         width: 1px;
         height: 80px;
@@ -200,14 +200,14 @@
     }
 
     /* ═══════════════════════════════════════════════
-       MAIN — offset for sidebar
+       MAIN — offset per la sidebar
     ═══════════════════════════════════════════════ */
     #dim-main {
         margin-left: var(--sb-w);
     }
 
     /* ═══════════════════════════════════════════════
-       HERO — @property gradient + 3D orb + parallax
+       HERO — gradiente @property + orb 3D + parallasse
     ═══════════════════════════════════════════════ */
     #intro {
         position: relative !important;
@@ -219,7 +219,7 @@
         align-items: center !important;
     }
 
-    /* animated gradient background — uses @property for smooth color position morphing */
+    /* sfondo gradiente animato — usa @property per il morphing fluido delle posizioni colore */
     .hero-gradient-bg {
         position: absolute;
         inset: 0;
@@ -241,7 +241,7 @@
         }
     }
 
-    /* subtle grid overlay */
+    /* griglia di sfondo sottile */
     .hero-grid-overlay {
         position: absolute;
         inset: 0;
@@ -252,7 +252,7 @@
         pointer-events: none;
     }
 
-    /* vignette */
+    /* vignettatura */
     .hero-vignette {
         position: absolute;
         inset: 0;
@@ -260,7 +260,7 @@
         pointer-events: none;
     }
 
-    /* parallax layers */
+    /* livelli parallasse */
     .hero-layer {
         position: absolute;
         inset: 0;
@@ -268,7 +268,7 @@
         pointer-events: none;
     }
 
-    /* floating orb accent — parallax layer 2 */
+    /* orb fluttuante — livello parallasse 2 */
     .hero-orb-wrap {
         position: absolute;
         right: 8%;
@@ -277,7 +277,7 @@
         will-change: transform;
     }
 
-    /* ── 3D orbital rings (pure CSS, no library) ── */
+    /* ── Anelli orbitali 3D (CSS puro, nessuna libreria) ── */
     .d-orb {
         width: 340px; height: 340px;
         position: relative;
@@ -340,7 +340,7 @@
         100% { transform: rotateX(40deg) rotateY(60deg) rotateZ(360deg); }
     }
 
-    /* orbital dots */
+    /* punti orbitali */
     .d-orbital {
         position: absolute;
         top: 50%; left: 50%;
@@ -363,7 +363,7 @@
         top: 50%; left: 100%; margin-top: -3.5px; margin-left: -3.5px;
     }
 
-    /* orb core */
+    /* nucleo dell'orb */
     .d-core {
         position: absolute;
         top: 50%; left: 50%;
@@ -383,10 +383,10 @@
     }
 
     /* ═══════════════════════════════════════════════
-       INTERACTIVE ATOM — extra electrons, states, badge, canvas
+       ATOMO INTERATTIVO — elettroni extra, stati, badge, canvas
     ═══════════════════════════════════════════════ */
 
-    /* canvas overlay for trails + particle bursts */
+    /* overlay canvas per scie + esplosioni di particelle */
     #atom-canvas {
         position: absolute;
         top: 50%; left: 50%;
@@ -396,7 +396,7 @@
         z-index: 20;
     }
 
-    /* extra orbital electron containers */
+    /* contenitori elettroni orbitali aggiuntivi */
     .d-orb-e {
         position: absolute;
         border-radius: 50%;
@@ -409,13 +409,13 @@
     .orb3e2 { width:220px; height:220px; margin:-110px 0 0 -110px; animation: orb3 7s  linear infinite; animation-delay:-3.5s; }
     .orb4e2 { width:160px; height:160px; margin:-80px  0 0 -80px;  animation: orb4 11s linear infinite reverse; animation-delay:-5.5s; }
 
-    /* color variants for extra dots */
+    /* varianti colore per i punti aggiuntivi */
     .dot-v { background: var(--violet) !important; box-shadow: 0 0 12px var(--violet), 0 0 24px rgba(124,58,237,0.5) !important; }
     .dot-b { background: var(--blue)   !important; box-shadow: 0 0 12px var(--blue),   0 0 24px rgba(14,165,233,0.5)  !important; }
     .dot-c { background: var(--cyan)   !important; box-shadow: 0 0 12px var(--cyan),   0 0 24px rgba(34,211,238,0.5)  !important; }
     .dot-p { background: #a78bfa       !important; box-shadow: 0 0 12px #a78bfa,       0 0 24px rgba(167,139,250,0.5) !important; }
 
-    /* click ripple */
+    /* effetto ripple al click */
     .d-ripple {
         position: absolute;
         top: 50%; left: 50%;
@@ -432,7 +432,7 @@
         to   { transform: translate(-50%,-50%) scale(40); opacity: 0; }
     }
 
-    /* atom info badge */
+    /* badge informativo dell'atomo */
     #atom-badge {
         position: absolute;
         bottom: -54px; left: 50%;
@@ -459,7 +459,7 @@
     }
     #ab-hint { color: var(--low); }
 
-    /* ── EXCITED state (orange/red) ── */
+    /* ── Stato EXCITED (arancione/rosso) ── */
     #hero-orb-layer.atom-excited .d-ring-1 {
         border-color: rgba(251,146,60,0.6) rgba(251,146,60,0.08) rgba(251,146,60,0.6) rgba(251,146,60,0.08);
         box-shadow: 0 0 24px rgba(251,146,60,0.15) inset;
@@ -483,7 +483,7 @@
     #hero-orb-layer.atom-excited .dot-c    { background: #f59e0b !important; box-shadow: 0 0 12px #f59e0b, 0 0 24px rgba(245,158,11,0.5) !important; }
     #hero-orb-layer.atom-excited .d-ripple { border-color: rgba(251,146,60,0.9); }
 
-    /* ── QUANTUM state (green/lime) ── */
+    /* ── Stato QUANTUM (verde/lime) ── */
     #hero-orb-layer.atom-quantum .d-ring-1 {
         border-color: rgba(52,211,153,0.6) rgba(52,211,153,0.08) rgba(52,211,153,0.6) rgba(52,211,153,0.08);
         box-shadow: 0 0 24px rgba(52,211,153,0.15) inset;
@@ -507,9 +507,9 @@
     #hero-orb-layer.atom-quantum .dot-c    { background: #22d3ee !important; box-shadow: 0 0 12px #22d3ee, 0 0 24px rgba(34,211,238,0.5)  !important; }
     #hero-orb-layer.atom-quantum .d-ripple { border-color: rgba(52,211,153,0.9); }
 
-    /* ─── EASTER EGG: 20 clicks ─── */
+    /* ─── EASTER EGG: 20 click ─── */
 
-    /* click counter badge */
+    /* badge contatore click */
     #atom-ecount {
         position: absolute;
         top: -48px; left: 50%;
@@ -526,7 +526,7 @@
         z-index: 27;
     }
 
-    /* progress bar inside counter */
+    /* barra di avanzamento nel contatore */
     .ecount-bar {
         display: block;
         height: 1px;
@@ -538,7 +538,7 @@
         box-shadow: 0 0 6px var(--violet);
     }
 
-    /* ─── LOADING SCREEN (easter egg redirect) ─── */
+    /* ─── SCHERMATA DI CARICAMENTO (redirect easter egg) ─── */
     #atom-loader {
         position: fixed;
         top: 50%;
@@ -556,7 +556,7 @@
     }
     #atom-loader.show { opacity: 1; }
 
-    /* title row */
+    /* riga titolo */
     .al-header {
         display: flex;
         align-items: baseline;
@@ -579,7 +579,7 @@
         -webkit-text-fill-color: transparent;
     }
 
-    /* progress track */
+    /* traccia di avanzamento */
     .al-track {
         width: 100%;
         height: 2px;
@@ -597,7 +597,7 @@
         transition: width 1.55s cubic-bezier(.4,0,.15,1);
         position: relative;
     }
-    /* glow dot at fill tip */
+    /* punto luminoso all'estremità della barra */
     #atom-loader-fill::after {
         content: '';
         position: absolute;
@@ -608,7 +608,7 @@
         box-shadow: 0 0 10px var(--cyan), 0 0 20px rgba(34,211,238,0.6);
     }
 
-    /* percentage */
+    /* percentuale */
     .al-pct-row {
         display: flex;
         justify-content: space-between;
@@ -629,7 +629,7 @@
         color: var(--low);
     }
 
-    /* terminal log */
+    /* log terminale */
     .al-log {
         display: flex;
         flex-direction: column;
@@ -651,7 +651,7 @@
     .al-line .al-ok   { color: var(--cyan); }
     .al-line .al-done { color: #34d399; }
 
-    /* hero shake (charged state) */
+    /* shake dell'hero (stato carico) */
     @keyframes heroShake {
         0%,100% { transform: none; }
         15%  { transform: translate(-3px,  1px) rotate(.2deg); }
@@ -663,10 +663,10 @@
     #intro.charging { animation: heroShake .18s linear infinite; }
     #intro.charging-hard { animation: heroShake .1s linear infinite; }
 
-    /* cursor hint on orb */
+    /* suggerimento cursore sull'orb */
     .hero-orb-wrap { cursor: none; }
 
-    /* drag hint above atom */
+    /* suggerimento di trascinamento sopra l'atomo */
     #drag-hint {
         position: absolute;
         top: -30px; left: 50%;
@@ -684,7 +684,7 @@
     }
     .hero-orb-wrap:hover #drag-hint:not(.gone) { opacity: 1; }
 
-    /* cursor ring: dragging state */
+    /* anello cursore: stato di trascinamento */
     #cursor-ring.atom-drag {
         width: 18px; height: 18px;
         border-color: rgba(124,58,237,1);
@@ -692,7 +692,7 @@
         transition: width .12s, height .12s, border-color .12s, background .12s;
     }
 
-    /* atom gravity field — radial glow that follows the atom on the background */
+    /* campo gravitazionale dell'atomo — bagliore radiale che segue l'atomo sullo sfondo */
     #atom-gravity {
         position: absolute;
         border-radius: 50%;
@@ -707,7 +707,7 @@
     #hero-orb-layer.atom-excited  + * #atom-gravity { background: radial-gradient(circle, rgba(251,146,60,0.12) 0%, transparent 65%); }
     #hero-orb-layer.atom-quantum  ~ #atom-gravity   { background: radial-gradient(circle, rgba(52,211,153,0.12) 0%, transparent 65%); }
 
-    /* ── hero text content ── */
+    /* ── contenuto testuale dell'hero ── */
     .hero-text {
         position: relative;
         z-index: 10;
@@ -729,7 +729,7 @@
     .hero-kicker-line { width: 28px; height: 1px; background: var(--cyan); }
     #pill-greeting { color: rgba(240,244,255,0.55); font-style: normal; }
 
-    /* ── chromatic aberration title ── */
+    /* ── titolo con aberrazione cromatica ── */
     .hero-title { animation: fadeUp .7s ease both .25s; }
 
     .ca-word {
@@ -747,7 +747,7 @@
         color: transparent;
         position: relative;
     }
-    /* chromatic aberration: red channel (top half) */
+    /* aberrazione cromatica: canale rosso (metà superiore) */
     .ca-outlined::before {
         content: attr(data-text);
         position: absolute; inset: 0;
@@ -756,7 +756,7 @@
         clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
         animation: caTop 6s ease-in-out infinite;
     }
-    /* chromatic aberration: blue channel (bottom half) */
+    /* aberrazione cromatica: canale blu (metà inferiore) */
     .ca-outlined::after {
         content: attr(data-text);
         position: absolute; inset: 0;
@@ -784,7 +784,7 @@
         filter: drop-shadow(0 0 30px rgba(124,58,237,0.35));
     }
 
-    /* typewriter row */
+    /* riga effetto macchina da scrivere */
     .hero-type {
         margin-top: 28px;
         display: flex; align-items: center; gap: 14px;
@@ -860,7 +860,7 @@
         background: rgba(124,58,237,0.06) !important;
     }
 
-    /* scroll cue */
+    /* indicatore di scroll */
     .hero-scroll {
         position: absolute; bottom: 32px; left: 50%;
         transform: translateX(calc(-50% + var(--sb-w)/2));
@@ -898,7 +898,7 @@
     }
 
     /* ═══════════════════════════════════════════════
-       SECTION ONE — skills (3D tilt cards)
+       SEZIONE ONE — competenze (card con tilt 3D)
     ═══════════════════════════════════════════════ */
     #one {
         display: block !important;
@@ -926,7 +926,7 @@
         max-width: 400px; margin-top: -30px; margin-bottom: 52px;
     }
 
-    /* 3D tilt skill cards */
+    /* card competenze con tilt 3D */
     .dim-skill-grid {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
@@ -948,7 +948,7 @@
         overflow: hidden;
     }
 
-    /* glow orb inside card */
+    /* orb luminoso all'interno della card */
     .dim-skill-card::before {
         content: '';
         position: absolute;
@@ -962,7 +962,7 @@
     }
     .dim-skill-card:hover::before { opacity: 1; }
 
-    /* top accent line */
+    /* linea decorativa superiore */
     .dim-skill-card::after {
         content: '';
         position: absolute;
@@ -1021,7 +1021,7 @@
     .dim-sec-cta:hover { color: var(--cyan) !important; gap: 18px; }
 
     /* ═══════════════════════════════════════════════
-       SECTION TWO — about
+       SEZIONE TWO — chi sono
     ═══════════════════════════════════════════════ */
     #two {
         display: block !important;
@@ -1033,7 +1033,7 @@
         overflow: hidden !important;
     }
 
-    /* decorative outlined number */
+    /* numero decorativo in outline */
     #two::before {
         content: '02';
         position: absolute;
@@ -1083,7 +1083,7 @@
     .dim-cv::after { content: '→'; }
     .dim-cv:hover { color: var(--cyan) !important; gap: 18px; }
 
-    /* counting stats */
+    /* statistiche con animazione contatore */
     .dim-stats { display: flex; flex-direction: column; gap: 0; }
     .dim-stat {
         padding: 24px 0;
@@ -1097,7 +1097,7 @@
         font-family: var(--sg); font-weight: 700;
         font-size: 3rem; letter-spacing: -.04em;
         color: var(--text); display: block; line-height: 1;
-        /* gradient on the number */
+        /* gradiente sul numero */
         background: linear-gradient(135deg, var(--violet), var(--cyan));
         -webkit-background-clip: text; background-clip: text;
         -webkit-text-fill-color: transparent;
@@ -1110,7 +1110,7 @@
     .dim-stat-sub { font-size: .78rem; color: var(--low); }
 
     /* ═══════════════════════════════════════════════
-       WORK — break out of sidebar (full width)
+       LAVORI — si espande fuori dalla sidebar (piena larghezza)
     ═══════════════════════════════════════════════ */
     #work {
         display: block !important;          /* override template flex-row */
@@ -1124,7 +1124,7 @@
     }
 
     /* ═══════════════════════════════════════════════
-       CONTACT
+       CONTATTI
     ═══════════════════════════════════════════════ */
     #contact {
         background: var(--void2) !important;
@@ -1173,10 +1173,10 @@
         z-index: 800;
         font-family: var(--sg);
     }
-    /* move back-to-top up when chat present */
+    /* sposta il tasto back-to-top in su quando il chat è presente */
     #backToTop { bottom: 82px !important; }
 
-    /* toggle bubble */
+    /* bolla di apertura chat */
     #chat-toggle {
         width: 48px; height: 48px;
         border-radius: 2px;
@@ -1201,7 +1201,7 @@
     }
     @keyframes chatDotPulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.6;transform:scale(1.3)} }
 
-    /* window */
+    /* finestra chat */
     #chat-window {
         position: absolute;
         bottom: 60px; right: 0;
@@ -1220,7 +1220,7 @@
     }
     #chat-window.open { transform: scale(1) translateY(0); opacity: 1; pointer-events: all; }
 
-    /* header */
+    /* intestazione chat */
     .ch-head {
         display: flex; align-items: center; justify-content: space-between;
         padding: 14px 16px;
@@ -1244,7 +1244,7 @@
     }
     #chat-close:hover { color: var(--text); }
 
-    /* messages area */
+    /* area messaggi */
     #chat-messages {
         flex: 1;
         overflow-y: auto;
@@ -1288,7 +1288,7 @@
     }
     .cm-time { font-family: var(--mono); font-size: .5rem; color: var(--low); letter-spacing: .06em; }
 
-    /* typing indicator */
+    /* indicatore di scrittura */
     .cm-typing .cm-bubble {
         display: flex; gap: 4px; align-items: center;
         padding: 12px 16px;
@@ -1302,7 +1302,7 @@
     .cm-typing .cm-bubble span:nth-child(3) { animation-delay: .4s; }
     @keyframes typingDot { 0%,80%,100%{transform:scale(.6);opacity:.4} 40%{transform:scale(1);opacity:1} }
 
-    /* suggestion chips */
+    /* chip di suggerimento */
     #chat-chips {
         padding: 0 16px 10px;
         display: flex; flex-wrap: wrap; gap: 6px;
@@ -1317,7 +1317,7 @@
     }
     .chip:hover { background: rgba(124,58,237,0.12); border-color: rgba(124,58,237,0.6); color: var(--text); }
 
-    /* input row */
+    /* riga di input */
     .ch-input-row {
         display: flex; gap: 8px;
         padding: 12px 16px;
@@ -1347,7 +1347,7 @@
     }
     #chat-send:hover { filter: brightness(1.15); }
 
-    /* ── back to top ── */
+    /* ── torna in cima ── */
     #backToTop {
         position: fixed; bottom: 28px; right: 28px;
         display: none; width: 38px; height: 38px;
@@ -1384,12 +1384,12 @@
     }
     #cookieConsent button:hover { filter: brightness(1.1); }
 
-    /* ── reveal ── */
+    /* ── animazione reveal ── */
     .reveal { opacity: 0; transform: translateY(20px); transition: opacity .8s ease, transform .8s ease; }
     .reveal.in { opacity: 1; transform: none; }
 
     /* ═══════════════════════════════════════════════
-       CUSTOM CURSOR
+       CURSORE PERSONALIZZATO
     ═══════════════════════════════════════════════ */
     @media (pointer: fine) {
         body { cursor: none; }
@@ -1433,7 +1433,7 @@
     }
 
     /* ═══════════════════════════════════════════════
-       SIDEBAR dot pulse ring
+       Anello pulsante del punto sidebar
     ═══════════════════════════════════════════════ */
     .sb-dot.active::before {
         content: '';
@@ -1449,7 +1449,7 @@
         100% { transform: scale(2.4); opacity: 0; }
     }
 
-    /* improved brand hover */
+    /* hover migliorato del brand */
     .sb-brand {
         transition: filter .25s, text-shadow .25s;
     }
@@ -1458,7 +1458,7 @@
         text-shadow: 0 0 20px rgba(124,58,237,0.6);
     }
 
-    /* pill greeting transition */
+    /* transizione del saluto nella pill */
     #pill-greeting {
         display: inline-block;
         transition: opacity .28s, transform .28s;
@@ -1490,7 +1490,7 @@
 </head>
 <body class="is-preload">
 
-<!-- ─── CUSTOM CURSOR ─── -->
+<!-- ─── CURSORE PERSONALIZZATO ─── -->
 <div id="cursor-ring"></div>
 <div id="cursor-dot"></div>
 
@@ -1957,7 +1957,7 @@
     #modal-tags{display:flex;flex-wrap:wrap;gap:6px}
     .modal-tag{font-family:monospace;font-size:.7em;padding:3px 8px;border:1px solid rgba(0,255,255,.2);color:rgba(0,255,255,.7)}
     /* ══════════════════════════════════
-       TIMELINE — Apple scroll-driven
+       TIMELINE — scroll-driven stile Apple
     ══════════════════════════════════ */
     #timeline {
         min-height: 320vh; /* tall scroll space for sticky */
@@ -1969,12 +1969,12 @@
         background: radial-gradient(ellipse 80% 50% at 50% 10%, rgba(124,58,237,.055) 0%, transparent 60%);
     }
 
-    /* sticky viewport zone */
+    /* zona sticky del viewport */
     .tl-sticky-zone {
         position: -webkit-sticky; /* iOS Safari < 13 */
         position: sticky; top: 0;
         height: 100vh;          /* fallback */
-        height: calc(var(--vh, 1vh) * 100); /* JS-corrected for iOS */
+        height: calc(var(--vh, 1vh) * 100); /* corretto da JS per iOS */
         overflow: hidden;
         display: flex; flex-direction: column;
         justify-content: center; align-items: stretch;
@@ -1993,17 +1993,17 @@
     }
     .tl-hd-sub { color: var(--low); font-size: .88em; margin: 0; }
 
-    /* row */
+    /* riga */
     .tl-row {
         display: flex; align-items: flex-start;
         position: relative; gap: 0;
     }
-    /* background line */
+    /* linea di sfondo */
     .tl-line-bg {
         position: absolute; top: 38px; left: 9%; right: 9%;
         height: 1px; background: rgba(255,255,255,.07); z-index: 0;
     }
-    /* animated fill line */
+    /* linea di avanzamento animata */
     .tl-line-fill {
         position: absolute; top: 38px; left: 9%; right: 9%;
         height: 1px; z-index: 0;
@@ -2016,7 +2016,7 @@
         transition: transform .08s linear;
     }
 
-    /* cols */
+    /* colonne */
     .tl-col {
         flex: 1; display: flex; flex-direction: column;
         align-items: center; padding: 0 10px;
@@ -2042,7 +2042,7 @@
         transform: translateY(-2px);
     }
 
-    /* dot */
+    /* punto */
     .tl-dot {
         width: 13px; height: 13px; border-radius: 50%;
         background: rgba(124,58,237,.12);
@@ -2135,7 +2135,7 @@
         color: rgba(255,255,255,.5); border-color: rgba(255,255,255,.12);
     }
 
-    /* progress counter */
+    /* contatore avanzamento */
     .tl-progress-hint {
         text-align: center; margin-top: 32px;
         font-family: monospace; font-size: .65em;
@@ -2144,7 +2144,7 @@
     }
     .tl-progress-hint span { color: var(--violet); }
 
-    /* scroll cue */
+    /* indicatore di scroll */
     .tl-scroll-cue {
         position: absolute; bottom: 28px; left: 50%;
         transform: translateX(-50%);
@@ -2163,7 +2163,7 @@
     @keyframes sc-bounce { 0%,100%{transform:rotate(45deg) translateY(0)} 50%{transform:rotate(45deg) translateY(4px)} }
     .tl-scroll-cue span { font-family: monospace; font-size: .58em; color: rgba(124,58,237,.5); letter-spacing: .12em; }
 
-    /* ── responsive: disable sticky on mobile ── */
+    /* ── responsive: disabilita sticky su mobile ── */
     @media (max-width: 900px) {
         #timeline { min-height: auto; padding: 72px 0 60px; }
         .tl-sticky-zone { position: relative; height: auto; padding: 0; }
@@ -2179,7 +2179,7 @@
         .tl-col { flex: 0 0 100%; }
     }
 
-    /* ── Skill card expandable bars ── */
+    /* ── Barre espandibili delle card competenze ── */
     .dsk-expand-hint {
         font-family: var(--mono); font-size: .58em; letter-spacing: .1em;
         color: var(--card-color); opacity: .45;
@@ -2212,7 +2212,7 @@
     .dim-skill-card.dsk-open { border-color: var(--card-color) !important; box-shadow: 0 0 30px var(--card-glow), 0 24px 60px rgba(0,0,0,.4) !important; }
 
 
-    /* ── Mobile bottom nav ── */
+    /* ── Navigazione mobile inferiore ── */
     #mob-nav {
         display: none;
         position: fixed; bottom: 0; left: 0; right: 0; z-index: 9000;
@@ -2235,7 +2235,7 @@
     .mob-nav-btn.active, .mob-nav-btn:active { color: var(--violet); }
     .mob-nav-btn:active { filter: brightness(1.4); }
 
-    /* lang panel (mobile) */
+    /* pannello lingua (mobile) */
     #mob-lang-panel {
         display: none; position: fixed;
         bottom: calc(60px + max(0px, env(safe-area-inset-bottom)));
@@ -2261,47 +2261,47 @@
 
     @media (max-width: 768px) {
         #mob-nav { display: flex; }
-        /* pad content above mob nav */
+        /* padding contenuto sopra la nav mobile */
         #dim-main { padding-bottom: 72px; }
-        /* chatbot above mob nav */
+        /* chatbot sopra la nav mobile */
         #ea-chat { bottom: calc(80px + max(0px, env(safe-area-inset-bottom))); }
-        /* hero adjustments */
+        /* aggiustamenti hero */
         .hero-text { padding: 60px 24px 80px !important; }
         .hero-title { font-size: clamp(2rem, 10vw, 3.4rem) !important; }
         .hero-desc { font-size: .85rem !important; }
         .hero-ctas { flex-direction: column; gap: 10px; }
         .hero-ctas a { width: 100%; text-align: center; justify-content: center; }
-        /* timeline mobile */
+        /* timeline su mobile */
         #timeline { padding: 60px 20px 50px !important; }
-        /* skills mobile */
+        /* competenze su mobile */
         #one { padding: 60px 20px !important; }
         .dim-skill-grid { gap: 14px !important; }
 
-        /* ── Touch target sizes (Apple HIG: min 44×44pt) ── */
+        /* ── Dimensioni touch target (Apple HIG: min 44×44pt) ── */
         .mob-nav-btn { min-height: 44px; min-width: 44px; padding: 6px 8px; }
         .mob-lang-btn { min-height: 44px; }
 
-        /* ── Prevent horizontal overflow (common iOS layout bug) ── */
+        /* ── Prevenzione overflow orizzontale (bug layout iOS comune) ── */
         body, #dim-main { overflow-x: hidden; }
         .tl-inner { padding: 0 16px !important; }
         .tl-hd { margin-bottom: 32px; }
 
-        /* ── Footer mobile ── */
+        /* ── Footer su mobile ── */
         #footer { margin-left: 0 !important; }
         .dim-footer-inner { flex-direction: column; gap: 16px; padding: 24px 20px 96px; text-align: center; }
 
-        /* ── Skill cards ── */
+        /* ── Card competenze ── */
         .dim-skill-card { touch-action: manipulation; }
 
         /* ── Chatbot ── */
         #ea-chat { right: 12px !important; }
         #ea-chat-btn { width: 50px !important; height: 50px !important; }
 
-        /* ── About section ── */
+        /* ── Sezione about ── */
         .about-grid { flex-direction: column !important; }
         .about-stats { grid-template-columns: 1fr 1fr !important; }
 
-        /* ── Work section ── */
+        /* ── Sezione lavori ── */
         .proj-grid { grid-template-columns: 1fr !important; }
     }
 
@@ -2340,7 +2340,7 @@
         position: relative;
         overflow: hidden;
     }
-    /* gradient top accent */
+    /* linea gradiente superiore */
     #footer::before {
         content: '';
         position: absolute;
@@ -2348,7 +2348,7 @@
         height: 1px;
         background: linear-gradient(90deg, transparent 0%, var(--violet) 30%, var(--cyan) 70%, transparent 100%);
     }
-    /* subtle grid overlay */
+    /* griglia di sfondo sottile */
     #footer::after {
         content: '';
         position: absolute;
@@ -2369,7 +2369,7 @@
         gap: 32px;
         flex-wrap: wrap;
     }
-    /* left: brand */
+    /* sinistra: brand */
     .dim-footer-brand {
         display: flex;
         flex-direction: column;
@@ -2392,7 +2392,7 @@
         text-transform: uppercase;
         color: var(--low);
     }
-    /* center: social links */
+    /* centro: link social */
     .dim-footer-socials {
         display: flex;
         gap: 12px;
@@ -2418,7 +2418,7 @@
         box-shadow: 0 0 16px rgba(124,58,237,0.25);
         background: rgba(124,58,237,0.06);
     }
-    /* right: copyright */
+    /* destra: copyright */
     .dim-footer-copy {
         text-align: right;
     }
@@ -2541,7 +2541,7 @@
 })();
 
 /* ══════════════════════════════════
-   TRANSLATIONS
+   TRADUZIONI
 ══════════════════════════════════ */
 const translations = {
     en: {
@@ -2756,7 +2756,7 @@ function setLang(lang) {
 document.addEventListener('DOMContentLoaded', () => setLang(localStorage.getItem('ea-lang') || 'en'));
 
 /* ══════════════════════════════════
-   SCROLL: sidebar dots + progress bar + back-to-top
+   SCROLL: punti sidebar + barra progresso + torna su
 ══════════════════════════════════ */
 (function () {
     const sections = ['intro','one','two','work','contact'];
@@ -2767,13 +2767,13 @@ document.addEventListener('DOMContentLoaded', () => setLang(localStorage.getItem
         const y = window.scrollY;
         const total = document.body.scrollHeight - window.innerHeight;
 
-        // progress bar
+        // barra progresso
         if (fill) fill.style.height = (y / total * 100) + '%';
 
-        // back to top
+        // torna su
         document.getElementById('backToTop').style.display = y > 80 ? 'flex' : 'none';
 
-        // active dot
+        // punto attivo
         let current = 0;
         sections.forEach((id, i) => {
             const el = document.getElementById(id);
@@ -2789,7 +2789,7 @@ document.addEventListener('DOMContentLoaded', () => setLang(localStorage.getItem
 function topFunction() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
 
 /* ══════════════════════════════════
-   HERO PARALLAX + ATOM DRAG + TEXT GRAVITY
+   PARALLAX HERO + TRASCINA ATOMO + GRAVITÀ TESTO
 ══════════════════════════════════ */
 (function () {
     const hero      = document.getElementById('intro');
@@ -2801,28 +2801,28 @@ function topFunction() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
     const cursorRing= document.getElementById('cursor-ring');
     if (!textLayer || !orbLayer || !hero) return;
 
-    /* ── Mouse parallax targets ── */
-    let ptx = 0, pty = 0;   // text parallax
-    let pox = 0, poy = 0;   // orb parallax
-    let ctxx = 0, ctxy = 0; // lerped text parallax
-    let cox  = 0, coy  = 0; // lerped orb parallax
+    /* ── Destinazioni parallax mouse ── */
+    let ptx = 0, pty = 0;   // parallax testo
+    let pox = 0, poy = 0;   // parallax orb
+    let ctxx = 0, ctxy = 0; // parallax testo con lerp
+    let cox  = 0, coy  = 0; // parallax orb con lerp
 
-    /* ── Drag state ── */
+    /* ── Stato trascinamento ── */
     let isDragging = false;
-    let dragX = 0, dragY = 0;    // current atom displacement
-    let dragVX = 0, dragVY = 0;  // spring velocity
+    let dragX = 0, dragY = 0;    // spostamento attuale atomo
+    let dragVX = 0, dragVY = 0;  // velocità molla
     let startMX = 0, startMY = 0;
     let startDX = 0, startDY = 0;
 
-    /* ── Smooth gravity glow position ── */
-    let gGlowX = 0, gGlowY = 0; // target (hero px)
-    let cgx = 0, cgy = 0;        // current lerped
+    /* ── Posizione bagliore gravità smussata ── */
+    let gGlowX = 0, gGlowY = 0; // destinazione (px hero)
+    let cgx = 0, cgy = 0;        // valore lerp corrente
 
-    /* ── Text gravity target ── */
-    let textGX = 0, textGY = 0;  // extra force on text from atom
-    let ctgx = 0, ctgy = 0;      // lerped
+    /* ── Destinazione gravità testo ── */
+    let textGX = 0, textGY = 0;  // forza extra sull'atomo sul testo
+    let ctgx = 0, ctgy = 0;      // valore con lerp
 
-    /* ── Mouse move (hero, non-drag parallax) ── */
+    /* ── Movimento mouse (hero, parallax non-drag) ── */
     hero.addEventListener('mousemove', e => {
         const r  = hero.getBoundingClientRect();
         const mx = (e.clientX - r.left - r.width  / 2) / r.width;
@@ -2834,7 +2834,7 @@ function topFunction() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
         if (!isDragging) { ptx = 0; pty = 0; pox = 0; poy = 0; }
     });
 
-    /* ── Drag START ── */
+    /* ── Inizio TRASCINAMENTO ── */
     orbLayer.addEventListener('mousedown', e => {
         isDragging = true;
         startMX = e.clientX; startMY = e.clientY;
@@ -2846,28 +2846,28 @@ function topFunction() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
         e.preventDefault(); e.stopPropagation();
     });
 
-    /* ── Drag MOVE ── */
+    /* ── Movimento TRASCINAMENTO ── */
     document.addEventListener('mousemove', e => {
         if (!isDragging) return;
         dragX = startDX + (e.clientX - startMX);
         dragY = startDY + (e.clientY - startMY);
     });
 
-    /* ── Drag END ── */
+    /* ── Fine TRASCINAMENTO ── */
     document.addEventListener('mouseup', () => {
         if (!isDragging) return;
         isDragging = false;
         if (cursorRing) cursorRing.classList.remove('atom-drag');
-        // let spring settle, then resume CSS gradient animation
+        // lascia stabilizzare la molla, poi riprende l'animazione CSS del gradiente
         setTimeout(() => {
             if (gradBg) gradBg.style.animationPlayState = 'running';
         }, 1400);
     });
 
-    /* ── Clamp drag within hero bounds ── */
+    /* ── Limita il trascinamento ai bordi dell'hero ── */
     function clampDrag() {
         const r = hero.getBoundingClientRect();
-        // Atom CSS anchor: right:8% top:50% → approx left = r.width*0.84, top = r.height*0.5
+        // Ancoraggio CSS atomo: right:8% top:50% → circa left = r.width*0.84, top = r.height*0.5
         const anchorX = r.width  * 0.84;
         const anchorY = r.height * 0.5;
         const margin  = 80;
@@ -2875,11 +2875,11 @@ function topFunction() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
         dragY = Math.max(-anchorY + margin,           Math.min(r.height - anchorY - margin, dragY));
     }
 
-    /* ── Main RAF loop ── */
+    /* ── Loop RAF principale ── */
     (function loop() {
         const heroR = hero.getBoundingClientRect();
 
-        /* 1. Spring return when not dragging */
+        /* 1. Ritorno a molla quando non si trascina */
         if (!isDragging) {
             dragVX = (dragVX + (0 - dragX) * 0.1) * 0.74;
             dragVY = (dragVY + (0 - dragY) * 0.1) * 0.74;
@@ -2889,17 +2889,17 @@ function topFunction() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
             clampDrag();
         }
 
-        /* 2. Lerp parallax */
+        /* 2. Parallax con lerp */
         ctxx += (ptx - ctxx) * 0.07;
         ctxy += (pty - ctxy) * 0.07;
         cox  += (pox - cox)  * 0.06;
         coy  += (poy - coy)  * 0.06;
 
-        /* 3. Atom world position in hero px (used for gravity + text push) */
+        /* 3. Posizione mondo atomo in px hero (usata per gravità + spinta testo) */
         const atomX = heroR.width  * 0.84 + cox + dragX;
         const atomY = heroR.height * 0.5  + coy + dragY;
 
-        /* 4. Gravity glow follows atom */
+        /* 4. Bagliore gravità segue l'atomo */
         gGlowX = atomX; gGlowY = atomY;
         cgx += (gGlowX - cgx) * 0.08;
         cgy += (gGlowY - cgy) * 0.08;
@@ -2908,7 +2908,7 @@ function topFunction() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
             gravity.style.top  = cgy + 'px';
         }
 
-        /* 5. Update CSS gradient to follow atom (during drag) */
+        /* 5. Aggiorna gradiente CSS per seguire l'atomo (durante il trascinamento) */
         if (isDragging && gradBg) {
             const pctX = Math.max(5, Math.min(95, (atomX / heroR.width)  * 100)).toFixed(1);
             const pctY = Math.max(5, Math.min(95, (atomY / heroR.height) * 100)).toFixed(1);
@@ -2916,7 +2916,7 @@ function topFunction() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
             gradBg.style.setProperty('--gy1', pctY + '%');
         }
 
-        /* 6. Text gravity: attraction when far, repulsion when close */
+        /* 6. Gravità testo: attrazione da lontano, repulsione da vicino */
         const textCX = heroR.width  * 0.27; // approx text center X in hero
         const textCY = heroR.height * 0.5;
         const dx   = atomX - textCX;
@@ -2925,23 +2925,23 @@ function topFunction() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
         const REPULSE_THRESHOLD = 280;
 
         if (dist < REPULSE_THRESHOLD) {
-            // Repulsion: text pushed away from atom
+            // Repulsione: testo spinto via dall'atomo
             const force = (1 - dist / REPULSE_THRESHOLD) * 38;
             textGX = -(dx / dist) * force;
             textGY = -(dy / dist) * force;
         } else {
-            // Attraction: text leans gently toward atom (subtle gravity)
+            // Attrazione: testo si inclina verso l'atomo (gravità sottile)
             textGX = (dx / heroR.width)  * 7;
             textGY = (dy / heroR.height) * 4;
         }
         ctgx += (textGX - ctgx) * 0.055;
         ctgy += (textGY - ctgy) * 0.055;
 
-        /* 7. Apply transforms */
+        /* 7. Applica le trasformazioni */
         orbLayer.style.transform  = `translateY(-50%) translate(${cox + dragX}px, ${coy + dragY}px)`;
         textLayer.style.transform = `translate(${ctxx + ctgx}px, ${ctxy + ctgy}px)`;
 
-        /* 8. Expose atom state for canvas (drag trails) */
+        /* 8. Espone stato atomo al canvas (scie di trascinamento) */
         window._atomWorld = { isDragging, x: atomX, y: atomY, vx: dragVX, vy: dragVY };
 
         requestAnimationFrame(loop);
@@ -2949,7 +2949,7 @@ function topFunction() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
 })();
 
 /* ══════════════════════════════════
-   3D TILT on skill cards
+   TILT 3D sulle skill card
 ══════════════════════════════════ */
 document.querySelectorAll('.dim-skill-card').forEach(card => {
     card.addEventListener('mousemove', e => {
@@ -2966,7 +2966,7 @@ document.querySelectorAll('.dim-skill-card').forEach(card => {
 });
 
 /* ══════════════════════════════════
-   SKILL CARDS — expand on click
+   SKILL CARDS — espandi al click
 ══════════════════════════════════ */
 (function () {
     const cards = document.querySelectorAll('.dim-skill-card[data-card]');
@@ -2998,7 +2998,7 @@ document.querySelectorAll('.dim-skill-card').forEach(card => {
 
 
 /* ══════════════════════════════════
-   SCROLL REVEALS
+   ANIMAZIONI ALLO SCROLL
 ══════════════════════════════════ */
 const revObs = new IntersectionObserver(entries => {
     entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
@@ -3021,7 +3021,7 @@ document.querySelectorAll('.reveal').forEach(el => revObs.observe(el));
 
     const isMobile = () => window.innerWidth <= 900;
 
-    // Mobile: activate all immediately
+    // Mobile: attiva tutto immediatamente
     function activateAll() {
         cols.forEach(col => col.classList.add('tl-active'));
         if (fillEl) fillEl.style.transform = 'scaleX(1)';
@@ -3029,7 +3029,7 @@ document.querySelectorAll('.reveal').forEach(el => revObs.observe(el));
 
     if (isMobile()) { activateAll(); return; }
 
-    // Show scroll cue after a moment
+    // Mostra il suggerimento di scroll dopo un attimo
     setTimeout(() => { if (cueEl) cueEl.classList.add('show'); }, 1200);
 
     let lastActive = -1;
@@ -3074,7 +3074,7 @@ document.querySelectorAll('.reveal').forEach(el => revObs.observe(el));
 })();
 
 /* ══════════════════════════════════
-   TYPEWRITER
+   MACCHINA DA SCRIVERE
 ══════════════════════════════════ */
 (function () {
     const el = document.getElementById('typewriter');
@@ -3100,7 +3100,7 @@ document.querySelectorAll('.reveal').forEach(el => revObs.observe(el));
 })();
 
 /* ══════════════════════════════════
-   GREETING CYCLE
+   CICLO SALUTI
 ══════════════════════════════════ */
 (function () {
     const greetings = ["Hello","Bonjour","Hola","Ciao","こんにちは","Guten Tag","Olá","नमस्ते","سلام","Hej","Merhaba","안녕하세요","你好","Sawubona","Shalom","Szia","Selamat","Dobrý den","Aloha","Jambo","Hoi","Salut","Привіт","Γεια σου","Halló","Hei","Сайн уу","Kamusta","Привет","مرحبا","Sveiki","Päivää","Kia ora","Hallo","नमस्कार","Moi","Kaixo"];
@@ -3121,7 +3121,7 @@ document.querySelectorAll('.reveal').forEach(el => revObs.observe(el));
 })();
 
 /* ══════════════════════════════════
-   CLIPBOARD + COOKIE
+   APPUNTI + COOKIE
 ══════════════════════════════════ */
 function copyToClipboard(text) {
     navigator.clipboard.writeText(text).then(() => {
@@ -3140,7 +3140,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /* ══════════════════════════════════
-   CYBERPUNK WORK SECTION
+   SEZIONE LAVORI CYBERPUNK
 ══════════════════════════════════ */
 (function(){
     const track = document.querySelector('.cyber-track');
@@ -3185,7 +3185,7 @@ document.addEventListener('DOMContentLoaded', () => {
 })();
 
 /* ══════════════════════════════════
-   INTERACTIVE ATOM
+   ATOMO INTERATTIVO
 ══════════════════════════════════ */
 (function () {
     const orbWrap = document.getElementById('hero-orb-layer');
@@ -3204,7 +3204,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ...document.querySelectorAll('.d-ring, .d-orbital, .d-orb-e')
     ];
 
-    /* ─── STATE MACHINE ─── */
+    /* ─── MACCHINA A STATI ─── */
     const STATES = [
         { name: 'GROUND',  cls: '',              hint: '// click to excite', e: 'e⁻ ×7',  speed: 1,   color: '#7c3aed' },
         { name: 'EXCITED', cls: 'atom-excited',  hint: '// click: quantum',  e: 'e⁻ ×∞',  speed: 2.2, color: '#fb923c' },
@@ -3226,7 +3226,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let currentStateColor = STATES[0].color;
 
-    /* ─── 3D TILT (lerp) ─── */
+    /* ─── TILT 3D (lerp) ─── */
     let tRX = 0, tRY = 0, cRX = 0, cRY = 0;
 
     document.addEventListener('mousemove', e => {
@@ -3246,7 +3246,7 @@ document.addEventListener('DOMContentLoaded', () => {
         requestAnimationFrame(tiltLoop);
     })();
 
-    /* ─── HOVER SPEED BOOST ─── */
+    /* ─── ACCELERAZIONE HOVER ─── */
     let hovered = false, boostTO;
     orbWrap.addEventListener('mouseenter', () => {
         hovered = true;
@@ -3261,7 +3261,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 500);
     });
 
-    /* ─── EASTER EGG: 20-click countdown ─── */
+    /* ─── EASTER EGG: conto alla rovescia 20 click ─── */
     const EASTER_TARGET = 20;
     let clickCount = 0;
     let easterTriggered = false;
@@ -3275,7 +3275,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!ecountEl || !ecountText || !ecountBar) return;
         const pct = (clickCount / EASTER_TARGET * 100).toFixed(0);
 
-        // Messages that escalate
+        // Messaggi che aumentano di intensità
         let msg;
         if (clickCount < 10)      msg = `[ ${clickCount} / ${EASTER_TARGET} ]  keep clicking...`;
         else if (clickCount < 15) msg = `[ ${clickCount} / ${EASTER_TARGET} ]  something is happening...`;
@@ -3286,7 +3286,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ecountBar.style.width  = pct + '%';
         ecountEl.style.opacity = '1';
 
-        // Color escalation
+        // Escalation del colore
         if (clickCount >= 15) {
             ecountEl.style.color = '#fb923c';
             ecountBar.style.background = 'linear-gradient(90deg, #fb923c, #ef4444)';
@@ -3298,16 +3298,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function triggerMilestone(count) {
-        // Big particle burst from canvas center
+        // Grande esplosione di particelle dal centro del canvas
         spawnBurst(CW / 2, CH / 2, currentStateColor, count === 10 ? 60 : 80);
-        // Ring speed spike
+        // Picco di velocità degli anelli
         allAnimated().forEach(el => el.getAnimations().forEach(a => { a.playbackRate = 9; }));
         setTimeout(() => {
             allAnimated().forEach(el => el.getAnimations().forEach(a => {
                 a.playbackRate = hovered ? STATES[stateIdx].speed * 1.8 : STATES[stateIdx].speed;
             }));
         }, 700);
-        // Extra ripple rings
+        // Anelli di increspatura extra
         for (let i = 0; i < 3; i++) {
             setTimeout(spawnRipple, i * 120);
         }
@@ -3318,13 +3318,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if (ecountEl) ecountEl.style.opacity = '0';
         heroSection.classList.remove('charging', 'charging-hard');
 
-        // Slow the atom way down (keeps it visible but calm)
+        // Rallenta molto l'atomo (rimane visibile ma calmo)
         allAnimated().forEach(el => el.getAnimations().forEach(a => { a.playbackRate = 0.2; }));
 
-        // Final particle burst from core
+        // Esplosione finale di particelle dal nucleo
         spawnBurst(CW / 2, CH / 2, currentStateColor, 55);
 
-        // 1. Fade out hero content layers
+        // 1. Dissolvenza dei layer contenuto hero
         const textLayer  = document.getElementById('hero-text-layer');
         const scrollCue  = document.querySelector('.hero-scroll');
         const gridOverlay = document.querySelector('.hero-grid-overlay');
@@ -3333,7 +3333,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (el) { el.style.transition = 'opacity .5s ease'; el.style.opacity = '0'; }
         });
 
-        // 2. After content fades, show loading screen
+        // 2. Dopo la dissolvenza, mostra la schermata di caricamento
         setTimeout(() => {
             const loader  = document.getElementById('atom-loader');
             const fillEl  = document.getElementById('atom-loader-fill');
@@ -3343,7 +3343,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             loader.classList.add('show');
 
-            // Terminal log lines with staggered reveal
+            // Righe log terminale con rivelazione scaglionata
             const LOG_LINES = [
                 { delay: 120,  html: '<span class="al-cmd">&gt; init</span>    edward.attuati' },
                 { delay: 380,  html: '<span class="al-cmd">&gt; fetch</span>   about_me.json' },
@@ -3362,15 +3362,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 }, delay);
             });
 
-            // Start bar filling
+            // Avvia il riempimento della barra
             requestAnimationFrame(() => requestAnimationFrame(() => {
                 if (fillEl) fillEl.style.width = '100%';
             }));
 
-            // Count up percentage (non-linear to feel like real loading)
+            // Conta la percentuale (non lineare per sembrare un vero caricamento)
             let pct = 0;
             const ticker = setInterval(() => {
-                // Fast at first, slow near 90, fast finish
+                // Veloce all'inizio, lento vicino a 90, veloce alla fine
                 const remaining = 100 - pct;
                 const step = pct < 70
                     ? 3.5 + Math.random() * 3
@@ -3382,7 +3382,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (pct >= 100) clearInterval(ticker);
             }, 22);
 
-            // Navigate
+            // Naviga
             setTimeout(() => {
                 window.location.href = 'https://edwardattuati.com/aboutme.html';
             }, 1900);
@@ -3398,13 +3398,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const bx = e.clientX - r.left;
         const by = e.clientY - r.top;
 
-        // Standard: burst + ripple + state
-        const burstCount = 30 + Math.min(clickCount * 2, 40); // more particles as count rises
+        // Standard: esplosione + increspatura + stato
+        const burstCount = 30 + Math.min(clickCount * 2, 40); // più particelle man mano che il contatore sale
         spawnBurst(bx, by, currentStateColor, burstCount);
         spawnRipple();
         applyState(stateIdx + 1);
 
-        // Speed flash
+        // Lampo di velocità
         allAnimated().forEach(el => el.getAnimations().forEach(a => { a.playbackRate = 6 + clickCount * 0.3; }));
         setTimeout(() => {
             const ns = STATES[(stateIdx + 1) % STATES.length];
@@ -3415,27 +3415,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
         clickCount++;
 
-        // Show counter after 5th click
+        // Mostra il contatore dopo il 5° click
         if (clickCount >= 5) updateCounter();
 
-        // Milestones
+        // Milestone
         if (clickCount === 10) triggerMilestone(10);
         if (clickCount === 15) triggerMilestone(15);
 
-        // Hero charging shake at 15
+        // Vibrazione hero in carica a 15
         if (clickCount === 15 && heroSection) heroSection.classList.add('charging');
         if (clickCount === 18 && heroSection) {
             heroSection.classList.remove('charging');
             heroSection.classList.add('charging-hard');
         }
 
-        // EASTER EGG at 20!
+        // EASTER EGG a 20!
         if (clickCount >= EASTER_TARGET) {
             triggerExplosion();
         }
     });
 
-    /* ─── DOM RIPPLE ─── */
+    /* ─── INCRESPATURA DOM ─── */
     function spawnRipple() {
         const d = document.createElement('div');
         d.className = 'd-ripple';
@@ -3443,7 +3443,7 @@ document.addEventListener('DOMContentLoaded', () => {
         d.addEventListener('animationend', () => d.remove(), { once: true });
     }
 
-    /* ─── CANVAS: PARTICLE BURST ─── */
+    /* ─── CANVAS: ESPLOSIONE PARTICELLE ─── */
     let particles = [];
 
     function spawnBurst(x, y, color, count) {
@@ -3462,7 +3462,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    /* ─── CANVAS: ELECTRON TRAILS ─── */
+    /* ─── CANVAS: SCIE ELETTRONI ─── */
     const MAX_TRAIL = 22;
     const trailBufs = new Map(); // key → [{x,y}]
 
@@ -3503,7 +3503,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ctx.globalAlpha = 1;
     }
 
-    /* ─── DRAG TRAIL SPARKS ─── */
+    /* ─── SCINTILLE SCIA TRASCINAMENTO ─── */
     function spawnDragSparks() {
         const state = window._atomWorld;
         if (!state || !state.isDragging) return;
@@ -3531,7 +3531,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    /* ─── MAIN CANVAS LOOP ─── */
+    /* ─── LOOP PRINCIPALE CANVAS ─── */
     (function renderLoop() {
         ctx.clearRect(0, 0, CW, CH);
 
@@ -3564,7 +3564,7 @@ document.addEventListener('DOMContentLoaded', () => {
 })();
 
 /* ══════════════════════════════════
-   CHATBOT — multilingual EA Bot
+   CHATBOT — bot EA multilingua
 ══════════════════════════════════ */
 (function () {
     const toggle   = document.getElementById('chat-toggle');
@@ -3727,7 +3727,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function getCurrKB() { return KB_ALL[currentLang] || KB_ALL.en; }
     function getCurrCL() { return CHIP_L[currentLang]  || CHIP_L.en; }
 
-    /* ── PATTERN MATCHING ── */
+    /* ── CORRISPONDENZA PATTERN ── */
     const RULES = [
         { keys:['hello','hi','hey','ciao','hola','你好','こんにちは','bonjour'],              key:'greet',    chips:['who','skills','projects','contact'] },
         { keys:['who','chi è','about edward','tell me','presentati','quien','quién','关于edward','edwardとは'], key:'bio', chips:['skills','edu','langs'] },
@@ -3759,7 +3759,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return { key: 'fallback', chips: ['skills','projects','contact','cv'] };
     }
 
-    /* ── UI HELPERS ── */
+    /* ── FUNZIONI UI ── */
     function now() {
         const d = new Date();
         return d.getHours().toString().padStart(2,'0') + ':' + d.getMinutes().toString().padStart(2,'0');
@@ -3792,7 +3792,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => { typing.remove(); addMessage(html, 'bot'); setChips(chipKeys); }, 680 + Math.random() * 300);
     }
 
-    /* ── SEND / RECEIVE ── */
+    /* ── INVIA / RICEVI ── */
     function handleQuery(text) {
         if (!text.trim()) return;
         const cl = getCurrCL();
@@ -3803,7 +3803,7 @@ document.addEventListener('DOMContentLoaded', () => {
         botSay(kb[key] || kb.fallback, chips);
     }
 
-    /* ── LANGUAGE CHANGE HOOK ── */
+    /* ── HOOK CAMBIO LINGUA ── */
     window._botSetLang = function(lang) {
         const kb = KB_ALL[lang] || KB_ALL.en;
         input.placeholder = kb.placeholder;
@@ -3815,14 +3815,14 @@ document.addEventListener('DOMContentLoaded', () => {
 })();
 
 /* ══════════════════════════════════
-   CUSTOM CURSOR (lerp ring + dot)
+   CURSORE PERSONALIZZATO (anello lerp + punto)
 ══════════════════════════════════ */
 (function () {
     const ring = document.getElementById('cursor-ring');
     const dot  = document.getElementById('cursor-dot');
     if (!ring || !dot) return;
 
-    // Only on fine pointer (mouse, not touch)
+    // Solo con puntatore preciso (mouse, non touch)
     if (!window.matchMedia('(pointer: fine)').matches) {
         ring.style.display = 'none';
         dot.style.display  = 'none';
@@ -3855,7 +3855,7 @@ document.addEventListener('DOMContentLoaded', () => {
 })();
 
 /* ══════════════════════════════════
-   COUNTER ANIMATION (stat numbers)
+   ANIMAZIONE CONTATORI (numeri statistiche)
 ══════════════════════════════════ */
 (function () {
     const statNums = document.querySelectorAll('.dim-stat-num[data-count]');
@@ -3885,7 +3885,7 @@ document.addEventListener('DOMContentLoaded', () => {
 })();
 
 /* ══════════════════════════════════
-   MOBILE NAV
+   NAVIGAZIONE MOBILE
 ══════════════════════════════════ */
 (function () {
     const langFlags = {en:'🇬🇧',it:'🇮🇹',es:'🇪🇸',zh:'🇨🇳',ja:'🇯🇵'};
@@ -3978,13 +3978,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 // update active state immediately for snappy feel
                 setTimeout(updateActive, 300);
             }
-        }, true); // capture phase → fires before ANY bubble-phase handler
+        }, true); // fase cattura → si attiva prima di qualsiasi gestore in fase bubble
     });
 })();
 
 </script>
 
-<!-- ─── MOBILE BOTTOM NAV ─── -->
+<!-- ─── NAVIGAZIONE MOBILE IN FONDO ─── -->
 <nav id="mob-nav" role="navigation" aria-label="Mobile navigation">
     <a href="#intro"    class="mob-nav-btn" data-mob="intro">   <span class="mob-icon">🏠</span><span>Home</span></a>
     <a href="#one"      class="mob-nav-btn" data-mob="one">     <span class="mob-icon">⚡</span><span>Skills</span></a>
