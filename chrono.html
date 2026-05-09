@@ -169,30 +169,12 @@ footer{border-top:1px solid var(--border);padding:32px 40px;display:flex;justify
 </head>
 <body>
 
-<!-- Shared SVG defs for Chrono logo -->
-<svg style="display:none" aria-hidden="true">
-  <defs>
-    <linearGradient id="cl-gold" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#E8B84B"/>
-      <stop offset="100%" stop-color="#f5d07a"/>
-    </linearGradient>
-    <linearGradient id="cl-flow" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#E8B84B"/>
-      <stop offset="100%" stop-color="#7C5CFC"/>
-    </linearGradient>
-    <filter id="cl-glow">
-      <feGaussianBlur stdDeviation="2" result="b"/>
-      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-    </filter>
-  </defs>
-</svg>
-
 <canvas id="stars-canvas"></canvas>
 
 <!-- NAV -->
 <nav id="nav">
   <a href="#" class="nav-logo">
-    <div class="nav-logo-icon"><svg width="22" height="22" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M76 24A30 30 0 1 1 76 75" stroke="url(#cl-gold)" stroke-width="9" stroke-linecap="round" fill="none"/><polygon points="39,30 65,30 52,50" fill="url(#cl-flow)"/><polygon points="39,70 65,70 52,50" fill="#7C5CFC" opacity="0.85"/><line x1="35" y1="28" x2="68" y2="28" stroke="#E8B84B" stroke-width="2" stroke-linecap="round"/><line x1="35" y1="72" x2="68" y2="72" stroke="#7C5CFC" stroke-width="2" stroke-linecap="round"/><circle cx="52" cy="50" r="2.5" fill="#fff" opacity="0.95"/></svg></div>
+    <div class="nav-logo-icon"><svg width="22" height="22" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="cln-g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#E8B84B"/><stop offset="100%" stop-color="#f5d07a"/></linearGradient><linearGradient id="cln-f" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#E8B84B"/><stop offset="100%" stop-color="#7C5CFC"/></linearGradient></defs><path d="M76 24A30 30 0 1 1 76 75" stroke="url(#cln-g)" stroke-width="9" stroke-linecap="round" fill="none"/><polygon points="39,30 65,30 52,50" fill="url(#cln-f)"/><polygon points="39,70 65,70 52,50" fill="#7C5CFC" opacity="0.85"/><line x1="35" y1="28" x2="68" y2="28" stroke="#E8B84B" stroke-width="2" stroke-linecap="round"/><line x1="35" y1="72" x2="68" y2="72" stroke="#7C5CFC" stroke-width="2" stroke-linecap="round"/><circle cx="52" cy="50" r="2.5" fill="#fff" opacity="0.95"/></svg></div>
     <span class="nav-logo-text">Chrono</span>
   </a>
   <div class="nav-links">
@@ -210,7 +192,7 @@ footer{border-top:1px solid var(--border);padding:32px 40px;display:flex;justify
     <div class="hero-badge">
       <span>Disponibile ora su iOS · Android · Web</span>
     </div>
-    <div class="hero-capsule"><svg width="72" height="72" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M76 24A30 30 0 1 1 76 75" stroke="url(#cl-gold)" stroke-width="8" stroke-linecap="round" fill="none" filter="url(#cl-glow)"/><polygon points="39,30 65,30 52,50" fill="url(#cl-flow)" filter="url(#cl-glow)"/><polygon points="39,70 65,70 52,50" fill="#7C5CFC" opacity="0.85" filter="url(#cl-glow)"/><line x1="35" y1="28" x2="68" y2="28" stroke="#E8B84B" stroke-width="2" stroke-linecap="round"/><line x1="35" y1="72" x2="68" y2="72" stroke="#7C5CFC" stroke-width="2" stroke-linecap="round"/><circle cx="52" cy="50" r="3" fill="#fff" opacity="0.95" filter="url(#cl-glow)"/></svg></div>
+    <div class="hero-capsule"><svg width="72" height="72" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="clh-g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#E8B84B"/><stop offset="100%" stop-color="#f5d07a"/></linearGradient><linearGradient id="clh-f" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#E8B84B"/><stop offset="100%" stop-color="#7C5CFC"/></linearGradient><filter id="clh-gw"><feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><path d="M76 24A30 30 0 1 1 76 75" stroke="url(#clh-g)" stroke-width="8" stroke-linecap="round" fill="none" filter="url(#clh-gw)"/><polygon points="39,30 65,30 52,50" fill="url(#clh-f)" filter="url(#clh-gw)"/><polygon points="39,70 65,70 52,50" fill="#7C5CFC" opacity="0.85" filter="url(#clh-gw)"/><line x1="35" y1="28" x2="68" y2="28" stroke="#E8B84B" stroke-width="2" stroke-linecap="round"/><line x1="35" y1="72" x2="68" y2="72" stroke="#7C5CFC" stroke-width="2" stroke-linecap="round"/><circle cx="52" cy="50" r="3" fill="#fff" opacity="0.95" filter="url(#clh-gw)"/></svg></div>
     <h1 class="hero-title">La tua<br><span>Capsula del Tempo</span><br>digitale</h1>
     <p class="hero-subtitle">Sigilla ricordi, foto, messaggi e previsioni in una capsula digitale. Aprila fra 1 anno, 5 anni, o quando vuoi — e scopri chi eri.</p>
     <div class="hero-ctas">
@@ -486,7 +468,7 @@ footer{border-top:1px solid var(--border);padding:32px 40px;display:flex;justify
 <!-- FOOTER -->
 <footer>
   <a href="#" class="footer-brand">
-    <svg width="20" height="20" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M76 24A30 30 0 1 1 76 75" stroke="url(#cl-gold)" stroke-width="9" stroke-linecap="round" fill="none"/><polygon points="39,30 65,30 52,50" fill="url(#cl-flow)"/><polygon points="39,70 65,70 52,50" fill="#7C5CFC" opacity="0.85"/><line x1="35" y1="28" x2="68" y2="28" stroke="#E8B84B" stroke-width="2" stroke-linecap="round"/><line x1="35" y1="72" x2="68" y2="72" stroke="#7C5CFC" stroke-width="2" stroke-linecap="round"/><circle cx="52" cy="50" r="2.5" fill="#fff" opacity="0.95"/></svg>
+    <svg width="20" height="20" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="clf-g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#E8B84B"/><stop offset="100%" stop-color="#f5d07a"/></linearGradient><linearGradient id="clf-f" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#E8B84B"/><stop offset="100%" stop-color="#7C5CFC"/></linearGradient></defs><path d="M76 24A30 30 0 1 1 76 75" stroke="url(#clf-g)" stroke-width="9" stroke-linecap="round" fill="none"/><polygon points="39,30 65,30 52,50" fill="url(#clf-f)"/><polygon points="39,70 65,70 52,50" fill="#7C5CFC" opacity="0.85"/><line x1="35" y1="28" x2="68" y2="28" stroke="#E8B84B" stroke-width="2" stroke-linecap="round"/><line x1="35" y1="72" x2="68" y2="72" stroke="#7C5CFC" stroke-width="2" stroke-linecap="round"/><circle cx="52" cy="50" r="2.5" fill="#fff" opacity="0.95"/></svg>
     <span class="footer-brand-text">Chrono</span>
   </a>
   <div class="footer-links">
