@@ -197,6 +197,39 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;displ
 .toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 20px;font-size:14px;z-index:999;opacity:0;transition:all .3s;pointer-events:none;white-space:nowrap}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
+/* MEMORY FEED */
+.memory-card{display:flex;align-items:center;gap:10px;background:rgba(232,184,75,.05);border:1px solid rgba(232,184,75,.18);border-radius:12px;padding:12px 14px;margin-bottom:8px;cursor:default}
+.memory-years{font-size:10px;font-weight:700;color:var(--gold);background:var(--gold-dim);padding:3px 8px;border-radius:20px;white-space:nowrap}
+.memory-cap-emoji{font-size:20px}
+.memory-cap-title{font-size:14px;font-weight:600;flex:1}
+
+/* CHECK-IN BANNER */
+#checkin-banner{background:rgba(232,184,75,.06);border:1px solid rgba(232,184,75,.3);border-radius:14px;padding:14px 16px;margin-bottom:16px;display:none}
+.checkin-inner{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.checkin-title{font-size:14px;font-weight:700;color:var(--gold);margin-bottom:3px}
+.checkin-sub{font-size:12px;color:var(--text2);line-height:1.4}
+
+/* MEMORY PEEK */
+.peek-container{position:relative;background:var(--card);border:1px solid rgba(232,184,75,.2);border-radius:12px;padding:16px;margin:16px 0;overflow:hidden;min-height:70px}
+.peek-text{font-size:13px;line-height:1.65;color:var(--text);filter:blur(5px);user-select:none;pointer-events:none;max-height:80px;overflow:hidden}
+.peek-overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(11,11,28,.25);backdrop-filter:blur(1px);gap:4px}
+.peek-label{font-size:13px;font-weight:700;color:var(--gold)}
+.peek-hint{font-size:11px;color:var(--text2)}
+
+/* LETTER PROMPTS */
+.prompt-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px;margin-bottom:8px}
+.prompt-q{font-size:13px;font-weight:600;color:var(--gold);margin-bottom:8px}
+.prompt-ta{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px 10px;color:var(--text);font-size:13px;font-family:'Inter',sans-serif;resize:vertical;box-sizing:border-box;min-height:56px}
+.prompt-ta:focus{outline:none;border-color:rgba(232,184,75,.4)}
+
+/* SHARED TOGGLE */
+.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--card);border:1px solid var(--border);border-radius:10px;font-size:13px}
+.toggle{width:42px;height:24px;background:var(--surface);border-radius:12px;position:relative;cursor:pointer;transition:background .25s;flex-shrink:0;border:1px solid var(--border)}
+.toggle.on{background:var(--gold);border-color:var(--gold)}
+.toggle-thumb{position:absolute;top:2px;left:2px;width:18px;height:18px;background:#fff;border-radius:50%;transition:left .25s;box-shadow:0 1px 3px rgba(0,0,0,.3)}
+.toggle.on .toggle-thumb{left:19px}
+.shared-badge{font-size:10px;background:rgba(232,184,75,.12);color:var(--gold);border:1px solid rgba(232,184,75,.25);border-radius:20px;padding:2px 8px;font-weight:600;margin-left:6px;vertical-align:middle}
+
 @media(max-width:600px){
   .auth-box{padding:28px 22px}
   .modal{padding:22px 18px}
@@ -274,6 +307,21 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;displ
   <div class="app-body">
     <!-- HOME TAB -->
     <div id="tab-home" class="tab-pane active">
+      <!-- CHECK-IN BANNER -->
+      <div id="checkin-banner">
+        <div class="checkin-inner">
+          <div>
+            <div class="checkin-title" id="checkin-title">🎂 Anniversario!</div>
+            <div class="checkin-sub" id="checkin-sub">Una capsula compie anni oggi.</div>
+          </div>
+          <span style="font-size:24px">🎉</span>
+        </div>
+      </div>
+      <!-- MEMORY FEED -->
+      <div id="memory-feed-section" style="display:none;margin-bottom:24px">
+        <div style="font-size:15px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:7px">📸 In questo giorno</div>
+        <div id="memory-feed-list"></div>
+      </div>
       <div id="home-soon-section" style="display:none;margin-bottom:24px">
         <div style="font-size:15px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:7px">🔥 Si aprono presto</div>
         <div id="home-soon-list"></div>
@@ -338,6 +386,13 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;displ
       </div>
       <div class="mfield"><label>Titolo *</label><input id="c-title" type="text" placeholder="Es. Il mio 2025"></div>
       <div class="mfield"><label>Descrizione</label><textarea id="c-desc" placeholder="Una breve descrizione..."></textarea></div>
+      <div class="mfield">
+        <label>👥 Capsula condivisa</label>
+        <div class="toggle-row">
+          <span style="color:var(--text2);font-size:13px">Condividi con amici o familiari</span>
+          <div class="toggle" id="shared-toggle" onclick="toggleShared()"><div class="toggle-thumb"></div></div>
+        </div>
+      </div>
     </div>
     <!-- Step 2: Data -->
     <div class="step-pane" id="sp-2">
@@ -356,6 +411,8 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;displ
       <div class="mfield"><label>📝 Messaggio al tuo sé futuro</label>
         <textarea id="c-note" placeholder="Ciao me futuro...&#10;Come stai? Cosa stai facendo?&#10;Spero che..."></textarea>
       </div>
+      <button type="button" onclick="showLetterPrompts()" style="background:var(--gold-dim);border:1px solid rgba(232,184,75,.3);border-radius:10px;padding:10px 16px;color:var(--gold);font-size:13px;font-weight:600;cursor:pointer;width:100%;font-family:'Inter',sans-serif;margin-bottom:4px">✨ Usa i prompt guidati</button>
+      <div id="letter-prompts-container" style="display:none"></div>
     </div>
     <!-- Step 4: Previsioni -->
     <div class="step-pane" id="sp-4">
@@ -458,7 +515,7 @@ const TOTAL_STEPS = 5;
 const EMOJIS = ['📦','💌','🌟','🏖️','🚀','💎','🎭','🎂','🌸','🏆','🔮','🌙','❤️','🎵','🌍','🦋'];
 const PRESETS = [{l:'6 mesi',d:182},{l:'1 anno',d:365},{l:'2 anni',d:730},{l:'5 anni',d:1825},{l:'10 anni',d:3650}];
 
-let form = { emoji:'📦', title:'', desc:'', unlockAt:null, note:'', preds:[], goals:[] };
+let form = { emoji:'📦', title:'', desc:'', unlockAt:null, note:'', preds:[], goals:[], isShared:false };
 let editingPredictions = {};
 
 // ── STARS ──
@@ -637,6 +694,8 @@ function renderAll() {
   document.getElementById('s-open').textContent = unlocked.length;
 
   renderAchievements();
+  renderCheckinBanner();
+  renderMemoryFeed();
 }
 
 function renderList(id, list) {
@@ -655,13 +714,14 @@ function capsuleCardHTML(c) {
   const sub = st==='unlocked' ? `Aperta il ${fmtDate(c.unlockAt)}` :
               days > 365 ? `Si apre tra ${Math.floor(days/365)} anni` :
               days > 0 ? `Si apre tra ${days} giorni` : 'Si apre presto!';
+  const sharedBadge = c.isShared ? `<span class="shared-badge">👥 Condivisa</span>` : '';
   const badge = st==='unlocked' ? `<span class="cap-badge unlocked">✨ Aperta</span>` :
                 st==='soon' ? `<span class="cap-badge soon">🔥 Presto!</span>` :
                 `<span class="cap-badge locked">🔒 Sigillata</span>`;
   return `<div class="cap-card ${st}" data-id="${c.id}">
     <div class="cap-emoji-box ${st}">${c.emoji}</div>
     <div class="cap-info">
-      <div class="cap-title">${esc(c.title)}</div>
+      <div class="cap-title">${esc(c.title)}${sharedBadge}</div>
       <div class="cap-sub">${sub}</div>
     </div>
     ${badge}
@@ -693,6 +753,16 @@ window.openDetail = (id) => {
       <div class="cd-unit"><div class="cd-num">${String(Math.max(0,mins)).padStart(2,'0')}</div><div class="cd-lbl">min</div></div>
     </div>
     <div style="font-size:13px;color:var(--text2);text-align:center;margin-bottom:16px">Si apre il ${fmtDate(c.unlockAt)}</div>`;
+    if (c.note) {
+      html += `<div class="section-hdr">📝 Un assaggio del messaggio</div>
+        <div class="peek-container">
+          <div class="peek-text">${esc(c.note).replace(/\n/g,'<br>')}</div>
+          <div class="peek-overlay">
+            <div class="peek-label">🔒 Sigillata</div>
+            <div class="peek-hint">Si svelerà il ${fmtDate(c.unlockAt)}</div>
+          </div>
+        </div>`;
+    }
     if (c.preds?.length) html += `<div class="section-hdr">🔮 ${c.preds.length} previsioni sigillate</div><div style="font-size:13px;color:var(--text3);padding:10px;background:var(--card);border-radius:10px;">Potrai vederle quando la capsula si apre.</div>`;
     if (c.goals?.length) html += `<div class="section-hdr">🎯 ${c.goals.length} obiettivi</div><div style="font-size:13px;color:var(--text3);padding:10px;background:var(--card);border-radius:10px;">Potrai vederli quando la capsula si apre.</div>`;
   } else {
@@ -738,7 +808,7 @@ window.markPred = async (capId, predId, correct) => {
 
 // ── CREATE MODAL ──
 window.openCreateModal = () => {
-  form = { emoji:'📦', title:'', desc:'', unlockAt:null, note:'', preds:[], goals:[] };
+  form = { emoji:'📦', title:'', desc:'', unlockAt:null, note:'', preds:[], goals:[], isShared:false };
   createStep = 1;
   buildEmojiPicker();
   buildDatePresets();
@@ -749,6 +819,10 @@ window.openCreateModal = () => {
   document.getElementById('goal-input').value='';
   document.getElementById('pred-list').innerHTML='';
   document.getElementById('goal-list').innerHTML='';
+  const tog = document.getElementById('shared-toggle');
+  if (tog) { tog.classList.remove('on'); }
+  document.getElementById('letter-prompts-container').style.display='none';
+  document.getElementById('letter-prompts-container').innerHTML='';
   renderStep();
   openModal('create-modal');
 };
@@ -869,7 +943,7 @@ async function sealCapsule() {
     title: form.title, desc: form.desc,
     unlockAt: form.unlockAt instanceof Date ? form.unlockAt.toISOString() : form.unlockAt,
     createdAt: new Date().toISOString(),
-    note: form.note, preds: form.preds, goals: form.goals
+    note: form.note, preds: form.preds, goals: form.goals, isShared: form.isShared
   };
   capsules.unshift(cap);
   await saveCapsuleToFirebase(cap);
@@ -925,6 +999,103 @@ window.showToast = (msg) => {
   t.textContent = msg;
   t.classList.add('show');
   setTimeout(()=>t.classList.remove('show'), 3500);
+};
+
+// ── MEMORY FEED ──
+function renderMemoryFeed() {
+  const now = new Date();
+  const thisMonth = now.getMonth();
+  const thisDay = now.getDate();
+  const memories = capsules.filter(c => {
+    const created = new Date(c.createdAt);
+    return created.getMonth() === thisMonth &&
+           created.getDate() === thisDay &&
+           created.getFullYear() < now.getFullYear();
+  });
+  const section = document.getElementById('memory-feed-section');
+  const list = document.getElementById('memory-feed-list');
+  if (!memories.length) { section.style.display='none'; return; }
+  section.style.display = 'block';
+  list.innerHTML = memories.map(c => {
+    const yearsAgo = now.getFullYear() - new Date(c.createdAt).getFullYear();
+    return `<div class="memory-card" onclick="openDetail('${c.id}')">
+      <span class="memory-cap-emoji">${c.emoji}</span>
+      <span class="memory-cap-title">${esc(c.title)}</span>
+      <span class="memory-years">${yearsAgo} ${yearsAgo===1?'anno fa':'anni fa'}</span>
+    </div>`;
+  }).join('');
+}
+
+// ── CHECK-IN BANNER ──
+function renderCheckinBanner() {
+  const now = new Date();
+  const banner = document.getElementById('checkin-banner');
+  // Find capsules whose creation anniversary is within 7 days
+  const upcoming = capsules.filter(c => {
+    const created = new Date(c.createdAt);
+    if (created.getFullYear() >= now.getFullYear()) return false;
+    // Next anniversary this year
+    const ann = new Date(now.getFullYear(), created.getMonth(), created.getDate());
+    if (ann < now) ann.setFullYear(now.getFullYear()+1);
+    const diff = Math.ceil((ann - now) / 86400000);
+    return diff >= 0 && diff <= 7;
+  });
+  if (!upcoming.length) { banner.style.display='none'; return; }
+  const c = upcoming[0];
+  const created = new Date(c.createdAt);
+  const ann = new Date(now.getFullYear(), created.getMonth(), created.getDate());
+  if (ann < now) ann.setFullYear(now.getFullYear()+1);
+  const diff = Math.ceil((ann - now) / 86400000);
+  const yearsOld = now.getFullYear() - created.getFullYear() + (ann < now ? 1 : 0);
+  document.getElementById('checkin-title').textContent =
+    diff === 0 ? `🎂 "${esc(c.title)}" compie ${yearsOld} ${yearsOld===1?'anno':'anni'} oggi!`
+               : `🎂 "${esc(c.title)}" compie ${yearsOld} ${yearsOld===1?'anno':'anni'} tra ${diff} ${diff===1?'giorno':'giorni'}`;
+  document.getElementById('checkin-sub').textContent = diff === 0
+    ? 'Una capsula speciale nata in questo giorno!'
+    : `Creata il ${fmtDate(c.createdAt)}`;
+  banner.style.display = 'block';
+}
+
+// ── LETTER PROMPTS ──
+const LETTER_PROMPTS = [
+  { q: 'Come ti senti oggi?', ph: 'Oggi mi sento...' },
+  { q: 'Qual è la cosa di cui sei più orgoglioso ultimamente?', ph: 'Sono orgoglioso di...' },
+  { q: 'Cosa speri che cambi nella tua vita?', ph: 'Spero che...' },
+  { q: 'Chi è la persona più importante per te ora?', ph: 'La persona più importante...' },
+  { q: 'Cosa vorresti dire al tuo sé futuro?', ph: 'Ciao me futuro...' },
+];
+
+window.showLetterPrompts = () => {
+  const container = document.getElementById('letter-prompts-container');
+  if (container.style.display !== 'none') { container.style.display='none'; return; }
+  container.innerHTML = `<div style="margin-bottom:10px;font-size:12px;color:var(--text2)">Rispondi a queste domande per arricchire la tua lettera. Le risposte verranno aggiunte al messaggio.</div>` +
+    LETTER_PROMPTS.map((p,i) => `
+    <div class="prompt-card">
+      <div class="prompt-q">${p.q}</div>
+      <textarea class="prompt-ta" id="prompt-${i}" placeholder="${p.ph}" rows="2"></textarea>
+    </div>`).join('') +
+    `<button type="button" onclick="applyPrompts()" style="background:var(--gold);color:#000;border:none;border-radius:10px;padding:10px 16px;font-size:13px;font-weight:700;cursor:pointer;width:100%;font-family:'Inter',sans-serif;margin-top:4px">Aggiungi al messaggio →</button>`;
+  container.style.display = 'block';
+};
+
+window.applyPrompts = () => {
+  const parts = LETTER_PROMPTS.map((p,i) => {
+    const val = (document.getElementById(`prompt-${i}`)?.value||'').trim();
+    return val ? `${p.q}\n${val}` : '';
+  }).filter(Boolean);
+  if (!parts.length) return;
+  const current = document.getElementById('c-note').value.trim();
+  const joined = parts.join('\n\n');
+  document.getElementById('c-note').value = current ? `${current}\n\n${joined}` : joined;
+  document.getElementById('letter-prompts-container').style.display = 'none';
+  showToast('✅ Prompt aggiunti al messaggio!');
+};
+
+// ── SHARED TOGGLE ──
+window.toggleShared = () => {
+  form.isShared = !form.isShared;
+  const tog = document.getElementById('shared-toggle');
+  tog.classList.toggle('on', form.isShared);
 };
 
 // ── UTILS ──
