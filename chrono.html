@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chrono — La tua Capsula del Tempo</title>
+<meta name="description" content="Sigilla i tuoi ricordi, foto e messaggi in una capsula del tempo digitale. Aprila fra 1 anno, 5 anni, o quando vuoi. Disponibile su iOS, Android e Web.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#080816;--surface:#10102a;--card:#16163a;--border:#252550;
+  --gold:#E8B84B;--gold-light:#F5D073;--gold-dim:rgba(232,184,75,.12);
+  --purple:#7C5CFC;--purple-dim:rgba(124,92,252,.12);
+  --green:#4CAF88;--red:#FC5C5C;
+  --text:#fff;--text2:#8892A4;--text3:#4A5568;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;overflow-x:hidden}
+
+/* ── STARS ── */
+#stars-canvas{position:fixed;inset:0;pointer-events:none;z-index:0}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 40px;height:64px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid transparent;transition:all .4s}
+nav.scrolled{background:rgba(8,8,22,.85);backdrop-filter:blur(20px);border-color:var(--border)}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-logo-icon{width:36px;height:36px;border-radius:50%;background:var(--gold-dim);border:1px solid rgba(232,184,75,.35);display:flex;align-items:center;justify-content:center;font-size:16px}
+.nav-logo-text{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--text)}
+.nav-links{display:flex;align-items:center;gap:28px}
+.nav-links a{color:var(--text2);text-decoration:none;font-size:14px;font-weight:500;transition:color .2s}
+.nav-links a:hover{color:var(--text)}
+.nav-cta{background:var(--gold);color:#000;border:none;padding:9px 22px;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;text-decoration:none;transition:all .2s}
+.nav-cta:hover{background:var(--gold-light);transform:translateY(-1px)}
+
+/* ── HERO ── */
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:100px 24px 60px;z-index:1}
+.hero-inner{max-width:800px}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:var(--gold-dim);border:1px solid rgba(232,184,75,.25);border-radius:20px;padding:6px 16px;font-size:12px;font-weight:600;color:var(--gold);letter-spacing:.08em;margin-bottom:32px;animation:fadeUp .8s ease both}
+.hero-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:pulse 2s infinite}
+.hero-capsule{width:110px;height:110px;border-radius:50%;background:var(--card);border:2px solid rgba(232,184,75,.3);display:flex;align-items:center;justify-content:center;font-size:50px;margin:0 auto 32px;position:relative;animation:fadeUp .8s .1s ease both}
+.hero-capsule::before{content:'';position:absolute;inset:-14px;border-radius:50%;border:1px solid rgba(232,184,75,.12);animation:orbit 6s linear infinite}
+.hero-capsule::after{content:'';position:absolute;inset:-28px;border-radius:50%;border:1px solid rgba(232,184,75,.06);animation:orbit 10s linear infinite reverse}
+.hero-title{font-family:'Playfair Display',serif;font-size:clamp(48px,8vw,88px);font-weight:900;line-height:1.05;letter-spacing:-2px;margin-bottom:20px;animation:fadeUp .8s .2s ease both}
+.hero-title span{background:linear-gradient(135deg,var(--gold),var(--gold-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-subtitle{font-size:clamp(16px,2.5vw,20px);color:var(--text2);line-height:1.7;max-width:560px;margin:0 auto 44px;animation:fadeUp .8s .3s ease both}
+.hero-ctas{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;animation:fadeUp .8s .4s ease both}
+.btn-primary{background:var(--gold);color:#000;padding:14px 32px;border-radius:12px;font-size:16px;font-weight:700;text-decoration:none;transition:all .25s;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:8px}
+.btn-primary:hover{background:var(--gold-light);transform:translateY(-2px);box-shadow:0 12px 40px rgba(232,184,75,.25)}
+.btn-outline{background:transparent;color:var(--text);padding:14px 32px;border-radius:12px;font-size:16px;font-weight:600;text-decoration:none;border:1px solid var(--border);transition:all .25s;display:inline-flex;align-items:center;gap:8px}
+.btn-outline:hover{border-color:rgba(255,255,255,.3);transform:translateY(-2px)}
+.hero-platforms{margin-top:32px;display:flex;justify-content:center;gap:20px;animation:fadeUp .8s .5s ease both}
+.hero-platforms span{font-size:12px;color:var(--text3);display:flex;align-items:center;gap:6px}
+.hero-platforms span::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--green)}
+
+/* ── SCROLL INDICATOR ── */
+.scroll-hint{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;opacity:.5;animation:fadeUp 1s .8s ease both}
+.scroll-hint span{font-size:11px;letter-spacing:.15em;color:var(--text3)}
+.scroll-arrow{width:24px;height:24px;border-right:2px solid var(--text3);border-bottom:2px solid var(--text3);transform:rotate(45deg);animation:bounce 2s infinite}
+
+/* ── HOW IT WORKS ── */
+.section{padding:100px 24px;position:relative;z-index:1}
+.section-label{font-size:11px;font-weight:700;letter-spacing:.2em;color:var(--gold);margin-bottom:16px;display:block}
+.section-title{font-family:'Playfair Display',serif;font-size:clamp(32px,5vw,52px);font-weight:700;line-height:1.15;margin-bottom:16px}
+.section-sub{font-size:16px;color:var(--text2);line-height:1.7;max-width:560px}
+.container{max-width:1100px;margin:0 auto}
+
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;margin-top:60px}
+.step{background:var(--card);border:1px solid var(--border);border-radius:24px;padding:36px;position:relative;overflow:hidden;transition:all .3s;opacity:0;transform:translateY(30px)}
+.step.visible{opacity:1;transform:none;transition:opacity .6s ease,transform .6s ease}
+.step:hover{border-color:rgba(232,184,75,.3);transform:translateY(-4px)}
+.step::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 20% 20%,rgba(232,184,75,.05),transparent 60%);pointer-events:none}
+.step-num{font-family:'Space Mono',monospace;font-size:11px;color:var(--gold);letter-spacing:.15em;margin-bottom:20px;opacity:.7}
+.step-icon{font-size:44px;margin-bottom:20px}
+.step-title{font-size:20px;font-weight:700;margin-bottom:10px}
+.step-desc{font-size:14px;color:var(--text2);line-height:1.65}
+
+/* ── FEATURES ── */
+.features-bg{background:radial-gradient(ellipse at 50% 0,rgba(124,92,252,.08),transparent 70%)}
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;margin-top:60px}
+.feat{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:28px;transition:all .3s;opacity:0;transform:translateY(24px)}
+.feat.visible{opacity:1;transform:none}
+.feat:hover{border-color:rgba(124,92,252,.4);box-shadow:0 8px 40px rgba(124,92,252,.08);transform:translateY(-3px)}
+.feat-icon{width:48px;height:48px;border-radius:14px;background:var(--purple-dim);border:1px solid rgba(124,92,252,.25);display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:18px}
+.feat-title{font-size:17px;font-weight:700;margin-bottom:8px}
+.feat-desc{font-size:13px;color:var(--text2);line-height:1.65}
+
+/* ── MOCKUP SHOWCASE ── */
+.showcase{text-align:center;padding:100px 24px;position:relative;z-index:1;overflow:hidden}
+.mockup-row{display:flex;gap:20px;justify-content:center;align-items:flex-end;margin-top:60px;padding:0 20px}
+.mockup{background:var(--card);border:1px solid var(--border);border-radius:24px;overflow:hidden;flex-shrink:0;transition:all .4s;box-shadow:0 40px 80px rgba(0,0,0,.5)}
+.mockup.center{transform:scale(1.08);border-color:rgba(232,184,75,.3);box-shadow:0 40px 80px rgba(0,0,0,.6),0 0 60px rgba(232,184,75,.08)}
+.mockup-screen{width:200px;padding:20px 16px;min-height:360px;display:flex;flex-direction:column;gap:12px}
+.mockup.wide .mockup-screen{width:260px;min-height:400px}
+.ms-bar{height:8px;border-radius:4px;background:var(--border)}
+.ms-bar.gold{background:var(--gold);width:60%}
+.ms-bar.short{width:40%}
+.ms-card{background:var(--surface);border-radius:12px;padding:12px;border:1px solid var(--border)}
+.ms-emoji{font-size:22px;margin-bottom:6px}
+.ms-title{height:8px;border-radius:4px;background:var(--border);width:70%;margin-bottom:4px}
+.ms-sub{height:6px;border-radius:3px;background:var(--border);width:50%;opacity:.6}
+.ms-badge{display:inline-block;padding:3px 8px;border-radius:6px;font-size:9px;font-weight:700;margin-top:8px}
+.ms-badge.green{background:rgba(76,175,136,.15);color:var(--green)}
+.ms-badge.gold{background:var(--gold-dim);color:var(--gold)}
+.ms-badge.purple{background:var(--purple-dim);color:var(--purple)}
+.ms-countdown{display:flex;gap:6px;margin-top:8px}
+.ms-cd-unit{background:var(--card);border:1px solid var(--border);border-radius:6px;padding:6px;text-align:center;flex:1}
+.ms-cd-num{font-family:'Space Mono',monospace;font-size:14px;color:var(--gold);font-weight:700}
+.ms-cd-lbl{font-size:7px;color:var(--text3)}
+
+/* ── RETENTION ── */
+.retention-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:60px}
+.ret-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px;text-align:center;transition:all .3s;opacity:0;transform:scale(.96)}
+.ret-card.visible{opacity:1;transform:scale(1)}
+.ret-card:hover{border-color:rgba(232,184,75,.3);transform:translateY(-3px)}
+.ret-emoji{font-size:32px;margin-bottom:12px}
+.ret-title{font-size:15px;font-weight:700;margin-bottom:6px}
+.ret-desc{font-size:12px;color:var(--text2);line-height:1.6}
+
+/* ── FIREBASE / SYNC ── */
+.sync-section{background:radial-gradient(ellipse at 50% 50%,rgba(232,184,75,.06),transparent 70%);padding:100px 24px;text-align:center;position:relative;z-index:1}
+.sync-platforms{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin:48px 0}
+.sync-platform{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:28px 32px;display:flex;flex-direction:column;align-items:center;gap:12px;min-width:140px;transition:all .3s;opacity:0;transform:translateY(20px)}
+.sync-platform.visible{opacity:1;transform:none}
+.sync-platform:hover{border-color:rgba(232,184,75,.3);transform:translateY(-4px)}
+.sync-platform-icon{font-size:36px}
+.sync-platform-name{font-size:14px;font-weight:600}
+.sync-platform-sub{font-size:11px;color:var(--text3)}
+.sync-arrow{font-size:24px;color:var(--gold);display:flex;align-items:center;opacity:.5}
+.sync-desc{max-width:580px;margin:0 auto;font-size:15px;color:var(--text2);line-height:1.7;margin-top:24px}
+
+/* ── CTA FINAL ── */
+.cta-section{padding:120px 24px;text-align:center;position:relative;z-index:1}
+.cta-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:300px;background:radial-gradient(ellipse,rgba(232,184,75,.08),transparent 70%);pointer-events:none}
+.cta-title{font-family:'Playfair Display',serif;font-size:clamp(36px,6vw,64px);font-weight:700;margin-bottom:20px}
+.cta-title span{background:linear-gradient(135deg,var(--gold),var(--gold-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.cta-sub{font-size:17px;color:var(--text2);margin-bottom:48px;line-height:1.6}
+
+/* ── FOOTER ── */
+footer{border-top:1px solid var(--border);padding:32px 40px;display:flex;justify-content:space-between;align-items:center;position:relative;z-index:1;flex-wrap:wrap;gap:16px}
+.footer-brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.footer-brand-text{font-family:'Playfair Display',serif;font-weight:700;color:var(--text)}
+.footer-links{display:flex;gap:24px}
+.footer-links a{color:var(--text3);text-decoration:none;font-size:13px;transition:color .2s}
+.footer-links a:hover{color:var(--text)}
+.footer-copy{font-size:12px;color:var(--text3)}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+@keyframes orbit{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+@keyframes bounce{0%,100%{transform:rotate(45deg) translateY(0)}50%{transform:rotate(45deg) translateY(6px)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+@keyframes glow{0%,100%{box-shadow:0 0 20px rgba(232,184,75,.2)}50%{box-shadow:0 0 40px rgba(232,184,75,.4)}}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  nav{padding:0 20px}
+  .nav-links{display:none}
+  .mockup-row{flex-direction:column;align-items:center}
+  .mockup.center{transform:none}
+  .mockup{display:none}
+  .mockup.center{display:block}
+  .sync-arrow{transform:rotate(90deg)}
+  footer{flex-direction:column;text-align:center}
+}
+</style>
+</head>
+<body>
+
+<canvas id="stars-canvas"></canvas>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nav-logo">
+    <div class="nav-logo-icon">⏳</div>
+    <span class="nav-logo-text">Chrono</span>
+  </a>
+  <div class="nav-links">
+    <a href="#how">Come funziona</a>
+    <a href="#features">Features</a>
+    <a href="#sync">Multipiattaforma</a>
+    <a href="index.html">← Portfolio</a>
+  </div>
+  <a href="chrono-app.html" class="nav-cta">Apri l'app →</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">
+      <span>Disponibile ora su iOS · Android · Web</span>
+    </div>
+    <div class="hero-capsule">⏳</div>
+    <h1 class="hero-title">La tua<br><span>Capsula del Tempo</span><br>digitale</h1>
+    <p class="hero-subtitle">Sigilla ricordi, foto, messaggi e previsioni in una capsula digitale. Aprila fra 1 anno, 5 anni, o quando vuoi — e scopri chi eri.</p>
+    <div class="hero-ctas">
+      <a href="chrono-app.html" class="btn-primary">⏳ Apri l'app web</a>
+      <a href="#how" class="btn-outline">Scopri come funziona</a>
+    </div>
+    <div class="hero-platforms">
+      <span>iOS</span>
+      <span>Android</span>
+      <span>Web App</span>
+      <span>Account sincronizzato</span>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <span>SCROLL</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section" id="how">
+  <div class="container">
+    <span class="section-label">// COME FUNZIONA</span>
+    <h2 class="section-title">Tre passi.<br>Un ricordo per sempre.</h2>
+    <p class="section-sub">Non serve essere organizzati. Bastano tre minuti per creare qualcosa che ti sorprenderà tra anni.</p>
+    <div class="steps">
+      <div class="step reveal">
+        <div class="step-num">// STEP_01</div>
+        <div class="step-icon">📦</div>
+        <h3 class="step-title">Crea la capsula</h3>
+        <p class="step-desc">Dai un nome alla tua capsula, scegli un'emoji cover e aggiungi note, foto, video o messaggi vocali. Aggiungi previsioni sul futuro e obiettivi da raggiungere.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">// STEP_02</div>
+        <div class="step-icon">🔒</div>
+        <h3 class="step-title">Sigillala</h3>
+        <p class="step-desc">Scegli la data di apertura: fra 6 mesi, 1 anno, 5 anni o una data personalizzata. Dal momento in cui sigilli, il contenuto è bloccato — solo tu puoi aprirla.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">// STEP_03</div>
+        <div class="step-icon">✨</div>
+        <h3 class="step-title">Aprila quando è il momento</h3>
+        <p class="step-desc">Ricevi una notifica quando la capsula si sblocca. Rivivi i ricordi, scopri se le tue previsioni erano giuste e verifica gli obiettivi raggiunti.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MOCKUP SHOWCASE -->
+<section class="showcase" id="showcase">
+  <div class="container">
+    <span class="section-label">// L'APP IN AZIONE</span>
+    <h2 class="section-title">Bellissima su ogni<br>schermo</h2>
+  </div>
+  <div class="mockup-row">
+    <!-- Schermata 1: Lista capsule locked -->
+    <div class="mockup reveal">
+      <div class="mockup-screen">
+        <div class="ms-bar gold" style="width:50%;margin-bottom:4px"></div>
+        <div class="ms-bar short" style="width:35%;margin-bottom:16px"></div>
+        <div class="ms-card">
+          <div class="ms-emoji">🌟</div>
+          <div class="ms-title"></div>
+          <div class="ms-sub"></div>
+          <span class="ms-badge purple">🔒 323 giorni</span>
+        </div>
+        <div class="ms-card" style="margin-top:4px">
+          <div class="ms-emoji">🏖️</div>
+          <div class="ms-title"></div>
+          <div class="ms-sub"></div>
+          <span class="ms-badge green">✨ Aperta</span>
+        </div>
+        <div class="ms-card" style="margin-top:4px">
+          <div class="ms-emoji">🚀</div>
+          <div class="ms-title"></div>
+          <div class="ms-sub"></div>
+          <span class="ms-badge purple">🔒 5 anni</span>
+        </div>
+      </div>
+    </div>
+    <!-- Schermata centrale: Countdown -->
+    <div class="mockup center wide reveal">
+      <div class="mockup-screen">
+        <div style="text-align:center;padding:16px 0 8px">
+          <div style="font-size:44px;margin-bottom:10px">🌟</div>
+          <div style="font-size:15px;font-weight:700;color:#fff;margin-bottom:4px">Il mio 2025</div>
+          <div style="font-size:11px;color:var(--text3);margin-bottom:16px">Sigillata 365 giorni fa</div>
+          <div style="font-size:11px;color:var(--gold);letter-spacing:.1em;margin-bottom:12px">SI APRE TRA</div>
+          <div class="ms-countdown">
+            <div class="ms-cd-unit"><div class="ms-cd-num">142</div><div class="ms-cd-lbl">giorni</div></div>
+            <div class="ms-cd-unit"><div class="ms-cd-num">08</div><div class="ms-cd-lbl">ore</div></div>
+            <div class="ms-cd-unit"><div class="ms-cd-num">34</div><div class="ms-cd-lbl">min</div></div>
+          </div>
+        </div>
+        <div class="ms-card" style="margin-top:8px">
+          <div style="font-size:10px;color:var(--text3);margin-bottom:6px">🔮 3 previsioni sigillate</div>
+          <div class="ms-bar short" style="width:80%"></div>
+        </div>
+        <div class="ms-card" style="margin-top:6px">
+          <div style="font-size:10px;color:var(--text3);margin-bottom:6px">🎯 2 obiettivi</div>
+          <div class="ms-bar short" style="width:60%"></div>
+        </div>
+      </div>
+    </div>
+    <!-- Schermata 3: Capsula aperta -->
+    <div class="mockup reveal">
+      <div class="mockup-screen">
+        <div style="text-align:center;padding:8px 0">
+          <div style="font-size:36px">🏖️</div>
+          <div style="font-size:11px;color:var(--green);margin:6px 0">✨ Capsula aperta!</div>
+          <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:12px">Estate 2024</div>
+        </div>
+        <div class="ms-card">
+          <div style="font-size:10px;color:var(--text3);margin-bottom:6px">📝 Nota</div>
+          <div class="ms-bar" style="width:100%;margin-bottom:3px"></div>
+          <div class="ms-bar" style="width:80%;margin-bottom:3px"></div>
+          <div class="ms-bar" style="width:60%"></div>
+        </div>
+        <div class="ms-card" style="margin-top:6px">
+          <div style="font-size:10px;color:var(--text3);margin-bottom:8px">🔮 Le tue previsioni</div>
+          <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">
+            <div style="width:16px;height:16px;border-radius:4px;background:rgba(76,175,136,.2);border:1px solid var(--green);display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--green)">✓</div>
+            <div class="ms-bar" style="flex:1;height:6px"></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px">
+            <div style="width:16px;height:16px;border-radius:4px;background:rgba(252,92,92,.1);border:1px solid var(--red);display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--red)">✗</div>
+            <div class="ms-bar" style="flex:1;height:6px"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="section features-bg" id="features">
+  <div class="container">
+    <span class="section-label">// FEATURES</span>
+    <h2 class="section-title">Tutto quello che serve,<br>niente di troppo.</h2>
+    <p class="section-sub">Chrono è progettato per essere semplice da usare ma ricco di significato quando lo riapri.</p>
+    <div class="features-grid">
+      <div class="feat reveal">
+        <div class="feat-icon">📷</div>
+        <h3 class="feat-title">Foto, video e note</h3>
+        <p class="feat-desc">Aggiungi qualsiasi tipo di contenuto alla tua capsula. Foto dal rullino, video, note scritte o messaggi vocali.</p>
+      </div>
+      <div class="feat reveal">
+        <div class="feat-icon">🔮</div>
+        <h3 class="feat-title">Predictions Game</h3>
+        <p class="feat-desc">Fai previsioni sul tuo futuro. Quando apri la capsula, vedi quante ne hai indovinate. Sorprenditi di quanto (non) ci azzecchi.</p>
+      </div>
+      <div class="feat reveal">
+        <div class="feat-icon">🎯</div>
+        <h3 class="feat-title">Obiettivi</h3>
+        <p class="feat-desc">Imposta obiettivi dentro la capsula. Quando la riapri, rifletti su quanti ne hai raggiunti. Un check-up annuale con te stesso.</p>
+      </div>
+      <div class="feat reveal">
+        <div class="feat-icon">🔔</div>
+        <h3 class="feat-title">Yearly Check-in</h3>
+        <p class="feat-desc">Ogni anno l'app ti ricorda di aggiungere un nuovo momento alla capsula. Una tradizione digitale che cresce con te.</p>
+      </div>
+      <div class="feat reveal">
+        <div class="feat-icon">👥</div>
+        <h3 class="feat-title">Capsule condivise</h3>
+        <p class="feat-desc">Crea una capsula con amici o famiglia. Ognuno aggiunge qualcosa, e la aprite insieme quando arriva il momento.</p>
+      </div>
+      <div class="feat reveal">
+        <div class="feat-icon">👁️</div>
+        <h3 class="feat-title">Memory Peek</h3>
+        <p class="feat-desc">Un'anteprima sfocata all'anno per ricordarti che la capsula esiste. Abbastanza per incuriosirti, non abbastanza per rovinare la sorpresa.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RETENTION / WHY STAY -->
+<section class="section" id="retention">
+  <div class="container" style="text-align:center">
+    <span class="section-label">// PERCHÉ TORNARE OGNI ANNO</span>
+    <h2 class="section-title">Il problema delle app di memoria?<br>Le disinstalli dopo 3 mesi.</h2>
+    <p class="section-sub" style="margin:0 auto">Chrono è progettato per tenerti impegnato anche quando la capsula è ancora sigillata.</p>
+    <div class="retention-grid">
+      <div class="ret-card reveal">
+        <div class="ret-emoji">📅</div>
+        <div class="ret-title">Yearly Ritual</div>
+        <div class="ret-desc">Ogni anno, lo stesso giorno, l'app ti invita ad aggiungere qualcosa di nuovo. È diventata una tradizione per migliaia di persone.</div>
+      </div>
+      <div class="ret-card reveal">
+        <div class="ret-emoji">🏆</div>
+        <div class="ret-title">Achievements</div>
+        <div class="ret-desc">Sblocca badge mentre usi l'app. Prima capsula, prima previsione giusta, 5 anni consecutivi — ogni traguardo celebrato.</div>
+      </div>
+      <div class="ret-card reveal">
+        <div class="ret-emoji">📰</div>
+        <div class="ret-title">Memory Feed</div>
+        <div class="ret-desc">"X anni fa oggi hai sigillato una capsula" — una notifica semplice che ti riporta indietro nel tempo senza aprirla.</div>
+      </div>
+      <div class="ret-card reveal">
+        <div class="ret-emoji">✉️</div>
+        <div class="ret-title">Lettera al futuro</div>
+        <div class="ret-desc">Scrivi una lettera al tuo sé futuro con prompts guidati: dove ti vedi? Cosa speri? Cosa temi? Un momento di riflessione raro.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SYNC / FIREBASE -->
+<section class="sync-section" id="sync">
+  <div class="container">
+    <span class="section-label">// MULTIPIATTAFORMA</span>
+    <h2 class="section-title">Un account.<br>Tutti i tuoi dispositivi.</h2>
+    <div class="sync-platforms">
+      <div class="sync-platform reveal">
+        <div class="sync-platform-icon">📱</div>
+        <div class="sync-platform-name">iOS</div>
+        <div class="sync-platform-sub">iPhone & iPad</div>
+      </div>
+      <div class="sync-arrow reveal">⟷</div>
+      <div class="sync-platform reveal" style="border-color:rgba(232,184,75,.3);background:rgba(232,184,75,.04)">
+        <div class="sync-platform-icon">☁️</div>
+        <div class="sync-platform-name">Firebase</div>
+        <div class="sync-platform-sub">Sync in tempo reale</div>
+      </div>
+      <div class="sync-arrow reveal">⟷</div>
+      <div class="sync-platform reveal">
+        <div class="sync-platform-icon">🤖</div>
+        <div class="sync-platform-name">Android</div>
+        <div class="sync-platform-sub">Tutti i dispositivi</div>
+      </div>
+      <div class="sync-arrow reveal">⟷</div>
+      <div class="sync-platform reveal">
+        <div class="sync-platform-icon">🌐</div>
+        <div class="sync-platform-name">Web App</div>
+        <div class="sync-platform-sub">Qualsiasi browser</div>
+      </div>
+    </div>
+    <p class="sync-desc">Registrati una volta. Le tue capsule si sincronizzano automaticamente su tutti i dispositivi tramite Firebase Firestore. Apri la web app dal PC, ritrova tutto sull'iPhone.</p>
+    <div style="margin-top:36px;display:flex;justify-content:center;gap:16px;flex-wrap:wrap">
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 20px;display:flex;align-items:center;gap:10px">
+        <span style="color:var(--green)">✓</span>
+        <span style="font-size:14px;color:var(--text2)">Sync in tempo reale</span>
+      </div>
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 20px;display:flex;align-items:center;gap:10px">
+        <span style="color:var(--green)">✓</span>
+        <span style="font-size:14px;color:var(--text2)">Account Google + Email</span>
+      </div>
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 20px;display:flex;align-items:center;gap:10px">
+        <span style="color:var(--green)">✓</span>
+        <span style="font-size:14px;color:var(--text2)">Dati crittografati</span>
+      </div>
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 20px;display:flex;align-items:center;gap:10px">
+        <span style="color:var(--green)">✓</span>
+        <span style="font-size:14px;color:var(--text2)">Backup automatico</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-glow"></div>
+  <div class="container">
+    <h2 class="cta-title">Cosa diresti<br>al <span>tuo sé futuro</span>?</h2>
+    <p class="cta-sub">Crea la tua prima capsula in meno di 3 minuti.<br>Gratis. Nessuna carta richiesta.</p>
+    <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
+      <a href="chrono-app.html" class="btn-primary" style="font-size:18px;padding:16px 40px">⏳ Crea la tua capsula</a>
+      <a href="index.html" class="btn-outline">← Torna al portfolio</a>
+    </div>
+    <p style="margin-top:24px;font-size:12px;color:var(--text3)">Progetto di Edward Attuati · Built with Flutter + Firebase</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <a href="#" class="footer-brand">
+    <span style="font-size:20px">⏳</span>
+    <span class="footer-brand-text">Chrono</span>
+  </a>
+  <div class="footer-links">
+    <a href="chrono-app.html">Web App</a>
+    <a href="index.html">Portfolio</a>
+    <a href="index.html#contact">Contatti</a>
+  </div>
+  <span class="footer-copy">© 2026 Edward Attuati</span>
+</footer>
+
+<script>
+// ── STARS ──
+(function(){
+  const canvas = document.getElementById('stars-canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, stars = [];
+  function resize(){ W = canvas.width = innerWidth; H = canvas.height = innerHeight; init(); }
+  function init(){
+    stars = [];
+    const n = Math.floor(W * H / 6000);
+    for(let i=0;i<n;i++){
+      stars.push({
+        x: Math.random()*W, y: Math.random()*H,
+        r: Math.random()*1.4+.2,
+        a: Math.random()*.8+.1,
+        speed: Math.random()*.15+.05,
+        phase: Math.random()*Math.PI*2
+      });
+    }
+  }
+  function draw(t){
+    ctx.clearRect(0,0,W,H);
+    stars.forEach(s=>{
+      const pulse = s.a * (.6 + .4*Math.sin(t*.001*s.speed+s.phase));
+      ctx.beginPath();
+      ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+      ctx.fillStyle = `rgba(255,255,255,${pulse})`;
+      ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  }
+  window.addEventListener('resize',resize);
+  resize();
+  requestAnimationFrame(draw);
+})();
+
+// ── NAV SCROLL ──
+window.addEventListener('scroll',()=>{
+  document.getElementById('nav').classList.toggle('scrolled', scrollY > 60);
+});
+
+// ── SCROLL REVEAL ──
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach((e,i)=>{
+    if(e.isIntersecting){
+      // stagger siblings
+      const siblings = [...e.target.parentElement.children];
+      const idx = siblings.indexOf(e.target);
+      setTimeout(()=>{ e.target.classList.add('visible'); }, idx * 80);
+      io.unobserve(e.target);
+    }
+  });
+},{threshold:.15});
+document.querySelectorAll('.step,.feat,.ret-card,.sync-platform,.sync-arrow').forEach(el=>io.observe(el));
+
+// mockups
+const mio = new IntersectionObserver((entries)=>{
+  entries.forEach((e,i)=>{
+    if(e.isIntersecting){
+      setTimeout(()=>e.target.classList.add('visible'),i*120);
+      mio.unobserve(e.target);
+    }
+  });
+},{threshold:.1});
+document.querySelectorAll('.mockup').forEach(el=>{
+  el.style.opacity='0';el.style.transform='translateY(30px)';el.style.transition='all .5s ease';
+  mio.observe(el);
+  el.classList.remove('reveal');
+});
+document.querySelectorAll('.mockup.visible,.mockup').forEach(el=>{
+  el.addEventListener('transitionend',()=>{});
+});
+
+// re-do mockup with simpler approach
+document.querySelectorAll('.mockup').forEach((el,i)=>{
+  el.style.opacity='0';
+  el.style.transform='translateY(30px)';
+  el.style.transition=`opacity .6s ${i*.1}s ease, transform .6s ${i*.1}s ease`;
+});
+const mobs = new IntersectionObserver(entries=>{
+  if(entries.some(e=>e.isIntersecting)){
+    document.querySelectorAll('.mockup').forEach(el=>{
+      el.style.opacity='1';el.style.transform='';
+      if(el.classList.contains('center'))el.style.transform='scale(1.08)';
+    });
+    mobs.disconnect();
+  }
+},{threshold:.1});
+const showcase = document.querySelector('.showcase');
+if(showcase) mobs.observe(showcase);
+
+// ── HERO PARALLAX ──
+window.addEventListener('scroll',()=>{
+  const y = scrollY;
+  const capsule = document.querySelector('.hero-capsule');
+  if(capsule) capsule.style.transform = `translateY(${y*0.08}px)`;
+});
+
+// ── SMOOTH SCROLL ──
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    const t = document.querySelector(a.getAttribute('href'));
+    if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'});}
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chrono App</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600;700&family=Space+Mono&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#080816;--surface:#10102a;--card:#16163a;--border:#252550;
+  --gold:#E8B84B;--gold-light:#F5D073;--gold-dim:rgba(232,184,75,.12);
+  --purple:#7C5CFC;--purple-dim:rgba(124,92,252,.12);
+  --green:#4CAF88;--red:#FC5C5C;--text:#fff;--text2:#8892A4;--text3:#4A5568;
+}
+html,body{height:100%;overflow:hidden}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;display:flex;flex-direction:column}
+
+/* STARS */
+#stars{position:fixed;inset:0;pointer-events:none;z-index:0}
+
+/* VIEWS */
+.view{display:none;flex-direction:column;height:100%;position:relative;z-index:1;overflow-y:auto}
+.view.active{display:flex}
+
+/* ── AUTH VIEW ── */
+#v-auth{align-items:center;justify-content:center;padding:24px}
+.auth-box{width:100%;max-width:420px;background:rgba(16,16,42,.8);backdrop-filter:blur(20px);border:1px solid var(--border);border-radius:24px;padding:40px 36px}
+.auth-logo{text-align:center;margin-bottom:32px}
+.auth-logo-icon{width:72px;height:72px;border-radius:50%;background:var(--gold-dim);border:1px solid rgba(232,184,75,.3);display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 14px}
+.auth-logo-title{font-family:'Playfair Display',serif;font-size:28px;font-weight:700}
+.auth-logo-sub{font-size:13px;color:var(--text2);margin-top:4px}
+.auth-tabs{display:flex;background:var(--surface);border-radius:12px;padding:4px;margin-bottom:28px;gap:4px}
+.auth-tab{flex:1;padding:9px;border:none;background:transparent;color:var(--text2);font-size:14px;font-weight:500;border-radius:9px;cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif}
+.auth-tab.active{background:var(--card);color:var(--text);font-weight:600}
+.field{margin-bottom:18px}
+.field label{display:block;font-size:12px;font-weight:600;color:var(--text2);letter-spacing:.04em;margin-bottom:7px}
+.field input{width:100%;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:13px 16px;font-size:15px;color:var(--text);font-family:'Inter',sans-serif;outline:none;transition:border-color .2s}
+.field input:focus{border-color:var(--gold)}
+.field input::placeholder{color:var(--text3)}
+.btn-gold{width:100%;padding:14px;background:var(--gold);color:#000;border:none;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s;margin-top:6px}
+.btn-gold:hover{background:var(--gold-light);transform:translateY(-1px)}
+.btn-gold:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.auth-divider{display:flex;align-items:center;gap:12px;margin:20px 0}
+.auth-divider span{font-size:12px;color:var(--text3)}
+.auth-divider::before,.auth-divider::after{content:'';flex:1;height:1px;background:var(--border)}
+.btn-outline-auth{width:100%;padding:13px;background:transparent;border:1px solid var(--border);border-radius:12px;font-size:14px;font-weight:600;color:var(--text);cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:10px}
+.btn-outline-auth:hover{border-color:rgba(255,255,255,.3)}
+.auth-error{background:rgba(252,92,92,.1);border:1px solid rgba(252,92,92,.3);border-radius:10px;padding:12px 14px;font-size:13px;color:var(--red);margin-bottom:16px;display:none}
+.auth-error.show{display:block}
+
+/* ── APP SHELL ── */
+#v-app{flex-direction:column;overflow:hidden}
+.app-nav{background:rgba(16,16,42,.9);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:0 24px;height:56px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;position:relative;z-index:10}
+.app-nav-logo{display:flex;align-items:center;gap:8px;font-family:'Playfair Display',serif;font-size:18px;font-weight:700}
+.app-nav-logo span{font-size:20px}
+.app-nav-right{display:flex;align-items:center;gap:16px}
+.app-nav-user{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text2)}
+.avatar{width:32px;height:32px;border-radius:50%;background:var(--gold-dim);border:1px solid rgba(232,184,75,.3);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.btn-logout{background:transparent;border:1px solid var(--border);border-radius:8px;padding:5px 12px;color:var(--text2);font-size:12px;cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s}
+.btn-logout:hover{border-color:var(--red);color:var(--red)}
+.app-body{flex:1;overflow:hidden;display:flex;flex-direction:column;position:relative;z-index:1}
+
+/* TABS */
+.app-tabs{display:flex;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0}
+.app-tab{flex:1;padding:13px 8px;border:none;background:transparent;color:var(--text2);font-size:13px;font-weight:500;cursor:pointer;font-family:'Inter',sans-serif;border-bottom:2px solid transparent;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:6px}
+.app-tab.active{color:var(--gold);border-color:var(--gold);font-weight:600}
+.app-tab:hover:not(.active){color:var(--text)}
+.tab-pane{display:none;flex:1;overflow-y:auto;padding:24px}
+.tab-pane.active{display:block}
+
+/* CAPSULE CARD */
+.cap-card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:18px;display:flex;align-items:center;gap:14px;margin-bottom:12px;cursor:pointer;transition:all .25s}
+.cap-card:hover{transform:translateY(-2px);border-color:rgba(255,255,255,.12)}
+.cap-card.unlocked{border-color:rgba(76,175,136,.35)}
+.cap-card.soon{border-color:rgba(232,184,75,.45)}
+.cap-emoji-box{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0}
+.cap-emoji-box.locked{background:var(--purple-dim)}
+.cap-emoji-box.unlocked{background:rgba(76,175,136,.12)}
+.cap-emoji-box.soon{background:var(--gold-dim)}
+.cap-info{flex:1;min-width:0}
+.cap-title{font-size:15px;font-weight:700;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cap-sub{font-size:12px;color:var(--text2)}
+.cap-badge{font-size:11px;font-weight:700;padding:3px 9px;border-radius:6px;white-space:nowrap}
+.cap-badge.locked{background:var(--purple-dim);color:var(--purple)}
+.cap-badge.unlocked{background:rgba(76,175,136,.15);color:var(--green)}
+.cap-badge.soon{background:var(--gold-dim);color:var(--gold)}
+.empty-state{text-align:center;padding:60px 20px;color:var(--text2)}
+.empty-state .es-icon{font-size:52px;margin-bottom:16px}
+.empty-state h3{font-size:18px;font-weight:700;color:var(--text);margin-bottom:8px}
+.empty-state p{font-size:14px;line-height:1.6}
+
+/* FAB */
+.fab{position:fixed;bottom:28px;right:28px;background:var(--gold);color:#000;border:none;border-radius:16px;padding:14px 22px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;display:flex;align-items:center;gap:8px;box-shadow:0 8px 32px rgba(232,184,75,.3);transition:all .25s;z-index:50}
+.fab:hover{background:var(--gold-light);transform:translateY(-3px);box-shadow:0 12px 40px rgba(232,184,75,.4)}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);z-index:200;display:flex;align-items:center;justify-content:center;padding:16px;opacity:0;pointer-events:none;transition:opacity .25s}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal{background:var(--surface);border:1px solid var(--border);border-radius:24px;width:100%;max-width:560px;max-height:90vh;overflow-y:auto;padding:32px;transform:translateY(20px);transition:transform .3s;box-shadow:0 40px 80px rgba(0,0,0,.5)}
+.modal-overlay.open .modal{transform:none}
+.modal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
+.modal-title{font-family:'Playfair Display',serif;font-size:22px;font-weight:700}
+.modal-close{background:var(--card);border:1px solid var(--border);border-radius:8px;width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text2);font-size:16px;transition:all .2s}
+.modal-close:hover{color:var(--text);border-color:rgba(255,255,255,.2)}
+
+/* STEPS INDICATOR */
+.steps-bar{display:flex;gap:4px;margin-bottom:28px}
+.step-dot{flex:1;height:3px;border-radius:2px;background:var(--border);transition:background .3s}
+.step-dot.done{background:var(--gold)}
+.step-pane{display:none}
+.step-pane.active{display:block}
+.step-title-sm{font-size:14px;font-weight:600;color:var(--text2);margin-bottom:18px;font-family:'Space Mono',monospace;letter-spacing:.04em}
+
+/* FORM FIELDS */
+.mfield{margin-bottom:16px}
+.mfield label{display:block;font-size:12px;font-weight:600;color:var(--text2);margin-bottom:7px;letter-spacing:.04em}
+.mfield input,.mfield textarea,.mfield select{width:100%;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 14px;font-size:14px;color:var(--text);font-family:'Inter',sans-serif;outline:none;transition:border-color .2s;resize:none}
+.mfield input:focus,.mfield textarea:focus{border-color:var(--gold)}
+.mfield textarea{min-height:120px;line-height:1.6}
+.mfield input::placeholder,.mfield textarea::placeholder{color:var(--text3)}
+.emoji-picker{display:grid;grid-template-columns:repeat(8,1fr);gap:6px;margin-top:8px}
+.ep-btn{width:40px;height:40px;border:1px solid var(--border);border-radius:10px;background:var(--card);cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.ep-btn:hover,.ep-btn.sel{background:var(--gold-dim);border-color:var(--gold)}
+.date-presets{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.dp-btn{padding:8px 14px;border:1px solid var(--border);border-radius:8px;background:var(--card);color:var(--text2);font-size:13px;cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s}
+.dp-btn:hover,.dp-btn.sel{border-color:var(--gold);color:var(--gold);background:var(--gold-dim)}
+.add-row{display:flex;gap:8px;margin-bottom:8px}
+.add-row input{flex:1;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 12px;font-size:13px;color:var(--text);font-family:'Inter',sans-serif;outline:none}
+.add-row input:focus{border-color:var(--gold)}
+.add-btn{background:var(--gold-dim);border:1px solid rgba(232,184,75,.3);border-radius:10px;width:38px;height:38px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--gold);font-size:18px;flex-shrink:0;transition:all .2s}
+.add-btn:hover{background:rgba(232,184,75,.2)}
+.chip{display:inline-flex;align-items:center;gap:6px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:12px;margin:3px 4px 3px 0}
+.chip-del{background:none;border:none;color:var(--text3);cursor:pointer;font-size:14px;padding:0;line-height:1;transition:color .2s}
+.chip-del:hover{color:var(--red)}
+.review-box{background:var(--card);border:1px solid rgba(232,184,75,.25);border-radius:16px;padding:22px;text-align:center}
+.review-emoji{font-size:44px;margin-bottom:10px}
+.review-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;margin-bottom:16px}
+.review-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px}
+.review-row:last-child{border:none}
+.review-row span:first-child{color:var(--text2)}
+.review-row span:last-child{font-weight:600}
+.modal-footer{display:flex;gap:10px;margin-top:24px}
+.btn-sm-out{flex:1;padding:12px;background:transparent;border:1px solid var(--border);border-radius:10px;color:var(--text2);font-size:14px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s}
+.btn-sm-out:hover{border-color:rgba(255,255,255,.2);color:var(--text)}
+.btn-sm-gold{flex:2;padding:12px;background:var(--gold);color:#000;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s}
+.btn-sm-gold:hover{background:var(--gold-light)}
+.btn-sm-gold:disabled{opacity:.5;cursor:not-allowed}
+
+/* DETAIL MODAL */
+.det-header{text-align:center;padding:8px 0 20px}
+.det-emoji{font-size:52px;margin-bottom:10px}
+.det-badge{display:inline-block;padding:4px 14px;border-radius:12px;font-size:12px;font-weight:700;margin-bottom:14px}
+.det-badge.locked{background:var(--purple-dim);color:var(--purple)}
+.det-badge.unlocked{background:rgba(76,175,136,.12);color:var(--green)}
+.det-badge.soon{background:var(--gold-dim);color:var(--gold)}
+.det-title{font-family:'Playfair Display',serif;font-size:24px;font-weight:700;margin-bottom:4px}
+.det-sub{font-size:12px;color:var(--text3)}
+.countdown{display:flex;gap:10px;justify-content:center;margin:20px 0}
+.cd-unit{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:10px 14px;text-align:center;min-width:64px}
+.cd-num{font-family:'Space Mono',monospace;font-size:26px;font-weight:700;color:var(--gold)}
+.cd-lbl{font-size:10px;color:var(--text3);margin-top:2px}
+.cd-sep{font-family:'Space Mono',monospace;font-size:26px;color:var(--gold);display:flex;align-items:center;padding-bottom:18px}
+.section-hdr{font-size:14px;font-weight:700;margin:20px 0 10px;display:flex;align-items:center;gap:6px}
+.content-item{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:8px}
+.content-item-lbl{font-size:10px;color:var(--text3);margin-bottom:8px;display:flex;align-items:center;gap:5px}
+.content-item-text{font-size:14px;line-height:1.65;color:var(--text)}
+.pred-row{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px;margin-bottom:6px}
+.pred-text{flex:1;font-size:13px}
+.pred-btns{display:flex;gap:6px}
+.pred-btn{width:28px;height:28px;border-radius:6px;border:1px solid var(--border);background:transparent;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.pred-btn.correct{background:rgba(76,175,136,.15);border-color:var(--green)}
+.pred-btn.wrong{background:rgba(252,92,92,.1);border-color:var(--red)}
+.goal-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border)}
+.goal-row:last-child{border:none}
+
+/* PROFILE TAB */
+.profile-section{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px;margin-bottom:16px}
+.profile-header{text-align:center;padding:16px 0 8px}
+.stat-row{display:flex;gap:12px}
+.stat-box{flex:1;background:var(--surface);border-radius:12px;padding:14px;text-align:center}
+.stat-num{font-size:24px;font-weight:700;font-family:'Playfair Display',serif;color:var(--gold)}
+.stat-lbl{font-size:11px;color:var(--text3);margin-top:3px}
+.ach-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)}
+.ach-row:last-child{border:none}
+.ach-emoji{font-size:24px;width:36px;text-align:center}
+.ach-info{flex:1}
+.ach-title{font-size:14px;font-weight:600}
+.ach-sub{font-size:12px;color:var(--text3);margin-top:2px}
+.ach-check{font-size:16px}
+
+/* FIREBASE NOTICE */
+.firebase-notice{background:rgba(232,184,75,.06);border:1px solid rgba(232,184,75,.2);border-radius:12px;padding:14px 16px;font-size:12px;color:var(--text2);line-height:1.6;margin-bottom:16px}
+.firebase-notice strong{color:var(--gold)}
+
+/* TOAST */
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 20px;font-size:14px;z-index:999;opacity:0;transition:all .3s;pointer-events:none;white-space:nowrap}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+@media(max-width:600px){
+  .auth-box{padding:28px 22px}
+  .modal{padding:22px 18px}
+  .emoji-picker{grid-template-columns:repeat(6,1fr)}
+  .cd-num{font-size:20px}
+  .cd-unit{min-width:50px;padding:8px 10px}
+}
+</style>
+</head>
+<body>
+
+<canvas id="stars"></canvas>
+
+<!-- AUTH VIEW -->
+<div id="v-auth" class="view active">
+  <div class="auth-box">
+    <div class="auth-logo">
+      <div class="auth-logo-icon">⏳</div>
+      <div class="auth-logo-title">Chrono</div>
+      <div class="auth-logo-sub">La tua capsula del tempo digitale</div>
+    </div>
+    <div class="auth-tabs">
+      <button class="auth-tab active" onclick="switchTab('login')">Accedi</button>
+      <button class="auth-tab" onclick="switchTab('register')">Registrati</button>
+    </div>
+    <div id="auth-error" class="auth-error"></div>
+
+    <!-- LOGIN -->
+    <div id="form-login">
+      <div class="firebase-notice">
+        <strong>⚙️ Firebase non configurato.</strong> Per abilitare l'autenticazione reale, aggiungi la tua config Firebase nella sezione <code>FIREBASE_CONFIG</code> del codice. Per ora usa la <strong>modalità demo</strong>.
+      </div>
+      <div class="field"><label>Email</label><input id="l-email" type="email" placeholder="la@tuaemail.com"></div>
+      <div class="field"><label>Password</label><input id="l-pass" type="password" placeholder="••••••••"></div>
+      <button class="btn-gold" onclick="doLogin()">Accedi →</button>
+      <div class="auth-divider"><span>oppure</span></div>
+      <button class="btn-outline-auth" onclick="doGoogleLogin()">
+        <svg width="18" height="18" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+        Continua con Google
+      </button>
+      <button class="btn-outline-auth" onclick="doDemoLogin()">
+        🎭 Entra in modalità demo
+      </button>
+    </div>
+
+    <!-- REGISTER -->
+    <div id="form-register" style="display:none">
+      <div class="field"><label>Nome</label><input id="r-name" type="text" placeholder="Mario Rossi"></div>
+      <div class="field"><label>Email</label><input id="r-email" type="email" placeholder="la@tuaemail.com"></div>
+      <div class="field"><label>Password</label><input id="r-pass" type="password" placeholder="Minimo 6 caratteri"></div>
+      <button class="btn-gold" onclick="doRegister()">Crea account →</button>
+      <div class="auth-divider"><span>oppure</span></div>
+      <button class="btn-outline-auth" onclick="doGoogleLogin()">
+        <svg width="18" height="18" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+        Continua con Google
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- APP VIEW -->
+<div id="v-app" class="view">
+  <div class="app-nav">
+    <div class="app-nav-logo"><span>⏳</span> Chrono</div>
+    <div class="app-nav-right">
+      <div class="app-nav-user">
+        <div class="avatar" id="nav-avatar">🧑</div>
+        <span id="nav-name">Utente</span>
+      </div>
+      <button class="btn-logout" onclick="doLogout()">Esci</button>
+    </div>
+  </div>
+  <div class="app-tabs">
+    <button class="app-tab active" onclick="openAppTab('home',this)">🏠 Home</button>
+    <button class="app-tab" onclick="openAppTab('capsules',this)">📦 Capsule</button>
+    <button class="app-tab" onclick="openAppTab('profile',this)">👤 Profilo</button>
+  </div>
+  <div class="app-body">
+    <!-- HOME TAB -->
+    <div id="tab-home" class="tab-pane active">
+      <div id="home-soon-section" style="display:none;margin-bottom:24px">
+        <div style="font-size:15px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:7px">🔥 Si aprono presto</div>
+        <div id="home-soon-list"></div>
+      </div>
+      <div style="font-size:15px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:7px">🔒 Sigillate</div>
+      <div id="home-locked-list"></div>
+      <div id="home-unlocked-section" style="display:none;margin-top:24px">
+        <div style="font-size:15px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:7px">✨ Già aperte</div>
+        <div id="home-unlocked-list"></div>
+      </div>
+      <div id="home-empty" class="empty-state" style="display:none">
+        <div class="es-icon">📦</div>
+        <h3>Nessuna capsula ancora</h3>
+        <p>Crea la tua prima capsula del tempo.<br>Sarà il regalo perfetto per il tuo sé futuro.</p>
+      </div>
+    </div>
+    <!-- ALL CAPSULES TAB -->
+    <div id="tab-capsules" class="tab-pane">
+      <div id="all-caps-list"></div>
+      <div id="all-empty" class="empty-state" style="display:none">
+        <div class="es-icon">📦</div>
+        <h3>Nessuna capsula</h3>
+        <p>Premi + per creare la tua prima capsula</p>
+      </div>
+    </div>
+    <!-- PROFILE TAB -->
+    <div id="tab-profile" class="tab-pane">
+      <div class="profile-section">
+        <div class="profile-header">
+          <div style="font-size:52px;margin-bottom:8px" id="prof-emoji">🧑</div>
+          <div style="font-size:20px;font-weight:700;font-family:'Playfair Display',serif" id="prof-name">Utente</div>
+          <div style="font-size:12px;color:var(--text3);margin-top:4px" id="prof-email"></div>
+        </div>
+        <div class="stat-row" style="margin-top:20px">
+          <div class="stat-box"><div class="stat-num" id="s-total">0</div><div class="stat-lbl">Capsule</div></div>
+          <div class="stat-box"><div class="stat-num" id="s-locked">0</div><div class="stat-lbl">Sigillate</div></div>
+          <div class="stat-box"><div class="stat-num" id="s-open">0</div><div class="stat-lbl">Aperte</div></div>
+        </div>
+      </div>
+      <div class="profile-section">
+        <div style="font-size:15px;font-weight:700;margin-bottom:14px">🏆 Traguardi</div>
+        <div id="achievements-list"></div>
+      </div>
+      <div class="firebase-notice" style="margin-top:0">
+        <strong>🔥 Per sincronizzare con iOS/Android</strong> configura Firebase nella variabile <code>FIREBASE_CONFIG</code>. Il tuo account sarà automaticamente condiviso tra web e app mobile.
+      </div>
+    </div>
+  </div>
+  <button class="fab" onclick="openCreateModal()" id="fab-btn">+ Nuova capsula</button>
+</div>
+
+<!-- CREATE MODAL -->
+<div class="modal-overlay" id="create-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="modal-step-title">Nuova capsula</div>
+      <button class="modal-close" onclick="closeModal('create-modal')">✕</button>
+    </div>
+    <div class="steps-bar" id="steps-bar"></div>
+    <!-- Step 1: Base -->
+    <div class="step-pane active" id="sp-1">
+      <div class="step-title-sm">// STEP 01 — TITOLO & EMOJI</div>
+      <div class="mfield"><label>Emoji cover</label>
+        <div class="emoji-picker" id="emoji-picker"></div>
+      </div>
+      <div class="mfield"><label>Titolo *</label><input id="c-title" type="text" placeholder="Es. Il mio 2025"></div>
+      <div class="mfield"><label>Descrizione</label><textarea id="c-desc" placeholder="Una breve descrizione..."></textarea></div>
+    </div>
+    <!-- Step 2: Data -->
+    <div class="step-pane" id="sp-2">
+      <div class="step-title-sm">// STEP 02 — QUANDO APRIRLA</div>
+      <div class="mfield"><label>Preset rapidi</label>
+        <div class="date-presets" id="date-presets"></div>
+      </div>
+      <div class="mfield"><label>O scegli una data</label>
+        <input id="c-date" type="date">
+      </div>
+      <div id="date-preview" style="background:var(--gold-dim);border:1px solid rgba(232,184,75,.25);border-radius:12px;padding:14px;margin-top:8px;font-size:14px;color:var(--gold);display:none"></div>
+    </div>
+    <!-- Step 3: Contenuto -->
+    <div class="step-pane" id="sp-3">
+      <div class="step-title-sm">// STEP 03 — CONTENUTO</div>
+      <div class="mfield"><label>📝 Messaggio al tuo sé futuro</label>
+        <textarea id="c-note" placeholder="Ciao me futuro...&#10;Come stai? Cosa stai facendo?&#10;Spero che..."></textarea>
+      </div>
+    </div>
+    <!-- Step 4: Previsioni -->
+    <div class="step-pane" id="sp-4">
+      <div class="step-title-sm">// STEP 04 — PREVISIONI & OBIETTIVI</div>
+      <div class="mfield">
+        <label>🔮 Previsioni sul futuro</label>
+        <div class="add-row">
+          <input id="pred-input" type="text" placeholder="Es: Avrò cambiato lavoro">
+          <button class="add-btn" onclick="addPred()">+</button>
+        </div>
+        <div id="pred-list"></div>
+      </div>
+      <div class="mfield">
+        <label>🎯 Obiettivi</label>
+        <div class="add-row">
+          <input id="goal-input" type="text" placeholder="Es: Correre una maratona">
+          <button class="add-btn" onclick="addGoal()">+</button>
+        </div>
+        <div id="goal-list"></div>
+      </div>
+    </div>
+    <!-- Step 5: Review -->
+    <div class="step-pane" id="sp-5">
+      <div class="step-title-sm">// STEP 05 — REVISIONE</div>
+      <div class="review-box" id="review-box"></div>
+      <div style="background:rgba(232,184,75,.06);border:1px solid rgba(232,184,75,.18);border-radius:10px;padding:12px;margin-top:14px;font-size:12px;color:var(--text2);line-height:1.5">
+        ⚠️ Una volta sigillata, non potrai modificare il contenuto fino alla data di apertura.
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-sm-out" id="modal-back-btn" onclick="stepBack()">← Indietro</button>
+      <button class="btn-sm-gold" id="modal-next-btn" onclick="stepNext()">Continua →</button>
+    </div>
+  </div>
+</div>
+
+<!-- DETAIL MODAL -->
+<div class="modal-overlay" id="detail-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Dettaglio capsula</div>
+      <button class="modal-close" onclick="closeModal('detail-modal')">✕</button>
+    </div>
+    <div id="detail-content"></div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script type="module">
+// ══════════════════════════════════════════════════════
+//  FIREBASE CONFIG — sostituisci con la tua config
+//  da console.firebase.google.com → Impostazioni progetto
+// ══════════════════════════════════════════════════════
+const FIREBASE_CONFIG = null;
+/* Esempio:
+const FIREBASE_CONFIG = {
+  apiKey: "AIzaSy...",
+  authDomain: "chrono-app.firebaseapp.com",
+  projectId: "chrono-app",
+  storageBucket: "chrono-app.appspot.com",
+  messagingSenderId: "123456789",
+  appId: "1:123456789:web:abc123"
+};
+*/
+
+// ── Firebase setup (condizionale) ──
+let fbAuth = null, fbDb = null, fbGoogleProvider = null;
+if (FIREBASE_CONFIG) {
+  const { initializeApp } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js');
+  const { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword,
+          signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut,
+          updateProfile } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js');
+  const { getFirestore, collection, doc, setDoc, getDocs, updateDoc,
+          deleteDoc, query, where, serverTimestamp } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
+
+  const app = initializeApp(FIREBASE_CONFIG);
+  fbAuth = getAuth(app);
+  fbDb = getFirestore(app);
+  fbGoogleProvider = new GoogleAuthProvider();
+
+  onAuthStateChanged(fbAuth, user => {
+    if (user) enterApp({ id: user.uid, name: user.displayName || user.email, email: user.email, emoji: '🧑' });
+    else showAuth();
+  });
+
+  window._fb = { signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup,
+    GoogleAuthProvider, signOut, getFirestore, collection, doc, setDoc, getDocs,
+    updateDoc, deleteDoc, query, where, serverTimestamp, updateProfile };
+}
+
+// ── LOCAL STORAGE (demo / fallback) ──
+function lsGet(k){ try{ return JSON.parse(localStorage.getItem(k)); }catch(e){ return null; } }
+function lsSet(k,v){ localStorage.setItem(k, JSON.stringify(v)); }
+
+// ── APP STATE ──
+let currentUser = null;
+let capsules = [];
+let createStep = 1;
+const TOTAL_STEPS = 5;
+const EMOJIS = ['📦','💌','🌟','🏖️','🚀','💎','🎭','🎂','🌸','🏆','🔮','🌙','❤️','🎵','🌍','🦋'];
+const PRESETS = [{l:'6 mesi',d:182},{l:'1 anno',d:365},{l:'2 anni',d:730},{l:'5 anni',d:1825},{l:'10 anni',d:3650}];
+
+let form = { emoji:'📦', title:'', desc:'', unlockAt:null, note:'', preds:[], goals:[] };
+let editingPredictions = {};
+
+// ── STARS ──
+(()=>{
+  const c = document.getElementById('stars');
+  const ctx = c.getContext('2d');
+  let W,H,stars=[];
+  function resize(){ W=c.width=innerWidth; H=c.height=innerHeight; init(); }
+  function init(){
+    stars=[];
+    const n=Math.floor(W*H/5000);
+    for(let i=0;i<n;i++) stars.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.2+.2,a:Math.random()*.7+.1,sp:Math.random()*.2+.05,ph:Math.random()*Math.PI*2});
+  }
+  function draw(t){
+    ctx.clearRect(0,0,W,H);
+    stars.forEach(s=>{ const p=s.a*(.5+.5*Math.sin(t*.001*s.sp+s.ph)); ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2); ctx.fillStyle=`rgba(255,255,255,${p})`; ctx.fill(); });
+    requestAnimationFrame(draw);
+  }
+  addEventListener('resize',resize); resize(); requestAnimationFrame(draw);
+})();
+
+// ── AUTH ──
+window.switchTab = (tab) => {
+  document.querySelectorAll('.auth-tab').forEach((t,i)=>t.classList.toggle('active',i===(tab==='login'?0:1)));
+  document.getElementById('form-login').style.display = tab==='login'?'block':'none';
+  document.getElementById('form-register').style.display = tab==='register'?'block':'none';
+  clearError();
+};
+
+window.doLogin = async () => {
+  const email = document.getElementById('l-email').value.trim();
+  const pass = document.getElementById('l-pass').value;
+  if (!email || !pass) return showError('Compila tutti i campi');
+  if (fbAuth) {
+    try {
+      await window._fb.signInWithEmailAndPassword(fbAuth, email, pass);
+    } catch(e) { showError(friendlyError(e.code)); }
+  } else {
+    // Demo local auth
+    const saved = lsGet('chrono_users') || {};
+    if (!saved[email]) return showError('Nessun account trovato. Registrati prima.');
+    if (saved[email].pass !== pass) return showError('Password errata.');
+    const u = saved[email];
+    enterApp({ id: email, name: u.name, email, emoji: u.emoji || '🧑' });
+  }
+};
+
+window.doRegister = async () => {
+  const name = document.getElementById('r-name').value.trim();
+  const email = document.getElementById('r-email').value.trim();
+  const pass = document.getElementById('r-pass').value;
+  if (!name||!email||!pass) return showError('Compila tutti i campi');
+  if (pass.length < 6) return showError('La password deve avere almeno 6 caratteri');
+  if (fbAuth) {
+    try {
+      const cred = await window._fb.createUserWithEmailAndPassword(fbAuth, email, pass);
+      await window._fb.updateProfile(cred.user, { displayName: name });
+    } catch(e) { showError(friendlyError(e.code)); }
+  } else {
+    const saved = lsGet('chrono_users') || {};
+    if (saved[email]) return showError('Account già esistente. Accedi.');
+    saved[email] = { name, pass, emoji: '🧑' };
+    lsSet('chrono_users', saved);
+    enterApp({ id: email, name, email, emoji: '🧑' });
+  }
+};
+
+window.doGoogleLogin = () => {
+  if (!fbAuth) { showError('Firebase non configurato. Usa la modalità demo.'); return; }
+  window._fb.signInWithPopup(fbAuth, fbGoogleProvider).catch(e => showError(friendlyError(e.code)));
+};
+
+window.doDemoLogin = () => {
+  enterApp({ id: 'demo_user', name: 'Demo User', email: 'demo@chrono.app', emoji: '🎭' });
+};
+
+window.doLogout = async () => {
+  if (fbAuth) await window._fb.signOut(fbAuth);
+  currentUser = null; capsules = [];
+  showAuth();
+};
+
+function showAuth(){ document.getElementById('v-auth').classList.add('active'); document.getElementById('v-app').classList.remove('active'); }
+function showError(msg){ const el=document.getElementById('auth-error'); el.textContent=msg; el.classList.add('show'); }
+function clearError(){ document.getElementById('auth-error').classList.remove('show'); }
+function friendlyError(code){ return ({
+  'auth/user-not-found':'Nessun account trovato. Registrati prima.',
+  'auth/wrong-password':'Password errata.',
+  'auth/email-already-in-use':'Email già in uso.',
+  'auth/weak-password':'Password troppo debole (min 6 caratteri).',
+  'auth/invalid-email':'Email non valida.',
+}[code]) || 'Errore. Riprova.'; }
+
+// ── ENTER APP ──
+async function enterApp(user) {
+  currentUser = user;
+  document.getElementById('v-auth').classList.remove('active');
+  document.getElementById('v-app').classList.add('active');
+  document.getElementById('nav-avatar').textContent = user.emoji;
+  document.getElementById('nav-name').textContent = user.name;
+  document.getElementById('prof-emoji').textContent = user.emoji;
+  document.getElementById('prof-name').textContent = user.name;
+  document.getElementById('prof-email').textContent = user.email;
+  await loadCapsules();
+}
+
+// ── CAPSULES DATA ──
+async function loadCapsules() {
+  if (fbDb && currentUser.id !== 'demo_user') {
+    const { getDocs, collection, query, where } = window._fb;
+    const q = query(collection(fbDb,'capsules'), where('userId','==',currentUser.id));
+    const snap = await getDocs(q);
+    capsules = snap.docs.map(d => ({ id: d.id, ...d.data(), unlockAt: d.data().unlockAt?.toDate?.() || new Date(d.data().unlockAt) }));
+  } else {
+    capsules = lsGet(`chrono_caps_${currentUser.id}`) || getDemoData();
+    if (!lsGet(`chrono_caps_${currentUser.id}`)) saveLocal();
+  }
+  renderAll();
+}
+
+function getDemoData() {
+  return [
+    { id: uid(), userId: currentUser.id, emoji: '🌟', title: 'Il mio 2025', desc: 'Dove sarò fra un anno?', unlockAt: addDays(365), createdAt: new Date().toISOString(), note: 'Ciao me futuro! 👋\n\nOggi è il 2025. Spero tu stia bene e che tu abbia realizzato qualcosa di cui sei fiero.', preds: [{id:uid(),text:'Avrò cambiato lavoro',correct:null},{id:uid(),text:'Sarò andato in Giappone',correct:null}], goals: ['Correre una maratona','Leggere 20 libri'] },
+    { id: uid(), userId: currentUser.id, emoji: '🏖️', title: 'Estate 2024', desc: 'I ricordi più belli', unlockAt: addDays(-30), createdAt: addDays(-395).toISOString(), note: 'Le vacanze più belle della mia vita! Il mare era stupendo.', preds: [{id:uid(),text:'Tornerò qui il prossimo anno',correct:null}], goals: [] },
+    { id: uid(), userId: currentUser.id, emoji: '🚀', title: 'Io tra 5 anni', desc: 'Il grande salto', unlockAt: addDays(365*5), createdAt: new Date().toISOString(), note: 'Chissà cosa stai facendo ora...', preds: [{id:uid(),text:'Avrò la mia casa',correct:null}], goals: ['Libertà finanziaria'] },
+  ];
+}
+
+function addDays(n){ const d=new Date(); d.setDate(d.getDate()+n); return d; }
+function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2); }
+function saveLocal(){ lsSet(`chrono_caps_${currentUser.id}`, capsules); }
+
+async function saveCapsuleToFirebase(cap) {
+  if (!fbDb || currentUser.id === 'demo_user') { saveLocal(); return; }
+  const { doc, setDoc } = window._fb;
+  await setDoc(doc(fbDb,'capsules',cap.id), { ...cap, unlockAt: new Date(cap.unlockAt) });
+}
+async function updateCapsuleInFirebase(cap) {
+  if (!fbDb || currentUser.id === 'demo_user') { saveLocal(); return; }
+  const { doc, updateDoc } = window._fb;
+  await updateDoc(doc(fbDb,'capsules',cap.id), cap);
+}
+
+// ── STATUS ──
+function getStatus(cap) {
+  const now = new Date();
+  const unlock = new Date(cap.unlockAt);
+  if (unlock < now) return 'unlocked';
+  if ((unlock-now) < 30*24*60*60*1000) return 'soon';
+  return 'locked';
+}
+function daysUntil(cap){ return Math.ceil((new Date(cap.unlockAt)-new Date())/(1000*86400)); }
+function fmtDate(d){ return new Date(d).toLocaleDateString('it-IT',{day:'numeric',month:'long',year:'numeric'}); }
+
+// ── RENDER ──
+function renderAll() {
+  const locked = capsules.filter(c=>getStatus(c)==='locked');
+  const soon = capsules.filter(c=>getStatus(c)==='soon');
+  const unlocked = capsules.filter(c=>getStatus(c)==='unlocked');
+
+  // HOME
+  renderList('home-locked-list', locked);
+  renderList('home-soon-list', soon);
+  renderList('home-unlocked-list', unlocked);
+  document.getElementById('home-soon-section').style.display = soon.length?'block':'none';
+  document.getElementById('home-unlocked-section').style.display = unlocked.length?'block':'none';
+  document.getElementById('home-empty').style.display = capsules.length?'none':'block';
+
+  // ALL
+  renderList('all-caps-list', capsules);
+  document.getElementById('all-empty').style.display = capsules.length?'none':'block';
+
+  // STATS
+  document.getElementById('s-total').textContent = capsules.length;
+  document.getElementById('s-locked').textContent = locked.length + soon.length;
+  document.getElementById('s-open').textContent = unlocked.length;
+
+  renderAchievements();
+}
+
+function renderList(id, list) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  if (!list.length) { el.innerHTML=''; return; }
+  el.innerHTML = list.map(c => capsuleCardHTML(c)).join('');
+  el.querySelectorAll('.cap-card').forEach(card => {
+    card.addEventListener('click', ()=>openDetail(card.dataset.id));
+  });
+}
+
+function capsuleCardHTML(c) {
+  const st = getStatus(c);
+  const days = daysUntil(c);
+  const sub = st==='unlocked' ? `Aperta il ${fmtDate(c.unlockAt)}` :
+              days > 365 ? `Si apre tra ${Math.floor(days/365)} anni` :
+              days > 0 ? `Si apre tra ${days} giorni` : 'Si apre presto!';
+  const badge = st==='unlocked' ? `<span class="cap-badge unlocked">✨ Aperta</span>` :
+                st==='soon' ? `<span class="cap-badge soon">🔥 Presto!</span>` :
+                `<span class="cap-badge locked">🔒 Sigillata</span>`;
+  return `<div class="cap-card ${st}" data-id="${c.id}">
+    <div class="cap-emoji-box ${st}">${c.emoji}</div>
+    <div class="cap-info">
+      <div class="cap-title">${esc(c.title)}</div>
+      <div class="cap-sub">${sub}</div>
+    </div>
+    ${badge}
+  </div>`;
+}
+
+// ── DETAIL ──
+window.openDetail = (id) => {
+  const c = capsules.find(x=>x.id===id);
+  if (!c) return;
+  const st = getStatus(c);
+  const days = daysUntil(c);
+  const hours = Math.floor(((new Date(c.unlockAt)-new Date())/3600000)%24);
+  const mins = Math.floor(((new Date(c.unlockAt)-new Date())/60000)%60);
+
+  let html = `<div class="det-header">
+    <div class="det-emoji">${c.emoji}</div>
+    <div class="det-badge ${st}">${st==='unlocked'?'✨ Aperta':st==='soon'?'🔥 Si apre presto':'🔒 Sigillata'}</div>
+    <div class="det-title">${esc(c.title)}</div>
+    <div class="det-sub">Sigillata il ${fmtDate(c.createdAt)}</div>
+  </div>`;
+
+  if (st !== 'unlocked') {
+    html += `<div class="countdown">
+      <div class="cd-unit"><div class="cd-num">${Math.max(0,days)}</div><div class="cd-lbl">giorni</div></div>
+      <div class="cd-sep">:</div>
+      <div class="cd-unit"><div class="cd-num">${String(Math.max(0,hours)).padStart(2,'0')}</div><div class="cd-lbl">ore</div></div>
+      <div class="cd-sep">:</div>
+      <div class="cd-unit"><div class="cd-num">${String(Math.max(0,mins)).padStart(2,'0')}</div><div class="cd-lbl">min</div></div>
+    </div>
+    <div style="font-size:13px;color:var(--text2);text-align:center;margin-bottom:16px">Si apre il ${fmtDate(c.unlockAt)}</div>`;
+    if (c.preds?.length) html += `<div class="section-hdr">🔮 ${c.preds.length} previsioni sigillate</div><div style="font-size:13px;color:var(--text3);padding:10px;background:var(--card);border-radius:10px;">Potrai vederle quando la capsula si apre.</div>`;
+    if (c.goals?.length) html += `<div class="section-hdr">🎯 ${c.goals.length} obiettivi</div><div style="font-size:13px;color:var(--text3);padding:10px;background:var(--card);border-radius:10px;">Potrai vederli quando la capsula si apre.</div>`;
+  } else {
+    if (c.note) {
+      html += `<div class="section-hdr">📝 Il tuo messaggio</div>
+        <div class="content-item">
+          <div class="content-item-lbl">📝 Nota</div>
+          <div class="content-item-text">${esc(c.note).replace(/\n/g,'<br>')}</div>
+        </div>`;
+    }
+    if (c.preds?.length) {
+      html += `<div class="section-hdr">🔮 Le tue previsioni</div>`;
+      c.preds.forEach(p => {
+        html += `<div class="pred-row">
+          <div class="pred-text">${esc(p.text)}</div>
+          <div class="pred-btns">
+            <button class="pred-btn ${p.correct===true?'correct':''}" onclick="markPred('${c.id}','${p.id}',true)" title="Giusta">✓</button>
+            <button class="pred-btn ${p.correct===false?'wrong':''}" onclick="markPred('${c.id}','${p.id}',false)" title="Sbagliata">✗</button>
+          </div>
+        </div>`;
+      });
+    }
+    if (c.goals?.length) {
+      html += `<div class="section-hdr">🎯 I tuoi obiettivi</div>`;
+      c.goals.forEach(g => { html += `<div class="goal-row"><span style="color:var(--green)">✓</span><span style="font-size:13px;margin-left:8px">${esc(g)}</span></div>`; });
+    }
+  }
+
+  document.getElementById('detail-content').innerHTML = html;
+  openModal('detail-modal');
+};
+
+window.markPred = async (capId, predId, correct) => {
+  const cap = capsules.find(c=>c.id===capId);
+  if (!cap) return;
+  const pred = cap.preds.find(p=>p.id===predId);
+  if (!pred) return;
+  pred.correct = pred.correct === correct ? null : correct;
+  await updateCapsuleInFirebase(cap);
+  saveLocal();
+  openDetail(capId);
+};
+
+// ── CREATE MODAL ──
+window.openCreateModal = () => {
+  form = { emoji:'📦', title:'', desc:'', unlockAt:null, note:'', preds:[], goals:[] };
+  createStep = 1;
+  buildEmojiPicker();
+  buildDatePresets();
+  document.getElementById('c-title').value='';
+  document.getElementById('c-desc').value='';
+  document.getElementById('c-note').value='';
+  document.getElementById('pred-input').value='';
+  document.getElementById('goal-input').value='';
+  document.getElementById('pred-list').innerHTML='';
+  document.getElementById('goal-list').innerHTML='';
+  renderStep();
+  openModal('create-modal');
+};
+
+function buildEmojiPicker() {
+  document.getElementById('emoji-picker').innerHTML = EMOJIS.map(e =>
+    `<button class="ep-btn${e===form.emoji?' sel':''}" onclick="selectEmoji('${e}')" type="button">${e}</button>`
+  ).join('');
+}
+window.selectEmoji = e => { form.emoji=e; buildEmojiPicker(); };
+
+function buildDatePresets() {
+  document.getElementById('date-presets').innerHTML = PRESETS.map(p => {
+    const d = addDays(p.d);
+    return `<button class="dp-btn" onclick="selectPreset(${p.d},this)" type="button">${p.l}</button>`;
+  }).join('');
+  // set default to 1 year
+  form.unlockAt = addDays(365);
+  document.getElementById('c-date').value = addDays(365).toISOString().split('T')[0];
+  updateDatePreview();
+}
+window.selectPreset = (days, btn) => {
+  document.querySelectorAll('.dp-btn').forEach(b=>b.classList.remove('sel'));
+  btn.classList.add('sel');
+  form.unlockAt = addDays(days);
+  document.getElementById('c-date').value = form.unlockAt.toISOString().split('T')[0];
+  updateDatePreview();
+};
+document.getElementById('c-date').addEventListener('change', e => {
+  form.unlockAt = new Date(e.target.value);
+  document.querySelectorAll('.dp-btn').forEach(b=>b.classList.remove('sel'));
+  updateDatePreview();
+});
+function updateDatePreview() {
+  const el = document.getElementById('date-preview');
+  if (!form.unlockAt) { el.style.display='none'; return; }
+  const days = Math.ceil((form.unlockAt-new Date())/86400000);
+  el.textContent = `📅 Si apre il ${fmtDate(form.unlockAt)} — tra ${days} giorni`;
+  el.style.display='block';
+}
+
+window.addPred = () => {
+  const v = document.getElementById('pred-input').value.trim();
+  if (!v) return;
+  form.preds.push({id:uid(),text:v,correct:null});
+  document.getElementById('pred-input').value='';
+  renderPreds();
+};
+document.getElementById('pred-input').addEventListener('keydown', e => { if(e.key==='Enter') window.addPred(); });
+
+window.addGoal = () => {
+  const v = document.getElementById('goal-input').value.trim();
+  if (!v) return;
+  form.goals.push(v);
+  document.getElementById('goal-input').value='';
+  renderGoals();
+};
+document.getElementById('goal-input').addEventListener('keydown', e => { if(e.key==='Enter') window.addGoal(); });
+
+function renderPreds() {
+  document.getElementById('pred-list').innerHTML = form.preds.map(p =>
+    `<div class="chip">🔮 ${esc(p.text)}<button class="chip-del" onclick="removePred('${p.id}')">×</button></div>`
+  ).join('');
+}
+function renderGoals() {
+  document.getElementById('goal-list').innerHTML = form.goals.map((g,i) =>
+    `<div class="chip">🎯 ${esc(g)}<button class="chip-del" onclick="removeGoal(${i})">×</button></div>`
+  ).join('');
+}
+window.removePred = id => { form.preds=form.preds.filter(p=>p.id!==id); renderPreds(); };
+window.removeGoal = i => { form.goals.splice(i,1); renderGoals(); };
+
+function renderStep() {
+  for(let i=1;i<=TOTAL_STEPS;i++) {
+    document.getElementById(`sp-${i}`)?.classList.toggle('active', i===createStep);
+  }
+  document.getElementById('steps-bar').innerHTML = Array.from({length:TOTAL_STEPS},(_,i)=>
+    `<div class="step-dot ${i<createStep?'done':''}"></div>`
+  ).join('');
+  document.getElementById('modal-back-btn').style.display = createStep===1?'none':'block';
+  const nextBtn = document.getElementById('modal-next-btn');
+  nextBtn.textContent = createStep===TOTAL_STEPS ? '🔒 Sigilla la capsula' : 'Continua →';
+  const titles = ['Nuova capsula','Quando aprirla?','Aggiungi contenuto','Previsioni & obiettivi','Pronto a sigillare?'];
+  document.getElementById('modal-step-title').textContent = titles[createStep-1];
+  if (createStep===TOTAL_STEPS) buildReview();
+}
+
+function buildReview() {
+  const note = document.getElementById('c-note').value.trim();
+  const items = note ? 1 : 0;
+  document.getElementById('review-box').innerHTML = `
+    <div class="review-emoji">${form.emoji}</div>
+    <div class="review-title">${esc(form.title||'Senza titolo')}</div>
+    <div class="review-row"><span>📅 Si apre il</span><span>${fmtDate(form.unlockAt)}</span></div>
+    <div class="review-row"><span>📝 Contenuti</span><span>${items} elemento</span></div>
+    <div class="review-row"><span>🔮 Previsioni</span><span>${form.preds.length}</span></div>
+    <div class="review-row"><span>🎯 Obiettivi</span><span>${form.goals.length}</span></div>
+  `;
+}
+
+window.stepNext = async () => {
+  if (createStep===1) {
+    form.title = document.getElementById('c-title').value.trim();
+    if (!form.title) { showToast('⚠️ Aggiungi un titolo!'); return; }
+  }
+  if (createStep===3) form.note = document.getElementById('c-note').value.trim();
+  if (createStep===TOTAL_STEPS) { await sealCapsule(); return; }
+  createStep++;
+  renderStep();
+};
+window.stepBack = () => { if(createStep>1){ createStep--; renderStep(); } };
+
+async function sealCapsule() {
+  document.getElementById('modal-next-btn').disabled = true;
+  document.getElementById('modal-next-btn').textContent = 'Sigillando...';
+  const cap = {
+    id: uid(), userId: currentUser.id, emoji: form.emoji,
+    title: form.title, desc: form.desc,
+    unlockAt: form.unlockAt instanceof Date ? form.unlockAt.toISOString() : form.unlockAt,
+    createdAt: new Date().toISOString(),
+    note: form.note, preds: form.preds, goals: form.goals
+  };
+  capsules.unshift(cap);
+  await saveCapsuleToFirebase(cap);
+  closeModal('create-modal');
+  renderAll();
+  showToast('🎉 Capsula sigillata! Si aprirà il ' + fmtDate(cap.unlockAt));
+  document.getElementById('modal-next-btn').disabled = false;
+}
+
+// ── ACHIEVEMENTS ──
+function renderAchievements() {
+  const locked = capsules.filter(c=>getStatus(c)==='locked').length;
+  const unlocked = capsules.filter(c=>getStatus(c)==='unlocked').length;
+  const achs = [
+    {e:'🌱',t:'Prima capsula',d:'Hai creato la tua prima capsula', ok: capsules.length>=1},
+    {e:'🔮',t:'Profeta',d:'Hai fatto almeno 3 previsioni', ok: capsules.some(c=>(c.preds||[]).length>=3)},
+    {e:'🎯',t:'Ambiziosi',d:'Hai impostato almeno 3 obiettivi', ok: capsules.some(c=>(c.goals||[]).length>=3)},
+    {e:'✨',t:'Primo ricordo',d:'Hai aperto la tua prima capsula', ok: unlocked>=1},
+    {e:'🚀',t:'Visionario',d:'Una capsula per più di 5 anni', ok: capsules.some(c=>{ const diff=(new Date(c.unlockAt)-new Date(c.createdAt))/(86400000*365); return diff>=5; })},
+  ];
+  document.getElementById('achievements-list').innerHTML = achs.map(a=>`
+    <div class="ach-row" style="${!a.ok?'opacity:.45':''}">
+      <div class="ach-emoji">${a.e}</div>
+      <div class="ach-info">
+        <div class="ach-title">${a.t}</div>
+        <div class="ach-sub">${a.d}</div>
+      </div>
+      <div class="ach-check">${a.ok?'✅':'🔒'}</div>
+    </div>
+  `).join('');
+}
+
+// ── TABS ──
+window.openAppTab = (tab, btn) => {
+  document.querySelectorAll('.app-tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
+  document.getElementById(`tab-${tab}`).classList.add('active');
+  document.getElementById('fab-btn').style.display = tab==='profile'?'none':'flex';
+};
+
+// ── MODALS ──
+function openModal(id){ document.getElementById(id).classList.add('open'); }
+function closeModal(id){ document.getElementById(id).classList.remove('open'); }
+window.closeModal = closeModal;
+document.querySelectorAll('.modal-overlay').forEach(overlay=>{
+  overlay.addEventListener('click', e => { if(e.target===overlay) closeModal(overlay.id); });
+});
+
+// ── TOAST ──
+window.showToast = (msg) => {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 3500);
+};
+
+// ── UTILS ──
+function esc(s){ const d=document.createElement('div'); d.textContent=s||''; return d.innerHTML; }
+</script>
+</body>
+</html>
