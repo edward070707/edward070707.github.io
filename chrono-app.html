@@ -226,9 +226,6 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;displ
 
     <!-- LOGIN -->
     <div id="form-login">
-      <div class="firebase-notice">
-        <strong>⚙️ Firebase non configurato.</strong> Per abilitare l'autenticazione reale, aggiungi la tua config Firebase nella sezione <code>FIREBASE_CONFIG</code> del codice. Per ora usa la <strong>modalità demo</strong>.
-      </div>
       <div class="field"><label>Email</label><input id="l-email" type="email" placeholder="la@tuaemail.com"></div>
       <div class="field"><label>Password</label><input id="l-pass" type="password" placeholder="••••••••"></div>
       <button class="btn-gold" onclick="doLogin()">Accedi →</button>
@@ -319,9 +316,6 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;displ
       <div class="profile-section">
         <div style="font-size:15px;font-weight:700;margin-bottom:14px">🏆 Traguardi</div>
         <div id="achievements-list"></div>
-      </div>
-      <div class="firebase-notice" style="margin-top:0">
-        <strong>🔥 Per sincronizzare con iOS/Android</strong> configura Firebase nella variabile <code>FIREBASE_CONFIG</code>. Il tuo account sarà automaticamente condiviso tra web e app mobile.
       </div>
     </div>
   </div>
