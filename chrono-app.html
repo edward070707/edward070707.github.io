@@ -16,6 +16,14 @@
 html,body{height:100%;overflow:hidden}
 body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;display:flex;flex-direction:column}
 
+/* ── MEMIVE BANNER ── */
+#memive-banner{position:fixed;top:0;left:0;right:0;z-index:999;background:linear-gradient(90deg,#A855F7,#EC4899);padding:9px 20px;display:flex;align-items:center;justify-content:center;gap:12px;font-family:'Inter',sans-serif;font-size:13px;font-weight:600;color:#fff;text-decoration:none;cursor:pointer;transition:opacity .2s}
+#memive-banner:hover{opacity:.9}
+#memive-banner svg{flex-shrink:0}
+#memive-banner .mb-text{opacity:.85;font-weight:400}
+#memive-banner .mb-cta{background:rgba(255,255,255,.2);border-radius:20px;padding:3px 12px;margin-left:8px;font-size:12px}
+body.with-banner{padding-top:36px}
+
 /* STARS */
 #stars{position:fixed;inset:0;pointer-events:none;z-index:0}
 
@@ -1101,5 +1109,14 @@ window.toggleShared = () => {
 // ── UTILS ──
 function esc(s){ const d=document.createElement('div'); d.textContent=s||''; return d.innerHTML; }
 </script>
+
+<!-- ── MEMIVE BANNER ── -->
+<a id="memive-banner" href="memive.html">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" stroke="#fff" stroke-width="1.5"/><path d="M8 15V9l4 3 4-3v6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <span>Chrono è parte di <strong>Memive</strong></span>
+  <span class="mb-text">— il social network vocale</span>
+  <span class="mb-cta">Scopri →</span>
+</a>
+<script>document.body.classList.add('with-banner');</script>
 </body>
 </html>
