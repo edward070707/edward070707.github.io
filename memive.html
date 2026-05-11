@@ -457,9 +457,18 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;align-i
 <!-- NAV -->
 <nav id="main-nav">
   <a class="nav-logo" href="#">
-    <svg width="26" height="26" viewBox="0 0 100 100" fill="none">
-      <polyline points="8,82 8,18 50,58 92,18 92,82" stroke="url(#ng)" stroke-width="14" stroke-linejoin="round" stroke-linecap="round" fill="none"/>
-      <defs><linearGradient id="ng" x1="8" y1="50" x2="92" y2="50" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#4338CA"/><stop offset="100%" stop-color="#00F5D4"/></linearGradient></defs>
+    <svg width="30" height="30" viewBox="0 0 90 90" fill="none">
+      <defs>
+        <linearGradient id="nav-mg" x1="0" y1="0" x2="90" y2="90" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#6366F1"/>
+          <stop offset="50%" stop-color="#8B5CF6"/>
+          <stop offset="100%" stop-color="#EC4899"/>
+        </linearGradient>
+      </defs>
+      <circle cx="45" cy="45" r="40" fill="rgba(99,102,241,0.15)"/>
+      <path d="M14 65 L14 30 Q14 22 22 22 Q28 22 30 30 L45 55 L60 30 Q62 22 68 22 Q76 22 76 30 L76 65"
+            stroke="url(#nav-mg)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <circle cx="45" cy="76" r="5" fill="url(#nav-mg)"/>
     </svg>
     Memive
     <span class="nav-badge">BETA</span>
@@ -835,7 +844,15 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;align-i
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-logo">Memive</div>
+  <div class="footer-logo" style="display:flex;align-items:center;gap:10px">
+    <svg width="28" height="28" viewBox="0 0 90 90" fill="none">
+      <defs><linearGradient id="foot-mg" x1="0" y1="0" x2="90" y2="90" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#6366F1"/><stop offset="50%" stop-color="#8B5CF6"/><stop offset="100%" stop-color="#EC4899"/></linearGradient></defs>
+      <circle cx="45" cy="45" r="40" fill="rgba(99,102,241,0.15)"/>
+      <path d="M14 65 L14 30 Q14 22 22 22 Q28 22 30 30 L45 55 L60 30 Q62 22 68 22 Q76 22 76 30 L76 65" stroke="url(#foot-mg)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <circle cx="45" cy="76" r="5" fill="url(#foot-mg)"/>
+    </svg>
+    Memive
+  </div>
   <div class="footer-links">
     <a href="chrono-app.html">⏳ Chrono — prova l'app</a>
     <a href="index.html">Portfolio</a>
