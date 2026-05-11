@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Memive</title>
+  <script>
+    // GitHub Pages SPA redirect for Flutter web
+    // When the browser hits a non-existent URL (e.g. after pressing back),
+    // redirect back to the app root so Flutter can handle routing.
+    var seg = window.location.pathname.split('/').slice(0, 2).join('/');
+    var query = window.location.search.slice(1);
+    var hash = window.location.hash.slice(1);
+    window.location.replace(
+      seg + '/?p=' + encodeURIComponent(query) +
+      (hash ? '&h=' + encodeURIComponent(hash) : '')
+    );
+  </script>
+</head>
+<body></body>
+</html>
