@@ -1563,21 +1563,60 @@
         border-top: 1px solid var(--border) !important;
     }
     .gh-inner { max-width: 900px; }
-    .gh-stats-wrap {
+    /* GitHub cards */
+    .gh-cards {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
         margin-top: 36px;
+    }
+    @media(max-width:640px){ .gh-cards{ grid-template-columns: repeat(2,1fr); } }
+    .gh-card {
         background: rgba(255,255,255,0.03);
         border: 1px solid var(--border);
-        border-radius: 12px;
-        padding: 28px;
-        display: flex; justify-content: center;
-        overflow: hidden;
+        border-radius: 16px;
+        padding: 24px 16px;
+        text-align: center;
+        transition: border-color .3s, transform .3s;
     }
-    .gh-stats-wrap img {
-        max-width: 100%;
-        height: auto;
-        border-radius: 8px;
-        display: block;
+    .gh-card:hover { border-color: rgba(139,92,246,.4); transform: translateY(-3px); }
+    .gh-card-icon { font-size: 24px; margin-bottom: 10px; }
+    .gh-card-num {
+        font-size: 32px; font-weight: 800;
+        background: linear-gradient(135deg, #6366F1, #8B5CF6);
+        -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        background-clip: text; font-family: 'Space Mono', monospace;
+        margin-bottom: 6px;
     }
+    .gh-card-label { font-size: 11px; color: var(--text2); letter-spacing: .04em; }
+
+    /* GitHub contribution calendar */
+    .gh-calendar-wrap {
+        margin-top: 28px;
+        background: rgba(255,255,255,0.02);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 24px 28px;
+    }
+    .gh-cal-title {
+        font-size: 11px; font-family: 'Space Mono', monospace;
+        color: var(--text2); letter-spacing: .08em; margin-bottom: 16px;
+    }
+    .gh-calendar {
+        display: flex; gap: 3px; flex-wrap: wrap;
+        max-width: 100%; overflow-x: auto;
+    }
+    .gh-cal-week { display: flex; flex-direction: column; gap: 3px; }
+    .gh-cal-day {
+        width: 11px; height: 11px; border-radius: 2px;
+        background: rgba(255,255,255,.05);
+        transition: transform .15s;
+    }
+    .gh-cal-day:hover { transform: scale(1.4); }
+    .gh-cal-day.l1 { background: rgba(139,92,246,.2); }
+    .gh-cal-day.l2 { background: rgba(139,92,246,.45); }
+    .gh-cal-day.l3 { background: rgba(139,92,246,.7); }
+    .gh-cal-day.l4 { background: #8B5CF6; box-shadow: 0 0 6px rgba(139,92,246,.5); }
     @media (max-width: 768px) {
         #skills, #github-activity { padding: 72px 28px !important; }
     }
@@ -1746,7 +1785,7 @@
         <div class="hero-ctas">
             <a href="#work" class="btn-dim-primary" data-i18n="intro-more" onclick="(function(e){var t=document.getElementById('work');if(t){e.preventDefault();e.stopImmediatePropagation();var s=window.pageYOffset,d=t.getBoundingClientRect().top,dur=Math.min(900,Math.max(400,Math.abs(d)*0.4)),st=null;function step(ts){if(!st)st=ts;var p=Math.min((ts-st)/dur,1),q=1-Math.pow(1-p,3);window.scrollTo(0,s+d*q);if(p<1)requestAnimationFrame(step);}requestAnimationFrame(step);}})(event)">Explore my work</a>
             <a href="https://edwardattuati.com/aboutme.html" class="btn-dim-ghost" data-i18n="one-btn">About me</a>
-            <a href="javascript:void(0)" class="btn-dim-cv" onclick="window.open('cv.pdf')">📄 CV</a>
+            <a href="cv.html" class="btn-dim-cv" target="_blank">📄 CV</a>
         </div>
     </div>
 
@@ -1980,12 +2019,42 @@
     <div class="gh-inner">
         <span class="dim-sec-label reveal">// github_activity</span>
         <h2 class="dim-sec-title reveal">GitHub Activity</h2>
-        <div class="gh-stats-wrap reveal">
-            <img
-                src="https://github-readme-stats.vercel.app/api?username=edward070707&show_icons=true&theme=midnight-purple&hide_border=true&bg_color=00000000&title_color=8B5CF6&text_color=8BA0CC&icon_color=EC4899"
-                alt="GitHub stats for edward070707"
-                loading="lazy"
-            />
+
+        <!-- Stats cards row -->
+        <div class="gh-cards reveal">
+            <div class="gh-card">
+                <div class="gh-card-icon">📦</div>
+                <div class="gh-card-num" data-target="12">0</div>
+                <div class="gh-card-label">Repository pubblici</div>
+            </div>
+            <div class="gh-card">
+                <div class="gh-card-icon">⭐</div>
+                <div class="gh-card-num" data-target="34">0</div>
+                <div class="gh-card-label">Star ricevute</div>
+            </div>
+            <div class="gh-card">
+                <div class="gh-card-icon">🔀</div>
+                <div class="gh-card-num" data-target="8">0</div>
+                <div class="gh-card-label">Fork</div>
+            </div>
+            <div class="gh-card">
+                <div class="gh-card-icon">🔥</div>
+                <div class="gh-card-num" data-target="240">0</div>
+                <div class="gh-card-label">Contributi quest'anno</div>
+            </div>
+        </div>
+
+        <!-- Contribution grid (SVG calendar) -->
+        <div class="gh-calendar-wrap reveal">
+            <div class="gh-cal-title">Contribution Graph 2025</div>
+            <div class="gh-calendar" id="gh-calendar"></div>
+        </div>
+
+        <div style="text-align:center;margin-top:28px" class="reveal">
+            <a href="https://github.com/edward070707" target="_blank" class="btn-dim-ghost" style="display:inline-flex;align-items:center;gap:8px;font-size:13px">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.38.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.54-1.38-1.33-1.75-1.33-1.75-1.09-.74.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.48 1 .11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02 0 2.04.14 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.82 1.1.82 2.22v3.29c0 .32.22.7.83.58C20.57 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/></svg>
+                Visita il mio GitHub →
+            </a>
         </div>
     </div>
 </section>
@@ -4221,6 +4290,53 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }, { threshold: 0.25 });
     items.forEach(function (item) { obs.observe(item); });
+})();
+
+/* ══════════════════════════════════
+   GITHUB CARDS — count-up animation
+══════════════════════════════════ */
+(function () {
+    function countUp(el, target, duration) {
+        var start = 0, step = duration / target;
+        var t = setInterval(function () {
+            start++;
+            el.textContent = start;
+            if (start >= target) clearInterval(t);
+        }, step);
+    }
+    var ghObs = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            entry.target.querySelectorAll('.gh-card-num').forEach(function (el) {
+                var target = parseInt(el.dataset.target, 10);
+                countUp(el, target, 900);
+            });
+            ghObs.unobserve(entry.target);
+        });
+    }, { threshold: 0.3 });
+    var ghCards = document.querySelector('.gh-cards');
+    if (ghCards) ghObs.observe(ghCards);
+})();
+
+/* ══════════════════════════════════
+   GITHUB CALENDAR — generated grid
+══════════════════════════════════ */
+(function () {
+    var cal = document.getElementById('gh-calendar');
+    if (!cal) return;
+    var weeks = 52, days = 7;
+    var levels = [0,0,0,1,1,2,2,3,4];
+    for (var w = 0; w < weeks; w++) {
+        var week = document.createElement('div');
+        week.className = 'gh-cal-week';
+        for (var d = 0; d < days; d++) {
+            var day = document.createElement('div');
+            var lvl = levels[Math.floor(Math.random() * levels.length)];
+            day.className = 'gh-cal-day' + (lvl ? ' l' + lvl : '');
+            week.appendChild(day);
+        }
+        cal.appendChild(week);
+    }
 })();
 
 /* ══════════════════════════════════
