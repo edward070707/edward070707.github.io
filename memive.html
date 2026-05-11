@@ -438,6 +438,156 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;align-i
 .fi{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
 .fi.in{opacity:1;transform:none}
 
+/* ── HERO LIVE COUNTER ── */
+.hero-counter{
+  display:inline-flex;align-items:center;gap:8px;
+  margin-top:28px;font-size:14px;color:var(--text2);
+  position:relative;z-index:1;
+  animation:fadeDown .8s .6s ease both;
+}
+.hero-counter-dot{
+  width:8px;height:8px;border-radius:50%;background:var(--cyan);
+  box-shadow:0 0 8px var(--cyan);
+  animation:dotPulse 2s ease-in-out infinite;
+  flex-shrink:0;
+}
+#clip-count{
+  font-family:'Space Mono',monospace;
+  font-weight:700;color:var(--cyan);font-size:15px;
+}
+
+/* ── CREATOR ECONOMY ── */
+#creator{padding:96px 24px}
+.creator-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:56px}
+@media(max-width:760px){.creator-grid{grid-template-columns:1fr}}
+.creator-card{
+  background:var(--card);border:1px solid var(--border);border-radius:20px;
+  padding:32px 28px;position:relative;overflow:hidden;
+  transition:all .35s cubic-bezier(.34,1.2,.64,1);
+}
+.creator-card:hover{transform:translateY(-6px)}
+.creator-card.violet-card:hover{border-color:rgba(124,58,237,.5);box-shadow:0 20px 60px rgba(124,58,237,.15)}
+.creator-card.cyan-card:hover{border-color:rgba(0,245,212,.5);box-shadow:0 20px 60px rgba(0,245,212,.12)}
+.creator-card.pink-card:hover{border-color:rgba(247,37,133,.5);box-shadow:0 20px 60px rgba(247,37,133,.12)}
+.creator-card::before{
+  content:'';position:absolute;inset:0;opacity:.04;pointer-events:none;
+  border-radius:20px;
+}
+.creator-card.violet-card::before{background:radial-gradient(circle at 30% 20%,var(--violet),transparent 70%)}
+.creator-card.cyan-card::before{background:radial-gradient(circle at 30% 20%,var(--cyan),transparent 70%)}
+.creator-card.pink-card::before{background:radial-gradient(circle at 30% 20%,var(--neon-pink),transparent 70%)}
+.creator-icon{
+  width:48px;height:48px;border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:20px;
+}
+.creator-card.violet-card .creator-icon{background:rgba(124,58,237,.12);border:1px solid rgba(124,58,237,.25)}
+.creator-card.cyan-card .creator-icon{background:rgba(0,245,212,.08);border:1px solid rgba(0,245,212,.2)}
+.creator-card.pink-card .creator-icon{background:rgba(247,37,133,.08);border:1px solid rgba(247,37,133,.2)}
+.creator-title{font-size:17px;font-weight:700;margin-bottom:8px;letter-spacing:-.01em}
+.creator-desc{font-size:13px;color:var(--text2);line-height:1.7}
+.creator-badge{
+  display:inline-block;margin-top:18px;font-size:10px;font-weight:700;
+  letter-spacing:.08em;padding:3px 10px;border-radius:4px;
+  font-family:'Space Mono',monospace;background:rgba(255,255,255,.04);
+  border:1px solid var(--border);color:var(--text3);
+}
+
+/* ── WAITLIST ── */
+#waitlist{padding:96px 24px;text-align:center}
+.waitlist-card{
+  max-width:540px;margin:0 auto;
+  background:rgba(10,20,40,.85);
+  border-radius:24px;padding:48px 40px;
+  position:relative;
+}
+.waitlist-card::before{
+  content:'';position:absolute;inset:-1px;border-radius:25px;z-index:-1;
+  background:linear-gradient(135deg,var(--indigo),var(--violet),var(--neon-pink));
+}
+@media(max-width:500px){.waitlist-card{padding:32px 20px}}
+.waitlist-title{font-family:'Playfair Display',serif;font-size:clamp(26px,4vw,40px);font-weight:900;line-height:1.08;margin-bottom:8px;letter-spacing:-.02em}
+.waitlist-sub{font-size:13px;font-family:'Space Mono',monospace;letter-spacing:.06em;color:var(--cyan);margin-bottom:32px}
+.waitlist-form{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:20px}
+.waitlist-input{
+  flex:1;min-width:200px;max-width:300px;
+  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);
+  border-radius:10px;padding:13px 18px;color:var(--text);
+  font-size:14px;font-family:'Inter',sans-serif;outline:none;
+  transition:border-color .25s;
+}
+.waitlist-input::placeholder{color:var(--text3)}
+.waitlist-input:focus{border-color:rgba(124,58,237,.6)}
+.waitlist-btn{
+  background:linear-gradient(135deg,var(--indigo),var(--violet));
+  color:#fff;border:none;border-radius:10px;
+  padding:13px 22px;font-size:14px;font-weight:700;
+  cursor:pointer;font-family:'Inter',sans-serif;
+  transition:all .3s;white-space:nowrap;
+}
+.waitlist-btn:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(124,58,237,.4)}
+.waitlist-counter{font-size:13px;color:var(--text3);font-family:'Space Mono',monospace;letter-spacing:.04em}
+#waitlist-count{color:var(--text2)}
+.waitlist-toast{
+  position:fixed;bottom:32px;right:24px;z-index:999;
+  background:var(--card);border:1px solid rgba(0,245,212,.3);
+  border-radius:12px;padding:14px 20px;font-size:14px;font-weight:600;
+  color:var(--text);box-shadow:0 8px 30px rgba(0,0,0,.4);
+  transform:translateY(20px);opacity:0;
+  transition:all .4s cubic-bezier(.34,1.56,.64,1);
+  pointer-events:none;
+}
+.waitlist-toast.show{transform:translateY(0);opacity:1}
+
+/* ── PRESS KIT ── */
+#press{
+  border-top:1px solid var(--border);
+  padding:48px 48px;position:relative;z-index:1;
+  display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;
+}
+.press-title{font-size:13px;font-weight:700;color:var(--text2);letter-spacing:.06em;font-family:'Space Mono',monospace;margin-bottom:4px}
+.press-sub{font-size:12px;color:var(--text3)}
+.press-btns{display:flex;gap:10px;flex-wrap:wrap}
+.press-btn{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:9px 16px;border-radius:8px;font-size:12px;font-weight:600;
+  font-family:'Inter',sans-serif;text-decoration:none;
+  border:1px solid var(--border);color:var(--text2);
+  transition:all .25s;background:transparent;cursor:pointer;
+}
+.press-btn:hover{border-color:rgba(0,245,212,.3);color:var(--cyan)}
+@media(max-width:700px){#press{flex-direction:column;align-items:flex-start;padding:32px 24px}}
+
+/* ── COOKIE BANNER ── */
+#cookie-banner{
+  position:fixed;bottom:0;left:0;right:0;z-index:9999;
+  background:#0D0D20;border-top:1px solid rgba(99,102,241,.2);
+  padding:16px 32px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;
+  transform:translateY(100%);transition:transform .5s cubic-bezier(.34,1.2,.64,1);
+}
+#cookie-banner.visible{transform:translateY(0)}
+.cookie-text{flex:1;min-width:200px;font-size:13px;color:var(--text2);line-height:1.6}
+.cookie-text a{color:var(--cyan);text-decoration:none}
+.cookie-text a:hover{text-decoration:underline}
+.cookie-btns{display:flex;gap:10px;flex-shrink:0}
+.cookie-accept{
+  background:linear-gradient(135deg,var(--indigo),var(--violet));
+  color:#fff;border:none;border-radius:8px;
+  padding:9px 18px;font-size:13px;font-weight:700;
+  cursor:pointer;font-family:'Inter',sans-serif;
+  transition:all .25s;
+}
+.cookie-accept:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(124,58,237,.35)}
+.cookie-essential{
+  background:transparent;color:var(--text2);
+  border:1px solid var(--border);border-radius:8px;
+  padding:9px 18px;font-size:13px;font-weight:500;
+  cursor:pointer;font-family:'Inter',sans-serif;
+  transition:all .25s;
+}
+.cookie-essential:hover{border-color:rgba(0,245,212,.3);color:var(--cyan)}
+@media(max-width:600px){#cookie-banner{padding:16px 20px}}
+
 /* ── DEMO INTERATTIVA ── */
 #demo{background:linear-gradient(180deg,var(--bg) 0%,rgba(10,8,30,1) 50%,var(--bg) 100%);padding:100px 24px}
 .demo-wrap{display:flex;align-items:center;gap:60px;max-width:1100px;margin:0 auto;flex-wrap:wrap}
@@ -649,6 +799,12 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;align-i
       App Store — Presto
     </a>
     <a class="btn-ghost" href="#how">Scopri di più</a>
+  </div>
+
+  <!-- LIVE COUNTER -->
+  <div class="hero-counter fi">
+    <div class="hero-counter-dot"></div>
+    <span>🎙 <span id="clip-count">0</span> clip registrate oggi</span>
   </div>
 
   <!-- VOICE GRID DEMO -->
@@ -1129,6 +1285,55 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;align-i
   </div>
 </section>
 
+<!-- CREATOR ECONOMY -->
+<section id="creator">
+  <div class="container">
+    <div style="text-align:center;margin-bottom:56px">
+      <div class="fi"><div class="s-label" style="display:inline-block">CREATOR ECONOMY</div></div>
+      <h2 class="s-title fi" style="max-width:560px;margin:0 auto 12px">La tua voce.<br><span class="grad-text">Il tuo guadagno.</span></h2>
+      <p class="s-sub fi" style="max-width:480px;margin:0 auto">Memive costruisce un ecosistema in cui i creator vengono ricompensati. Ecco come potrai guadagnare con la tua voce.</p>
+    </div>
+    <div class="creator-grid fi">
+      <!-- Card 1: Creator Fund -->
+      <div class="creator-card violet-card">
+        <div class="creator-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M12 6v6l4 2"/>
+          </svg>
+        </div>
+        <div class="creator-title">Creator Fund</div>
+        <div class="creator-desc">Un fondo mensile ripartito tra i creator più ascoltati. Più la tua voce risuona nella community, più guadagni — automaticamente, senza intermediari.</div>
+        <span class="creator-badge">PRESTO</span>
+      </div>
+      <!-- Card 2: Clip Sponsorizzati -->
+      <div class="creator-card cyan-card">
+        <div class="creator-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00F5D4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M2 17l10 5 10-5"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+        </div>
+        <div class="creator-title">Clip Sponsorizzati</div>
+        <div class="creator-desc">Brand autentici cercano voci autentiche. Accetta collaborazioni vocali direttamente in app — scegli solo quelli che rispecchiano il tuo stile, nient'altro.</div>
+        <span class="creator-badge">PRESTO</span>
+      </div>
+      <!-- Card 3: Voice Merch -->
+      <div class="creator-card pink-card">
+        <div class="creator-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F72585" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+          </svg>
+        </div>
+        <div class="creator-title">Voice Merch</div>
+        <div class="creator-desc">Vendi contenuti vocali esclusivi ai tuoi fan: clip premium, capsule private, saluti personalizzati. La tua voce diventa il prodotto più personale che puoi offrire.</div>
+        <span class="creator-badge">PRESTO</span>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- PRICING -->
 <section id="pricing">
   <div class="container" style="text-align:center">
@@ -1242,6 +1447,21 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;align-i
   </div>
 </section>
 
+<!-- WAITLIST -->
+<section id="waitlist">
+  <div class="waitlist-card fi">
+    <div class="s-label" style="display:inline-block;margin-bottom:16px">ACCESSO ANTICIPATO</div>
+    <h2 class="waitlist-title">Sii il primo a entrare.</h2>
+    <div class="waitlist-sub">Lista d'attesa per la beta privata</div>
+    <div class="waitlist-form">
+      <input class="waitlist-input" id="waitlist-email" type="email" placeholder="la.tua@email.com" autocomplete="email"/>
+      <button class="waitlist-btn" id="waitlist-submit">Unisciti alla lista →</button>
+    </div>
+    <div class="waitlist-counter"><span id="waitlist-count">—</span> persone già in lista</div>
+  </div>
+  <div class="waitlist-toast" id="waitlist-toast">✅ Sei nella lista!</div>
+</section>
+
 <!-- CTA -->
 <section id="cta">
   <div class="cta-inner fi">
@@ -1281,6 +1501,28 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;align-i
     </div>
   </div>
 </section>
+
+<!-- PRESS KIT -->
+<div id="press">
+  <div>
+    <div class="press-title">PRESS &amp; MEDIA</div>
+    <div class="press-sub">Risorse per giornalisti e creator</div>
+  </div>
+  <div class="press-btns">
+    <a class="press-btn" href="#">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Scarica Logo (SVG)
+    </a>
+    <a class="press-btn" href="#">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+      Brand Guidelines
+    </a>
+    <a class="press-btn" href="mailto:press@memive.app">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      Contatti Press
+    </a>
+  </div>
+</div>
 
 <!-- FOOTER -->
 <footer>
@@ -1553,6 +1795,135 @@ function toggleFaq(btn){
     btn.classList.add('open');
     answer.classList.add('open');
   }
+}
+
+// ── HERO LIVE COUNTER ────────────────────────────────────────────────────────
+(function initHeroCounter(){
+  const el = document.getElementById('clip-count');
+  if(!el) return;
+  const target = 847;
+  let current = 0;
+  let animated = false;
+
+  function easeOutQuad(t){ return t*(2-t); }
+
+  function animate(){
+    if(animated) return;
+    animated = true;
+    const duration = 1800;
+    const start = performance.now();
+    function step(now){
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      current = Math.round(easeOutQuad(progress) * target);
+      el.textContent = current.toLocaleString('it-IT');
+      if(progress < 1) requestAnimationFrame(step);
+      else el.textContent = target.toLocaleString('it-IT');
+    }
+    requestAnimationFrame(step);
+  }
+
+  // Start animation when counter enters viewport
+  const cObs = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ animate(); cObs.unobserve(e.target); } });
+  },{threshold:.5});
+  cObs.observe(el.closest('.hero-counter'));
+
+  // Fake live updates every 30s
+  setInterval(()=>{
+    const bump = Math.floor(Math.random()*4)+1;
+    current = parseInt(el.textContent.replace(/\./g,'')) + bump;
+    el.textContent = current.toLocaleString('it-IT');
+  }, 30000);
+})();
+
+// ── COOKIE BANNER ────────────────────────────────────────────────────────────
+(function initCookieBanner(){
+  if(localStorage.getItem('memive_cookie')) return;
+  const banner = document.getElementById('cookie-banner');
+  if(!banner) return;
+  // Slide up after short delay
+  setTimeout(()=> banner.classList.add('visible'), 800);
+
+  function closeBanner(choice){
+    banner.classList.remove('visible');
+    localStorage.setItem('memive_cookie', choice);
+    setTimeout(()=> banner.remove(), 600);
+  }
+  document.getElementById('cookie-accept').addEventListener('click',()=> closeBanner('all'));
+  document.getElementById('cookie-essential').addEventListener('click',()=> closeBanner('essential'));
+})();
+</script>
+
+<!-- COOKIE BANNER -->
+<div id="cookie-banner">
+  <p class="cookie-text">Usiamo cookie tecnici per far funzionare il sito. <a href="#">Privacy Policy</a></p>
+  <div class="cookie-btns">
+    <button class="cookie-accept" id="cookie-accept">Accetto</button>
+    <button class="cookie-essential" id="cookie-essential">Solo essenziali</button>
+  </div>
+</div>
+
+<!-- FIREBASE WAITLIST MODULE -->
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js';
+import { getFirestore, collection, addDoc, getDocs, serverTimestamp }
+  from 'https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js';
+
+const app = initializeApp({
+  apiKey: "AIzaSyBkQHQaDUWynmGDH7oXTtpWQB87pPLqYlw",
+  authDomain: "chrono-app-edd0b.firebaseapp.com",
+  projectId: "chrono-app-edd0b",
+  storageBucket: "chrono-app-edd0b.firebasestorage.app",
+  messagingSenderId: "398985209562",
+  appId: "1:398985209562:web:memive"
+});
+const db = getFirestore(app);
+
+// Live count
+async function loadCount(){
+  try{
+    const snap = await getDocs(collection(db,'waitlist'));
+    const el = document.getElementById('waitlist-count');
+    if(el) el.textContent = snap.size.toLocaleString('it-IT');
+  }catch(e){ console.warn('Firestore count:', e); }
+}
+loadCount();
+
+// Submit
+function showToast(msg, isError){
+  const t = document.getElementById('waitlist-toast');
+  if(!t) return;
+  t.textContent = msg;
+  t.style.borderColor = isError ? 'rgba(247,37,133,.5)' : 'rgba(0,245,212,.3)';
+  t.classList.add('show');
+  setTimeout(()=> t.classList.remove('show'), 3500);
+}
+
+const btn = document.getElementById('waitlist-submit');
+if(btn){
+  btn.addEventListener('click', async ()=>{
+    const emailEl = document.getElementById('waitlist-email');
+    const email = emailEl ? emailEl.value.trim() : '';
+    if(!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+      showToast('❌ Inserisci un\'email valida.', true);
+      return;
+    }
+    btn.disabled = true;
+    btn.textContent = '...';
+    try{
+      await addDoc(collection(db,'waitlist'),{ email, createdAt: serverTimestamp() });
+      showToast('✅ Sei nella lista!', false);
+      emailEl.value = '';
+      await loadCount();
+    }catch(e){
+      console.error(e);
+      showToast('❌ Errore. Riprova tra poco.', true);
+    }finally{
+      btn.disabled = false;
+      btn.textContent = 'Unisciti alla lista →';
+    }
+  });
 }
 </script>
 </body>
