@@ -252,59 +252,15 @@ body.with-banner{padding-top:36px}
 <canvas id="stars"></canvas>
 
 <!-- AUTH VIEW -->
-<div id="v-auth" class="view active">
-  <div class="auth-box">
-    <div class="auth-logo">
-      <div class="auth-logo-icon"><svg width="50" height="50" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><filter id="agw"><feGaussianBlur stdDeviation="2.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><path d="M75 19A38 38 0 1 0 75 81" stroke="#E8B84B" stroke-width="12" stroke-linecap="round" filter="url(#agw)"/><polygon points="18,22 62,22 40,50" fill="#E8B84B" filter="url(#agw)"/><polygon points="18,78 62,78 40,50" fill="#7C5CFC" filter="url(#agw)"/><line x1="10" y1="22" x2="68" y2="22" stroke="#E8B84B" stroke-width="3" stroke-linecap="round"/><line x1="10" y1="78" x2="68" y2="78" stroke="#7C5CFC" stroke-width="3" stroke-linecap="round"/><circle cx="40" cy="50" r="4" fill="#fff" filter="url(#agw)"/></svg></div>
-      <div class="auth-logo-title">Chrono</div>
-      <div class="auth-logo-sub">La tua capsula del tempo digitale</div>
-    </div>
-    <div class="auth-tabs">
-      <button class="auth-tab active" onclick="switchTab('login')">Accedi</button>
-      <button class="auth-tab" onclick="switchTab('register')">Registrati</button>
-    </div>
-    <div id="auth-error" class="auth-error"></div>
-
-    <!-- LOGIN -->
-    <div id="form-login">
-      <div class="field"><label>Email</label><input id="l-email" type="email" placeholder="la@tuaemail.com"></div>
-      <div class="field"><label>Password</label><input id="l-pass" type="password" placeholder="••••••••"></div>
-      <button class="btn-gold" onclick="doLogin()">Accedi →</button>
-      <div class="auth-divider"><span>oppure</span></div>
-      <button class="btn-outline-auth" onclick="doGoogleLogin()">
-        <svg width="18" height="18" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
-        Continua con Google
-      </button>
-      <button class="btn-outline-auth" onclick="doDemoLogin()">
-        🎭 Entra in modalità demo
-      </button>
-    </div>
-
-    <!-- REGISTER -->
-    <div id="form-register" style="display:none">
-      <div class="field"><label>Nome</label><input id="r-name" type="text" placeholder="Mario Rossi"></div>
-      <div class="field"><label>Email</label><input id="r-email" type="email" placeholder="la@tuaemail.com"></div>
-      <div class="field"><label>Password</label><input id="r-pass" type="password" placeholder="Minimo 6 caratteri"></div>
-      <button class="btn-gold" onclick="doRegister()">Crea account →</button>
-      <div class="auth-divider"><span>oppure</span></div>
-      <button class="btn-outline-auth" onclick="doGoogleLogin()">
-        <svg width="18" height="18" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
-        Continua con Google
-      </button>
-    </div>
-  </div>
-</div>
-
 <!-- APP VIEW -->
-<div id="v-app" class="view">
+<div id="v-app" class="view active">
   <div class="app-nav">
     <div class="app-nav-logo"><svg width="20" height="20" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M75 19A38 38 0 1 0 75 81" stroke="#E8B84B" stroke-width="12" stroke-linecap="round"/><polygon points="18,22 62,22 40,50" fill="#E8B84B"/><polygon points="18,78 62,78 40,50" fill="#7C5CFC"/><line x1="10" y1="22" x2="68" y2="22" stroke="#E8B84B" stroke-width="3" stroke-linecap="round"/><line x1="10" y1="78" x2="68" y2="78" stroke="#7C5CFC" stroke-width="3" stroke-linecap="round"/><circle cx="40" cy="50" r="4" fill="#fff"/></svg> Chrono</div>
     <div class="app-nav-right">
-      <div class="app-nav-user">
-        <div class="avatar" id="nav-avatar">🧑</div>
-        <span id="nav-name">Utente</span>
-      </div>
-      <button class="btn-logout" onclick="doLogout()">Esci</button>
+      <a href="memive.html" style="display:flex;align-items:center;gap:6px;background:linear-gradient(135deg,rgba(99,102,241,0.15),rgba(168,85,247,0.15));border:1px solid rgba(168,85,247,0.35);border-radius:20px;padding:6px 14px;font-size:12px;font-weight:600;color:#A855F7;text-decoration:none;letter-spacing:.03em;transition:all .2s" onmouseover="this.style.background='linear-gradient(135deg,rgba(99,102,241,0.3),rgba(168,85,247,0.3))'" onmouseout="this.style.background='linear-gradient(135deg,rgba(99,102,241,0.15),rgba(168,85,247,0.15))'">
+        <svg width="14" height="14" viewBox="0 0 90 90" fill="none"><path d="M14 65 L14 30 Q14 22 22 22 Q28 22 30 30 L45 55 L60 30 Q62 22 68 22 Q76 22 76 30 L76 65" stroke="#A855F7" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="45" cy="76" r="6" fill="#A855F7"/></svg>
+        Parte di Memive
+      </a>
     </div>
   </div>
   <div class="app-tabs">
@@ -501,10 +457,8 @@ if (FIREBASE_CONFIG) {
   fbDb = getFirestore(app);
   fbGoogleProvider = new GoogleAuthProvider();
 
-  onAuthStateChanged(fbAuth, user => {
-    if (user) enterApp({ id: user.uid, name: user.displayName || user.email, email: user.email, emoji: '🧑' });
-    else showAuth();
-  });
+  // Chrono non ha più login standalone — parte sempre in demo
+  onAuthStateChanged(fbAuth, () => {});
 
   window._fb = { signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup,
     GoogleAuthProvider, signOut, getFirestore, collection, doc, setDoc, getDocs,
@@ -596,34 +550,15 @@ window.doGoogleLogin = () => {
   window._fb.signInWithPopup(fbAuth, fbGoogleProvider).catch(e => showError(friendlyError(e.code)));
 };
 
-window.doDemoLogin = () => {
-  enterApp({ id: 'demo_user', name: 'Demo User', email: 'demo@chrono.app', emoji: '🎭' });
-};
-
-window.doLogout = async () => {
-  if (fbAuth) await window._fb.signOut(fbAuth);
-  currentUser = null; capsules = [];
-  showAuth();
-};
-
-function showAuth(){ document.getElementById('v-auth').classList.add('active'); document.getElementById('v-app').classList.remove('active'); }
-function showError(msg){ const el=document.getElementById('auth-error'); el.textContent=msg; el.classList.add('show'); }
-function clearError(){ document.getElementById('auth-error').classList.remove('show'); }
+// Chrono non ha più login standalone — avvio automatico demo
 function friendlyError(code){ return ({
-  'auth/user-not-found':'Nessun account trovato. Registrati prima.',
+  'auth/user-not-found':'Nessun account trovato.',
   'auth/wrong-password':'Password errata.',
-  'auth/email-already-in-use':'Email già in uso.',
-  'auth/weak-password':'Password troppo debole (min 6 caratteri).',
-  'auth/invalid-email':'Email non valida.',
 }[code]) || 'Errore. Riprova.'; }
 
 // ── ENTER APP ──
 async function enterApp(user) {
   currentUser = user;
-  document.getElementById('v-auth').classList.remove('active');
-  document.getElementById('v-app').classList.add('active');
-  document.getElementById('nav-avatar').textContent = user.emoji;
-  document.getElementById('nav-name').textContent = user.name;
   document.getElementById('prof-emoji').textContent = user.emoji;
   document.getElementById('prof-name').textContent = user.name;
   document.getElementById('prof-email').textContent = user.email;
@@ -1108,6 +1043,9 @@ window.toggleShared = () => {
 
 // ── UTILS ──
 function esc(s){ const d=document.createElement('div'); d.textContent=s||''; return d.innerHTML; }
+
+// ── AVVIO AUTOMATICO DEMO (Chrono non ha login standalone) ──
+enterApp({ id: 'demo_user', name: 'Demo', email: '', emoji: '⏳' });
 </script>
 
 <!-- ── MEMIVE BANNER ── -->
