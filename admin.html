@@ -139,12 +139,62 @@ html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:'In
   .type-row{flex-direction:column}
   .target-row{flex-direction:column}
 }
+
+/* ── Password gate ── */
+#pw-gate{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;
+  background:var(--bg);padding:24px}
+#pw-gate.hidden{display:none}
+.pw-box{width:100%;max-width:380px;background:var(--card);border:1px solid var(--border);
+  border-radius:24px;padding:40px 36px;text-align:center}
+.pw-logo{margin:0 auto 24px}
+.pw-title{font-size:20px;font-weight:700;margin-bottom:6px;
+  background:linear-gradient(135deg,#6366F1,#8B5CF6,#EC4899);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.pw-sub{font-size:13px;color:var(--text3);margin-bottom:28px;font-family:'Space Mono',monospace;letter-spacing:.04em}
+.pw-input{width:100%;background:rgba(255,255,255,.04);border:1px solid var(--border);
+  border-radius:12px;padding:14px 16px;color:var(--text);font-family:'Inter',sans-serif;
+  font-size:15px;outline:none;text-align:center;letter-spacing:.08em;
+  transition:border-color .2s,box-shadow .2s;margin-bottom:16px}
+.pw-input:focus{border-color:rgba(99,102,241,.5);box-shadow:0 0 0 3px rgba(99,102,241,.1)}
+.pw-input.shake{animation:shake .4s ease}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+.pw-btn{width:100%;padding:14px;border:none;border-radius:12px;cursor:pointer;
+  background:linear-gradient(135deg,#4338CA,#7C3AED,#EC4899);
+  font-size:14px;font-weight:700;color:#fff;letter-spacing:.04em;transition:opacity .2s,transform .15s}
+.pw-btn:hover{transform:translateY(-1px);opacity:.9}
+.pw-err{font-size:12px;color:#F87171;margin-top:12px;min-height:18px;font-family:'Space Mono',monospace}
 </style>
 </head>
 <body>
 <div class="aurora"></div>
 
-<div class="wrap">
+<!-- ── PASSWORD GATE ─────────────────────────────────────────────────────── -->
+<div id="pw-gate">
+  <div class="pw-box">
+    <div class="pw-logo">
+      <svg width="56" height="56" viewBox="0 0 90 90" fill="none">
+        <defs>
+          <linearGradient id="pw-lg" x1="14" y1="65" x2="76" y2="22" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#6366F1"/>
+            <stop offset="50%" stop-color="#8B5CF6"/>
+            <stop offset="100%" stop-color="#EC4899"/>
+          </linearGradient>
+        </defs>
+        <path d="M14 65 L14 30 Q14 22 22 22 Q28 22 30 30 L45 55 L60 30 Q62 22 68 22 Q76 22 76 30 L76 65"
+              stroke="url(#pw-lg)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <circle cx="45" cy="76" r="4" fill="url(#pw-lg)"/>
+      </svg>
+    </div>
+    <div class="pw-title">Memive Admin</div>
+    <div class="pw-sub">ACCESSO RISERVATO</div>
+    <input class="pw-input" id="pw-input" type="password" placeholder="••••••••••••"
+           onkeydown="if(event.key==='Enter')checkPw()">
+    <button class="pw-btn" onclick="checkPw()">Entra →</button>
+    <div class="pw-err" id="pw-err"></div>
+  </div>
+</div>
+
+<div class="wrap" id="main-wrap" style="display:none">
 
   <!-- Header -->
   <div class="hdr">
@@ -481,6 +531,41 @@ function showToast(msg, type='info'){
   t.textContent = msg;
   _toastTimer = setTimeout(()=>t.className='', 3800);
 }
+
+// ── PASSWORD GATE ────────────────────────────────────────────────────────────
+const _PW = 'Attuati2001!!';
+const _SK = 'memive_admin_auth';
+
+function checkPw(){
+  const val = document.getElementById('pw-input').value;
+  const err = document.getElementById('pw-err');
+  const inp = document.getElementById('pw-input');
+
+  if(val === _PW){
+    sessionStorage.setItem(_SK, '1');
+    document.getElementById('pw-gate').classList.add('hidden');
+    document.getElementById('main-wrap').style.display = '';
+    err.textContent = '';
+  } else {
+    err.textContent = 'Password errata. Riprova.';
+    inp.classList.remove('shake');
+    void inp.offsetWidth; // force reflow
+    inp.classList.add('shake');
+    inp.value = '';
+    inp.focus();
+  }
+}
+
+// Auto-unlock se sessione già autenticata
+(function(){
+  if(sessionStorage.getItem(_SK) === '1'){
+    document.getElementById('pw-gate').classList.add('hidden');
+    document.getElementById('main-wrap').style.display = '';
+  } else {
+    // Focus automatico sul campo password
+    setTimeout(()=>document.getElementById('pw-input')?.focus(), 100);
+  }
+})();
 </script>
 </body>
 </html>
