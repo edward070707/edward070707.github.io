@@ -2475,57 +2475,48 @@
 </section>
 
 <!-- ─── SECTION TWO: ABOUT (HUD) ─── -->
-<section id="two" class="ea-section main style2 left dark fullscreen hud-section">
-    <!-- Loading screen -->
-    <div class="hud-loading" id="hud-loading">
-        <div class="hud-loading-text">&gt; SCANNING PROFILE: EDWARD_ATTUATI...</div>
-        <div class="hud-loading-bar-wrap">
-            <div class="hud-loading-bar" id="hud-loading-bar"></div>
-            <div class="hud-loading-pct" id="hud-loading-pct">0%</div>
+<section id="two" class="ea-section main style2 left dark fullscreen">
+    <div class="about-dim">
+        <div class="about-dim-main reveal">
+            <span class="dim-sec-label" data-i18n="sec2-tag">Who I Am</span>
+            <h2 class="dim-sec-title" data-i18n="two-title">The Human Behind the Code</h2>
+
+            <div class="about-quote">
+                <span data-i18n="about-q1">Building things that </span><span class="hl-violet" data-i18n="about-q2">work beautifully</span><br>
+                <span data-i18n="about-q3">and </span><span class="hl-cyan" data-i18n="about-q4">last.</span>
+            </div>
+
+            <div class="about-dim-body">
+                <p data-i18n-html="about-p1">I'm <strong>Edward</strong>, an Italian guy from <strong>Bergamo</strong> studying Computer Engineering at the University of Brescia. Proactive and precise — I dig into problems until they make sense.</p>
+                <p data-i18n-html="about-p2">Outside of code, I'm obsessed with <strong>languages and cultures</strong>. That's why this site greets you in 38 different languages — and why I speak five of them.</p>
+            </div>
+
+            <a href="https://drive.google.com/file/d/1-E2bqezgbpLPmgdB6b2z4Sz3yz7MCwua/view?usp=share_link"
+               target="_blank" class="dim-cv" data-i18n="two-cv">📄 View My CV</a>
         </div>
-        <div class="hud-loading-msg" id="hud-loading-msg">&gt; Initializing...</div>
-    </div>
-    <!-- Main HUD layout -->
-    <div class="hud-main" id="hud-main">
-        <!-- Radar -->
-        <div class="hud-radar-section">
-            <div class="hud-radar-container" id="hud-radar-container">
-                <svg class="hud-radar-svg" viewBox="0 0 380 380" id="hud-radar-svg">
-                    <circle cx="190" cy="190" r="165" fill="none" stroke="rgba(0,255,65,0.15)" stroke-width="1" stroke-dasharray="4 6"/>
-                    <circle cx="190" cy="190" r="125" fill="none" stroke="rgba(0,255,65,0.12)" stroke-width="1" stroke-dasharray="4 6"/>
-                    <circle cx="190" cy="190" r="85"  fill="none" stroke="rgba(0,255,65,0.10)" stroke-width="1" stroke-dasharray="4 6"/>
-                    <circle cx="190" cy="190" r="45"  fill="none" stroke="rgba(0,255,65,0.15)" stroke-width="1"/>
-                    <line x1="190" y1="25" x2="190" y2="355" stroke="rgba(0,255,65,0.1)" stroke-width="0.5"/>
-                    <line x1="25" y1="190" x2="355" y2="190" stroke="rgba(0,255,65,0.1)" stroke-width="0.5"/>
-                    <line x1="73" y1="73" x2="307" y2="307" stroke="rgba(0,255,65,0.06)" stroke-width="0.5"/>
-                    <line x1="307" y1="73" x2="73" y2="307" stroke="rgba(0,255,65,0.06)" stroke-width="0.5"/>
-                    <g style="transform-origin:190px 190px;animation:hudSweep 4s linear infinite;">
-                        <defs>
-                            <radialGradient id="hudSweepGrad" cx="0%" cy="0%" r="100%">
-                                <stop offset="0%" stop-color="rgba(0,255,65,0.5)"/>
-                                <stop offset="100%" stop-color="rgba(0,255,65,0)"/>
-                            </radialGradient>
-                        </defs>
-                        <path d="M 190 190 L 190 25 A 165 165 0 0 1 355 190 Z" fill="url(#hudSweepGrad)" opacity="0.4"/>
-                        <line x1="190" y1="190" x2="190" y2="25" stroke="#00FF41" stroke-width="1.5" opacity="0.8"/>
-                    </g>
-                    <circle cx="190" cy="190" r="4" fill="#00FF41" opacity="0.8"/>
-                    <circle cx="190" cy="190" r="8" fill="none" stroke="#00FF41" stroke-width="1" opacity="0.4"/>
-                </svg>
-                <!-- Blips added by JS -->
+
+        <div class="dim-stats reveal">
+            <div class="dim-stat">
+                <span class="dim-stat-num" data-count="10" data-suffix="+">10+</span>
+                <span class="dim-stat-lbl" data-i18n="stat1-lbl">Years Coding</span>
+                <span class="dim-stat-sub" data-i18n="stat1-sub">From first line to full-stack apps</span>
+            </div>
+            <div class="dim-stat">
+                <span class="dim-stat-num" data-count="2">2</span>
+                <span class="dim-stat-lbl" data-i18n="stat2-lbl">Languages Spoken</span>
+                <span class="dim-stat-sub" data-i18n="stat2-sub">IT · EN</span>
+            </div>
+            <div class="dim-stat">
+                <span class="dim-stat-num" data-count="3">3</span>
+                <span class="dim-stat-lbl" data-i18n="stat3-lbl">Projects</span>
+                <span class="dim-stat-sub" data-i18n="stat3-sub">Built & shipped personally</span>
+            </div>
+            <div class="dim-stat">
+                <span class="dim-stat-num">∞</span>
+                <span class="dim-stat-lbl" data-i18n="stat4-lbl">Curiosity</span>
+                <span class="dim-stat-sub" data-i18n="stat4-sub">Always learning something new</span>
             </div>
         </div>
-        <!-- Stats Panel -->
-        <div class="hud-panel-section" id="hud-panel-section">
-            <div class="hud-panel-header">&gt; PROFILE_SCAN — EDWARD_ATTUATI.json</div>
-            <div class="hud-stats-list" id="hud-stats-list"></div>
-            <a href="https://drive.google.com/file/d/1-E2bqezgbpLPmgdB6b2z4Sz3yz7MCwua/view?usp=share_link"
-               target="_blank" class="hud-cv-link">[ VIEW_CV.pdf ]</a>
-        </div>
-    </div>
-    <div class="hud-status-bar">
-        <span class="hud-status-dot"></span>
-        SCAN ACTIVE &nbsp;|&nbsp; <span id="hud-time">00:00:00</span> &nbsp;|&nbsp; BERGAMO, IT
     </div>
 </section>
 
