@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Skills Demo — Opzione C</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #000800;
+    --green: #00FF41;
+    --green-dim: #00AA2A;
+    --green-dark: #003008;
+    --cyan: #00F5D4;
+    --purple: #A855F7;
+    --pink: #EC4899;
+    --amber: #F59E0B;
+    --blue: #60A5FA;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--green);
+    font-family: 'Space Mono', monospace;
+    min-height: 100vh;
+    overflow: hidden;
+    background-image:
+      linear-gradient(rgba(0,255,65,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,255,65,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  /* SCANLINES */
+  body::after {
+    content: '';
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.15) 2px,
+      rgba(0,0,0,0.15) 4px
+    );
+    pointer-events: none;
+    z-index: 50;
+  }
+
+  .top-bar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 24px;
+    background: rgba(0,8,0,0.9);
+    border-bottom: 1px solid rgba(0,255,65,0.2);
+  }
+  .back-link { color: rgba(0,255,65,0.5); text-decoration: none; font-size: 12px; transition: color 0.2s; }
+  .back-link:hover { color: var(--green); }
+  .page-title { font-size: 13px; color: rgba(0,255,65,0.7); letter-spacing: 0.05em; }
+  .page-title span { color: var(--green); font-weight: 700; }
+  .nav-demos { display: flex; gap: 6px; }
+  .nav-demos a {
+    display: flex; align-items: center; justify-content: center;
+    width: 32px; height: 32px; border-radius: 4px;
+    background: rgba(0,255,65,0.05); border: 1px solid rgba(0,255,65,0.2);
+    color: rgba(0,255,65,0.5); text-decoration: none;
+    font-size: 12px; font-weight: 700;
+    transition: all 0.2s;
+  }
+  .nav-demos a:hover { background: rgba(0,255,65,0.15); border-color: var(--green); color: var(--green); }
+  .nav-demos a.active { background: rgba(0,255,65,0.2); border-color: var(--green); color: #fff; }
+
+  /* LOADING SCREEN */
+  #loadingScreen {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: var(--bg);
+    z-index: 80;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 16px;
+    transition: opacity 0.5s;
+  }
+  #loadingScreen.hidden { opacity: 0; pointer-events: none; }
+  .loading-text { font-size: 14px; color: var(--green); letter-spacing: 0.1em; }
+  .loading-bar-wrapper {
+    width: 400px; height: 20px;
+    border: 1px solid var(--green-dim);
+    background: rgba(0,255,65,0.05);
+    overflow: hidden;
+    position: relative;
+  }
+  .loading-bar-fill {
+    height: 100%;
+    background: var(--green);
+    width: 0%;
+    transition: width 0.05s;
+    box-shadow: 0 0 10px var(--green);
+  }
+  .loading-label {
+    position: absolute;
+    right: 8px; top: 50%;
+    transform: translateY(-50%);
+    font-size: 10px;
+    color: #000;
+    font-weight: 700;
+    mix-blend-mode: difference;
+  }
+
+  /* MAIN LAYOUT */
+  .main-layout {
+    position: fixed;
+    top: 60px; left: 0; right: 0; bottom: 0;
+    display: flex;
+    opacity: 0;
+    transition: opacity 0.5s;
+  }
+  .main-layout.visible { opacity: 1; }
+
+  /* RADAR */
+  .radar-section {
+    flex: 0 0 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .radar-container {
+    position: relative;
+    width: 380px;
+    height: 380px;
+  }
+
+  .radar-svg {
+    width: 100%; height: 100%;
+    position: absolute; top: 0; left: 0;
+  }
+
+  /* SWEEP */
+  .sweep-group {
+    transform-origin: 190px 190px;
+    animation: radarSweep 4s linear infinite;
+  }
+  @keyframes radarSweep {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .blip {
+    position: absolute;
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+    animation: blipPulse 2s ease-in-out infinite;
+    z-index: 20;
+  }
+  .blip:hover { transform: translate(-50%,-50%) scale(1.8); }
+  @keyframes blipPulse {
+    0%,100% { box-shadow: 0 0 4px currentColor; }
+    50% { box-shadow: 0 0 12px currentColor, 0 0 24px currentColor; }
+  }
+  .blip-ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid currentColor;
+    opacity: 0;
+    animation: blipRing 2s ease-out infinite;
+    pointer-events: none;
+  }
+  @keyframes blipRing {
+    from { width: 12px; height: 12px; left: 0; top: 0; opacity: 0.8; }
+    to { width: 40px; height: 40px; left: -14px; top: -14px; opacity: 0; }
+  }
+
+  /* RIGHT PANEL */
+  .panel-section {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px 24px;
+    border-left: 1px solid rgba(0,255,65,0.15);
+  }
+  .panel-section::-webkit-scrollbar { width: 4px; }
+  .panel-section::-webkit-scrollbar-track { background: transparent; }
+  .panel-section::-webkit-scrollbar-thumb { background: var(--green-dim); border-radius: 2px; }
+
+  .panel-header {
+    font-size: 11px;
+    color: var(--green-dim);
+    letter-spacing: 0.15em;
+    margin-bottom: 16px;
+    border-bottom: 1px solid rgba(0,255,65,0.15);
+    padding-bottom: 10px;
+  }
+
+  .cat-group {
+    margin-bottom: 20px;
+  }
+  .cat-label {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .cat-label::before { content:'▶'; font-size:8px; }
+
+  .skill-entry {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 5px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-bottom: 4px;
+    border: 1px solid transparent;
+  }
+  .skill-entry:hover { background: rgba(0,255,65,0.05); border-color: rgba(0,255,65,0.15); }
+  .skill-entry.highlight { background: rgba(0,255,65,0.1); border-color: rgba(0,255,65,0.3); }
+
+  .skill-entry-name {
+    width: 90px;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .skill-entry-bar {
+    flex: 1;
+    height: 3px;
+    background: rgba(0,255,65,0.1);
+    border-radius: 1px;
+    overflow: hidden;
+    position: relative;
+  }
+  .skill-entry-fill {
+    height: 100%;
+    border-radius: 1px;
+    width: 0%;
+    transition: width 1.5s cubic-bezier(0.4,0,0.2,1);
+    position: relative;
+  }
+  .skill-entry-fill::after {
+    content: '';
+    position: absolute;
+    right: 0; top: -2px;
+    width: 2px; height: 7px;
+    background: inherit;
+    box-shadow: 0 0 4px currentColor;
+  }
+  .skill-entry-pct {
+    width: 36px;
+    font-size: 11px;
+    text-align: right;
+  }
+
+  /* GLITCH TEXT */
+  @keyframes glitch {
+    0%,100% { clip-path: none; transform: none; }
+    20% { clip-path: polygon(0 20%, 100% 20%, 100% 40%, 0 40%); transform: translate(-2px, 0); }
+    40% { clip-path: polygon(0 60%, 100% 60%, 100% 80%, 0 80%); transform: translate(2px, 0); }
+    60% { clip-path: none; transform: translate(-1px, 0); }
+    80% { clip-path: polygon(0 0%, 100% 0%, 100% 15%, 0 15%); transform: translate(1px, 0); }
+  }
+
+  .status-line {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    font-size: 10px;
+    color: var(--green-dim);
+    letter-spacing: 0.1em;
+    z-index: 100;
+  }
+  .status-dot {
+    display: inline-block;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    margin-right: 6px;
+    animation: statusBlink 1s step-end infinite;
+    vertical-align: middle;
+  }
+  @keyframes statusBlink {
+    0%,100% { opacity: 1; } 50% { opacity: 0; }
+  }
+
+  /* TOOLTIP */
+  .tooltip {
+    position: fixed;
+    background: rgba(0,8,0,0.95);
+    border: 1px solid var(--green);
+    border-radius: 4px;
+    padding: 10px 14px;
+    pointer-events: none;
+    z-index: 300;
+    opacity: 0;
+    transition: opacity 0.15s;
+    font-size: 11px;
+    box-shadow: 0 0 20px rgba(0,255,65,0.3);
+  }
+  .tooltip.visible { opacity: 1; }
+
+  .dashed-line {
+    position: fixed;
+    pointer-events: none;
+    z-index: 15;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .dashed-line.visible { opacity: 1; }
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <a href="../index.html" class="back-link">← Back</a>
+  <div class="page-title">Skills Demo — <span>Opzione C</span></div>
+  <nav class="nav-demos">
+    <a href="skills-a.html">A</a>
+    <a href="skills-b.html">B</a>
+    <a href="skills-c.html" class="active">C</a>
+    <a href="skills-d.html">D</a>
+    <a href="skills-e.html">E</a>
+    <a href="skills-f.html">F</a>
+  </nav>
+</div>
+
+<!-- LOADING SCREEN -->
+<div id="loadingScreen">
+  <div class="loading-text">&gt; INITIALIZING SKILL_MATRIX SCANNER...</div>
+  <div class="loading-bar-wrapper">
+    <div class="loading-bar-fill" id="loadingFill"></div>
+    <div class="loading-label" id="loadingLabel">0%</div>
+  </div>
+  <div class="loading-text" id="loadingMsg" style="font-size:11px;color:rgba(0,255,65,0.5);">&gt; Loading modules...</div>
+</div>
+
+<!-- MAIN -->
+<div class="main-layout" id="mainLayout">
+  <!-- RADAR -->
+  <div class="radar-section" id="radarSection">
+    <div class="radar-container" id="radarContainer">
+      <svg class="radar-svg" viewBox="0 0 380 380" id="radarSvg">
+        <!-- Grid circles -->
+        <circle cx="190" cy="190" r="170" fill="none" stroke="rgba(0,255,65,0.15)" stroke-width="1" stroke-dasharray="4 6"/>
+        <circle cx="190" cy="190" r="130" fill="none" stroke="rgba(0,255,65,0.15)" stroke-width="1" stroke-dasharray="4 6"/>
+        <circle cx="190" cy="190" r="90" fill="none" stroke="rgba(0,255,65,0.15)" stroke-width="1" stroke-dasharray="4 6"/>
+        <circle cx="190" cy="190" r="50" fill="none" stroke="rgba(0,255,65,0.15)" stroke-width="1"/>
+        <!-- Cross lines -->
+        <line x1="190" y1="20" x2="190" y2="360" stroke="rgba(0,255,65,0.1)" stroke-width="0.5"/>
+        <line x1="20" y1="190" x2="360" y2="190" stroke="rgba(0,255,65,0.1)" stroke-width="0.5"/>
+        <line x1="70" y1="70" x2="310" y2="310" stroke="rgba(0,255,65,0.07)" stroke-width="0.5"/>
+        <line x1="310" y1="70" x2="70" y2="310" stroke="rgba(0,255,65,0.07)" stroke-width="0.5"/>
+        <!-- Sweep -->
+        <g class="sweep-group">
+          <defs>
+            <radialGradient id="sweepGrad" cx="0%" cy="0%" r="100%">
+              <stop offset="0%" stop-color="rgba(0,255,65,0.5)"/>
+              <stop offset="100%" stop-color="rgba(0,255,65,0)"/>
+            </radialGradient>
+            <linearGradient id="lineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="rgba(0,255,65,0)"/>
+              <stop offset="100%" stop-color="#00FF41"/>
+            </linearGradient>
+          </defs>
+          <path d="M 190 190 L 190 20 A 170 170 0 0 1 360 190 Z" fill="url(#sweepGrad)" opacity="0.4"/>
+          <line x1="190" y1="190" x2="190" y2="20" stroke="#00FF41" stroke-width="1.5" opacity="0.8"/>
+        </g>
+        <!-- Center dot -->
+        <circle cx="190" cy="190" r="4" fill="#00FF41" opacity="0.8"/>
+        <circle cx="190" cy="190" r="8" fill="none" stroke="#00FF41" stroke-width="1" opacity="0.4"/>
+      </svg>
+      <!-- Blips added by JS -->
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="panel-section" id="panelSection">
+    <div class="panel-header">&gt; SKILL_MATRIX ANALYSIS — SUBJECT: EDWARD A.</div>
+    <!-- skill rows added by JS -->
+  </div>
+</div>
+
+<div class="tooltip" id="tooltip"></div>
+<svg class="dashed-line" id="dashedLine" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:15;">
+  <line id="connectorLine" x1="0" y1="0" x2="0" y2="0" stroke="#00FF41" stroke-width="1" stroke-dasharray="4 4" opacity="0.6"/>
+</svg>
+
+<div class="status-line">
+  <span class="status-dot"></span>
+  SCAN ACTIVE &nbsp;|&nbsp; <span id="timeStr">00:00:00</span> &nbsp;|&nbsp; 20 SKILLS DETECTED
+</div>
+
+<script>
+const CATEGORIES = [
+  { name:'Mobile',  color:'#A855F7', angle:-135, skills:[{name:'Flutter',pct:85},{name:'Dart',pct:85},{name:'Swift',pct:60},{name:'Firebase',pct:78}] },
+  { name:'Web',     color:'#00F5D4', angle:-45,  skills:[{name:'HTML',pct:90},{name:'CSS',pct:90},{name:'JS',pct:88},{name:'Vue.js',pct:55}] },
+  { name:'Backend', color:'#F59E0B', angle:0,    skills:[{name:'Firebase',pct:75},{name:'SQL',pct:70},{name:'REST APIs',pct:72},{name:'Node.js',pct:50}] },
+  { name:'Design',  color:'#EC4899', angle:90,   skills:[{name:'UI/UX',pct:80},{name:'Figma',pct:78},{name:'Motion',pct:68},{name:'Branding',pct:72}] },
+  { name:'Tools',   color:'#60A5FA', angle:180,  skills:[{name:'VS Code',pct:92},{name:'Git',pct:70},{name:'Xcode',pct:58},{name:'Android S.',pct:65}] },
+];
+
+// LOADING
+let progress = 0;
+const loadFill = document.getElementById('loadingFill');
+const loadLabel = document.getElementById('loadingLabel');
+const loadMsg = document.getElementById('loadingMsg');
+const loadMsgs = [
+  '> Establishing neural link...',
+  '> Decrypting skill vectors...',
+  '> Calibrating radar array...',
+  '> Loading category matrices...',
+  '> Compiling interface modules...',
+  '> SYSTEM READY'
+];
+
+function advanceLoading() {
+  progress += Math.random() * 8 + 3;
+  if (progress > 100) progress = 100;
+  loadFill.style.width = progress + '%';
+  loadLabel.textContent = Math.round(progress) + '%';
+  loadMsg.textContent = loadMsgs[Math.floor(progress / 17)] || loadMsgs[loadMsgs.length-1];
+  if (progress < 100) {
+    setTimeout(advanceLoading, 80 + Math.random() * 80);
+  } else {
+    setTimeout(() => {
+      document.getElementById('loadingScreen').classList.add('hidden');
+      document.getElementById('mainLayout').classList.add('visible');
+      buildUI();
+    }, 400);
+  }
+}
+advanceLoading();
+
+// TIME
+setInterval(() => {
+  const n = new Date();
+  document.getElementById('timeStr').textContent =
+    String(n.getHours()).padStart(2,'0') + ':' +
+    String(n.getMinutes()).padStart(2,'0') + ':' +
+    String(n.getSeconds()).padStart(2,'0');
+}, 1000);
+
+function buildUI() {
+  const radarContainer = document.getElementById('radarContainer');
+  const panel = document.getElementById('panelSection');
+  const cx = 190, cy = 190, maxR = 165;
+
+  // All skill entries for panel + blips
+  const allSkillEntries = [];
+  let globalIdx = 0;
+
+  CATEGORIES.forEach((cat, ci) => {
+    // Panel group
+    const group = document.createElement('div');
+    group.className = 'cat-group';
+    group.innerHTML = `<div class="cat-label" style="color:${cat.color}">${cat.name.toUpperCase()}</div>`;
+    panel.appendChild(group);
+
+    cat.skills.forEach((skill, si) => {
+      const idx = globalIdx++;
+      const delay = idx * 150 + 500;
+
+      // Panel entry
+      const entry = document.createElement('div');
+      entry.className = 'skill-entry';
+      entry.dataset.idx = idx;
+      entry.innerHTML = `
+        <div class="skill-entry-name" style="color:${cat.color}">${skill.name}</div>
+        <div class="skill-entry-bar">
+          <div class="skill-entry-fill" id="fill-${idx}" style="background:${cat.color};"></div>
+        </div>
+        <div class="skill-entry-pct" style="color:${cat.color}">${skill.pct}%</div>
+      `;
+      group.appendChild(entry);
+
+      // Animate bar after delay
+      setTimeout(() => {
+        document.getElementById(`fill-${idx}`).style.width = skill.pct + '%';
+      }, delay);
+
+      // Blip on radar
+      const angleOffset = si * 18 - 27;
+      const baseAngle = (cat.angle + angleOffset) * Math.PI / 180;
+      const r = skill.pct / 100 * maxR;
+      const bx = cx + Math.cos(baseAngle) * r;
+      const by = cy + Math.sin(baseAngle) * r;
+
+      const blip = document.createElement('div');
+      blip.className = 'blip';
+      blip.dataset.idx = idx;
+      blip.style.cssText = `
+        left: ${bx / 380 * 100}%;
+        top: ${by / 380 * 100}%;
+        background: ${cat.color};
+        box-shadow: 0 0 6px ${cat.color};
+        color: ${cat.color};
+        opacity: 0;
+        transition: opacity 0.3s;
+      `;
+      setTimeout(() => { blip.style.opacity = '1'; }, delay + 300);
+
+      const ring = document.createElement('div');
+      ring.className = 'blip-ring';
+      ring.style.color = cat.color;
+      ring.style.borderColor = cat.color;
+      ring.style.animationDelay = (si * 0.5) + 's';
+      blip.appendChild(ring);
+      radarContainer.appendChild(blip);
+
+      const blipInfo = { blip, entry, skill, cat, bx, by };
+      allSkillEntries.push(blipInfo);
+
+      // Hover
+      const tt = document.getElementById('tooltip');
+      const dashedLine = document.getElementById('dashedLine');
+      const connLine = document.getElementById('connectorLine');
+
+      blip.addEventListener('mouseenter', (e) => {
+        entry.classList.add('highlight');
+        tt.innerHTML = `<span style="color:${cat.color}">${skill.name}</span><br>
+          <span style="font-size:10px;color:rgba(0,255,65,0.6)">${cat.name} | ${skill.pct}%</span>`;
+        tt.classList.add('visible');
+
+        // Connector line
+        const rect = radarContainer.getBoundingClientRect();
+        const bAbsX = rect.left + (bx / 380) * rect.width;
+        const bAbsY = rect.top + (by / 380) * rect.height;
+        const entryRect = entry.getBoundingClientRect();
+        const eX = entryRect.left;
+        const eY = entryRect.top + entryRect.height / 2;
+        connLine.setAttribute('x1', bAbsX);
+        connLine.setAttribute('y1', bAbsY);
+        connLine.setAttribute('x2', eX);
+        connLine.setAttribute('y2', eY);
+        connLine.setAttribute('stroke', cat.color);
+        dashedLine.classList.add('visible');
+      });
+      blip.addEventListener('mousemove', (e) => {
+        tt.style.left = (e.clientX + 12) + 'px';
+        tt.style.top = (e.clientY - 10) + 'px';
+      });
+      blip.addEventListener('mouseleave', () => {
+        entry.classList.remove('highlight');
+        tt.classList.remove('visible');
+        dashedLine.classList.remove('visible');
+      });
+
+      // Panel entry hover → highlight blip
+      entry.addEventListener('mouseenter', () => { blip.style.transform = 'translate(-50%,-50%) scale(2)'; });
+      entry.addEventListener('mouseleave', () => { blip.style.transform = ''; });
+    });
+  });
+}
+</script>
+</body>
+</html>

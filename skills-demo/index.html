@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Skills Visualizations — Demo Index</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #08080F;
+    --purple: #A855F7;
+    --cyan: #00F5D4;
+    --pink: #EC4899;
+    --amber: #F59E0B;
+    --blue: #60A5FA;
+  }
+
+  body {
+    background: var(--bg);
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+    background-image:
+      radial-gradient(ellipse at 20% 20%, rgba(168,85,247,0.08) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 80%, rgba(0,245,212,0.06) 0%, transparent 50%);
+  }
+
+  /* TOP BAR */
+  .top-bar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 32px;
+    background: rgba(8,8,15,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .back-link {
+    color: rgba(255,255,255,0.5);
+    text-decoration: none;
+    font-size: 13px;
+    font-family: 'Space Mono', monospace;
+    transition: color 0.2s;
+  }
+  .back-link:hover { color: var(--cyan); }
+  .top-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.1em;
+  }
+  .top-tag {
+    font-size: 11px;
+    font-family: 'Space Mono', monospace;
+    color: rgba(255,255,255,0.25);
+  }
+
+  /* HERO */
+  .hero {
+    padding: 72px 32px 48px;
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  .hero-eyebrow {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--cyan);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .hero-title {
+    font-size: clamp(32px, 6vw, 56px);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, #fff 40%, rgba(255,255,255,0.4));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero-desc {
+    font-size: 16px;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.7;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  /* GRID */
+  .demos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 32px 80px;
+  }
+
+  .demo-card {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), border-color 0.3s, box-shadow 0.3s;
+    position: relative;
+  }
+  .demo-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--card-color, rgba(255,255,255,0.2));
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 40px var(--card-glow, rgba(255,255,255,0.05));
+  }
+
+  .card-preview {
+    height: 180px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Preview visuals — CSS art */
+  .preview-a {
+    background: radial-gradient(ellipse at 50% 50%, rgba(168,85,247,0.15) 0%, transparent 70%);
+  }
+  .preview-b {
+    background: radial-gradient(ellipse at 50% 50%, rgba(245,158,11,0.2) 0%, transparent 60%);
+  }
+  .preview-c {
+    background: rgba(0,8,0,1);
+    background-image: linear-gradient(rgba(0,255,65,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,255,65,0.04) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+  .preview-d {
+    background: radial-gradient(ellipse at 50% 30%, rgba(245,158,11,0.15) 0%, transparent 60%);
+  }
+  .preview-e {
+    background: radial-gradient(ellipse at 50% 50%, rgba(168,85,247,0.2) 0%, transparent 70%);
+  }
+  .preview-f {
+    background: radial-gradient(ellipse at 30% 60%, rgba(236,72,153,0.2) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 40%, rgba(0,245,212,0.15) 0%, transparent 50%);
+  }
+
+  .preview-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 40px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.06);
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    letter-spacing: -0.05em;
+    z-index: 0;
+    user-select: none;
+  }
+
+  /* Decorative orbs/elements for each preview */
+  .orb-preview {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  .card-body {
+    padding: 20px 24px 24px;
+  }
+  .card-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    border: 1px solid;
+  }
+  .card-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    line-height: 1.3;
+  }
+  .card-desc {
+    font-size: 13px;
+    color: rgba(255,255,255,0.45);
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+  .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .tag {
+    padding: 3px 8px;
+    border-radius: 4px;
+    background: rgba(255,255,255,0.05);
+    font-size: 10px;
+    font-family: 'Space Mono', monospace;
+    color: rgba(255,255,255,0.4);
+  }
+  .card-arrow {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .demo-card:hover .card-arrow {
+    transform: translate(2px, -2px);
+    background: rgba(255,255,255,0.1);
+  }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 32px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    font-size: 12px;
+    font-family: 'Space Mono', monospace;
+    color: rgba(255,255,255,0.2);
+  }
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <a href="../index.html" class="back-link">← Back to Portfolio</a>
+  <div class="top-title">SKILLS_DEMO</div>
+  <div class="top-tag">6 visualizations</div>
+</div>
+
+<div class="hero">
+  <div class="hero-eyebrow">Portfolio — Skills Section</div>
+  <h1 class="hero-title">6 Ways to Visualize Skills</h1>
+  <p class="hero-desc">Experimental visualizations showcasing technical skills. Each uses a different approach — from 3D orbs to liquid blobs to DNA helices.</p>
+</div>
+
+<div class="demos-grid">
+
+  <!-- A: 3D Floating Orbs -->
+  <a href="skills-a.html" class="demo-card" style="--card-color:rgba(168,85,247,0.5);--card-glow:rgba(168,85,247,0.15);">
+    <div class="card-preview preview-a">
+      <div class="preview-label">A</div>
+      <!-- Decorative orbs -->
+      <div class="orb-preview" style="width:60px;height:60px;background:radial-gradient(circle at 35% 35%,#A855F7CC,#A855F744);box-shadow:0 0 20px #A855F766;left:60px;top:30px;border:1px solid #A855F755;"></div>
+      <div class="orb-preview" style="width:44px;height:44px;background:radial-gradient(circle at 35% 35%,#00F5D4CC,#00F5D444);box-shadow:0 0 15px #00F5D466;left:140px;top:60px;border:1px solid #00F5D455;"></div>
+      <div class="orb-preview" style="width:72px;height:72px;background:radial-gradient(circle at 35% 35%,#EC4899CC,#EC489944);box-shadow:0 0 24px #EC489966;right:60px;top:25px;border:1px solid #EC489955;"></div>
+      <div class="orb-preview" style="width:38px;height:38px;background:radial-gradient(circle at 35% 35%,#60A5FACC,#60A5FA44);box-shadow:0 0 12px #60A5FA66;right:130px;top:100px;border:1px solid #60A5FA55;"></div>
+      <div class="orb-preview" style="width:50px;height:50px;background:radial-gradient(circle at 35% 35%,#F59E0BCC,#F59E0B44);box-shadow:0 0 16px #F59E0B66;left:200px;top:110px;border:1px solid #F59E0B55;"></div>
+    </div>
+    <div class="card-body">
+      <div class="card-arrow">↗</div>
+      <div class="card-badge" style="color:#A855F7;border-color:rgba(168,85,247,0.3);background:rgba(168,85,247,0.1);">
+        ◉ Opzione A
+      </div>
+      <div class="card-title">3D Floating Orbs</div>
+      <div class="card-desc">Skills as glowing spheres floating in 3D space. Drag to rotate the entire scene. Each orb floats with a unique animation rhythm.</div>
+      <div class="card-tags">
+        <span class="tag">CSS 3D</span>
+        <span class="tag">Canvas</span>
+        <span class="tag">Drag Rotate</span>
+        <span class="tag">Touch Support</span>
+      </div>
+    </div>
+  </a>
+
+  <!-- B: Solar System -->
+  <a href="skills-b.html" class="demo-card" style="--card-color:rgba(245,158,11,0.5);--card-glow:rgba(245,158,11,0.1);">
+    <div class="card-preview preview-b">
+      <div class="preview-label">B</div>
+      <!-- Sun -->
+      <div class="orb-preview" style="width:50px;height:50px;background:radial-gradient(circle at 40% 40%,#FFF176,#FFD700,#F59E0B);box-shadow:0 0 30px #F59E0B88,0 0 60px #F59E0B44;left:50%;top:50%;transform:translate(-50%,-50%);"></div>
+      <!-- Orbit rings -->
+      <div style="position:absolute;width:100px;height:100px;border-radius:50%;border:1px dashed rgba(168,85,247,0.3);left:50%;top:50%;transform:translate(-50%,-50%);"></div>
+      <div style="position:absolute;width:150px;height:150px;border-radius:50%;border:1px dashed rgba(0,245,212,0.25);left:50%;top:50%;transform:translate(-50%,-50%);"></div>
+      <!-- Planets -->
+      <div class="orb-preview" style="width:22px;height:22px;background:#A855F7;box-shadow:0 0 10px #A855F7;left:calc(50% - 50px + 22px);top:calc(50% - 6px);"></div>
+      <div class="orb-preview" style="width:18px;height:18px;background:#00F5D4;box-shadow:0 0 10px #00F5D4;left:calc(50% + 60px);top:calc(50% - 30px);"></div>
+    </div>
+    <div class="card-body">
+      <div class="card-arrow">↗</div>
+      <div class="card-badge" style="color:#F59E0B;border-color:rgba(245,158,11,0.3);background:rgba(245,158,11,0.1);">
+        ◉ Opzione B
+      </div>
+      <div class="card-title">Skill Solar System</div>
+      <div class="card-desc">Categories as planets orbiting a central sun. Click a planet to expand its skills as satellites in their own orbit.</div>
+      <div class="card-tags">
+        <span class="tag">Orbital Physics</span>
+        <span class="tag">Stars Canvas</span>
+        <span class="tag">Click to Expand</span>
+        <span class="tag">Satellites</span>
+      </div>
+    </div>
+  </a>
+
+  <!-- C: HUD Scanner -->
+  <a href="skills-c.html" class="demo-card" style="--card-color:rgba(0,255,65,0.4);--card-glow:rgba(0,255,65,0.08);">
+    <div class="card-preview preview-c">
+      <div class="preview-label" style="color:rgba(0,255,65,0.08);">C</div>
+      <!-- Radar circles -->
+      <div style="position:absolute;width:120px;height:120px;border-radius:50%;border:1px dashed rgba(0,255,65,0.25);left:50%;top:50%;transform:translate(-50%,-50%);"></div>
+      <div style="position:absolute;width:80px;height:80px;border-radius:50%;border:1px dashed rgba(0,255,65,0.3);left:50%;top:50%;transform:translate(-50%,-50%);"></div>
+      <div style="position:absolute;width:40px;height:40px;border-radius:50%;border:1px solid rgba(0,255,65,0.4);left:50%;top:50%;transform:translate(-50%,-50%);"></div>
+      <!-- Center -->
+      <div class="orb-preview" style="width:8px;height:8px;background:#00FF41;box-shadow:0 0 8px #00FF41;left:50%;top:50%;transform:translate(-50%,-50%);"></div>
+      <!-- Blips -->
+      <div class="orb-preview" style="width:6px;height:6px;background:#A855F7;box-shadow:0 0 6px #A855F7;left:calc(50% - 40px);top:calc(50% - 40px);"></div>
+      <div class="orb-preview" style="width:6px;height:6px;background:#00F5D4;box-shadow:0 0 6px #00F5D4;left:calc(50% + 45px);top:calc(50% - 35px);"></div>
+      <div class="orb-preview" style="width:6px;height:6px;background:#F59E0B;box-shadow:0 0 6px #F59E0B;left:calc(50% + 50px);top:calc(50% + 5px);"></div>
+      <!-- Sweep line -->
+      <div style="position:absolute;width:60px;height:1px;background:linear-gradient(90deg,transparent,rgba(0,255,65,0.6));left:50%;top:50%;transform-origin:left;transform:rotate(-30deg);"></div>
+      <!-- Scan text -->
+      <div style="position:absolute;bottom:12px;left:12px;font-family:'Space Mono',monospace;font-size:9px;color:rgba(0,255,65,0.6);">&gt; SCANNING...</div>
+    </div>
+    <div class="card-body">
+      <div class="card-arrow">↗</div>
+      <div class="card-badge" style="color:#00FF41;border-color:rgba(0,255,65,0.3);background:rgba(0,255,65,0.08);">
+        ◉ Opzione C
+      </div>
+      <div class="card-title">Holographic HUD Scanner</div>
+      <div class="card-desc">Sci-fi radar interface with Matrix-green aesthetics. Skills appear as radar blips with a typing animation in the side panel.</div>
+      <div class="card-tags">
+        <span class="tag">Sci-Fi HUD</span>
+        <span class="tag">Radar</span>
+        <span class="tag">Scanlines</span>
+        <span class="tag">Loading Sequence</span>
+      </div>
+    </div>
+  </a>
+
+  <!-- D: Hexagonal Grid -->
+  <a href="skills-d.html" class="demo-card" style="--card-color:rgba(245,158,11,0.5);--card-glow:rgba(245,158,11,0.1);">
+    <div class="card-preview preview-d">
+      <div class="preview-label">D</div>
+      <!-- Hex shapes via SVG inline -->
+      <svg width="100%" height="100%" viewBox="0 0 340 180" style="position:absolute;top:0;left:0;" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="hga" x1="0%" y1="0%" x2="50%" y2="100%">
+            <stop offset="0%" stop-color="#A855F7" stop-opacity="0.9"/>
+            <stop offset="100%" stop-color="#A855F7" stop-opacity="0.2"/>
+          </linearGradient>
+          <linearGradient id="hgb" x1="0%" y1="0%" x2="50%" y2="100%">
+            <stop offset="0%" stop-color="#00F5D4" stop-opacity="0.9"/>
+            <stop offset="100%" stop-color="#00F5D4" stop-opacity="0.2"/>
+          </linearGradient>
+          <linearGradient id="hgc" x1="0%" y1="0%" x2="50%" y2="100%">
+            <stop offset="0%" stop-color="#F59E0B" stop-opacity="0.9"/>
+            <stop offset="100%" stop-color="#F59E0B" stop-opacity="0.2"/>
+          </linearGradient>
+          <linearGradient id="hgd" x1="0%" y1="0%" x2="50%" y2="100%">
+            <stop offset="0%" stop-color="#EC4899" stop-opacity="0.9"/>
+            <stop offset="100%" stop-color="#EC4899" stop-opacity="0.2"/>
+          </linearGradient>
+          <linearGradient id="hge" x1="0%" y1="0%" x2="50%" y2="100%">
+            <stop offset="0%" stop-color="#60A5FA" stop-opacity="0.9"/>
+            <stop offset="100%" stop-color="#60A5FA" stop-opacity="0.2"/>
+          </linearGradient>
+        </defs>
+        <!-- Row of hexagons -->
+        <polygon points="60,20 85,35 85,65 60,80 35,65 35,35" fill="url(#hga)" stroke="#A855F7" stroke-width="1"/>
+        <polygon points="115,20 140,35 140,65 115,80 90,65 90,35" fill="url(#hgb)" stroke="#00F5D4" stroke-width="1"/>
+        <polygon points="170,20 195,35 195,65 170,80 145,65 145,35" fill="url(#hgc)" stroke="#F59E0B" stroke-width="1"/>
+        <polygon points="225,20 250,35 250,65 225,80 200,65 200,35" fill="url(#hgd)" stroke="#EC4899" stroke-width="1"/>
+        <polygon points="280,20 305,35 305,65 280,80 255,65 255,35" fill="url(#hge)" stroke="#60A5FA" stroke-width="1"/>
+        <polygon points="87,90 112,105 112,135 87,150 62,135 62,105" fill="url(#hgc)" stroke="#F59E0B" stroke-width="1"/>
+        <polygon points="142,90 167,105 167,135 142,150 117,135 117,105" fill="url(#hga)" stroke="#A855F7" stroke-width="1"/>
+        <polygon points="197,90 222,105 222,135 197,150 172,135 172,105" fill="url(#hge)" stroke="#60A5FA" stroke-width="1"/>
+        <polygon points="252,90 277,105 277,135 252,150 227,135 227,105" fill="url(#hgb)" stroke="#00F5D4" stroke-width="1"/>
+      </svg>
+    </div>
+    <div class="card-body">
+      <div class="card-arrow">↗</div>
+      <div class="card-badge" style="color:#F59E0B;border-color:rgba(245,158,11,0.3);background:rgba(245,158,11,0.1);">
+        ◉ Opzione D
+      </div>
+      <div class="card-title">3D Hexagonal Grid</div>
+      <div class="card-desc">A honeycomb of glowing hexagons that tilts in 3D following your mouse. Height represents skill level. Hover to elevate individual cells.</div>
+      <div class="card-tags">
+        <span class="tag">Honeycomb</span>
+        <span class="tag">Mouse Tilt</span>
+        <span class="tag">SVG Hexagons</span>
+        <span class="tag">Stagger Reveal</span>
+      </div>
+    </div>
+  </a>
+
+  <!-- E: DNA Helix -->
+  <a href="skills-e.html" class="demo-card" style="--card-color:rgba(168,85,247,0.5);--card-glow:rgba(168,85,247,0.1);">
+    <div class="card-preview preview-e">
+      <div class="preview-label">E</div>
+      <!-- DNA preview using SVG -->
+      <svg width="100%" height="100%" viewBox="0 0 340 180" style="position:absolute;top:0;left:0;" xmlns="http://www.w3.org/2000/svg">
+        <!-- Strand 1 -->
+        <path d="M 30 20 Q 100 60 170 90 Q 240 120 310 160" fill="none" stroke="rgba(168,85,247,0.5)" stroke-width="2"/>
+        <!-- Strand 2 -->
+        <path d="M 30 160 Q 100 120 170 90 Q 240 60 310 20" fill="none" stroke="rgba(0,245,212,0.5)" stroke-width="2"/>
+        <!-- Rungs -->
+        <line x1="65" y1="48" x2="65" y2="132" stroke="rgba(168,85,247,0.3)" stroke-width="1.5"/>
+        <line x1="120" y1="70" x2="120" y2="110" stroke="rgba(0,245,212,0.3)" stroke-width="1.5"/>
+        <line x1="170" y1="82" x2="170" y2="98" stroke="rgba(236,72,153,0.3)" stroke-width="1.5"/>
+        <line x1="220" y1="70" x2="220" y2="110" stroke="rgba(245,158,11,0.3)" stroke-width="1.5"/>
+        <line x1="275" y1="50" x2="275" y2="130" stroke="rgba(96,165,250,0.3)" stroke-width="1.5"/>
+        <!-- Nodes -->
+        <circle cx="65" cy="48" r="8" fill="#A855F7" opacity="0.9"/>
+        <circle cx="65" cy="132" r="8" fill="#00F5D4" opacity="0.9"/>
+        <circle cx="120" cy="70" r="10" fill="#EC4899" opacity="0.9"/>
+        <circle cx="120" cy="110" r="6" fill="#A855F7" opacity="0.7"/>
+        <circle cx="170" cy="82" r="12" fill="#00F5D4" opacity="0.95"/>
+        <circle cx="170" cy="98" r="10" fill="#F59E0B" opacity="0.9"/>
+        <circle cx="220" cy="70" r="9" fill="#60A5FA" opacity="0.9"/>
+        <circle cx="220" cy="110" r="7" fill="#EC4899" opacity="0.8"/>
+        <circle cx="275" cy="50" r="11" fill="#A855F7" opacity="0.9"/>
+        <circle cx="275" cy="130" r="8" fill="#F59E0B" opacity="0.85"/>
+        <!-- Glow -->
+        <circle cx="170" cy="82" r="20" fill="none" stroke="rgba(0,245,212,0.2)" stroke-width="1"/>
+      </svg>
+    </div>
+    <div class="card-body">
+      <div class="card-arrow">↗</div>
+      <div class="card-badge" style="color:#A855F7;border-color:rgba(168,85,247,0.3);background:rgba(168,85,247,0.1);">
+        ◉ Opzione E
+      </div>
+      <div class="card-title">DNA Helix</div>
+      <div class="card-desc">Skills encoded as nodes along a rotating double helix. Node size reflects proficiency level. Hover to slow rotation and inspect; click for details.</div>
+      <div class="card-tags">
+        <span class="tag">Canvas API</span>
+        <span class="tag">3D Perspective</span>
+        <span class="tag">Real-time Rotation</span>
+        <span class="tag">Depth Sorting</span>
+      </div>
+    </div>
+  </a>
+
+  <!-- F: Liquid Blobs -->
+  <a href="skills-f.html" class="demo-card" style="--card-color:rgba(236,72,153,0.5);--card-glow:rgba(236,72,153,0.1);">
+    <div class="card-preview preview-f">
+      <div class="preview-label">F</div>
+      <!-- Blob shapes preview -->
+      <svg width="100%" height="100%" viewBox="0 0 340 180" style="position:absolute;top:0;left:0;" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="bg1" cx="40%" cy="40%" r="60%">
+            <stop offset="0%" stop-color="#A855F7" stop-opacity="0.9"/>
+            <stop offset="100%" stop-color="#A855F7" stop-opacity="0.1"/>
+          </radialGradient>
+          <radialGradient id="bg2" cx="40%" cy="40%" r="60%">
+            <stop offset="0%" stop-color="#EC4899" stop-opacity="0.9"/>
+            <stop offset="100%" stop-color="#EC4899" stop-opacity="0.1"/>
+          </radialGradient>
+          <radialGradient id="bg3" cx="40%" cy="40%" r="60%">
+            <stop offset="0%" stop-color="#00F5D4" stop-opacity="0.9"/>
+            <stop offset="100%" stop-color="#00F5D4" stop-opacity="0.1"/>
+          </radialGradient>
+          <radialGradient id="bg4" cx="40%" cy="40%" r="60%">
+            <stop offset="0%" stop-color="#60A5FA" stop-opacity="0.9"/>
+            <stop offset="100%" stop-color="#60A5FA" stop-opacity="0.1"/>
+          </radialGradient>
+          <radialGradient id="bg5" cx="40%" cy="40%" r="60%">
+            <stop offset="0%" stop-color="#F59E0B" stop-opacity="0.9"/>
+            <stop offset="100%" stop-color="#F59E0B" stop-opacity="0.1"/>
+          </radialGradient>
+          <filter id="blur1"><feGaussianBlur stdDeviation="6"/></filter>
+        </defs>
+        <g filter="url(#blur1)">
+          <ellipse cx="100" cy="90" rx="55" ry="50" fill="url(#bg1)"/>
+          <ellipse cx="175" cy="75" rx="45" ry="42" fill="url(#bg2)"/>
+          <ellipse cx="145" cy="115" rx="35" ry="32" fill="url(#bg3)"/>
+          <ellipse cx="245" cy="65" rx="50" ry="45" fill="url(#bg4)"/>
+          <ellipse cx="260" cy="120" rx="40" ry="36" fill="url(#bg5)"/>
+        </g>
+        <circle cx="100" cy="90" r="50" fill="url(#bg1)" opacity="0.5"/>
+        <circle cx="175" cy="75" r="40" fill="url(#bg2)" opacity="0.5"/>
+        <circle cx="245" cy="65" r="45" fill="url(#bg4)" opacity="0.5"/>
+      </svg>
+    </div>
+    <div class="card-body">
+      <div class="card-arrow">↗</div>
+      <div class="card-badge" style="color:#EC4899;border-color:rgba(236,72,153,0.3);background:rgba(236,72,153,0.1);">
+        ◉ Opzione F
+      </div>
+      <div class="card-title">Liquid Skill Blobs</div>
+      <div class="card-desc">Skills as bouncing liquid blobs with physics simulation. Blobs attract, repel, and visually merge. Scatter or cluster them with the controls.</div>
+      <div class="card-tags">
+        <span class="tag">Canvas Physics</span>
+        <span class="tag">Liquid Merge</span>
+        <span class="tag">Scatter / Cluster</span>
+        <span class="tag">Interactive</span>
+      </div>
+    </div>
+  </a>
+
+</div>
+
+<div class="footer">
+  edward070707.github.io &nbsp;·&nbsp; skills-demo &nbsp;·&nbsp; 6 visualizations
+</div>
+
+</body>
+</html>

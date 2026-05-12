@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Skills Demo — Opzione B</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #08080F;
+    --purple: #A855F7;
+    --cyan: #00F5D4;
+    --pink: #EC4899;
+    --amber: #F59E0B;
+    --blue: #60A5FA;
+  }
+
+  body {
+    background: var(--bg);
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    overflow: hidden;
+  }
+
+  .top-bar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 24px;
+    background: rgba(8,8,15,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .back-link { color: rgba(255,255,255,0.5); text-decoration: none; font-size: 13px; font-family: 'Space Mono', monospace; transition: color 0.2s; }
+  .back-link:hover { color: var(--cyan); }
+  .page-title { font-size: 14px; font-family: 'Space Mono', monospace; color: rgba(255,255,255,0.7); letter-spacing: 0.05em; }
+  .page-title span { color: var(--cyan); font-weight: 700; }
+  .nav-demos { display: flex; gap: 6px; }
+  .nav-demos a {
+    display: flex; align-items: center; justify-content: center;
+    width: 32px; height: 32px; border-radius: 8px;
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.5); text-decoration: none;
+    font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 700;
+    transition: all 0.2s;
+  }
+  .nav-demos a:hover { background: rgba(0,245,212,0.2); border-color: var(--cyan); color: var(--cyan); }
+  .nav-demos a.active { background: rgba(0,245,212,0.3); border-color: var(--cyan); color: #fff; }
+
+  #starsCanvas {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0;
+  }
+
+  .system-container {
+    position: fixed;
+    top: 60px; left: 0; right: 0; bottom: 0;
+    display: flex; align-items: center; justify-content: center;
+    z-index: 10;
+  }
+
+  /* SVG orbits */
+  #solarSvg {
+    position: absolute;
+    width: 100%; height: 100%;
+    overflow: visible;
+    pointer-events: none;
+  }
+
+  /* SUN */
+  .sun {
+    position: absolute;
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle at 40% 40%, #FFF176, #FFD700, #F59E0B, #EA580C);
+    box-shadow: 0 0 40px 20px #F59E0B88, 0 0 80px 40px #F59E0B44, 0 0 120px 60px #F59E0B22;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Space Mono', monospace; font-weight: 700; font-size: 11px;
+    cursor: default; z-index: 20;
+    animation: sunPulse 3s ease-in-out infinite;
+  }
+  @keyframes sunPulse {
+    0%,100% { box-shadow: 0 0 40px 20px #F59E0B88, 0 0 80px 40px #F59E0B44; }
+    50% { box-shadow: 0 0 60px 30px #F59E0BAA, 0 0 120px 60px #F59E0B66; }
+  }
+
+  /* PLANET WRAPPER — rotates around the sun */
+  .orbit-wrapper {
+    position: absolute;
+    width: 0; height: 0;
+    transform-origin: 0 0;
+    transform: translate(-50%, -50%);
+  }
+
+  /* The actual orbit track line */
+  .orbit-track {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px dashed rgba(255,255,255,0.12);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+
+  .planet {
+    position: absolute;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column;
+    font-family: 'Inter', sans-serif; font-weight: 600; font-size: 9px;
+    text-align: center; line-height: 1.2;
+    transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.4s;
+    z-index: 30;
+  }
+  .planet:hover { transform: translate(-50%, -50%) scale(1.2) !important; }
+  .planet-label {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 50%; transform: translateX(-50%);
+    white-space: nowrap;
+    font-size: 10px; font-family: 'Space Mono', monospace;
+    color: rgba(255,255,255,0.7);
+    pointer-events: none;
+  }
+
+  /* SATELLITE system */
+  .satellite-system {
+    position: absolute;
+    width: 0; height: 0;
+    transform-origin: 0 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s;
+  }
+  .satellite-system.visible { opacity: 1; pointer-events: auto; }
+
+  .satellite {
+    position: absolute;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 8px; font-weight: 600;
+    transition: transform 0.3s;
+    z-index: 40;
+  }
+
+  /* DETAIL PANEL */
+  .detail-panel {
+    position: fixed;
+    right: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 220px;
+    background: rgba(8,8,15,0.92);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    padding: 20px;
+    z-index: 200;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s, transform 0.3s;
+    transform: translateY(-50%) translateX(20px);
+    backdrop-filter: blur(20px);
+  }
+  .detail-panel.visible {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(-50%) translateX(0);
+  }
+  .detail-panel h3 {
+    font-family: 'Space Mono', monospace;
+    font-size: 14px;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  .skill-row {
+    margin-bottom: 10px;
+  }
+  .skill-row-header {
+    display: flex; justify-content: space-between;
+    font-size: 11px; margin-bottom: 4px;
+    color: rgba(255,255,255,0.8);
+  }
+  .skill-bar {
+    height: 3px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden;
+  }
+  .skill-bar-fill {
+    height: 100%; border-radius: 2px;
+    transition: width 0.8s cubic-bezier(0.4,0,0.2,1);
+    width: 0;
+  }
+
+  /* TOOLTIP */
+  .tooltip {
+    position: fixed;
+    background: rgba(8,8,15,0.95);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 10px;
+    padding: 10px 14px;
+    pointer-events: none;
+    z-index: 300;
+    opacity: 0;
+    transition: opacity 0.15s;
+    font-size: 12px;
+    backdrop-filter: blur(16px);
+  }
+  .tooltip.visible { opacity: 1; }
+
+  .hint-text {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 11px;
+    font-family: 'Space Mono', monospace;
+    color: rgba(255,255,255,0.3);
+    z-index: 100;
+  }
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <a href="../index.html" class="back-link">← Back</a>
+  <div class="page-title">Skills Demo — <span>Opzione B</span></div>
+  <nav class="nav-demos">
+    <a href="skills-a.html">A</a>
+    <a href="skills-b.html" class="active">B</a>
+    <a href="skills-c.html">C</a>
+    <a href="skills-d.html">D</a>
+    <a href="skills-e.html">E</a>
+    <a href="skills-f.html">F</a>
+  </nav>
+</div>
+
+<canvas id="starsCanvas"></canvas>
+
+<div class="system-container" id="systemContainer">
+  <div style="position:relative;width:0;height:0;">
+    <!-- Sun -->
+    <div class="sun" id="sun">DEV</div>
+    <!-- SVG for orbit tracks -->
+    <svg id="solarSvg" viewBox="-400 -400 800 800" style="position:absolute;left:-400px;top:-400px;width:800px;height:800px;pointer-events:none;">
+    </svg>
+  </div>
+</div>
+
+<div class="detail-panel" id="detailPanel">
+  <h3 id="dp-title"></h3>
+  <div id="dp-skills"></div>
+</div>
+
+<div class="tooltip" id="tooltip"></div>
+
+<div class="hint-text">Click a planet to explore its skills</div>
+
+<script>
+// ---- DATA ----
+const CATEGORIES = [
+  { name:'Mobile',  color:'#A855F7', orbitR:110, period:18000, skills:[{name:'Flutter',pct:85},{name:'Dart',pct:85},{name:'Swift',pct:60},{name:'Firebase',pct:78}] },
+  { name:'Web',     color:'#00F5D4', orbitR:160, period:22000, skills:[{name:'HTML',pct:90},{name:'CSS',pct:90},{name:'JS',pct:88},{name:'Vue.js',pct:55}] },
+  { name:'Backend', color:'#F59E0B', orbitR:210, period:16000, skills:[{name:'Firebase',pct:75},{name:'SQL',pct:70},{name:'REST APIs',pct:72},{name:'Node.js',pct:50}] },
+  { name:'Design',  color:'#EC4899', orbitR:260, period:24000, skills:[{name:'UI/UX',pct:80},{name:'Figma',pct:78},{name:'Motion',pct:68},{name:'Branding',pct:72}] },
+  { name:'Tools',   color:'#60A5FA', orbitR:310, period:20000, skills:[{name:'VS Code',pct:92},{name:'Git',pct:70},{name:'Xcode',pct:58},{name:'Android S.',pct:65}] },
+];
+
+// ---- STARS ----
+const starsCanvas = document.getElementById('starsCanvas');
+const sCtx = starsCanvas.getContext('2d');
+let stars = [];
+function resizeStars() {
+  starsCanvas.width = window.innerWidth;
+  starsCanvas.height = window.innerHeight;
+}
+resizeStars();
+window.addEventListener('resize', resizeStars);
+for (let i = 0; i < 500; i++) {
+  stars.push({
+    x: Math.random(), y: Math.random(),
+    r: Math.random() * 1.8 + 0.2,
+    alpha: Math.random() * 0.8 + 0.2,
+    twinkleSpeed: 0.5 + Math.random() * 2,
+    twinklePhase: Math.random() * Math.PI * 2
+  });
+}
+
+let starTime = 0;
+function animateStars() {
+  sCtx.clearRect(0, 0, starsCanvas.width, starsCanvas.height);
+  starTime += 0.01;
+  stars.forEach(s => {
+    const alpha = s.alpha * (0.5 + 0.5 * Math.sin(starTime * s.twinkleSpeed + s.twinklePhase));
+    sCtx.beginPath();
+    sCtx.arc(s.x * starsCanvas.width, s.y * starsCanvas.height, s.r, 0, Math.PI * 2);
+    sCtx.fillStyle = `rgba(255,255,255,${alpha})`;
+    sCtx.fill();
+  });
+  requestAnimationFrame(animateStars);
+}
+animateStars();
+
+// ---- BUILD SOLAR SYSTEM ----
+const container = document.getElementById('systemContainer');
+const svg = document.getElementById('solarSvg');
+const systemRoot = container.querySelector('div');
+
+// Draw orbit tracks in SVG
+CATEGORIES.forEach(cat => {
+  const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+  circle.setAttribute('cx', 0);
+  circle.setAttribute('cy', 0);
+  circle.setAttribute('r', cat.orbitR);
+  circle.setAttribute('fill', 'none');
+  circle.setAttribute('stroke', cat.color);
+  circle.setAttribute('stroke-width', '0.5');
+  circle.setAttribute('stroke-dasharray', '4 6');
+  circle.setAttribute('opacity', '0.3');
+  svg.appendChild(circle);
+});
+
+// Build planet elements
+const planetData = [];
+let selectedCat = null;
+
+CATEGORIES.forEach((cat, ci) => {
+  // Orbit wrapper
+  const wrapper = document.createElement('div');
+  wrapper.className = 'orbit-wrapper';
+  wrapper.style.cssText = `left:0;top:0;`;
+  systemRoot.appendChild(wrapper);
+
+  // Planet
+  const pSize = 36 + ci * 4;
+  const planet = document.createElement('div');
+  planet.className = 'planet';
+  planet.style.cssText = `
+    width:${pSize}px; height:${pSize}px;
+    background: radial-gradient(circle at 40% 35%, ${cat.color}EE, ${cat.color}66);
+    box-shadow: 0 0 ${pSize*0.5}px ${cat.color}88;
+    border: 1px solid ${cat.color};
+    left: ${cat.orbitR}px; top: 0;
+    transform: translate(-50%, -50%);
+    font-size: ${pSize > 44 ? 10 : 9}px;
+  `;
+  planet.innerHTML = `<span style="pointer-events:none;color:#fff;font-weight:700;font-size:8px;">${cat.name.split('').slice(0,3).join('')}</span>
+    <div class="planet-label">${cat.name}</div>`;
+  wrapper.appendChild(planet);
+
+  // Animate orbit
+  let angle = ci * (360 / CATEGORIES.length);
+  const startAngle = angle;
+  let orbitActive = true;
+
+  const planetInfo = { cat, wrapper, planet, angle, satellites: [], satWrappers: [], expanded: false };
+  planetData.push(planetInfo);
+
+  function animatePlanet() {
+    if (orbitActive && selectedCat === null) {
+      angle = (Date.now() / cat.period * 360) % 360 + startAngle;
+    }
+    const rad = angle * Math.PI / 180;
+    wrapper.style.transform = `translate(-50%,-50%) rotate(${angle}deg)`;
+    planet.style.transform = `translate(-50%,-50%) rotate(${-angle}deg)`;
+    requestAnimationFrame(animatePlanet);
+  }
+  animatePlanet();
+
+  // Satellite system (hidden initially)
+  const satSystem = document.createElement('div');
+  satSystem.className = 'satellite-system';
+  planet.appendChild(satSystem);
+
+  // Create satellites
+  cat.skills.forEach((skill, si) => {
+    const satR = 40 + si * 10;
+    const satW = document.createElement('div');
+    satW.style.cssText = `position:absolute;width:0;height:0;transform-origin:0 0;left:50%;top:50%;`;
+    satSystem.appendChild(satW);
+
+    const sat = document.createElement('div');
+    const satSize = Math.round(skill.pct * 0.35 + 12);
+    sat.className = 'satellite';
+    sat.style.cssText = `
+      width:${satSize}px; height:${satSize}px;
+      background: radial-gradient(circle at 40% 35%, ${cat.color}CC, ${cat.color}44);
+      box-shadow: 0 0 ${satSize}px ${cat.color}66;
+      border: 1px solid ${cat.color}88;
+      left:${satR}px; top:0;
+      transform: translate(-50%,-50%);
+      font-size:7px; color:#fff;
+    `;
+    sat.textContent = skill.name.slice(0, 4);
+    satW.appendChild(sat);
+
+    const satPeriod = 3000 + si * 500;
+    const satStart = si * 90;
+
+    function animateSat() {
+      const a = (Date.now() / satPeriod * 360 + satStart) % 360;
+      satW.style.transform = `rotate(${a}deg)`;
+      sat.style.transform = `translate(-50%,-50%) rotate(${-a}deg)`;
+      requestAnimationFrame(animateSat);
+    }
+    animateSat();
+
+    // Sat orbit track
+    const satTrack = document.createElement('div');
+    satTrack.style.cssText = `
+      position:absolute;
+      width:${satR*2}px; height:${satR*2}px;
+      border-radius:50%;
+      border:1px dashed ${cat.color}33;
+      left:-${satR}px; top:-${satR}px;
+      pointer-events:none;
+    `;
+    satSystem.appendChild(satTrack);
+
+    // Satellite tooltip
+    sat.addEventListener('mouseenter', (e) => {
+      const tt = document.getElementById('tooltip');
+      tt.innerHTML = `<span style="color:${cat.color};font-family:'Space Mono',monospace;font-weight:700;">${skill.name}</span><br>
+        <span style="color:rgba(255,255,255,0.6);font-size:10px;">${cat.name}</span><br>
+        <span style="color:${cat.color};font-size:13px;font-weight:700;">${skill.pct}%</span>`;
+      tt.classList.add('visible');
+    });
+    sat.addEventListener('mousemove', (e) => {
+      const tt = document.getElementById('tooltip');
+      tt.style.left = (e.clientX + 12) + 'px';
+      tt.style.top = (e.clientY - 10) + 'px';
+    });
+    sat.addEventListener('mouseleave', () => {
+      document.getElementById('tooltip').classList.remove('visible');
+    });
+
+    planetInfo.satWrappers.push(satW);
+    planetInfo.satellites.push(sat);
+  });
+
+  // Planet click
+  planet.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (selectedCat === ci) {
+      // Deselect
+      selectedCat = null;
+      satSystem.classList.remove('visible');
+      planetInfo.expanded = false;
+      document.getElementById('detailPanel').classList.remove('visible');
+      return;
+    }
+    // Deselect previous
+    if (selectedCat !== null) {
+      const prev = planetData[selectedCat];
+      prev.cat.skills; // just reference
+      systemRoot.querySelectorAll('.satellite-system').forEach(s => s.classList.remove('visible'));
+      planetData.forEach(pd => pd.expanded = false);
+    }
+    selectedCat = ci;
+    planetInfo.expanded = true;
+    satSystem.classList.add('visible');
+
+    // Show detail panel
+    const dp = document.getElementById('detailPanel');
+    document.getElementById('dp-title').textContent = cat.name;
+    document.getElementById('dp-title').style.color = cat.color;
+    const skillsHtml = cat.skills.map(s => `
+      <div class="skill-row">
+        <div class="skill-row-header">
+          <span>${s.name}</span>
+          <span style="color:${cat.color}">${s.pct}%</span>
+        </div>
+        <div class="skill-bar">
+          <div class="skill-bar-fill" style="width:${s.pct}%;background:${cat.color};"></div>
+        </div>
+      </div>
+    `).join('');
+    document.getElementById('dp-skills').innerHTML = skillsHtml;
+    dp.classList.add('visible');
+  });
+});
+
+// Click outside to reset
+document.getElementById('systemContainer').addEventListener('click', (e) => {
+  if (!e.target.closest('.planet') && !e.target.closest('.satellite')) {
+    selectedCat = null;
+    document.querySelectorAll('.satellite-system').forEach(s => s.classList.remove('visible'));
+    document.getElementById('detailPanel').classList.remove('visible');
+    planetData.forEach(pd => pd.expanded = false);
+  }
+});
+</script>
+</body>
+</html>

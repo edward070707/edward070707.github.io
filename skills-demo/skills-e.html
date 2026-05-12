@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Skills Demo — Opzione E</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #08080F;
+    --purple: #A855F7;
+    --cyan: #00F5D4;
+    --pink: #EC4899;
+    --amber: #F59E0B;
+    --blue: #60A5FA;
+  }
+
+  body {
+    background: var(--bg);
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    overflow: hidden;
+  }
+
+  .top-bar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 24px;
+    background: rgba(8,8,15,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .back-link { color: rgba(255,255,255,0.5); text-decoration: none; font-size: 13px; font-family: 'Space Mono', monospace; transition: color 0.2s; }
+  .back-link:hover { color: var(--purple); }
+  .page-title { font-size: 14px; font-family: 'Space Mono', monospace; color: rgba(255,255,255,0.7); }
+  .page-title span { color: var(--purple); font-weight: 700; }
+  .nav-demos { display: flex; gap: 6px; }
+  .nav-demos a {
+    display: flex; align-items: center; justify-content: center;
+    width: 32px; height: 32px; border-radius: 8px;
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.5); text-decoration: none;
+    font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 700;
+    transition: all 0.2s;
+  }
+  .nav-demos a:hover { background: rgba(168,85,247,0.2); border-color: var(--purple); color: var(--purple); }
+  .nav-demos a.active { background: rgba(168,85,247,0.3); border-color: var(--purple); color: #fff; }
+
+  .canvas-wrapper {
+    position: fixed;
+    top: 60px; left: 0; right: 0; bottom: 0;
+  }
+  #helixCanvas { width: 100%; height: 100%; display: block; }
+
+  /* Header overlay */
+  .helix-header {
+    position: fixed;
+    top: 70px; left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    z-index: 50;
+    pointer-events: none;
+  }
+  .helix-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    background: linear-gradient(135deg, var(--purple), var(--cyan));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .helix-subtitle {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: rgba(255,255,255,0.4);
+    letter-spacing: 0.2em;
+    margin-top: 4px;
+  }
+  .rotation-indicator {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: rgba(168,85,247,0.7);
+    margin-top: 6px;
+    letter-spacing: 0.1em;
+  }
+
+  /* DETAIL PANEL */
+  .detail-panel {
+    position: fixed;
+    left: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 210px;
+    background: rgba(8,8,15,0.92);
+    border: 1px solid rgba(168,85,247,0.3);
+    border-radius: 16px;
+    padding: 18px;
+    z-index: 200;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s, transform 0.3s;
+    transform: translateY(-50%) translateX(-20px);
+    backdrop-filter: blur(20px);
+  }
+  .detail-panel.visible {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(-50%) translateX(0);
+  }
+  .dp-title { font-family: 'Space Mono', monospace; font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+  .dp-cat { font-size: 10px; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
+  .dp-bar-wrap { height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden; margin-bottom: 6px; }
+  .dp-bar-fill { height: 100%; border-radius: 2px; transition: width 0.8s; }
+  .dp-pct { font-family: 'Space Mono', monospace; font-size: 24px; font-weight: 700; }
+  .dp-badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 10px; font-weight: 600; margin-top: 8px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .dp-projects { margin-top: 12px; font-size: 10px; color: rgba(255,255,255,0.5); }
+  .dp-projects span { color: rgba(255,255,255,0.8); }
+  .dp-close { position: absolute; top: 12px; right: 12px; cursor: pointer; font-size: 12px; color: rgba(255,255,255,0.4); background: none; border: none; }
+  .dp-close:hover { color: #fff; }
+
+  /* TOOLTIP */
+  .tooltip {
+    position: fixed;
+    background: rgba(8,8,15,0.95);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 10px;
+    padding: 10px 14px;
+    pointer-events: none;
+    z-index: 300;
+    opacity: 0;
+    transition: opacity 0.15s;
+    font-size: 12px;
+    backdrop-filter: blur(16px);
+  }
+  .tooltip.visible { opacity: 1; }
+
+  .hint-text {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 11px;
+    font-family: 'Space Mono', monospace;
+    color: rgba(255,255,255,0.25);
+    z-index: 100;
+  }
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <a href="../index.html" class="back-link">← Back</a>
+  <div class="page-title">Skills Demo — <span>Opzione E</span></div>
+  <nav class="nav-demos">
+    <a href="skills-a.html">A</a>
+    <a href="skills-b.html">B</a>
+    <a href="skills-c.html">C</a>
+    <a href="skills-d.html">D</a>
+    <a href="skills-e.html" class="active">E</a>
+    <a href="skills-f.html">F</a>
+  </nav>
+</div>
+
+<div class="helix-header">
+  <div class="helix-title">SKILL_DNA</div>
+  <div class="helix-subtitle">DOUBLE HELIX VISUALIZATION</div>
+  <div class="rotation-indicator" id="rotInd">ROT: 0.0°</div>
+</div>
+
+<div class="canvas-wrapper">
+  <canvas id="helixCanvas"></canvas>
+</div>
+
+<div class="detail-panel" id="detailPanel">
+  <button class="dp-close" id="dpClose">✕</button>
+  <div class="dp-title" id="dp-name"></div>
+  <div class="dp-cat" id="dp-cat"></div>
+  <div class="dp-bar-wrap"><div class="dp-bar-fill" id="dp-bar"></div></div>
+  <div class="dp-pct" id="dp-pct"></div>
+  <div class="dp-badge" id="dp-badge"></div>
+  <div class="dp-projects">Usato in: <span id="dp-projects"></span></div>
+</div>
+
+<div class="tooltip" id="tooltip"></div>
+<div class="hint-text">hover to pause · click node for details</div>
+
+<script>
+const SKILLS = [
+  { name:'Flutter',   cat:'Mobile',  pct:85, color:'#A855F7', projects:'Portfolio App, E-commerce' },
+  { name:'Dart',      cat:'Mobile',  pct:85, color:'#A855F7', projects:'Flutter projects' },
+  { name:'Swift',     cat:'Mobile',  pct:60, color:'#A855F7', projects:'iOS Demos' },
+  { name:'Firebase',  cat:'Mobile',  pct:78, color:'#A855F7', projects:'Auth, Firestore' },
+  { name:'HTML',      cat:'Web',     pct:90, color:'#00F5D4', projects:'All web projects' },
+  { name:'CSS',       cat:'Web',     pct:90, color:'#00F5D4', projects:'UI design, animations' },
+  { name:'JS',        cat:'Web',     pct:88, color:'#00F5D4', projects:'Interactive sites' },
+  { name:'Vue.js',    cat:'Web',     pct:55, color:'#00F5D4', projects:'SPA experiments' },
+  { name:'Firebase',  cat:'Backend', pct:75, color:'#F59E0B', projects:'Real-time apps' },
+  { name:'SQL',       cat:'Backend', pct:70, color:'#F59E0B', projects:'Data projects' },
+  { name:'REST APIs', cat:'Backend', pct:72, color:'#F59E0B', projects:'Mobile backends' },
+  { name:'Node.js',   cat:'Backend', pct:50, color:'#F59E0B', projects:'API servers' },
+  { name:'UI/UX',     cat:'Design',  pct:80, color:'#EC4899', projects:'App design, wireframes' },
+  { name:'Figma',     cat:'Design',  pct:78, color:'#EC4899', projects:'Prototypes, design sys.' },
+  { name:'Motion',    cat:'Design',  pct:68, color:'#EC4899', projects:'Micro-interactions' },
+  { name:'Branding',  cat:'Design',  pct:72, color:'#EC4899', projects:'Logo, identity' },
+  { name:'VS Code',   cat:'Tools',   pct:92, color:'#60A5FA', projects:'Daily driver' },
+  { name:'Git',       cat:'Tools',   pct:70, color:'#60A5FA', projects:'All projects' },
+  { name:'Xcode',     cat:'Tools',   pct:58, color:'#60A5FA', projects:'iOS development' },
+  { name:'Android S.',cat:'Tools',   pct:65, color:'#60A5FA', projects:'Flutter dev' },
+];
+
+function getBadge(pct) {
+  if (pct >= 85) return { label:'Expert', bg:'rgba(168,85,247,0.3)', color:'#A855F7' };
+  if (pct >= 70) return { label:'Advanced', bg:'rgba(0,245,212,0.3)', color:'#00F5D4' };
+  if (pct >= 55) return { label:'Proficient', bg:'rgba(245,158,11,0.3)', color:'#F59E0B' };
+  return { label:'Learning', bg:'rgba(96,165,250,0.3)', color:'#60A5FA' };
+}
+
+const canvas = document.getElementById('helixCanvas');
+const ctx = canvas.getContext('2d');
+let W, H, cx, cy;
+
+function resize() {
+  const wrapper = canvas.parentElement;
+  W = canvas.width = wrapper.clientWidth;
+  H = canvas.height = wrapper.clientHeight;
+  cx = W / 2; cy = H / 2;
+}
+resize();
+window.addEventListener('resize', resize);
+
+// Helix params
+let angle = 0;
+let rotSpeed = 0.008;
+let mouseX = -1, mouseY = -1;
+let hoveredSkill = null;
+const N = SKILLS.length;
+const helixH = Math.min(H * 0.75, 480);
+const helixR = 80;
+const pitch = helixH / N;
+const helixTop = cy - helixH / 2;
+
+// Particles
+const particles = Array.from({length:60}, () => ({
+  x: Math.random(), y: Math.random(),
+  vx: (Math.random()-0.5)*0.0003,
+  vy: (Math.random()-0.5)*0.0003,
+  r: Math.random()*1.2+0.3,
+  alpha: Math.random()*0.3+0.05
+}));
+
+let selectedSkill = null;
+
+function getNodePos(i, a) {
+  const strand = i % 2; // 0 = front, 1 = back
+  const t = i / N;
+  const y = helixTop + t * helixH;
+  const phi = a + t * Math.PI * 3 + (strand === 1 ? Math.PI : 0);
+  const x = cx + Math.cos(phi) * helixR;
+  const z = Math.sin(phi);
+  return { x, y, z, strand, phi };
+}
+
+function drawFrame() {
+  ctx.clearRect(0, 0, W, H);
+
+  // Background gradient
+  const radGrad = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.max(W,H)*0.6);
+  radGrad.addColorStop(0, 'rgba(60,0,80,0.18)');
+  radGrad.addColorStop(1, 'rgba(8,8,15,0)');
+  ctx.fillStyle = radGrad;
+  ctx.fillRect(0, 0, W, H);
+
+  // Particles
+  particles.forEach(p => {
+    p.x += p.vx; p.y += p.vy;
+    if (p.x < 0) p.x = 1; if (p.x > 1) p.x = 0;
+    if (p.y < 0) p.y = 1; if (p.y > 1) p.y = 0;
+    ctx.beginPath();
+    ctx.arc(p.x*W, p.y*H, p.r, 0, Math.PI*2);
+    ctx.fillStyle = `rgba(168,85,247,${p.alpha})`;
+    ctx.fill();
+  });
+
+  // Compute node positions
+  const positions = SKILLS.map((s, i) => getNodePos(i, angle));
+
+  // Sort by Z for painter's algorithm
+  const order = positions.map((p,i) => i).sort((a,b) => positions[a].z - positions[b].z);
+
+  // Draw rungs (connectors between strands)
+  for (let i = 0; i < N - 1; i += 2) {
+    const pA = positions[i];
+    const pB = positions[i+1];
+    const midZ = (pA.z + pB.z) / 2;
+    const alpha = (midZ + 1) / 2 * 0.4 + 0.1;
+    const grad = ctx.createLinearGradient(pA.x, pA.y, pB.x, pB.y);
+    grad.addColorStop(0, SKILLS[i].color + Math.round(alpha*255).toString(16).padStart(2,'0'));
+    grad.addColorStop(1, SKILLS[i+1].color + Math.round(alpha*255).toString(16).padStart(2,'0'));
+    ctx.beginPath();
+    ctx.moveTo(pA.x, pA.y);
+    ctx.lineTo(pB.x, pB.y);
+    ctx.strokeStyle = grad;
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+  }
+
+  // Draw backbone strands
+  for (let strand = 0; strand < 2; strand++) {
+    const strandNodes = SKILLS.map((s,i) => ({pos: positions[i], skill:s, i})).filter(n => n.i % 2 === strand);
+    if (strandNodes.length < 2) continue;
+    for (let k = 0; k < strandNodes.length - 1; k++) {
+      const a = strandNodes[k], b = strandNodes[k+1];
+      const alpha = ((a.pos.z + b.pos.z) / 2 + 1) / 2 * 0.5 + 0.2;
+      ctx.beginPath();
+      ctx.moveTo(a.pos.x, a.pos.y);
+      ctx.lineTo(b.pos.x, b.pos.y);
+      ctx.strokeStyle = `rgba(168,85,247,${alpha})`;
+      ctx.lineWidth = 2;
+      ctx.stroke();
+    }
+  }
+
+  // Find hovered node
+  let minDist = 40, newHovered = null;
+  if (mouseX > 0) {
+    SKILLS.forEach((s, i) => {
+      const p = positions[i];
+      const d = Math.hypot(mouseX - p.x, mouseY - p.y);
+      if (d < minDist) { minDist = d; newHovered = i; }
+    });
+  }
+
+  // Update rotation speed based on hover
+  if (newHovered !== null) {
+    rotSpeed += (0.001 - rotSpeed) * 0.1;
+  } else {
+    rotSpeed += (0.008 - rotSpeed) * 0.05;
+  }
+
+  // Draw nodes
+  order.forEach(i => {
+    const skill = SKILLS[i];
+    const pos = positions[i];
+    const z = pos.z; // -1 to 1
+    const normZ = (z + 1) / 2; // 0 to 1
+
+    const baseR = skill.pct * 0.28 + 8;
+    const r = baseR * (0.5 + normZ * 0.7);
+    const alpha = 0.35 + normZ * 0.65;
+
+    const isHov = i === newHovered;
+    const displayR = isHov ? r * 1.4 : r;
+
+    // Glow
+    if (isHov || normZ > 0.7) {
+      const glowR = displayR * 2.5;
+      const glow = ctx.createRadialGradient(pos.x, pos.y, 0, pos.x, pos.y, glowR);
+      glow.addColorStop(0, skill.color + '44');
+      glow.addColorStop(1, skill.color + '00');
+      ctx.beginPath();
+      ctx.arc(pos.x, pos.y, glowR, 0, Math.PI*2);
+      ctx.fillStyle = glow;
+      ctx.fill();
+    }
+
+    // Node circle
+    const grad = ctx.createRadialGradient(pos.x - displayR*0.3, pos.y - displayR*0.3, 0, pos.x, pos.y, displayR);
+    grad.addColorStop(0, skill.color + 'FF');
+    grad.addColorStop(0.6, skill.color + Math.round(alpha*0.7*255).toString(16).padStart(2,'0'));
+    grad.addColorStop(1, skill.color + '22');
+    ctx.beginPath();
+    ctx.arc(pos.x, pos.y, displayR, 0, Math.PI*2);
+    ctx.fillStyle = grad;
+    ctx.fill();
+    ctx.strokeStyle = skill.color + Math.round(alpha*255).toString(16).padStart(2,'0');
+    ctx.lineWidth = isHov ? 2 : 1;
+    ctx.stroke();
+
+    // Label (only for front nodes)
+    if (normZ > 0.5 || isHov) {
+      ctx.save();
+      ctx.globalAlpha = Math.min(1, (normZ - 0.4) / 0.3);
+      ctx.fillStyle = '#fff';
+      ctx.font = `${isHov ? 700 : 500} ${Math.round(8 + normZ*4)}px Inter, sans-serif`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(skill.name, pos.x, pos.y);
+      ctx.restore();
+    }
+  });
+
+  hoveredSkill = newHovered !== null ? SKILLS[newHovered] : null;
+  const tt = document.getElementById('tooltip');
+  if (hoveredSkill && mouseX > 0) {
+    const b = getBadge(hoveredSkill.pct);
+    tt.innerHTML = `
+      <div style="font-family:'Space Mono',monospace;font-weight:700;color:${hoveredSkill.color};font-size:13px;">${hoveredSkill.name}</div>
+      <div style="font-size:10px;color:rgba(255,255,255,0.5);margin:3px 0;">${hoveredSkill.cat}</div>
+      <div style="font-size:16px;font-family:'Space Mono',monospace;font-weight:700;color:${hoveredSkill.color};">${hoveredSkill.pct}%</div>
+      <div style="display:inline-block;padding:2px 8px;border-radius:20px;background:${b.bg};color:${b.color};font-size:9px;margin-top:4px;font-weight:600;text-transform:uppercase;">${b.label}</div>
+    `;
+    tt.style.left = (mouseX + 14) + 'px';
+    tt.style.top = (mouseY - 10 + 60) + 'px';
+    tt.classList.add('visible');
+  } else {
+    tt.classList.remove('visible');
+  }
+
+  // Advance angle
+  angle += rotSpeed;
+  document.getElementById('rotInd').textContent = `ROT: ${(angle * 180/Math.PI % 360).toFixed(1)}°`;
+
+  requestAnimationFrame(drawFrame);
+}
+
+canvas.addEventListener('mousemove', (e) => {
+  const rect = canvas.getBoundingClientRect();
+  mouseX = e.clientX - rect.left;
+  mouseY = e.clientY - rect.top;
+});
+canvas.addEventListener('mouseleave', () => {
+  mouseX = -1; mouseY = -1;
+  document.getElementById('tooltip').classList.remove('visible');
+});
+
+canvas.addEventListener('click', (e) => {
+  if (hoveredSkill) {
+    selectedSkill = hoveredSkill;
+    const b = getBadge(hoveredSkill.pct);
+    const dp = document.getElementById('detailPanel');
+    document.getElementById('dp-name').textContent = hoveredSkill.name;
+    document.getElementById('dp-name').style.color = hoveredSkill.color;
+    document.getElementById('dp-cat').textContent = hoveredSkill.cat + ' — ' + hoveredSkill.cat;
+    document.getElementById('dp-bar').style.background = hoveredSkill.color;
+    document.getElementById('dp-bar').style.width = hoveredSkill.pct + '%';
+    document.getElementById('dp-pct').textContent = hoveredSkill.pct + '%';
+    document.getElementById('dp-pct').style.color = hoveredSkill.color;
+    const badge = document.getElementById('dp-badge');
+    badge.textContent = b.label; badge.style.background = b.bg; badge.style.color = b.color;
+    document.getElementById('dp-projects').textContent = hoveredSkill.projects;
+    dp.classList.add('visible');
+  }
+});
+
+document.getElementById('dpClose').addEventListener('click', () => {
+  document.getElementById('detailPanel').classList.remove('visible');
+});
+
+drawFrame();
+</script>
+</body>
+</html>

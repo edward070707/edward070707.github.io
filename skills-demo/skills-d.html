@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Skills Demo — Opzione D</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #08080F;
+    --purple: #A855F7;
+    --cyan: #00F5D4;
+    --pink: #EC4899;
+    --amber: #F59E0B;
+    --blue: #60A5FA;
+  }
+
+  body {
+    background: var(--bg);
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    overflow: hidden;
+  }
+
+  .top-bar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 24px;
+    background: rgba(8,8,15,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .back-link { color: rgba(255,255,255,0.5); text-decoration: none; font-size: 13px; font-family: 'Space Mono', monospace; transition: color 0.2s; }
+  .back-link:hover { color: var(--amber); }
+  .page-title { font-size: 14px; font-family: 'Space Mono', monospace; color: rgba(255,255,255,0.7); }
+  .page-title span { color: var(--amber); font-weight: 700; }
+  .nav-demos { display: flex; gap: 6px; }
+  .nav-demos a {
+    display: flex; align-items: center; justify-content: center;
+    width: 32px; height: 32px; border-radius: 8px;
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.5); text-decoration: none;
+    font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 700;
+    transition: all 0.2s;
+  }
+  .nav-demos a:hover { background: rgba(245,158,11,0.2); border-color: var(--amber); color: var(--amber); }
+  .nav-demos a.active { background: rgba(245,158,11,0.3); border-color: var(--amber); color: #fff; }
+
+  /* SCENE */
+  .scene-container {
+    position: fixed;
+    top: 60px; left: 0; right: 0; bottom: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    perspective: 1200px;
+    overflow: hidden;
+  }
+
+  .hex-scene {
+    transform-style: preserve-3d;
+    transform: rotateX(20deg) rotateY(0deg);
+    transition: transform 0.05s linear;
+    position: relative;
+  }
+
+  .hex-row {
+    display: flex;
+    justify-content: center;
+  }
+
+  .hex-wrapper {
+    position: relative;
+    margin: 2px 3px;
+    opacity: 0;
+    transform: translateY(-60px) translateZ(-100px);
+    transition: opacity 0.5s, transform 0.5s;
+  }
+  .hex-wrapper.revealed {
+    opacity: 1;
+    transform: translateY(0) translateZ(0);
+  }
+  .hex-wrapper.hovered {
+    z-index: 10;
+  }
+
+  .hexagon {
+    position: relative;
+    cursor: pointer;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.6));
+    transition: filter 0.3s, transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  .hex-wrapper.hovered .hexagon {
+    transform: translateZ(30px) scale(1.08);
+    filter: drop-shadow(0 8px 24px rgba(255,255,255,0.2));
+  }
+
+  .hex-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%; height: 100%;
+    position: absolute; top: 0; left: 0;
+    pointer-events: none;
+  }
+
+  .hex-name {
+    font-size: 11px;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.9);
+    text-align: center;
+    line-height: 1.2;
+  }
+  .hex-pct {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: rgba(255,255,255,0.8);
+    text-shadow: 0 1px 4px rgba(0,0,0,0.9);
+    margin-top: 2px;
+  }
+
+  /* TOOLTIP */
+  .tooltip {
+    position: fixed;
+    background: rgba(8,8,15,0.95);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 12px;
+    padding: 12px 16px;
+    pointer-events: none;
+    z-index: 200;
+    opacity: 0;
+    transition: opacity 0.2s;
+    font-size: 12px;
+    backdrop-filter: blur(16px);
+    min-width: 150px;
+  }
+  .tooltip.visible { opacity: 1; }
+  .tooltip-name { font-family: 'Space Mono', monospace; font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+  .tooltip-cat { font-size: 10px; color: rgba(255,255,255,0.5); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.1em; }
+  .tooltip-pct { font-family: 'Space Mono', monospace; font-size: 20px; font-weight: 700; }
+  .tooltip-badge { display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: 10px; font-weight: 600; margin-top: 6px; text-transform: uppercase; letter-spacing: 0.05em; }
+
+  /* LEGEND */
+  .legend {
+    position: fixed;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 16px;
+    background: rgba(8,8,15,0.85);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 40px;
+    padding: 8px 20px;
+    z-index: 100;
+  }
+  .legend-item {
+    display: flex; align-items: center; gap: 5px;
+    font-size: 10px; font-family: 'Space Mono', monospace; color: rgba(255,255,255,0.6);
+  }
+  .legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+  .tilt-hint {
+    position: fixed;
+    top: 74px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 10px;
+    font-family: 'Space Mono', monospace;
+    color: rgba(255,255,255,0.25);
+    z-index: 100;
+    animation: fadeOut 4s 2s forwards;
+    opacity: 1;
+  }
+  @keyframes fadeOut { to { opacity: 0; } }
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <a href="../index.html" class="back-link">← Back</a>
+  <div class="page-title">Skills Demo — <span>Opzione D</span></div>
+  <nav class="nav-demos">
+    <a href="skills-a.html">A</a>
+    <a href="skills-b.html">B</a>
+    <a href="skills-c.html">C</a>
+    <a href="skills-d.html" class="active">D</a>
+    <a href="skills-e.html">E</a>
+    <a href="skills-f.html">F</a>
+  </nav>
+</div>
+
+<div class="scene-container" id="sceneContainer">
+  <div class="hex-scene" id="hexScene"></div>
+</div>
+
+<div class="tooltip" id="tooltip">
+  <div class="tooltip-name" id="tt-name"></div>
+  <div class="tooltip-cat" id="tt-cat"></div>
+  <div class="tooltip-pct" id="tt-pct"></div>
+  <div class="tooltip-badge" id="tt-badge"></div>
+</div>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:#A855F7"></div>Mobile</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#00F5D4"></div>Web</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#F59E0B"></div>Backend</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#EC4899"></div>Design</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#60A5FA"></div>Tools</div>
+</div>
+
+<div class="tilt-hint">✦ move mouse to tilt the grid</div>
+
+<script>
+const SKILLS = [
+  { name:'Flutter',   cat:'Mobile',  pct:85, color:'#A855F7' },
+  { name:'Dart',      cat:'Mobile',  pct:85, color:'#A855F7' },
+  { name:'Swift',     cat:'Mobile',  pct:60, color:'#A855F7' },
+  { name:'Firebase',  cat:'Mobile',  pct:78, color:'#A855F7' },
+  { name:'HTML',      cat:'Web',     pct:90, color:'#00F5D4' },
+  { name:'CSS',       cat:'Web',     pct:90, color:'#00F5D4' },
+  { name:'JS',        cat:'Web',     pct:88, color:'#00F5D4' },
+  { name:'Vue.js',    cat:'Web',     pct:55, color:'#00F5D4' },
+  { name:'Firebase',  cat:'Backend', pct:75, color:'#F59E0B' },
+  { name:'SQL',       cat:'Backend', pct:70, color:'#F59E0B' },
+  { name:'REST APIs', cat:'Backend', pct:72, color:'#F59E0B' },
+  { name:'Node.js',   cat:'Backend', pct:50, color:'#F59E0B' },
+  { name:'UI/UX',     cat:'Design',  pct:80, color:'#EC4899' },
+  { name:'Figma',     cat:'Design',  pct:78, color:'#EC4899' },
+  { name:'Motion',    cat:'Design',  pct:68, color:'#EC4899' },
+  { name:'Branding',  cat:'Design',  pct:72, color:'#EC4899' },
+  { name:'VS Code',   cat:'Tools',   pct:92, color:'#60A5FA' },
+  { name:'Git',       cat:'Tools',   pct:70, color:'#60A5FA' },
+  { name:'Xcode',     cat:'Tools',   pct:58, color:'#60A5FA' },
+  { name:'Android S.',cat:'Tools',   pct:65, color:'#60A5FA' },
+];
+
+function getBadge(pct) {
+  if (pct >= 85) return { label:'Expert', bg:'rgba(168,85,247,0.3)', color:'#A855F7' };
+  if (pct >= 70) return { label:'Advanced', bg:'rgba(0,245,212,0.3)', color:'#00F5D4' };
+  if (pct >= 55) return { label:'Proficient', bg:'rgba(245,158,11,0.3)', color:'#F59E0B' };
+  return { label:'Learning', bg:'rgba(96,165,250,0.3)', color:'#60A5FA' };
+}
+
+// Build honeycomb grid
+const scene = document.getElementById('hexScene');
+const rows = [5, 6, 5, 6]; // honeycomb pattern
+const hexW = 88, hexH = 78;
+const HEX_RADIUS = hexW / 2;
+let skillIdx = 0;
+const allHexWrappers = [];
+
+rows.forEach((cols, ri) => {
+  const row = document.createElement('div');
+  row.className = 'hex-row';
+  const offsetX = ri % 2 === 1 ? hexW / 2 + 3 : 0;
+  row.style.marginTop = ri > 0 ? '-12px' : '0';
+  row.style.marginLeft = offsetX + 'px';
+
+  for (let ci = 0; ci < cols && skillIdx < SKILLS.length; ci++) {
+    const skill = SKILLS[skillIdx++];
+    const wrapper = document.createElement('div');
+    wrapper.className = 'hex-wrapper';
+    wrapper.dataset.skill = JSON.stringify(skill);
+
+    // Create SVG hexagon
+    const svgNS = 'http://www.w3.org/2000/svg';
+    const svg = document.createElementNS(svgNS, 'svg');
+    svg.setAttribute('width', hexW);
+    svg.setAttribute('height', hexH);
+    svg.setAttribute('viewBox', `0 0 ${hexW} ${hexH}`);
+
+    // Hex path (flat-top)
+    const cx = hexW / 2, cy = hexH / 2;
+    const r = hexW / 2 - 2;
+    const points = Array.from({length:6}, (_,i) => {
+      const a = (i * 60 - 30) * Math.PI / 180;
+      return `${cx + r * Math.cos(a)},${cy + r * Math.sin(a)}`;
+    }).join(' ');
+
+    // Height effect via layered shadow
+    const heightLayers = Math.round(skill.pct / 100 * 8);
+
+    // Gradient
+    const gradId = `hg_${skillIdx}`;
+    const defs = document.createElementNS(svgNS, 'defs');
+    const grad = document.createElementNS(svgNS, 'linearGradient');
+    grad.setAttribute('id', gradId);
+    grad.setAttribute('x1', '0%'); grad.setAttribute('y1', '0%');
+    grad.setAttribute('x2', '50%'); grad.setAttribute('y2', '100%');
+    const stop1 = document.createElementNS(svgNS, 'stop');
+    stop1.setAttribute('offset', '0%');
+    stop1.setAttribute('stop-color', skill.color + 'FF');
+    const stop2 = document.createElementNS(svgNS, 'stop');
+    stop2.setAttribute('offset', '100%');
+    stop2.setAttribute('stop-color', skill.color + '44');
+    grad.appendChild(stop1); grad.appendChild(stop2);
+    defs.appendChild(grad);
+    svg.appendChild(defs);
+
+    // Shadow layers for height illusion
+    for (let l = heightLayers; l > 0; l--) {
+      const shadow = document.createElementNS(svgNS, 'polygon');
+      shadow.setAttribute('points', points);
+      shadow.setAttribute('fill', skill.color + '22');
+      shadow.setAttribute('transform', `translate(${l*0.5}, ${l*1.2})`);
+      svg.appendChild(shadow);
+    }
+
+    // Main hex
+    const hex = document.createElementNS(svgNS, 'polygon');
+    hex.setAttribute('points', points);
+    hex.setAttribute('fill', `url(#${gradId})`);
+    hex.setAttribute('stroke', skill.color);
+    hex.setAttribute('stroke-width', '1.5');
+    svg.appendChild(hex);
+
+    // Glowing border
+    const hexGlow = document.createElementNS(svgNS, 'polygon');
+    hexGlow.setAttribute('points', points);
+    hexGlow.setAttribute('fill', 'none');
+    hexGlow.setAttribute('stroke', skill.color);
+    hexGlow.setAttribute('stroke-width', '0.5');
+    hexGlow.setAttribute('opacity', '0.5');
+    svg.appendChild(hexGlow);
+
+    wrapper.appendChild(svg);
+    const hexEl = document.createElement('div');
+    hexEl.className = 'hexagon';
+    wrapper.insertBefore(hexEl, wrapper.firstChild);
+    wrapper.innerHTML = '';
+    wrapper.appendChild(svg);
+
+    // Inner text
+    const inner = document.createElement('div');
+    inner.className = 'hex-inner';
+    inner.innerHTML = `
+      <div class="hex-name">${skill.name}</div>
+      <div class="hex-pct">${skill.pct}%</div>
+    `;
+    inner.style.cssText = `position:absolute;top:0;left:0;width:${hexW}px;height:${hexH}px;display:flex;flex-direction:column;align-items:center;justify-content:center;`;
+    wrapper.style.position = 'relative';
+    wrapper.appendChild(inner);
+
+    row.appendChild(wrapper);
+    allHexWrappers.push(wrapper);
+
+    // Hover
+    const tt = document.getElementById('tooltip');
+    wrapper.addEventListener('mouseenter', (e) => {
+      wrapper.classList.add('hovered');
+      svg.style.filter = `drop-shadow(0 0 ${hexW*0.3}px ${skill.color})`;
+      const b = getBadge(skill.pct);
+      document.getElementById('tt-name').textContent = skill.name;
+      document.getElementById('tt-name').style.color = skill.color;
+      document.getElementById('tt-cat').textContent = skill.cat;
+      document.getElementById('tt-pct').textContent = skill.pct + '%';
+      document.getElementById('tt-pct').style.color = skill.color;
+      const badge = document.getElementById('tt-badge');
+      badge.textContent = b.label;
+      badge.style.background = b.bg;
+      badge.style.color = b.color;
+      tt.classList.add('visible');
+    });
+    wrapper.addEventListener('mousemove', (e) => {
+      tt.style.left = (e.clientX + 14) + 'px';
+      tt.style.top = (e.clientY - 10) + 'px';
+    });
+    wrapper.addEventListener('mouseleave', () => {
+      wrapper.classList.remove('hovered');
+      svg.style.filter = '';
+      tt.classList.remove('visible');
+    });
+  }
+
+  scene.appendChild(row);
+});
+
+// Stagger reveal
+allHexWrappers.forEach((w, i) => {
+  setTimeout(() => { w.classList.add('revealed'); }, i * 60 + 200);
+});
+
+// 3D tilt on mouse move
+const sceneContainer = document.getElementById('sceneContainer');
+const hexScene = document.getElementById('hexScene');
+let isMobile = window.innerWidth < 768;
+let targetRX = 20, targetRY = 0, currentRX = 20, currentRY = 0;
+
+if (!isMobile) {
+  sceneContainer.addEventListener('mousemove', (e) => {
+    const rect = sceneContainer.getBoundingClientRect();
+    const nx = (e.clientX - rect.left) / rect.width - 0.5;
+    const ny = (e.clientY - rect.top) / rect.height - 0.5;
+    targetRX = 20 - ny * 20;
+    targetRY = nx * 20;
+  });
+  sceneContainer.addEventListener('mouseleave', () => {
+    targetRX = 20; targetRY = 0;
+  });
+}
+
+function tiltLoop() {
+  currentRX += (targetRX - currentRX) * 0.06;
+  currentRY += (targetRY - currentRY) * 0.06;
+  hexScene.style.transform = `rotateX(${currentRX}deg) rotateY(${currentRY}deg)`;
+  requestAnimationFrame(tiltLoop);
+}
+tiltLoop();
+</script>
+</body>
+</html>
