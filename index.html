@@ -5490,12 +5490,13 @@ function closeTlModal() {
     function dnaGetNodePos(i, a) {
         var strand = i % 2;
         var t  = i / DNA_N;
-        var helixH = Math.min(dnaH * 0.82, 380);
-        var helixR = Math.min(dnaW * 0.11, 80);
-        var helixTop = dnaCy - helixH / 2;
-        var y   = helixTop + t * helixH;
-        var phi = a + t * Math.PI * 3 + (strand === 1 ? Math.PI : 0);
-        var x   = dnaCx + Math.cos(phi) * helixR;
+        // HORIZONTAL helix — runs along X axis
+        var helixW   = Math.min(dnaW * 0.88, 820);
+        var helixR   = Math.min(dnaH * 0.22, 72);
+        var helixLeft = dnaCx - helixW / 2;
+        var x   = helixLeft + t * helixW;
+        var phi = a + t * Math.PI * 4 + (strand === 1 ? Math.PI : 0);
+        var y   = dnaCy + Math.cos(phi) * helixR;
         var z   = Math.sin(phi);
         return { x: x, y: y, z: z, strand: strand };
     }
