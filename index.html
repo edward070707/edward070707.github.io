@@ -1824,6 +1824,438 @@
         transform: translateY(-2px);
         box-shadow: 0 0 48px rgba(236,72,153,0.5);
     }
+
+    /* ═══════════════════════════════════════════════
+       DNA HELIX SKILLS
+    ═══════════════════════════════════════════════ */
+    #skills {
+        background: var(--void);
+        border-top: 1px solid var(--border);
+        padding: 80px 0 60px;
+        position: relative;
+    }
+    #skills .skills-inner {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 0 32px;
+        text-align: center;
+        position: relative;
+    }
+    .dna-canvas-wrap {
+        width: 100%;
+        max-width: 700px;
+        height: 420px;
+        margin: 32px auto 0;
+        position: relative;
+    }
+    #skills-dna-canvas {
+        width: 100%;
+        height: 100%;
+        display: block;
+        cursor: crosshair;
+    }
+    .dna-detail-panel {
+        position: absolute;
+        left: 0; top: 50%;
+        transform: translateY(-50%) translateX(-20px);
+        width: 200px;
+        background: rgba(5,5,15,0.92);
+        border: 1px solid rgba(124,58,237,0.3);
+        border-radius: 14px;
+        padding: 16px;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s, transform 0.3s;
+        backdrop-filter: blur(20px);
+        text-align: left;
+        z-index: 10;
+    }
+    .dna-detail-panel.visible {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateY(-50%) translateX(0);
+    }
+    .dna-dp-close {
+        position: absolute; top: 10px; right: 10px;
+        background: none; border: none; cursor: pointer;
+        font-size: 11px; color: var(--muted);
+    }
+    .dna-dp-close:hover { color: var(--text); }
+    .dna-dp-title { font-family: var(--mono); font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+    .dna-dp-cat { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 10px; }
+    .dna-dp-bar-wrap { height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden; margin-bottom: 6px; }
+    .dna-dp-bar-fill { height: 100%; border-radius: 2px; transition: width 0.8s; }
+    .dna-dp-pct { font-family: var(--mono); font-size: 22px; font-weight: 700; }
+    .dna-dp-badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 10px; font-weight: 600; margin-top: 8px; text-transform: uppercase; letter-spacing: 0.05em; }
+    .dna-dp-projects { margin-top: 10px; font-size: 10px; color: var(--muted); }
+    .dna-dp-projects span { color: var(--text); }
+    .dna-tooltip {
+        position: fixed;
+        background: rgba(5,5,15,0.95);
+        border: 1px solid rgba(255,255,255,0.15);
+        border-radius: 10px;
+        padding: 10px 14px;
+        pointer-events: none;
+        z-index: 9999;
+        opacity: 0;
+        transition: opacity 0.15s;
+        font-size: 12px;
+        backdrop-filter: blur(16px);
+    }
+    .dna-tooltip.visible { opacity: 1; }
+    .dna-hint {
+        font-family: var(--mono);
+        font-size: 11px;
+        color: var(--low);
+        margin-top: 12px;
+        letter-spacing: 0.05em;
+    }
+
+    /* ═══════════════════════════════════════════════
+       SOLAR SYSTEM — Work Section
+    ═══════════════════════════════════════════════ */
+    .solar-section {
+        position: relative;
+        background: var(--void) !important;
+        border-top: 1px solid var(--border);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        overflow: hidden;
+    }
+    .solar-header {
+        position: relative;
+        z-index: 10;
+        text-align: center;
+        padding: 60px 32px 0;
+    }
+    .solar-sub {
+        font-family: var(--mono);
+        font-size: 11px;
+        color: var(--muted);
+        letter-spacing: 0.1em;
+        margin-top: 8px;
+    }
+    #work-solar-stars {
+        position: absolute;
+        inset: 0;
+        width: 100%; height: 100%;
+        z-index: 0;
+        pointer-events: none;
+    }
+    .solar-system-container {
+        position: relative;
+        flex: 1;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 5;
+        min-height: 600px;
+    }
+    .solar-sun {
+        position: absolute;
+        width: 80px; height: 80px;
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        background: radial-gradient(circle at 40% 40%, #FFF176, #7c3aed, #4c1d95);
+        box-shadow: 0 0 40px 20px rgba(124,58,237,0.6), 0 0 80px 40px rgba(124,58,237,0.3), 0 0 120px 60px rgba(124,58,237,0.15);
+        display: flex; align-items: center; justify-content: center;
+        font-family: var(--sg); font-weight: 700; font-size: 11px;
+        color: #fff;
+        cursor: default; z-index: 20;
+        animation: solarSunPulse 3s ease-in-out infinite;
+        letter-spacing: 0.05em;
+    }
+    @keyframes solarSunPulse {
+        0%,100% { box-shadow: 0 0 40px 20px rgba(124,58,237,0.6), 0 0 80px 40px rgba(124,58,237,0.3); }
+        50% { box-shadow: 0 0 60px 30px rgba(124,58,237,0.8), 0 0 120px 60px rgba(124,58,237,0.5); }
+    }
+    .solar-orbit-wrapper {
+        position: absolute;
+        width: 0; height: 0;
+        transform-origin: 0 0;
+        transform: translate(-50%, -50%);
+    }
+    .solar-planet {
+        position: absolute;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex; align-items: center; justify-content: center;
+        flex-direction: column;
+        font-family: var(--mono); font-weight: 700; font-size: 8px;
+        text-align: center; line-height: 1.2;
+        transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.4s;
+        z-index: 30;
+    }
+    .solar-planet:hover { filter: brightness(1.3); }
+    .solar-planet-label {
+        position: absolute;
+        top: calc(100% + 8px);
+        left: 50%; transform: translateX(-50%);
+        white-space: nowrap;
+        font-size: 10px; font-family: var(--mono);
+        color: var(--muted);
+        pointer-events: none;
+    }
+    .solar-satellite-system {
+        position: absolute;
+        width: 0; height: 0;
+        transform-origin: 0 0;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.4s;
+    }
+    .solar-satellite-system.visible { opacity: 1; pointer-events: auto; }
+    .solar-satellite {
+        position: absolute;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 7px; font-weight: 600; color: #fff;
+        transition: transform 0.3s;
+        z-index: 40;
+    }
+    .solar-detail-panel {
+        position: fixed;
+        right: 24px; top: 50%;
+        transform: translateY(-50%) translateX(20px);
+        width: 240px;
+        background: rgba(5,5,15,0.95);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 22px;
+        z-index: 500;
+        opacity: 0; pointer-events: none;
+        transition: opacity 0.3s, transform 0.3s;
+        backdrop-filter: blur(20px);
+    }
+    .solar-detail-panel.visible {
+        opacity: 1; pointer-events: auto;
+        transform: translateY(-50%) translateX(0);
+    }
+    .solar-dp-close {
+        position: absolute; top: 12px; right: 12px;
+        background: none; border: none; cursor: pointer;
+        font-size: 12px; color: var(--muted);
+    }
+    .solar-dp-close:hover { color: var(--text); }
+    .solar-dp-name {
+        font-family: var(--mono); font-size: 16px; font-weight: 700;
+        margin-bottom: 10px; padding-bottom: 10px;
+        border-bottom: 1px solid var(--border);
+    }
+    .solar-dp-desc {
+        font-size: 12px; color: var(--muted); line-height: 1.6;
+        margin-bottom: 12px;
+    }
+    .solar-dp-tags {
+        display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 14px;
+    }
+    .solar-dp-tag {
+        font-family: var(--mono); font-size: 9px;
+        padding: 3px 8px; border-radius: 3px;
+        border: 1px solid rgba(124,58,237,0.25);
+        color: rgba(167,139,250,0.8);
+        background: rgba(124,58,237,0.07);
+    }
+    .solar-dp-link {
+        display: inline-block;
+        font-family: var(--mono); font-size: 11px; font-weight: 600;
+        color: var(--cyan); text-decoration: none;
+        border: 1px solid rgba(34,211,238,0.3);
+        padding: 6px 14px; border-radius: 6px;
+        transition: background 0.2s, color 0.2s;
+    }
+    .solar-dp-link:hover { background: rgba(34,211,238,0.1); }
+    .solar-tooltip {
+        position: fixed;
+        background: rgba(5,5,15,0.95);
+        border: 1px solid rgba(255,255,255,0.15);
+        border-radius: 10px;
+        padding: 10px 14px;
+        pointer-events: none;
+        z-index: 9999;
+        opacity: 0; transition: opacity 0.15s;
+        font-size: 12px;
+        backdrop-filter: blur(16px);
+    }
+    .solar-tooltip.visible { opacity: 1; }
+
+    /* ═══════════════════════════════════════════════
+       HOLOGRAPHIC HUD — About Section
+    ═══════════════════════════════════════════════ */
+    .hud-section {
+        background: #000800 !important;
+        background-image:
+            linear-gradient(rgba(0,255,65,0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0,255,65,0.03) 1px, transparent 1px) !important;
+        background-size: 40px 40px !important;
+        position: relative;
+        overflow: hidden;
+        min-height: 100vh;
+        display: flex !important;
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: center;
+        font-family: var(--mono);
+    }
+    .hud-section::after {
+        content: '';
+        position: absolute; inset: 0;
+        background: repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 2px,
+            rgba(0,0,0,0.1) 2px,
+            rgba(0,0,0,0.1) 4px
+        );
+        pointer-events: none;
+        z-index: 50;
+    }
+    /* Loading */
+    .hud-loading {
+        position: absolute; inset: 0;
+        background: #000800;
+        z-index: 80;
+        display: flex; align-items: center; justify-content: center;
+        flex-direction: column; gap: 14px;
+        transition: opacity 0.5s;
+    }
+    .hud-loading.hidden { opacity: 0; pointer-events: none; }
+    .hud-loading-text { font-size: 13px; color: #00FF41; letter-spacing: 0.1em; }
+    .hud-loading-bar-wrap {
+        width: 380px; max-width: 90vw; height: 18px;
+        border: 1px solid #00AA2A;
+        background: rgba(0,255,65,0.05);
+        overflow: hidden; position: relative;
+    }
+    .hud-loading-bar { height: 100%; background: #00FF41; width: 0%; transition: width 0.05s; box-shadow: 0 0 10px #00FF41; }
+    .hud-loading-pct {
+        position: absolute; right: 8px; top: 50%;
+        transform: translateY(-50%); font-size: 10px;
+        color: #000; font-weight: 700; mix-blend-mode: difference;
+    }
+    .hud-loading-msg { font-size: 11px; color: rgba(0,255,65,0.5); letter-spacing: 0.05em; }
+    /* Main layout */
+    .hud-main {
+        flex: 1;
+        display: flex;
+        opacity: 0;
+        transition: opacity 0.5s;
+        z-index: 10;
+        position: relative;
+    }
+    .hud-main.visible { opacity: 1; }
+    @keyframes hudSweep {
+        from { transform: rotate(0deg); }
+        to   { transform: rotate(360deg); }
+    }
+    /* Radar */
+    .hud-radar-section {
+        flex: 0 0 420px;
+        display: flex; align-items: center; justify-content: center;
+        position: relative;
+    }
+    .hud-radar-container {
+        position: relative;
+        width: 350px; height: 350px;
+    }
+    .hud-radar-svg { width: 100%; height: 100%; position: absolute; top: 0; left: 0; }
+    /* Blips */
+    .hud-blip {
+        position: absolute;
+        width: 12px; height: 12px;
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        cursor: pointer;
+        transition: transform 0.3s, box-shadow 0.3s;
+        animation: hudBlipPulse 2s ease-in-out infinite;
+        z-index: 20;
+    }
+    .hud-blip:hover { transform: translate(-50%,-50%) scale(1.8); }
+    @keyframes hudBlipPulse {
+        0%,100% { box-shadow: 0 0 4px currentColor; }
+        50%      { box-shadow: 0 0 12px currentColor, 0 0 24px currentColor; }
+    }
+    .hud-blip-label {
+        position: absolute;
+        left: 14px; top: 50%;
+        transform: translateY(-50%);
+        font-size: 9px;
+        white-space: nowrap;
+        letter-spacing: 0.08em;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.2s;
+    }
+    .hud-blip:hover .hud-blip-label { opacity: 1; }
+    /* Panel */
+    .hud-panel-section {
+        flex: 1;
+        overflow-y: auto;
+        padding: 32px 28px;
+        border-left: 1px solid rgba(0,255,65,0.15);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    .hud-panel-section::-webkit-scrollbar { width: 3px; }
+    .hud-panel-section::-webkit-scrollbar-thumb { background: #00AA2A; border-radius: 2px; }
+    .hud-panel-header {
+        font-size: 11px; color: #00AA2A;
+        letter-spacing: 0.15em; margin-bottom: 20px;
+        border-bottom: 1px solid rgba(0,255,65,0.15);
+        padding-bottom: 10px;
+    }
+    .hud-stats-list { display: flex; flex-direction: column; gap: 10px; }
+    .hud-stat-row {
+        display: flex; gap: 12px; align-items: flex-start;
+        font-size: 12px; letter-spacing: 0.05em;
+        opacity: 0; transition: opacity 0.3s;
+    }
+    .hud-stat-row.visible { opacity: 1; }
+    .hud-stat-key {
+        color: #00AA2A; min-width: 120px; flex-shrink: 0;
+        font-size: 10px; letter-spacing: 0.12em;
+    }
+    .hud-stat-sep { color: rgba(0,255,65,0.4); }
+    .hud-stat-val { color: #00FF41; }
+    .hud-stat-val.accent-violet { color: #A855F7; }
+    .hud-stat-val.accent-cyan   { color: #22d3ee; }
+    .hud-stat-val.accent-green  { color: #00FF41; font-weight: 700; letter-spacing: 0.05em; }
+    .hud-cv-link {
+        display: inline-block; margin-top: 24px;
+        font-size: 11px; color: #00FF41;
+        text-decoration: none; letter-spacing: 0.12em;
+        border: 1px solid rgba(0,255,65,0.4);
+        padding: 8px 18px; border-radius: 2px;
+        transition: background 0.2s, box-shadow 0.2s;
+        width: fit-content;
+    }
+    .hud-cv-link:hover { background: rgba(0,255,65,0.1); box-shadow: 0 0 18px rgba(0,255,65,0.3); }
+    /* Status bar */
+    .hud-status-bar {
+        position: relative; z-index: 10;
+        font-size: 10px; color: #00AA2A;
+        letter-spacing: 0.1em; padding: 10px 28px;
+        border-top: 1px solid rgba(0,255,65,0.15);
+    }
+    .hud-status-dot {
+        display: inline-block; width: 6px; height: 6px;
+        border-radius: 50%; background: #00FF41;
+        margin-right: 6px; vertical-align: middle;
+        animation: hudStatusBlink 1s step-end infinite;
+    }
+    @keyframes hudStatusBlink { 0%,100% { opacity:1; } 50% { opacity:0; } }
+    @media (max-width: 768px) {
+        .hud-main { flex-direction: column; }
+        .hud-radar-section { flex: none; min-height: 300px; }
+        .hud-radar-container { width: 260px; height: 260px; }
+        .hud-panel-section { border-left: none; border-top: 1px solid rgba(0,255,65,0.15); }
+        .hud-loading-bar-wrap { width: 280px; }
+    }
     </style>
 </head>
 <body class="is-preload">
@@ -2042,456 +2474,80 @@
     <a href="https://edwardattuati.com/aboutme.html" class="dim-sec-cta reveal" data-i18n="one-btn-full">Full profile</a>
 </section>
 
-<!-- ─── SECTION TWO: ABOUT ─── -->
-<section id="two" class="ea-section main style2 left dark fullscreen">
-    <div class="about-dim">
-        <div class="about-dim-main reveal">
-            <span class="dim-sec-label" data-i18n="sec2-tag">Who I Am</span>
-            <h2 class="dim-sec-title" data-i18n="two-title">The Human Behind the Code</h2>
-
-            <div class="about-quote">
-                <span data-i18n="about-q1">Building things that </span><span class="hl-violet" data-i18n="about-q2">work beautifully</span><br>
-                <span data-i18n="about-q3">and </span><span class="hl-cyan" data-i18n="about-q4">last.</span>
+<!-- ─── SECTION TWO: ABOUT (HUD) ─── -->
+<section id="two" class="ea-section main style2 left dark fullscreen hud-section">
+    <!-- Loading screen -->
+    <div class="hud-loading" id="hud-loading">
+        <div class="hud-loading-text">&gt; SCANNING PROFILE: EDWARD_ATTUATI...</div>
+        <div class="hud-loading-bar-wrap">
+            <div class="hud-loading-bar" id="hud-loading-bar"></div>
+            <div class="hud-loading-pct" id="hud-loading-pct">0%</div>
+        </div>
+        <div class="hud-loading-msg" id="hud-loading-msg">&gt; Initializing...</div>
+    </div>
+    <!-- Main HUD layout -->
+    <div class="hud-main" id="hud-main">
+        <!-- Radar -->
+        <div class="hud-radar-section">
+            <div class="hud-radar-container" id="hud-radar-container">
+                <svg class="hud-radar-svg" viewBox="0 0 380 380" id="hud-radar-svg">
+                    <circle cx="190" cy="190" r="165" fill="none" stroke="rgba(0,255,65,0.15)" stroke-width="1" stroke-dasharray="4 6"/>
+                    <circle cx="190" cy="190" r="125" fill="none" stroke="rgba(0,255,65,0.12)" stroke-width="1" stroke-dasharray="4 6"/>
+                    <circle cx="190" cy="190" r="85"  fill="none" stroke="rgba(0,255,65,0.10)" stroke-width="1" stroke-dasharray="4 6"/>
+                    <circle cx="190" cy="190" r="45"  fill="none" stroke="rgba(0,255,65,0.15)" stroke-width="1"/>
+                    <line x1="190" y1="25" x2="190" y2="355" stroke="rgba(0,255,65,0.1)" stroke-width="0.5"/>
+                    <line x1="25" y1="190" x2="355" y2="190" stroke="rgba(0,255,65,0.1)" stroke-width="0.5"/>
+                    <line x1="73" y1="73" x2="307" y2="307" stroke="rgba(0,255,65,0.06)" stroke-width="0.5"/>
+                    <line x1="307" y1="73" x2="73" y2="307" stroke="rgba(0,255,65,0.06)" stroke-width="0.5"/>
+                    <g style="transform-origin:190px 190px;animation:hudSweep 4s linear infinite;">
+                        <defs>
+                            <radialGradient id="hudSweepGrad" cx="0%" cy="0%" r="100%">
+                                <stop offset="0%" stop-color="rgba(0,255,65,0.5)"/>
+                                <stop offset="100%" stop-color="rgba(0,255,65,0)"/>
+                            </radialGradient>
+                        </defs>
+                        <path d="M 190 190 L 190 25 A 165 165 0 0 1 355 190 Z" fill="url(#hudSweepGrad)" opacity="0.4"/>
+                        <line x1="190" y1="190" x2="190" y2="25" stroke="#00FF41" stroke-width="1.5" opacity="0.8"/>
+                    </g>
+                    <circle cx="190" cy="190" r="4" fill="#00FF41" opacity="0.8"/>
+                    <circle cx="190" cy="190" r="8" fill="none" stroke="#00FF41" stroke-width="1" opacity="0.4"/>
+                </svg>
+                <!-- Blips added by JS -->
             </div>
-
-            <div class="about-dim-body">
-                <p data-i18n-html="about-p1">I'm <strong>Edward</strong>, an Italian guy from <strong>Bergamo</strong> studying Computer Engineering at the University of Brescia. Proactive and precise — I dig into problems until they make sense.</p>
-                <p data-i18n-html="about-p2">Outside of code, I'm obsessed with <strong>languages and cultures</strong>. That's why this site greets you in 38 different languages — and why I speak five of them.</p>
-            </div>
-
+        </div>
+        <!-- Stats Panel -->
+        <div class="hud-panel-section" id="hud-panel-section">
+            <div class="hud-panel-header">&gt; PROFILE_SCAN — EDWARD_ATTUATI.json</div>
+            <div class="hud-stats-list" id="hud-stats-list"></div>
             <a href="https://drive.google.com/file/d/1-E2bqezgbpLPmgdB6b2z4Sz3yz7MCwua/view?usp=share_link"
-               target="_blank" class="dim-cv" data-i18n="two-cv">📄 View My CV</a>
+               target="_blank" class="hud-cv-link">[ VIEW_CV.pdf ]</a>
         </div>
-
-        <div class="dim-stats reveal">
-            <div class="dim-stat">
-                <span class="dim-stat-num" data-count="10" data-suffix="+">10+</span>
-                <span class="dim-stat-lbl" data-i18n="stat1-lbl">Years Coding</span>
-                <span class="dim-stat-sub" data-i18n="stat1-sub">From first line to full-stack apps</span>
-            </div>
-            <div class="dim-stat">
-                <span class="dim-stat-num" data-count="2">2</span>
-                <span class="dim-stat-lbl" data-i18n="stat2-lbl">Languages Spoken</span>
-                <span class="dim-stat-sub" data-i18n="stat2-sub">IT · EN</span>
-            </div>
-            <div class="dim-stat">
-                <span class="dim-stat-num" data-count="3">3</span>
-                <span class="dim-stat-lbl" data-i18n="stat3-lbl">Projects</span>
-                <span class="dim-stat-sub" data-i18n="stat3-sub">Built & shipped personally</span>
-            </div>
-            <div class="dim-stat">
-                <span class="dim-stat-num">∞</span>
-                <span class="dim-stat-lbl" data-i18n="stat4-lbl">Curiosity</span>
-                <span class="dim-stat-sub" data-i18n="stat4-sub">Always learning something new</span>
-            </div>
-        </div>
+    </div>
+    <div class="hud-status-bar">
+        <span class="hud-status-dot"></span>
+        SCAN ACTIVE &nbsp;|&nbsp; <span id="hud-time">00:00:00</span> &nbsp;|&nbsp; BERGAMO, IT
     </div>
 </section>
 
-<!-- ─── SECTION SKILLS (radar + tab cards) ─── -->
+<!-- ─── SECTION SKILLS (DNA Helix) ─── -->
 <section id="skills">
     <div class="skills-inner">
-        <span class="dim-sec-label reveal">// skill_levels</span>
-        <h2 class="dim-sec-title reveal">Tech Proficiency</h2>
-
-        <!-- SVG gradient defs (shared across all circles) -->
-        <svg width="0" height="0" style="position:absolute">
-            <defs>
-                <linearGradient id="scGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stop-color="#7c3aed"/>
-                    <stop offset="100%" stop-color="#22d3ee"/>
-                </linearGradient>
-            </defs>
-        </svg>
-
-        <!-- Radar chart -->
-        <div class="skill-radar-wrap reveal">
-            <canvas id="skill-radar" width="380" height="380"></canvas>
+        <span class="dim-sec-label reveal">// skill_dna</span>
+        <h2 class="dim-sec-title reveal">Tech DNA</h2>
+        <div class="dna-canvas-wrap">
+            <canvas id="skills-dna-canvas"></canvas>
         </div>
-
-        <!-- Tab bar -->
-        <div class="skill-tabs reveal">
-            <button class="skill-tab active" data-tab="mobile">📱 Mobile</button>
-            <button class="skill-tab" data-tab="web">🌐 Web</button>
-            <button class="skill-tab" data-tab="backend">🔥 Backend</button>
-            <button class="skill-tab" data-tab="design">🎨 Design</button>
-            <button class="skill-tab" data-tab="tools">🛠 Tools</button>
+        <div class="dna-detail-panel" id="dna-detail-panel">
+            <button class="dna-dp-close" id="dna-dp-close">✕</button>
+            <div class="dna-dp-title" id="dna-dp-name"></div>
+            <div class="dna-dp-cat" id="dna-dp-cat"></div>
+            <div class="dna-dp-bar-wrap"><div class="dna-dp-bar-fill" id="dna-dp-bar"></div></div>
+            <div class="dna-dp-pct" id="dna-dp-pct"></div>
+            <div class="dna-dp-badge" id="dna-dp-badge"></div>
+            <div class="dna-dp-projects">Usato in: <span id="dna-dp-projects"></span></div>
         </div>
-
-        <!-- Skill cards -->
-        <div class="skill-cards-wrap">
-
-            <!-- MOBILE -->
-            <div class="skill-cards-panel active" data-panel="mobile">
-                <div class="skill-cards-grid">
-                    <div class="skill-card">
-                        <div class="skill-card-inner">
-                            <div class="skill-card-front">
-                                <div class="sc-header"><span class="sc-icon">🦋</span><span class="sc-name">Flutter</span></div>
-                                <div class="sc-bottom">
-                                    <svg class="skill-circle" viewBox="0 0 44 44"><circle class="skill-circle-bg" cx="22" cy="22" r="20"/><circle class="skill-circle-fill" cx="22" cy="22" r="20" data-pct="85"/></svg>
-                                    <div class="sc-info"><span class="sc-pct">85%</span><span class="sc-yr">3 years</span></div>
-                                    <span class="skill-level-badge badge-senior">Senior</span>
-                                </div>
-                            </div>
-                            <div class="skill-card-back">
-                                <span class="sc-back-label">Used in</span>
-                                <span class="sc-back-title">Flutter</span>
-                                <span class="sc-back-projects">Memive, Chrono (cross-platform)</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="skill-card">
-                        <div class="skill-card-inner">
-                            <div class="skill-card-front">
-                                <div class="sc-header"><span class="sc-icon">🎯</span><span class="sc-name">Dart</span></div>
-                                <div class="sc-bottom">
-                                    <svg class="skill-circle" viewBox="0 0 44 44"><circle class="skill-circle-bg" cx="22" cy="22" r="20"/><circle class="skill-circle-fill" cx="22" cy="22" r="20" data-pct="85"/></svg>
-                                    <div class="sc-info"><span class="sc-pct">85%</span><span class="sc-yr">3 years</span></div>
-                                    <span class="skill-level-badge badge-senior">Senior</span>
-                                </div>
-                            </div>
-                            <div class="skill-card-back">
-                                <span class="sc-back-label">Used in</span>
-                                <span class="sc-back-title">Dart</span>
-                                <span class="sc-back-projects">All Flutter projects, Chrono, Memive</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="skill-card">
-                        <div class="skill-card-inner">
-                            <div class="skill-card-front">
-                                <div class="sc-header"><span class="sc-icon">🍎</span><span class="sc-name">Swift · iOS</span></div>
-                                <div class="sc-bottom">
-                                    <svg class="skill-circle" viewBox="0 0 44 44"><circle class="skill-circle-bg" cx="22" cy="22" r="20"/><circle class="skill-circle-fill" cx="22" cy="22" r="20" data-pct="60"/></svg>
-                                    <div class="sc-info"><span class="sc-pct">60%</span><span class="sc-yr">1 year</span></div>
-                                    <span class="skill-level-badge badge-mid">Mid</span>
-                                </div>
-                            </div>
-                            <div class="skill-card-back">
-                                <span class="sc-back-label">Used in</span>
-                                <span class="sc-back-title">Swift · iOS</span>
-                                <span class="sc-back-projects">Native iOS experiments, Xcode projects</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="skill-card">
-                        <div class="skill-card-inner">
-                            <div class="skill-card-front">
-                                <div class="sc-header"><span class="sc-icon">🔥</span><span class="sc-name">Firebase Mobile</span></div>
-                                <div class="sc-bottom">
-                                    <svg class="skill-circle" viewBox="0 0 44 44"><circle class="skill-circle-bg" cx="22" cy="22" r="20"/><circle class="skill-circle-fill" cx="22" cy="22" r="20" data-pct="78"/></svg>
-                                    <div class="sc-info"><span class="sc-pct">78%</span><span class="sc-yr">2 years</span></div>
-                                    <span class="skill-level-badge badge-mid">Mid</span>
-                                </div>
-                            </div>
-                            <div class="skill-card-back">
-                                <span class="sc-back-label">Used in</span>
-                                <span class="sc-back-title">Firebase Mobile</span>
-                                <span class="sc-back-projects">Chrono sync, Memive backend</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- WEB -->
-            <div class="skill-cards-panel" data-panel="web">
-                <div class="skill-cards-grid">
-                    <div class="skill-card">
-                        <div class="skill-card-inner">
-                            <div class="skill-card-front">
-                                <div class="sc-header"><span class="sc-icon">🌐</span><span class="sc-name">HTML</span></div>
-                                <div class="sc-bottom">
-                                    <svg class="skill-circle" viewBox="0 0 44 44"><circle class="skill-circle-bg" cx="22" cy="22" r="20"/><circle class="skill-circle-fill" cx="22" cy="22" r="20" data-pct="90"/></svg>
-                                    <div class="sc-info"><span class="sc-pct">90%</span><span class="sc-yr">4 years</span></div>
-                                    <span class="skill-level-badge badge-senior">Senior</span>
-                                </div>
-                            </div>
-                            <div class="skill-card-back">
-                                <span class="sc-back-label">Used in</span>
-                                <span class="sc-back-title">HTML</span>
-                                <span class="sc-back-projects">Portfolio, Chrono web, Blackjack</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="skill-card">
-                        <div class="skill-card-inner">
-                            <div class="skill-card-front">
-                                <div class="sc-header"><span class="sc-icon">🎨</span><span class="sc-name">CSS</span></div>
-                                <div class="sc-bottom">
-                                    <svg class="skill-circle" viewBox="0 0 44 44"><circle class="skill-circle-bg" cx="22" cy="22" r="20"/><circle class="skill-circle-fill" cx="22" cy="22" r="20" data-pct="90"/></svg>
-                                    <div class="sc-info"><span class="sc-pct">90%</span><span class="sc-yr">4 years</span></div>
-                                    <span class="skill-level-badge badge-senior">Senior</span>
-                                </div>
-                            </div>
-                            <div class="skill-card-back">
-                                <span class="sc-back-label">Used in</span>
-                                <span class="sc-back-title">CSS</span>
-                                <span class="sc-back-projects">Portfolio, Chrono web, animations</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="skill-card">
-                        <div class="skill-card-inner">
-                            <div class="skill-card-front">
-                                <div class="sc-header"><span class="sc-icon">⚡</span><span class="sc-name">JavaScript</span></div>
-                                <div class="sc-bottom">
-                                    <svg class="skill-circle" viewBox="0 0 44 44"><circle class="skill-circle-bg" cx="22" cy="22" r="20"/><circle class="skill-circle-fill" cx="22" cy="22" r="20" data-pct="88"/></svg>
-                                    <div class="sc-info"><span class="sc-pct">88%</span><span class="sc-yr">4 years</span></div>
-                                    <span class="skill-level-badge badge-senior">Senior</span>
-                                </div>
-                            </div>
-                            <div class="skill-card-back">
-                                <span class="sc-back-label">Used in</span>
-                                <span class="sc-back-title">JavaScript</span>
-                                <span class="sc-back-projects">Portfolio, Chrono web, Blackjack</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="skill-card">
-                        <div class="skill-card-inner">
-                            <div class="skill-card-front">
-                                <div class="sc-header"><span class="sc-icon">💚</span><span class="sc-name">Vue.js</span></div>
-                                <div class="sc-bottom">
-                                    <svg class="skill-circle" viewBox="0 0 44 44"><circle class="skill-circle-bg" cx="22" cy="22" r="20"/><circle class="skill-circle-fill" cx="22" cy="22" r="20" data-pct="55"/></svg>
-                                    <div class="sc-info"><span class="sc-pct">55%</span><span class="sc-yr">1 year</span></div>
-                                    <span class="skill-level-badge badge-mid">Mid</span>
-                                </div>
-                            </div>
-                            <div class="skill-card-back">
-                                <span class="sc-back-label">Used in</span>
-                                <span class="sc-back-title">Vue.js</span>
-                                <span class="sc-back-projects">Side projects, learning in progress</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- BACKEND -->
-            <div class="skill-cards-panel" data-panel="backend">
-                <div class="skill-cards-grid">
-                    <div class="skill-card">
-                        <div class="skill-card-inner">
-                            <div class="skill-card-front">
-                                <div class="sc-header"><span class="sc-icon">🔥</span><span class="sc-name">Firebase/Firestore</span></div>
-                                <div class="sc-bottom">
-                                    <svg class="skill-circle" viewBox="0 0 44 44"><circle class="skill-circle-bg" cx="22" cy="22" r="20"/><circle class="skill-circle-fill" cx="22" cy="22" r="20" data-pct="75"/></svg>
-                                    <div class="sc-info"><span class="sc-pct">75%</span><span class="sc-yr">2 years</span></div>
-                                    <span class="skill-level-badge badge-mid">Mid</span>
-                                </div>
-                            </div>
-                            <div class="skill-card-back">
-                                <span class="sc-back-label">Used in</span>
-                                <span class="sc-back-title">Firebase/Firestore</span>
-                                <span class="sc-back-projects">Chrono backend, Memive database</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="skill-card">
-                        <div class="skill-card-inner">
-                            <div class="skill-card-front">
-                                <div class="sc-header"><span class="sc-icon">🗄️</span><span class="sc-name">SQL</span></div>
-                                <div class="sc-bottom">
-                                    <svg class="skill-circle" viewBox="0 0 44 44"><circle class="skill-circle-bg" cx="22" cy="22" r="20"/><circle class="skill-circle-fill" cx="22" cy="22" r="20" data-pct="70"/></svg>
-                                    <div class="sc-info"><span class="sc-pct">70%</span><span class="sc-yr">2 years</span></div>
-                                    <span class="skill-level-badge badge-mid">Mid</span>
-                                </div>
-                            </div>
-                            <div class="skill-card-back">
-                                <span class="sc-back-label">Used in</span>
-                                <span class="sc-back-title">SQL</span>
-                                <span class="sc-back-projects">Soluzione1 internship, UniBS courses</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="skill-card">
-                        <div class="skill-card-inner">
-                            <div class="skill-card-front">
-                                <div class="sc-header"><span class="sc-icon">🔗</span><span class="sc-name">REST APIs</span></div>
-                                <div class="sc-bottom">
-                                    <svg class="skill-circle" viewBox="0 0 44 44"><circle class="skill-circle-bg" cx="22" cy="22" r="20"/><circle class="skill-circle-fill" cx="22" cy="22" r="20" data-pct="72"/></svg>
-                                    <div class="sc-info"><span class="sc-pct">72%</span><span class="sc-yr">2 years</span></div>
-                                    <span class="skill-level-badge badge-mid">Mid</span>
-                                </div>
-                            </div>
-                            <div class="skill-card-back">
-                                <span class="sc-back-label">Used in</span>
-                                <span class="sc-back-title">REST APIs</span>
-                                <span class="sc-back-projects">Chrono, Memive, external integrations</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="skill-card">
-                        <div class="skill-card-inner">
-                            <div class="skill-card-front">
-                                <div class="sc-header"><span class="sc-icon">🟩</span><span class="sc-name">Node.js</span></div>
-                                <div class="sc-bottom">
-                                    <svg class="skill-circle" viewBox="0 0 44 44"><circle class="skill-circle-bg" cx="22" cy="22" r="20"/><circle class="skill-circle-fill" cx="22" cy="22" r="20" data-pct="50"/></svg>
-                                    <div class="sc-info"><span class="sc-pct">50%</span><span class="sc-yr">1 year</span></div>
-                                    <span class="skill-level-badge badge-junior">Junior</span>
-                                </div>
-                            </div>
-                            <div class="skill-card-back">
-                                <span class="sc-back-label">Used in</span>
-                                <span class="sc-back-title">Node.js</span>
-                                <span class="sc-back-projects">Small scripts, backend experiments</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- DESIGN -->
-            <div class="skill-cards-panel" data-panel="design">
-                <div class="skill-cards-grid">
-                    <div class="skill-card">
-                        <div class="skill-card-inner">
-                            <div class="skill-card-front">
-                                <div class="sc-header"><span class="sc-icon">🖌️</span><span class="sc-name">UI/UX Design</span></div>
-                                <div class="sc-bottom">
-                                    <svg class="skill-circle" viewBox="0 0 44 44"><circle class="skill-circle-bg" cx="22" cy="22" r="20"/><circle class="skill-circle-fill" cx="22" cy="22" r="20" data-pct="80"/></svg>
-                                    <div class="sc-info"><span class="sc-pct">80%</span><span class="sc-yr">3 years</span></div>
-                                    <span class="skill-level-badge badge-senior">Senior</span>
-                                </div>
-                            </div>
-                            <div class="skill-card-back">
-                                <span class="sc-back-label">Used in</span>
-                                <span class="sc-back-title">UI/UX Design</span>
-                                <span class="sc-back-projects">Memive design system, Portfolio</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="skill-card">
-                        <div class="skill-card-inner">
-                            <div class="skill-card-front">
-                                <div class="sc-header"><span class="sc-icon">🖼️</span><span class="sc-name">Figma</span></div>
-                                <div class="sc-bottom">
-                                    <svg class="skill-circle" viewBox="0 0 44 44"><circle class="skill-circle-bg" cx="22" cy="22" r="20"/><circle class="skill-circle-fill" cx="22" cy="22" r="20" data-pct="78"/></svg>
-                                    <div class="sc-info"><span class="sc-pct">78%</span><span class="sc-yr">2 years</span></div>
-                                    <span class="skill-level-badge badge-mid">Mid</span>
-                                </div>
-                            </div>
-                            <div class="skill-card-back">
-                                <span class="sc-back-label">Used in</span>
-                                <span class="sc-back-title">Figma</span>
-                                <span class="sc-back-projects">App mockups, Memive wireframes</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="skill-card">
-                        <div class="skill-card-inner">
-                            <div class="skill-card-front">
-                                <div class="sc-header"><span class="sc-icon">✨</span><span class="sc-name">Motion/Animation</span></div>
-                                <div class="sc-bottom">
-                                    <svg class="skill-circle" viewBox="0 0 44 44"><circle class="skill-circle-bg" cx="22" cy="22" r="20"/><circle class="skill-circle-fill" cx="22" cy="22" r="20" data-pct="68"/></svg>
-                                    <div class="sc-info"><span class="sc-pct">68%</span><span class="sc-yr">2 years</span></div>
-                                    <span class="skill-level-badge badge-mid">Mid</span>
-                                </div>
-                            </div>
-                            <div class="skill-card-back">
-                                <span class="sc-back-label">Used in</span>
-                                <span class="sc-back-title">Motion/Animation</span>
-                                <span class="sc-back-projects">Portfolio animations, CSS transitions</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="skill-card">
-                        <div class="skill-card-inner">
-                            <div class="skill-card-front">
-                                <div class="sc-header"><span class="sc-icon">🏷️</span><span class="sc-name">Brand Design</span></div>
-                                <div class="sc-bottom">
-                                    <svg class="skill-circle" viewBox="0 0 44 44"><circle class="skill-circle-bg" cx="22" cy="22" r="20"/><circle class="skill-circle-fill" cx="22" cy="22" r="20" data-pct="72"/></svg>
-                                    <div class="sc-info"><span class="sc-pct">72%</span><span class="sc-yr">2 years</span></div>
-                                    <span class="skill-level-badge badge-mid">Mid</span>
-                                </div>
-                            </div>
-                            <div class="skill-card-back">
-                                <span class="sc-back-label">Used in</span>
-                                <span class="sc-back-title">Brand Design</span>
-                                <span class="sc-back-projects">Memive brand, Chrono identity</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- TOOLS -->
-            <div class="skill-cards-panel" data-panel="tools">
-                <div class="skill-cards-grid">
-                    <div class="skill-card">
-                        <div class="skill-card-inner">
-                            <div class="skill-card-front">
-                                <div class="sc-header"><span class="sc-icon">💻</span><span class="sc-name">VS Code</span></div>
-                                <div class="sc-bottom">
-                                    <svg class="skill-circle" viewBox="0 0 44 44"><circle class="skill-circle-bg" cx="22" cy="22" r="20"/><circle class="skill-circle-fill" cx="22" cy="22" r="20" data-pct="92"/></svg>
-                                    <div class="sc-info"><span class="sc-pct">92%</span><span class="sc-yr">4 years</span></div>
-                                    <span class="skill-level-badge badge-senior">Senior</span>
-                                </div>
-                            </div>
-                            <div class="skill-card-back">
-                                <span class="sc-back-label">Used in</span>
-                                <span class="sc-back-title">VS Code</span>
-                                <span class="sc-back-projects">Every single project I've ever built</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="skill-card">
-                        <div class="skill-card-inner">
-                            <div class="skill-card-front">
-                                <div class="sc-header"><span class="sc-icon">🐙</span><span class="sc-name">Git/GitHub</span></div>
-                                <div class="sc-bottom">
-                                    <svg class="skill-circle" viewBox="0 0 44 44"><circle class="skill-circle-bg" cx="22" cy="22" r="20"/><circle class="skill-circle-fill" cx="22" cy="22" r="20" data-pct="70"/></svg>
-                                    <div class="sc-info"><span class="sc-pct">70%</span><span class="sc-yr">2 years</span></div>
-                                    <span class="skill-level-badge badge-mid">Mid</span>
-                                </div>
-                            </div>
-                            <div class="skill-card-back">
-                                <span class="sc-back-label">Used in</span>
-                                <span class="sc-back-title">Git/GitHub</span>
-                                <span class="sc-back-projects">Portfolio hosting, all repos</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="skill-card">
-                        <div class="skill-card-inner">
-                            <div class="skill-card-front">
-                                <div class="sc-header"><span class="sc-icon">🔨</span><span class="sc-name">Xcode</span></div>
-                                <div class="sc-bottom">
-                                    <svg class="skill-circle" viewBox="0 0 44 44"><circle class="skill-circle-bg" cx="22" cy="22" r="20"/><circle class="skill-circle-fill" cx="22" cy="22" r="20" data-pct="58"/></svg>
-                                    <div class="sc-info"><span class="sc-pct">58%</span><span class="sc-yr">1 year</span></div>
-                                    <span class="skill-level-badge badge-mid">Mid</span>
-                                </div>
-                            </div>
-                            <div class="skill-card-back">
-                                <span class="sc-back-label">Used in</span>
-                                <span class="sc-back-title">Xcode</span>
-                                <span class="sc-back-projects">iOS dev, Swift projects</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="skill-card">
-                        <div class="skill-card-inner">
-                            <div class="skill-card-front">
-                                <div class="sc-header"><span class="sc-icon">🤖</span><span class="sc-name">Android Studio</span></div>
-                                <div class="sc-bottom">
-                                    <svg class="skill-circle" viewBox="0 0 44 44"><circle class="skill-circle-bg" cx="22" cy="22" r="20"/><circle class="skill-circle-fill" cx="22" cy="22" r="20" data-pct="65"/></svg>
-                                    <div class="sc-info"><span class="sc-pct">65%</span><span class="sc-yr">2 years</span></div>
-                                    <span class="skill-level-badge badge-mid">Mid</span>
-                                </div>
-                            </div>
-                            <div class="skill-card-back">
-                                <span class="sc-back-label">Used in</span>
-                                <span class="sc-back-title">Android Studio</span>
-                                <span class="sc-back-projects">Flutter Android builds, Chrono</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div><!-- /.skill-cards-wrap -->
+        <div class="dna-tooltip" id="dna-tooltip"></div>
+        <p class="dna-hint">hover to pause · click node for details</p>
     </div>
 </section>
 
@@ -2670,24 +2726,28 @@
 </div><!-- /.tl-sticky-zone -->
 </section>
 
-<!-- ─── WORK (Cyberpunk — unchanged) ─── -->
-<section id="work" class="main style3 primary cyber-section">
-    <div class="scanlines"></div>
-    <div class="cyber-grid-bg"></div>
-    <div class="content" style="position:relative;z-index:2;">
-        <header>
-            <h2 class="glitch-title" data-text="My Work" data-i18n="work-title">My Work</h2>
-            <p data-i18n="work-sub" style="font-family:monospace;letter-spacing:.1em;opacity:.6;color:#0ff;">&gt; Move your mouse to explore ←→</p>
-        </header>
+<!-- ─── WORK (Solar System Projects) ─── -->
+<section id="work" class="main style3 primary solar-section">
+    <div class="solar-header">
+        <span class="dim-sec-label">// my_work</span>
+        <h2 class="dim-sec-title" data-i18n="work-title">My Projects</h2>
+        <p class="solar-sub">Click a planet to explore</p>
     </div>
-    <div class="cyber-viewport">
-        <div class="cyber-track">
-            <div class="cyber-card" data-neon="#00ff88" data-title="Blackjack Web" data-sub="Primo progetto — Liceo Don Milani" data-detail="Il mio primo progetto vero: un Blackjack giocabile costruito alle superiori. Interfaccia casino con sistema di puntate, animazioni carte e regole classiche del 21. Ospitato su Altervista." data-tags="HTML · CSS · JavaScript · Game Dev" data-link="http://edwardattuatiweb.altervista.org/BLACKJACK/sito.html" onclick="window.open('http://edwardattuatiweb.altervista.org/BLACKJACK/sito.html','_blank')" style="cursor:pointer"><div class="cyber-corner tl"></div><div class="cyber-corner tr"></div><div class="cyber-corner bl"></div><div class="cyber-corner br"></div><div class="cyber-card-content"><div class="cyber-label" style="color:#00ff88">// PROJECT_01</div><div class="cyber-icon">🃏</div><h3 class="cyber-h3" style="color:#00ff88">Blackjack Web</h3><p class="cyber-p">Primo Progetto — Liceo Don Milani</p><div class="cyber-status" style="color:#00ff88"><span class="blink">▮</span> LIVE</div></div><div class="cyber-border-glow" style="--neon:#00ff88"></div></div>
-            <div class="cyber-card chrono-card" data-neon="#E8B84B" data-title="Chrono" data-sub="Time Capsule App — iOS · Android · Web" data-detail="Seal your memories, photos and messages in a digital time capsule. Choose when to open it — 1 year, 5 years, or a custom date. Cross-platform sync via Firebase. Built with Flutter. Part of Memive." data-tags="Flutter · Firebase · iOS · Android · Web" data-link="chrono.html" onclick="window.open('chrono.html','_self')" style="cursor:pointer"><div class="cyber-corner tl"></div><div class="cyber-corner tr"></div><div class="cyber-corner bl"></div><div class="cyber-corner br"></div><div class="cyber-card-content"><div class="cyber-label" style="color:#E8B84B">// PROJECT_02</div><div class="cyber-icon"><svg width="42" height="42" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M75 19A38 38 0 1 0 75 81" stroke="#E8B84B" stroke-width="12" stroke-linecap="round"/><polygon points="18,22 62,22 40,50" fill="#E8B84B"/><polygon points="18,78 62,78 40,50" fill="#7C5CFC"/><line x1="10" y1="22" x2="68" y2="22" stroke="#E8B84B" stroke-width="3" stroke-linecap="round"/><line x1="10" y1="78" x2="68" y2="78" stroke="#7C5CFC" stroke-width="3" stroke-linecap="round"/><circle cx="40" cy="50" r="4" fill="#fff"/></svg></div><h3 class="cyber-h3" style="color:#E8B84B">Chrono</h3><p class="cyber-p">Time Capsule — iOS · Android · Web</p><div class="cyber-status" style="color:#E8B84B"><span class="blink">▮</span> LIVE</div></div><div class="cyber-border-glow" style="--neon:#E8B84B"></div></div>
-            <div class="cyber-card" data-neon="#A855F7" data-title="Memive" data-sub="Voice-only social network — In sviluppo" data-detail="Memive è il primo social interamente vocale. Niente foto, niente testo: solo la tua voce. Clip fino a 3 minuti con lifetime scelta (effimera, stagionale, permanente o capsula). Chrono Premium integrato per capsule del tempo vocali." data-tags="Flutter · Firebase · Web · UX Design" data-link="memive.html" onclick="window.open('memive.html','_self')" style="cursor:pointer"><div class="cyber-corner tl"></div><div class="cyber-corner tr"></div><div class="cyber-corner bl"></div><div class="cyber-corner br"></div><div class="cyber-card-content"><div class="cyber-label" style="color:#A855F7">// PROJECT_03</div><div class="cyber-icon"><svg width="48" height="48" viewBox="0 0 90 90" fill="none"><defs><linearGradient id="mv-port-g" x1="0" y1="0" x2="90" y2="90" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#6366F1"/><stop offset="50%" stop-color="#A855F7"/><stop offset="100%" stop-color="#EC4899"/></linearGradient></defs><circle cx="45" cy="45" r="40" fill="rgba(168,85,247,0.12)"/><path d="M14 65 L14 30 Q14 22 22 22 Q28 22 30 30 L45 55 L60 30 Q62 22 68 22 Q76 22 76 30 L76 65" stroke="url(#mv-port-g)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="45" cy="76" r="5" fill="url(#mv-port-g)"/></svg></div><h3 class="cyber-h3" style="color:#A855F7">Memive</h3><p class="cyber-p">Voice-only Social · Chrono Premium</p><div class="cyber-status" style="color:#A855F7"><span class="blink">▮</span> IN DEV</div></div><div class="cyber-border-glow" style="--neon:#A855F7"></div></div>
+    <canvas id="work-solar-stars"></canvas>
+    <div class="solar-system-container" id="solar-system-container">
+        <div style="position:relative;width:0;height:0;" id="solar-root">
+            <div class="solar-sun" id="solar-sun">Edward</div>
+            <svg id="solar-svg" viewBox="-400 -400 800 800" style="position:absolute;left:-400px;top:-400px;width:800px;height:800px;pointer-events:none;overflow:visible;"></svg>
         </div>
     </div>
-    <div class="cyber-hint-bar" style="position:relative;z-index:2;"><div class="cyber-hint-fill"></div></div>
+    <div class="solar-detail-panel" id="solar-detail-panel">
+        <button class="solar-dp-close" id="solar-dp-close">✕</button>
+        <div class="solar-dp-name" id="solar-dp-name"></div>
+        <div class="solar-dp-desc" id="solar-dp-desc"></div>
+        <div class="solar-dp-tags" id="solar-dp-tags"></div>
+        <a class="solar-dp-link" id="solar-dp-link" target="_blank" rel="noopener">Open Project ↗</a>
+    </div>
+    <div class="solar-tooltip" id="solar-tooltip"></div>
 </section>
 
 <!-- Modal -->
@@ -5223,6 +5283,685 @@ function closeTlModal() {
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') closeTlModal();
     });
+})();
+
+/* ─────────────────────────────────────────────────
+   HOLOGRAPHIC HUD — About Section
+───────────────────────────────────────────────── */
+(function() {
+    var HUD_BLIPS = [
+        { label:'STUDIO',    angle:-90, dist:0.65, color:'#00FF41' },
+        { label:'LAVORO',    angle:  0, dist:0.60, color:'#22d3ee' },
+        { label:'PROGETTI',  angle: 45, dist:0.70, color:'#A855F7' },
+        { label:'PASSIONI',  angle:180, dist:0.55, color:'#FBBF24' },
+        { label:'SKILLS',    angle:-135,dist:0.72, color:'#EC4899' },
+    ];
+
+    var HUD_STATS = [
+        { key:'NAME',       val:'Edward Attuati',                  cls:'' },
+        { key:'LOCATION',   val:'Bergamo, IT',                     cls:'accent-cyan' },
+        { key:'ROLE',       val:'Computer Engineering Student + Dev', cls:'' },
+        { key:'UNIVERSITY', val:'UniBS — 3rd Year',               cls:'accent-violet' },
+        { key:'COMPANY',    val:'ALLTUB ITALIA — IT Dept.',        cls:'' },
+        { key:'PROJECTS',   val:'3 shipped',                       cls:'accent-violet' },
+        { key:'LANGUAGES',  val:'IT · EN',                        cls:'accent-cyan' },
+        { key:'STATUS',     val:'AVAILABLE FOR COLLABORATIONS ✓', cls:'accent-green' },
+    ];
+
+    var loadingEl  = document.getElementById('hud-loading');
+    var loadBarEl  = document.getElementById('hud-loading-bar');
+    var loadPctEl  = document.getElementById('hud-loading-pct');
+    var loadMsgEl  = document.getElementById('hud-loading-msg');
+    var mainEl     = document.getElementById('hud-main');
+    if (!loadingEl || !mainEl) return;
+
+    var hudLoadMsgs = [
+        '> Establishing neural link...',
+        '> Decrypting identity vectors...',
+        '> Calibrating radar array...',
+        '> Loading profile matrices...',
+        '> Compiling HUD modules...',
+        '> SYSTEM READY'
+    ];
+
+    var hudProgress = 0;
+    function hudAdvanceLoading() {
+        hudProgress += Math.random() * 9 + 3;
+        if (hudProgress > 100) hudProgress = 100;
+        loadBarEl.style.width  = hudProgress + '%';
+        loadPctEl.textContent  = Math.round(hudProgress) + '%';
+        loadMsgEl.textContent  = hudLoadMsgs[Math.floor(hudProgress / 17)] || hudLoadMsgs[hudLoadMsgs.length-1];
+        if (hudProgress < 100) {
+            setTimeout(hudAdvanceLoading, 80 + Math.random() * 80);
+        } else {
+            setTimeout(function() {
+                loadingEl.classList.add('hidden');
+                mainEl.classList.add('visible');
+                hudBuildUI();
+            }, 400);
+        }
+    }
+    hudAdvanceLoading();
+
+    // Clock
+    setInterval(function() {
+        var n = new Date();
+        var el = document.getElementById('hud-time');
+        if (el) el.textContent =
+            String(n.getHours()).padStart(2,'0') + ':' +
+            String(n.getMinutes()).padStart(2,'0') + ':' +
+            String(n.getSeconds()).padStart(2,'0');
+    }, 1000);
+
+    function hudBuildUI() {
+        var radarCont = document.getElementById('hud-radar-container');
+        var statsEl   = document.getElementById('hud-stats-list');
+        if (!radarCont || !statsEl) return;
+
+        var cx = 190, cy = 190, maxR = 155;
+
+        // Build blips
+        HUD_BLIPS.forEach(function(b, bi) {
+            var rad = b.angle * Math.PI / 180;
+            var r   = b.dist * maxR;
+            var bx  = cx + Math.cos(rad) * r;
+            var by  = cy + Math.sin(rad) * r;
+
+            var blip = document.createElement('div');
+            blip.className = 'hud-blip';
+            blip.style.cssText = [
+                'left:' + (bx / 380 * 100) + '%',
+                'top:' + (by / 380 * 100) + '%',
+                'background:' + b.color,
+                'box-shadow:0 0 6px ' + b.color,
+                'color:' + b.color,
+                'opacity:0',
+                'transition:opacity 0.3s'
+            ].join(';');
+
+            var lbl = document.createElement('span');
+            lbl.className = 'hud-blip-label';
+            lbl.style.color = b.color;
+            lbl.textContent = b.label;
+            blip.appendChild(lbl);
+            radarCont.appendChild(blip);
+
+            setTimeout(function() { blip.style.opacity = '1'; }, bi * 200 + 600);
+        });
+
+        // Build stats rows with typing animation
+        HUD_STATS.forEach(function(stat, idx) {
+            var row = document.createElement('div');
+            row.className = 'hud-stat-row';
+            var delay = idx * 200 + 800;
+            setTimeout(function() { row.classList.add('visible'); }, delay);
+
+            var keyEl = document.createElement('span');
+            keyEl.className = 'hud-stat-key';
+            keyEl.textContent = stat.key;
+
+            var sepEl = document.createElement('span');
+            sepEl.className = 'hud-stat-sep';
+            sepEl.textContent = ':';
+
+            var valEl = document.createElement('span');
+            valEl.className = 'hud-stat-val' + (stat.cls ? ' ' + stat.cls : '');
+            valEl.textContent = '';
+
+            row.appendChild(keyEl);
+            row.appendChild(sepEl);
+            row.appendChild(valEl);
+            statsEl.appendChild(row);
+
+            // Typing animation
+            setTimeout(function() {
+                var chars = stat.val.split('');
+                var ci2 = 0;
+                var interval = setInterval(function() {
+                    if (ci2 < chars.length) {
+                        valEl.textContent += chars[ci2++];
+                    } else {
+                        clearInterval(interval);
+                    }
+                }, 35);
+            }, delay + 100);
+        });
+    }
+})();
+
+/* ─────────────────────────────────────────────────
+   DNA HELIX — Skills Section
+───────────────────────────────────────────────── */
+(function() {
+    var DNA_SKILLS = [
+        { name:'Flutter',    cat:'Mobile',  pct:85, color:'#A855F7', projects:'Memive, Chrono (cross-platform)' },
+        { name:'Dart',       cat:'Mobile',  pct:85, color:'#A855F7', projects:'Tutti i progetti Flutter' },
+        { name:'Swift',      cat:'Mobile',  pct:60, color:'#A855F7', projects:'Native iOS experiments' },
+        { name:'Firebase',   cat:'Mobile',  pct:78, color:'#A855F7', projects:'Auth, Firestore, Storage' },
+        { name:'HTML',       cat:'Web',     pct:90, color:'#22d3ee', projects:'Portfolio, tutti i web proj.' },
+        { name:'CSS',        cat:'Web',     pct:90, color:'#22d3ee', projects:'UI design, animazioni' },
+        { name:'JavaScript', cat:'Web',     pct:88, color:'#22d3ee', projects:'Siti interattivi, canvas' },
+        { name:'Vue.js',     cat:'Web',     pct:55, color:'#22d3ee', projects:'SPA experiments' },
+        { name:'Firebase DB',cat:'Backend', pct:75, color:'#F59E0B', projects:'Real-time apps, Memive' },
+        { name:'SQL',        cat:'Backend', pct:70, color:'#F59E0B', projects:'Data projects, UniBS' },
+        { name:'REST APIs',  cat:'Backend', pct:72, color:'#F59E0B', projects:'Mobile backends' },
+        { name:'Node.js',    cat:'Backend', pct:50, color:'#F59E0B', projects:'API servers' },
+        { name:'UI/UX',      cat:'Design',  pct:80, color:'#EC4899', projects:'App design, wireframes' },
+        { name:'Figma',      cat:'Design',  pct:78, color:'#EC4899', projects:'Prototipi, design system' },
+        { name:'Motion',     cat:'Design',  pct:68, color:'#EC4899', projects:'Micro-interactions' },
+        { name:'Branding',   cat:'Design',  pct:72, color:'#EC4899', projects:'Logo, identità visiva' },
+        { name:'VS Code',    cat:'Tools',   pct:92, color:'#60A5FA', projects:'Daily driver' },
+        { name:'Git',        cat:'Tools',   pct:70, color:'#60A5FA', projects:'Tutti i progetti' },
+        { name:'Xcode',      cat:'Tools',   pct:58, color:'#60A5FA', projects:'iOS development' },
+        { name:'Android S.', cat:'Tools',   pct:65, color:'#60A5FA', projects:'Flutter Android builds' },
+    ];
+
+    function dnaGetBadge(pct) {
+        if (pct >= 85) return { label:'Expert',     bg:'rgba(168,85,247,0.3)',  color:'#A855F7' };
+        if (pct >= 70) return { label:'Advanced',   bg:'rgba(34,211,238,0.3)',  color:'#22d3ee' };
+        if (pct >= 55) return { label:'Proficient', bg:'rgba(245,158,11,0.3)',  color:'#F59E0B' };
+        return             { label:'Learning',   bg:'rgba(96,165,250,0.3)',  color:'#60A5FA' };
+    }
+
+    var dnaCanvas = document.getElementById('skills-dna-canvas');
+    if (!dnaCanvas) return;
+    var dnaCtx = dnaCanvas.getContext('2d');
+    var dnaW, dnaH, dnaCx, dnaCy;
+
+    function dnaResize() {
+        var wrap = dnaCanvas.parentElement;
+        dnaW = dnaCanvas.width  = wrap.clientWidth;
+        dnaH = dnaCanvas.height = wrap.clientHeight;
+        dnaCx = dnaW / 2; dnaCy = dnaH / 2;
+    }
+    dnaResize();
+    window.addEventListener('resize', dnaResize);
+
+    var dnaAngle    = 0;
+    var dnaRotSpeed = 0.008;
+    var dnaMouseX   = -1, dnaMouseY = -1;
+    var dnaHoveredSkill = null;
+    var dnaSelectedSkill = null;
+    var DNA_N       = DNA_SKILLS.length;
+
+    // Particles
+    var dnaParticles = [];
+    for (var pi = 0; pi < 60; pi++) {
+        dnaParticles.push({
+            x: Math.random(), y: Math.random(),
+            vx: (Math.random()-0.5)*0.0003,
+            vy: (Math.random()-0.5)*0.0003,
+            r: Math.random()*1.2+0.3,
+            alpha: Math.random()*0.3+0.05
+        });
+    }
+
+    function dnaGetNodePos(i, a) {
+        var strand = i % 2;
+        var t  = i / DNA_N;
+        var helixH = Math.min(dnaH * 0.82, 380);
+        var helixR = Math.min(dnaW * 0.11, 80);
+        var helixTop = dnaCy - helixH / 2;
+        var y   = helixTop + t * helixH;
+        var phi = a + t * Math.PI * 3 + (strand === 1 ? Math.PI : 0);
+        var x   = dnaCx + Math.cos(phi) * helixR;
+        var z   = Math.sin(phi);
+        return { x: x, y: y, z: z, strand: strand };
+    }
+
+    function dnaDrawFrame() {
+        dnaCtx.clearRect(0, 0, dnaW, dnaH);
+
+        // Background gradient
+        var rg = dnaCtx.createRadialGradient(dnaCx, dnaCy, 0, dnaCx, dnaCy, Math.max(dnaW, dnaH)*0.6);
+        rg.addColorStop(0, 'rgba(60,0,80,0.18)');
+        rg.addColorStop(1, 'rgba(5,5,15,0)');
+        dnaCtx.fillStyle = rg;
+        dnaCtx.fillRect(0, 0, dnaW, dnaH);
+
+        // Particles
+        dnaParticles.forEach(function(p) {
+            p.x += p.vx; p.y += p.vy;
+            if (p.x < 0) p.x = 1; if (p.x > 1) p.x = 0;
+            if (p.y < 0) p.y = 1; if (p.y > 1) p.y = 0;
+            dnaCtx.beginPath();
+            dnaCtx.arc(p.x*dnaW, p.y*dnaH, p.r, 0, Math.PI*2);
+            dnaCtx.fillStyle = 'rgba(168,85,247,' + p.alpha + ')';
+            dnaCtx.fill();
+        });
+
+        // Compute positions
+        var positions = DNA_SKILLS.map(function(s, i) { return dnaGetNodePos(i, dnaAngle); });
+        var order = positions.map(function(p, i) { return i; }).sort(function(a, b) { return positions[a].z - positions[b].z; });
+
+        // Rungs
+        for (var ri = 0; ri < DNA_N - 1; ri += 2) {
+            var pA = positions[ri], pB = positions[ri+1];
+            var midZ  = (pA.z + pB.z) / 2;
+            var alpha = (midZ + 1) / 2 * 0.4 + 0.1;
+            var grad  = dnaCtx.createLinearGradient(pA.x, pA.y, pB.x, pB.y);
+            var hexA  = Math.round(alpha*255).toString(16).padStart(2,'0');
+            grad.addColorStop(0, DNA_SKILLS[ri].color   + hexA);
+            grad.addColorStop(1, DNA_SKILLS[ri+1].color + hexA);
+            dnaCtx.beginPath();
+            dnaCtx.moveTo(pA.x, pA.y);
+            dnaCtx.lineTo(pB.x, pB.y);
+            dnaCtx.strokeStyle = grad;
+            dnaCtx.lineWidth = 1.5;
+            dnaCtx.stroke();
+        }
+
+        // Backbone strands
+        for (var st = 0; st < 2; st++) {
+            var strandNodes = [];
+            for (var ni = 0; ni < DNA_N; ni++) {
+                if (ni % 2 === st) strandNodes.push({ pos: positions[ni], skill: DNA_SKILLS[ni], i: ni });
+            }
+            for (var ki = 0; ki < strandNodes.length - 1; ki++) {
+                var na = strandNodes[ki], nb = strandNodes[ki+1];
+                var bAlpha = ((na.pos.z + nb.pos.z) / 2 + 1) / 2 * 0.5 + 0.2;
+                dnaCtx.beginPath();
+                dnaCtx.moveTo(na.pos.x, na.pos.y);
+                dnaCtx.lineTo(nb.pos.x, nb.pos.y);
+                dnaCtx.strokeStyle = 'rgba(124,58,237,' + bAlpha + ')';
+                dnaCtx.lineWidth = 2;
+                dnaCtx.stroke();
+            }
+        }
+
+        // Find hovered node
+        var minDist = 40, newHovered = null;
+        if (dnaMouseX > 0) {
+            DNA_SKILLS.forEach(function(s, i) {
+                var d = Math.hypot(dnaMouseX - positions[i].x, dnaMouseY - positions[i].y);
+                if (d < minDist) { minDist = d; newHovered = i; }
+            });
+        }
+
+        // Rotation speed
+        if (newHovered !== null) {
+            dnaRotSpeed += (0.001 - dnaRotSpeed) * 0.1;
+        } else {
+            dnaRotSpeed += (0.008 - dnaRotSpeed) * 0.05;
+        }
+
+        // Draw nodes
+        order.forEach(function(i) {
+            var skill  = DNA_SKILLS[i];
+            var pos    = positions[i];
+            var normZ  = (pos.z + 1) / 2;
+            var baseR  = skill.pct * 0.22 + 6;
+            var r      = baseR * (0.5 + normZ * 0.7);
+            var isHov  = (i === newHovered);
+            var dispR  = isHov ? r * 1.4 : r;
+            var nodeAlpha = 0.35 + normZ * 0.65;
+
+            if (isHov || normZ > 0.7) {
+                var glowR = dispR * 2.5;
+                var glow  = dnaCtx.createRadialGradient(pos.x, pos.y, 0, pos.x, pos.y, glowR);
+                glow.addColorStop(0, skill.color + '44');
+                glow.addColorStop(1, skill.color + '00');
+                dnaCtx.beginPath();
+                dnaCtx.arc(pos.x, pos.y, glowR, 0, Math.PI*2);
+                dnaCtx.fillStyle = glow;
+                dnaCtx.fill();
+            }
+
+            var ng = dnaCtx.createRadialGradient(pos.x - dispR*0.3, pos.y - dispR*0.3, 0, pos.x, pos.y, dispR);
+            ng.addColorStop(0, skill.color + 'FF');
+            ng.addColorStop(0.6, skill.color + Math.round(nodeAlpha*0.7*255).toString(16).padStart(2,'0'));
+            ng.addColorStop(1, skill.color + '22');
+            dnaCtx.beginPath();
+            dnaCtx.arc(pos.x, pos.y, dispR, 0, Math.PI*2);
+            dnaCtx.fillStyle = ng;
+            dnaCtx.fill();
+            dnaCtx.strokeStyle = skill.color + Math.round(nodeAlpha*255).toString(16).padStart(2,'0');
+            dnaCtx.lineWidth = isHov ? 2 : 1;
+            dnaCtx.stroke();
+
+            if (normZ > 0.5 || isHov) {
+                dnaCtx.save();
+                dnaCtx.globalAlpha = Math.min(1, (normZ - 0.4) / 0.3);
+                dnaCtx.fillStyle = '#fff';
+                dnaCtx.font = (isHov ? '700' : '500') + ' ' + Math.round(7 + normZ*4) + 'px Space Grotesk,sans-serif';
+                dnaCtx.textAlign = 'center';
+                dnaCtx.textBaseline = 'middle';
+                dnaCtx.fillText(skill.name, pos.x, pos.y);
+                dnaCtx.restore();
+            }
+        });
+
+        dnaHoveredSkill = (newHovered !== null) ? DNA_SKILLS[newHovered] : null;
+        var tt = document.getElementById('dna-tooltip');
+        if (dnaHoveredSkill && dnaMouseX > 0) {
+            var b = dnaGetBadge(dnaHoveredSkill.pct);
+            var rect = dnaCanvas.getBoundingClientRect();
+            tt.innerHTML = '<div style="font-family:\'Space Mono\',monospace;font-weight:700;color:' + dnaHoveredSkill.color + ';font-size:13px;">' + dnaHoveredSkill.name + '</div>' +
+                '<div style="font-size:10px;color:rgba(255,255,255,0.5);margin:3px 0;">' + dnaHoveredSkill.cat + '</div>' +
+                '<div style="font-size:16px;font-family:\'Space Mono\',monospace;font-weight:700;color:' + dnaHoveredSkill.color + ';">' + dnaHoveredSkill.pct + '%</div>' +
+                '<div style="display:inline-block;padding:2px 8px;border-radius:20px;background:' + b.bg + ';color:' + b.color + ';font-size:9px;margin-top:4px;font-weight:600;text-transform:uppercase;">' + b.label + '</div>';
+            tt.style.left  = (rect.left + positions[newHovered].x + 16) + 'px';
+            tt.style.top   = (rect.top  + positions[newHovered].y - 20) + 'px';
+            tt.classList.add('visible');
+        } else {
+            tt.classList.remove('visible');
+        }
+
+        dnaAngle += dnaRotSpeed;
+        requestAnimationFrame(dnaDrawFrame);
+    }
+
+    dnaCanvas.addEventListener('mousemove', function(e) {
+        var rect = dnaCanvas.getBoundingClientRect();
+        dnaMouseX = (e.clientX - rect.left) * (dnaCanvas.width  / rect.width);
+        dnaMouseY = (e.clientY - rect.top)  * (dnaCanvas.height / rect.height);
+    });
+    dnaCanvas.addEventListener('mouseleave', function() {
+        dnaMouseX = -1; dnaMouseY = -1;
+        var tt = document.getElementById('dna-tooltip');
+        if (tt) tt.classList.remove('visible');
+    });
+    dnaCanvas.addEventListener('click', function() {
+        if (!dnaHoveredSkill) return;
+        dnaSelectedSkill = dnaHoveredSkill;
+        var b  = dnaGetBadge(dnaHoveredSkill.pct);
+        var dp = document.getElementById('dna-detail-panel');
+        var nameEl = document.getElementById('dna-dp-name');
+        var catEl  = document.getElementById('dna-dp-cat');
+        var barEl  = document.getElementById('dna-dp-bar');
+        var pctEl  = document.getElementById('dna-dp-pct');
+        var badgeEl = document.getElementById('dna-dp-badge');
+        var projEl  = document.getElementById('dna-dp-projects');
+        if (!dp || !nameEl) return;
+        nameEl.textContent  = dnaHoveredSkill.name;
+        nameEl.style.color  = dnaHoveredSkill.color;
+        catEl.textContent   = dnaHoveredSkill.cat;
+        barEl.style.background = dnaHoveredSkill.color;
+        barEl.style.width   = dnaHoveredSkill.pct + '%';
+        pctEl.textContent   = dnaHoveredSkill.pct + '%';
+        pctEl.style.color   = dnaHoveredSkill.color;
+        badgeEl.textContent = b.label;
+        badgeEl.style.background = b.bg;
+        badgeEl.style.color = b.color;
+        projEl.textContent  = dnaHoveredSkill.projects;
+        dp.classList.add('visible');
+    });
+    var dnaClose = document.getElementById('dna-dp-close');
+    if (dnaClose) {
+        dnaClose.addEventListener('click', function() {
+            var dp = document.getElementById('dna-detail-panel');
+            if (dp) dp.classList.remove('visible');
+        });
+    }
+
+    dnaDrawFrame();
+})();
+
+/* ─────────────────────────────────────────────────
+   SOLAR SYSTEM — Work Section
+───────────────────────────────────────────────── */
+(function() {
+    var SOLAR_PROJECTS = [
+        {
+            name: 'Memive',
+            color: '#A855F7',
+            orbitR: 130,
+            period: 20000,
+            desc: 'Il primo social interamente vocale. Niente foto, niente testo: solo la tua voce. Clip fino a 3 min con lifetime scelta. Chrono Premium integrato.',
+            tags: ['Flutter', 'Firebase', 'Dart', 'iOS', 'UX Design'],
+            link: 'memive.html',
+            satellites: [
+                { name:'Flutter', pct:85 }, { name:'Firebase', pct:78 },
+                { name:'Dart', pct:85 },    { name:'iOS', pct:60 }
+            ]
+        },
+        {
+            name: 'Chrono',
+            color: '#FBBF24',
+            orbitR: 210,
+            period: 28000,
+            desc: 'Sigilla ricordi, foto e messaggi in una capsula digitale del tempo. Scegli quando aprirla — 1 anno, 5 anni, o una data custom. Sync via Firebase.',
+            tags: ['Flutter', 'Firebase', 'iOS', 'Android', 'Web'],
+            link: 'chrono.html',
+            satellites: [
+                { name:'Flutter', pct:85 }, { name:'Firebase', pct:78 },
+                { name:'iOS', pct:60 },     { name:'Web', pct:90 }
+            ]
+        },
+        {
+            name: 'Blackjack',
+            color: '#00F5D4',
+            orbitR: 300,
+            period: 35000,
+            desc: 'Primo progetto — Liceo Don Milani. Un Blackjack giocabile con interfaccia casino, sistema di puntate, animazioni carte e regole classiche del 21.',
+            tags: ['HTML', 'CSS', 'JavaScript', 'Game Dev'],
+            link: 'http://edwardattuatiweb.altervista.org/BLACKJACK/sito.html',
+            satellites: [
+                { name:'HTML', pct:90 }, { name:'CSS', pct:90 },
+                { name:'JS', pct:88 },   { name:'Game', pct:65 }
+            ]
+        }
+    ];
+
+    // Stars canvas
+    var starsC = document.getElementById('work-solar-stars');
+    if (!starsC) return;
+    var sCtx = starsC.getContext('2d');
+    var solarStars = [];
+
+    function resizeSolarStars() {
+        var sec = starsC.parentElement;
+        starsC.width  = sec ? sec.offsetWidth  : window.innerWidth;
+        starsC.height = sec ? sec.offsetHeight : window.innerHeight;
+    }
+    resizeSolarStars();
+    window.addEventListener('resize', resizeSolarStars);
+
+    for (var si = 0; si < 350; si++) {
+        solarStars.push({
+            x: Math.random(), y: Math.random(),
+            r: Math.random() * 1.5 + 0.2,
+            alpha: Math.random() * 0.7 + 0.2,
+            twinkleSpeed: 0.5 + Math.random() * 2,
+            twinklePhase: Math.random() * Math.PI * 2
+        });
+    }
+    var starTime = 0;
+    function animateSolarStars() {
+        sCtx.clearRect(0, 0, starsC.width, starsC.height);
+        starTime += 0.01;
+        solarStars.forEach(function(s) {
+            var a = s.alpha * (0.5 + 0.5 * Math.sin(starTime * s.twinkleSpeed + s.twinklePhase));
+            sCtx.beginPath();
+            sCtx.arc(s.x * starsC.width, s.y * starsC.height, s.r, 0, Math.PI * 2);
+            sCtx.fillStyle = 'rgba(255,255,255,' + a + ')';
+            sCtx.fill();
+        });
+        requestAnimationFrame(animateSolarStars);
+    }
+    animateSolarStars();
+
+    // Build solar system
+    var solarRoot = document.getElementById('solar-root');
+    var solarSvg  = document.getElementById('solar-svg');
+    var solarCont = document.getElementById('solar-system-container');
+    if (!solarRoot || !solarSvg || !solarCont) return;
+
+    // Draw orbit tracks in SVG
+    SOLAR_PROJECTS.forEach(function(proj) {
+        var circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        circle.setAttribute('cx', 0);
+        circle.setAttribute('cy', 0);
+        circle.setAttribute('r', proj.orbitR);
+        circle.setAttribute('fill', 'none');
+        circle.setAttribute('stroke', proj.color);
+        circle.setAttribute('stroke-width', '0.5');
+        circle.setAttribute('stroke-dasharray', '4 8');
+        circle.setAttribute('opacity', '0.3');
+        solarSvg.appendChild(circle);
+    });
+
+    var solarPlanetData = [];
+    var solarSelectedIdx = null;
+
+    SOLAR_PROJECTS.forEach(function(proj, ci) {
+        var wrapper = document.createElement('div');
+        wrapper.className = 'solar-orbit-wrapper';
+        wrapper.style.cssText = 'left:0;top:0;';
+        solarRoot.appendChild(wrapper);
+
+        var pSize = 42 + ci * 6;
+        var planet = document.createElement('div');
+        planet.className = 'solar-planet';
+        planet.style.cssText = [
+            'width:' + pSize + 'px',
+            'height:' + pSize + 'px',
+            'background:radial-gradient(circle at 40% 35%,' + proj.color + 'EE,' + proj.color + '55)',
+            'box-shadow:0 0 ' + (pSize*0.5) + 'px ' + proj.color + '88',
+            'border:1px solid ' + proj.color,
+            'left:' + proj.orbitR + 'px',
+            'top:0',
+            'transform:translate(-50%,-50%)',
+        ].join(';');
+        planet.innerHTML = '<span style="pointer-events:none;color:#fff;font-weight:700;font-size:8px;">' + proj.name + '</span>' +
+            '<div class="solar-planet-label">' + proj.name + '</div>';
+        wrapper.appendChild(planet);
+
+        var startAngle = ci * (360 / SOLAR_PROJECTS.length);
+        var currentAngle = startAngle;
+
+        var pInfo = { proj: proj, wrapper: wrapper, planet: planet, angle: currentAngle, expanded: false };
+        solarPlanetData.push(pInfo);
+
+        function animatePlanet() {
+            if (solarSelectedIdx === null) {
+                currentAngle = (Date.now() / proj.period * 360 + startAngle) % 360;
+            }
+            wrapper.style.transform = 'translate(-50%,-50%) rotate(' + currentAngle + 'deg)';
+            planet.style.transform  = 'translate(-50%,-50%) rotate(' + (-currentAngle) + 'deg)';
+            requestAnimationFrame(animatePlanet);
+        }
+        animatePlanet();
+
+        // Satellite system
+        var satSystem = document.createElement('div');
+        satSystem.className = 'solar-satellite-system';
+        planet.appendChild(satSystem);
+
+        proj.satellites.forEach(function(sat, ssi) {
+            var satR    = 45 + ssi * 12;
+            var satWrap = document.createElement('div');
+            satWrap.style.cssText = 'position:absolute;width:0;height:0;transform-origin:0 0;left:50%;top:50%;';
+            satSystem.appendChild(satWrap);
+
+            var satSize = Math.round(sat.pct * 0.3 + 10);
+            var satEl   = document.createElement('div');
+            satEl.className = 'solar-satellite';
+            satEl.style.cssText = [
+                'width:' + satSize + 'px',
+                'height:' + satSize + 'px',
+                'background:radial-gradient(circle at 40% 35%,' + proj.color + 'CC,' + proj.color + '44)',
+                'box-shadow:0 0 ' + satSize + 'px ' + proj.color + '66',
+                'border:1px solid ' + proj.color + '88',
+                'left:' + satR + 'px',
+                'top:0',
+                'transform:translate(-50%,-50%)',
+            ].join(';');
+            satEl.textContent = sat.name.slice(0, 4);
+            satWrap.appendChild(satEl);
+
+            // Sat orbit track
+            var satTrack = document.createElement('div');
+            satTrack.style.cssText = 'position:absolute;width:' + (satR*2) + 'px;height:' + (satR*2) + 'px;border-radius:50%;border:1px dashed ' + proj.color + '33;left:-' + satR + 'px;top:-' + satR + 'px;pointer-events:none;';
+            satSystem.appendChild(satTrack);
+
+            var satPeriod = 4000 + ssi * 700;
+            var satStart  = ssi * 90;
+            function animateSat() {
+                var a = (Date.now() / satPeriod * 360 + satStart) % 360;
+                satWrap.style.transform = 'rotate(' + a + 'deg)';
+                satEl.style.transform   = 'translate(-50%,-50%) rotate(' + (-a) + 'deg)';
+                requestAnimationFrame(animateSat);
+            }
+            animateSat();
+
+            // Satellite tooltip
+            var stt = document.getElementById('solar-tooltip');
+            satEl.addEventListener('mouseenter', function(e) {
+                if (!stt) return;
+                stt.innerHTML = '<span style="color:' + proj.color + ';font-family:\'Space Mono\',monospace;font-weight:700;">' + sat.name + '</span><br>' +
+                    '<span style="color:rgba(255,255,255,0.5);font-size:10px;">' + proj.name + ' · ' + sat.pct + '%</span>';
+                stt.classList.add('visible');
+            });
+            satEl.addEventListener('mousemove', function(e) {
+                if (!stt) return;
+                stt.style.left = (e.clientX + 12) + 'px';
+                stt.style.top  = (e.clientY - 10) + 'px';
+            });
+            satEl.addEventListener('mouseleave', function() {
+                if (stt) stt.classList.remove('visible');
+            });
+        });
+
+        // Planet click
+        planet.addEventListener('click', function(e) {
+            e.stopPropagation();
+            var dp      = document.getElementById('solar-detail-panel');
+            var dpName  = document.getElementById('solar-dp-name');
+            var dpDesc  = document.getElementById('solar-dp-desc');
+            var dpTags  = document.getElementById('solar-dp-tags');
+            var dpLink  = document.getElementById('solar-dp-link');
+            if (!dp) return;
+
+            if (solarSelectedIdx === ci) {
+                solarSelectedIdx = null;
+                satSystem.classList.remove('visible');
+                pInfo.expanded = false;
+                dp.classList.remove('visible');
+                return;
+            }
+            // Deselect previous
+            document.querySelectorAll('.solar-satellite-system').forEach(function(s) { s.classList.remove('visible'); });
+            solarPlanetData.forEach(function(pd) { pd.expanded = false; });
+
+            solarSelectedIdx = ci;
+            pInfo.expanded   = true;
+            satSystem.classList.add('visible');
+
+            // Fill panel
+            dpName.textContent  = proj.name;
+            dpName.style.color  = proj.color;
+            dpDesc.textContent  = proj.desc;
+            dpTags.innerHTML    = proj.tags.map(function(t) {
+                return '<span class="solar-dp-tag" style="border-color:' + proj.color + '44;color:' + proj.color + '99;">' + t + '</span>';
+            }).join('');
+            dpLink.href         = proj.link;
+            dpLink.style.color  = proj.color;
+            dpLink.style.borderColor = proj.color + '55';
+            dp.classList.add('visible');
+        });
+    });
+
+    // Click outside → close
+    solarCont.addEventListener('click', function(e) {
+        if (!e.target.closest('.solar-planet') && !e.target.closest('.solar-satellite')) {
+            solarSelectedIdx = null;
+            document.querySelectorAll('.solar-satellite-system').forEach(function(s) { s.classList.remove('visible'); });
+            var dp = document.getElementById('solar-detail-panel');
+            if (dp) dp.classList.remove('visible');
+            solarPlanetData.forEach(function(pd) { pd.expanded = false; });
+        }
+    });
+
+    var solarClose = document.getElementById('solar-dp-close');
+    if (solarClose) {
+        solarClose.addEventListener('click', function() {
+            solarSelectedIdx = null;
+            document.querySelectorAll('.solar-satellite-system').forEach(function(s) { s.classList.remove('visible'); });
+            var dp = document.getElementById('solar-detail-panel');
+            if (dp) dp.classList.remove('visible');
+        });
+    }
 })();
 
 </script>
