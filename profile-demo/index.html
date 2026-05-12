@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Profile Demos — Scegli il tuo stile</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:#06080f;min-height:100vh;font-family:'Inter',sans-serif;color:#fff;padding:40px 24px;}
+h1{text-align:center;font-size:32px;font-weight:800;margin-bottom:8px;background:linear-gradient(135deg,#fff,#d4af37);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.sub{text-align:center;color:rgba(255,255,255,.4);font-size:14px;margin-bottom:48px;}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:24px;max-width:1100px;margin:0 auto;}
+
+.card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:20px;overflow:hidden;transition:.3s;cursor:pointer;text-decoration:none;}
+.card:hover{border-color:rgba(212,175,55,.35);transform:translateY(-4px);box-shadow:0 20px 60px rgba(0,0,0,.5);}
+
+.preview{height:200px;display:flex;align-items:center;justify-content:center;font-size:64px;position:relative;overflow:hidden;}
+.preview .label-big{font-size:80px;opacity:.12;position:absolute;font-weight:800;letter-spacing:-4px;}
+
+.card-a .preview{background:linear-gradient(135deg,#0d1a3a,#1a0d3a);}
+.card-b .preview{background:linear-gradient(135deg,#020a02,#0a1a0a);}
+.card-c .preview{background:linear-gradient(135deg,#060612,#0d0a20);}
+.card-d .preview{background:linear-gradient(135deg,#030612,#0a0620);}
+.card-e .preview{background:linear-gradient(135deg,#060610,#10060a);}
+
+.card-info{padding:20px 22px;}
+.letter{display:inline-block;background:rgba(212,175,55,.15);border:1px solid rgba(212,175,55,.3);color:#d4af37;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;margin-bottom:10px;letter-spacing:1px;}
+.card-info h3{font-size:17px;font-weight:700;margin-bottom:6px;}
+.card-info p{font-size:13px;color:rgba(255,255,255,.45);line-height:1.6;margin-bottom:14px;}
+.tags{display:flex;flex-wrap:wrap;gap:6px;}
+.tag{background:rgba(255,255,255,.06);border-radius:20px;font-size:10px;padding:3px 10px;color:rgba(255,255,255,.5);}
+
+.open-btn{display:block;text-align:center;background:rgba(212,175,55,.12);border:1px solid rgba(212,175,55,.25);color:#d4af37;border-radius:10px;padding:10px;font-size:13px;font-weight:600;text-decoration:none;transition:.2s;}
+.open-btn:hover{background:rgba(212,175,55,.22);}
+</style>
+</head>
+<body>
+<h1>About Me — 5 Proposte</h1>
+<p class="sub">Apri ogni demo e dimmi qual è quella che preferisci</p>
+
+<div class="grid">
+
+  <a href="profile-a.html" target="_blank" class="card card-a">
+    <div class="preview">
+      🎲
+      <span class="label-big">A</span>
+    </div>
+    <div class="card-info">
+      <span class="letter">A</span>
+      <h3>Cubo 3D Interattivo</h3>
+      <p>Un cubo 3D che puoi trascinare e ruotare liberamente. Ogni faccia mostra una parte di te: chi sei, stack, passioni, contatti, progetti e mission.</p>
+      <div class="tags"><span class="tag">3D CSS</span><span class="tag">Drag & Drop</span><span class="tag">6 Facce</span><span class="tag">Auto-spin</span></div>
+      <br>
+      <span class="open-btn">Apri Demo A →</span>
+    </div>
+  </a>
+
+  <a href="profile-b.html" target="_blank" class="card card-b">
+    <div class="preview">
+      💻
+      <span class="label-big">B</span>
+    </div>
+    <div class="card-info">
+      <span class="letter">B</span>
+      <h3>Terminal Hacker</h3>
+      <p>Terminale stile Matrix con effetto typewriter che "esegue comandi" rivelandoti. Pioggia di katakana in background, skill bars verdi animati.</p>
+      <div class="tags"><span class="tag">Matrix Rain</span><span class="tag">Typewriter</span><span class="tag">Scanlines</span><span class="tag">Dark Green</span></div>
+      <br>
+      <span class="open-btn">Apri Demo B →</span>
+    </div>
+  </a>
+
+  <a href="profile-c.html" target="_blank" class="card card-c">
+    <div class="preview">
+      💳
+      <span class="label-big">C</span>
+    </div>
+    <div class="card-info">
+      <span class="letter">C</span>
+      <h3>Carta d'Identità Olografica</h3>
+      <p>Una carta di credito/ID futuristica che si inclina seguendo il mouse con effetto ologramma arcobaleno. Click per girarla e vedere il retro.</p>
+      <div class="tags"><span class="tag">Tilt Effect</span><span class="tag">Hologram</span><span class="tag">Card Flip</span><span class="tag">3D CSS</span></div>
+      <br>
+      <span class="open-btn">Apri Demo C →</span>
+    </div>
+  </a>
+
+  <a href="profile-d.html" target="_blank" class="card card-d">
+    <div class="preview">
+      ✨
+      <span class="label-big">D</span>
+    </div>
+    <div class="card-info">
+      <span class="letter">D</span>
+      <h3>Costellazione delle Skills</h3>
+      <p>Notte stellata interattiva dove ogni stella è una skill. Linee di costellazione tra le stelle correlate. Filtra per categoria, hover per tooltip.</p>
+      <div class="tags"><span class="tag">Canvas</span><span class="tag">Constellations</span><span class="tag">Filter</span><span class="tag">Tooltip</span></div>
+      <br>
+      <span class="open-btn">Apri Demo D →</span>
+    </div>
+  </a>
+
+  <a href="profile-e.html" target="_blank" class="card card-e">
+    <div class="preview">
+      🌊
+      <span class="label-big">E</span>
+    </div>
+    <div class="card-info">
+      <span class="letter">E</span>
+      <h3>Liquid Blob Avatar</h3>
+      <p>Un blob liquido organico con le tue iniziali "EA" al centro che pulsa e si deforma seguendo il mouse. Chip delle skill flottano attorno. Click per cambiare colore.</p>
+      <div class="tags"><span class="tag">Canvas Blob</span><span class="tag">Mouse Morph</span><span class="tag">Color Themes</span><span class="tag">Organic</span></div>
+      <br>
+      <span class="open-btn">Apri Demo E →</span>
+    </div>
+  </a>
+
+</div>
+
+<p style="text-align:center;margin-top:40px;font-size:12px;color:rgba(255,255,255,.2);">← <a href="../index.html" style="color:rgba(212,175,55,.5);text-decoration:none;">Torna al portfolio</a></p>
+</body>
+</html>

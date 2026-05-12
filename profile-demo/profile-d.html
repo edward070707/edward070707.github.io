@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Profile D — Costellazione delle Skills</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Playfair+Display:wght@700&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:#030612;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:'Inter',sans-serif;overflow:hidden;}
+
+/* Full-width constellation canvas */
+canvas#sky{position:absolute;inset:0;width:100%;height:100%;}
+
+/* Overlay UI */
+.overlay{position:relative;z-index:10;text-align:center;pointer-events:none;}
+.tag{font-size:11px;letter-spacing:4px;text-transform:uppercase;color:#d4af37;margin-bottom:12px;display:block;}
+h2{font-family:'Playfair Display',serif;font-size:54px;font-weight:700;color:#fff;line-height:1.05;margin-bottom:10px;text-shadow:0 0 40px rgba(212,175,55,.2);}
+.sub{font-size:14px;color:rgba(255,255,255,.4);letter-spacing:1px;}
+
+/* Tooltip */
+#tooltip{position:fixed;background:rgba(5,8,25,.92);border:1px solid rgba(212,175,55,.35);border-radius:12px;padding:14px 18px;pointer-events:none;z-index:100;max-width:200px;transition:opacity .2s;opacity:0;}
+#tooltip h4{color:#d4af37;font-size:13px;margin-bottom:4px;}
+#tooltip p{color:rgba(255,255,255,.65);font-size:12px;line-height:1.5;}
+#tooltip .level{display:flex;gap:4px;margin-top:8px;}
+#tooltip .star{color:#d4af37;font-size:12px;}
+
+/* Bottom bar */
+.bottom-bar{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);z-index:20;display:flex;gap:16px;flex-wrap:wrap;justify-content:center;}
+.cat-badge{background:rgba(5,8,25,.7);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:6px 16px;font-size:11px;color:rgba(255,255,255,.5);cursor:pointer;transition:.3s;display:flex;align-items:center;gap:6px;}
+.cat-badge:hover,.cat-badge.on{background:rgba(212,175,55,.12);border-color:rgba(212,175,55,.4);color:#d4af37;}
+.cat-dot{width:8px;height:8px;border-radius:50%;}
+</style>
+</head>
+<body>
+<canvas id="sky"></canvas>
+
+<div class="overlay">
+  <span class="tag">About Me</span>
+  <h2>Edward Attuati</h2>
+  <p class="sub">Hover sulle stelle per scoprire le skills · Clicca per connettere</p>
+</div>
+
+<div id="tooltip">
+  <h4 id="tt-name"></h4>
+  <p id="tt-desc"></p>
+  <div class="level" id="tt-stars"></div>
+</div>
+
+<div class="bottom-bar">
+  <div class="cat-badge on" data-cat="all"><span class="cat-dot" style="background:#ffffff"></span>Tutte</div>
+  <div class="cat-badge" data-cat="code"><span class="cat-dot" style="background:#4fc3f7"></span>Code</div>
+  <div class="cat-badge" data-cat="design"><span class="cat-dot" style="background:#ce93d8"></span>Design</div>
+  <div class="cat-badge" data-cat="tools"><span class="cat-dot" style="background:#80cbc4"></span>Tools</div>
+  <div class="cat-badge" data-cat="soft"><span class="cat-dot" style="background:#ffb74d"></span>Soft</div>
+</div>
+
+<script>
+const canvas=document.getElementById('sky');
+const ctx=canvas.getContext('2d');
+canvas.width=innerWidth;canvas.height=innerHeight;
+
+const W=canvas.width,H=canvas.height;
+
+const SKILLS=[
+  // Code
+  {id:0,name:'Flutter',cat:'code',x:.45,y:.38,r:12,level:5,desc:'App mobile iOS & Android con Dart',color:'#4fc3f7'},
+  {id:1,name:'Dart',cat:'code',x:.55,y:.48,r:9,level:4,desc:'Linguaggio principale per Flutter',color:'#4fc3f7'},
+  {id:2,name:'Firebase',cat:'code',x:.38,y:.52,r:10,level:5,desc:'Auth, Firestore, Storage, Hosting',color:'#4fc3f7'},
+  {id:3,name:'JavaScript',cat:'code',x:.62,y:.35,r:10,level:4,desc:'Frontend e scripting web avanzato',color:'#4fc3f7'},
+  {id:4,name:'HTML/CSS',cat:'code',x:.68,y:.52,r:9,level:5,desc:'Markup & styling, animazioni CSS',color:'#4fc3f7'},
+  {id:5,name:'Node.js',cat:'code',x:.32,y:.40,r:8,level:3,desc:'Backend API e servizi server-side',color:'#4fc3f7'},
+  // Design
+  {id:6,name:'UI/UX',cat:'design',x:.25,y:.60,r:11,level:4,desc:'Figma, wireframe, design system',color:'#ce93d8'},
+  {id:7,name:'Figma',cat:'design',x:.18,y:.48,r:9,level:4,desc:'Prototipazione e design UI',color:'#ce93d8'},
+  {id:8,name:'Motion',cat:'design',x:.22,y:.35,r:8,level:3,desc:'Animazioni, microinterazioni',color:'#ce93d8'},
+  {id:9,name:'Branding',cat:'design',x:.30,y:.25,r:8,level:3,desc:'Identità visiva e loghi',color:'#ce93d8'},
+  // Tools
+  {id:10,name:'Git',cat:'tools',x:.72,y:.65,r:9,level:5,desc:'Version control e collaborazione',color:'#80cbc4'},
+  {id:11,name:'VS Code',cat:'tools',x:.80,y:.50,r:8,level:5,desc:'IDE principale di sviluppo',color:'#80cbc4'},
+  {id:12,name:'GitHub',cat:'tools',x:.75,y:.38,r:9,level:4,desc:'CI/CD, Pages, Actions',color:'#80cbc4'},
+  // Soft
+  {id:13,name:'Problem Solving',cat:'soft',x:.48,y:.70,r:10,level:5,desc:'Trovo soluzioni creative ai problemi',color:'#ffb74d'},
+  {id:14,name:'Italiano',cat:'soft',x:.38,y:.75,r:7,level:5,desc:'Madrelingua',color:'#ffb74d'},
+  {id:15,name:'Inglese',cat:'soft',x:.58,y:.72,r:7,level:4,desc:'Livello professionale C1',color:'#ffb74d'},
+];
+
+// Convert relative coords
+SKILLS.forEach(s=>{s.px=s.x*W;s.py=s.y*H;s.opacity=1;s.glowAnim=Math.random()*Math.PI*2;});
+
+// Constellation connections
+const LINES=[
+  [0,1],[0,2],[0,3],[1,3],[1,4],[3,4],[2,5],[5,8],
+  [6,7],[7,8],[8,9],[6,13],
+  [10,11],[11,12],[12,3],
+  [13,14],[13,15],[0,13],
+];
+
+// Background stars
+const bgStars=Array.from({length:300},()=>({
+  x:Math.random()*W,y:Math.random()*H,
+  r:Math.random()*.8+.2,a:Math.random()*.5+.1,
+  speed:Math.random()*.005+.002
+}));
+
+let mx=W/2,my=H/2;
+let hovered=null;
+let activeFilter='all';
+let t=0;
+
+canvas.addEventListener('mousemove',e=>{
+  mx=e.clientX;my=e.clientY;
+  hovered=null;
+  SKILLS.forEach(s=>{
+    if(activeFilter!=='all'&&s.cat!==activeFilter)return;
+    const d=Math.hypot(e.clientX-s.px,e.clientY-s.py);
+    if(d<s.r+12){hovered=s;}
+  });
+  // Tooltip
+  const tt=document.getElementById('tooltip');
+  if(hovered){
+    document.getElementById('tt-name').textContent=hovered.name;
+    document.getElementById('tt-desc').textContent=hovered.desc;
+    document.getElementById('tt-stars').innerHTML='★'.repeat(hovered.level)+'☆'.repeat(5-hovered.level);
+    tt.style.opacity='1';
+    tt.style.left=(e.clientX+18)+'px';
+    tt.style.top=(e.clientY-10)+'px';
+  } else {
+    tt.style.opacity='0';
+  }
+  canvas.style.cursor=hovered?'pointer':'default';
+});
+
+function draw(){
+  ctx.clearRect(0,0,W,H);
+  t+=.016;
+
+  // Deep space background
+  ctx.fillStyle='#030612';
+  ctx.fillRect(0,0,W,H);
+
+  // Background stars
+  bgStars.forEach(s=>{
+    s.a=.1+Math.sin(t*s.speed*10+s.x)*0.15;
+    ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+    ctx.fillStyle=`rgba(255,255,255,${s.a})`;ctx.fill();
+  });
+
+  // Nebula glow (subtle)
+  const nebula=ctx.createRadialGradient(W*.45,H*.45,0,W*.45,H*.45,W*.35);
+  nebula.addColorStop(0,'rgba(50,20,100,.04)');
+  nebula.addColorStop(1,'transparent');
+  ctx.fillStyle=nebula;ctx.fillRect(0,0,W,H);
+
+  // Constellation lines
+  LINES.forEach(([a,b])=>{
+    const sa=SKILLS[a],sb=SKILLS[b];
+    const aVis=activeFilter==='all'||sa.cat===activeFilter||sb.cat===activeFilter;
+    if(!aVis)return;
+    ctx.beginPath();
+    ctx.moveTo(sa.px,sa.py);ctx.lineTo(sb.px,sb.py);
+    ctx.strokeStyle=`rgba(212,175,55,${hovered&&(hovered.id===a||hovered.id===b)?.25:.07})`;
+    ctx.lineWidth=hovered&&(hovered.id===a||hovered.id===b)?1.5:.8;
+    ctx.stroke();
+  });
+
+  // Mouse-to-hovered star line
+  if(hovered){
+    ctx.beginPath();ctx.moveTo(hovered.px,hovered.py);ctx.lineTo(mx,my);
+    ctx.strokeStyle='rgba(212,175,55,.12)';ctx.lineWidth=1;ctx.setLineDash([4,8]);ctx.stroke();ctx.setLineDash([]);
+  }
+
+  // Stars (skills)
+  SKILLS.forEach(s=>{
+    const visible=activeFilter==='all'||s.cat===activeFilter;
+    const isHov=hovered&&hovered.id===s.id;
+    s.glowAnim+=.02;
+    const pulse=Math.sin(s.glowAnim)*.3+.7;
+    const alpha=visible?1:.12;
+
+    // Outer glow
+    if(visible){
+      const g=ctx.createRadialGradient(s.px,s.py,0,s.px,s.py,(isHov?s.r*3.5:s.r*2.5)*pulse);
+      g.addColorStop(0,s.color.replace(')',`,${isHov?.5:.2})`).replace('rgb','rgba'));
+      g.addColorStop(1,'transparent');
+      ctx.fillStyle=g;
+      ctx.beginPath();ctx.arc(s.px,s.py,(isHov?s.r*3.5:s.r*2.5)*pulse,0,Math.PI*2);ctx.fill();
+    }
+
+    // Core star
+    ctx.beginPath();ctx.arc(s.px,s.py,isHov?s.r*1.3:s.r,0,Math.PI*2);
+    ctx.fillStyle=visible?s.color:`rgba(255,255,255,.08)`;
+    ctx.globalAlpha=alpha;ctx.fill();ctx.globalAlpha=1;
+
+    // Label
+    if(visible&&(isHov||s.r>=10)){
+      ctx.fillStyle=isHov?'#fff':`rgba(255,255,255,${alpha*.7})`;
+      ctx.font=`${isHov?'600 ':'400 '}${isHov?13:11}px Inter`;
+      ctx.textAlign='center';
+      ctx.fillText(s.name,s.px,s.py+s.r+16);
+    }
+  });
+
+  requestAnimationFrame(draw);
+}
+draw();
+
+// Filter badges
+document.querySelectorAll('.cat-badge').forEach(b=>{
+  b.addEventListener('click',()=>{
+    activeFilter=b.dataset.cat;
+    document.querySelectorAll('.cat-badge').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on');
+  });
+});
+
+window.addEventListener('resize',()=>{canvas.width=innerWidth;canvas.height=innerHeight;SKILLS.forEach(s=>{s.px=s.x*innerWidth;s.py=s.y*innerHeight;});});
+</script>
+</body>
+</html>

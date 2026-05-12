@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Profile B — Terminal Hacker</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;700&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:#020a02;min-height:100vh;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;overflow:hidden;}
+
+/* Matrix rain */
+canvas#matrix{position:fixed;inset:0;opacity:.06;pointer-events:none;}
+
+.section{position:relative;z-index:10;display:flex;align-items:center;gap:60px;padding:40px;max-width:1100px;width:100%;}
+
+/* LEFT */
+.left-text{color:#00ff41;max-width:300px;}
+.left-text .tag{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:#00cc33;margin-bottom:12px;}
+.left-text h2{font-size:44px;font-weight:700;line-height:1.1;margin-bottom:16px;text-shadow:0 0 20px #00ff41;}
+.left-text p{font-size:13px;color:rgba(0,255,65,.6);line-height:1.8;margin-bottom:24px;}
+
+.skills-bars{display:flex;flex-direction:column;gap:10px;}
+.skill-row{display:flex;align-items:center;gap:12px;}
+.skill-name{font-size:11px;color:#00cc33;width:90px;flex-shrink:0;}
+.skill-bar{flex:1;height:4px;background:rgba(0,255,65,.1);border-radius:2px;overflow:hidden;}
+.skill-fill{height:100%;background:linear-gradient(90deg,#00ff41,#00cc33);border-radius:2px;width:0;transition:width 1.2s cubic-bezier(.4,0,.2,1);}
+.skill-pct{font-size:10px;color:rgba(0,255,65,.5);width:32px;text-align:right;}
+
+/* TERMINAL */
+.terminal{flex:1;background:#050d05;border:1px solid #00ff4133;border-radius:12px;overflow:hidden;box-shadow:0 0 60px rgba(0,255,65,.1),inset 0 0 40px rgba(0,0,0,.5);}
+.term-bar{background:#0a180a;padding:12px 16px;display:flex;align-items:center;gap:8px;border-bottom:1px solid #00ff4122;}
+.term-dot{width:12px;height:12px;border-radius:50%;}
+.term-dot.r{background:#ff5f57;}
+.term-dot.y{background:#ffbd2e;}
+.term-dot.g{background:#28c840;}
+.term-title{font-size:12px;color:rgba(0,255,65,.5);margin-left:auto;margin-right:auto;}
+.term-body{padding:20px 24px;min-height:380px;max-height:420px;overflow-y:auto;font-size:13px;line-height:1.9;}
+.term-body::-webkit-scrollbar{width:4px;}
+.term-body::-webkit-scrollbar-thumb{background:#00ff4133;}
+
+.line{display:flex;gap:8px;flex-wrap:wrap;}
+.prompt{color:#00cc33;flex-shrink:0;}
+.cmd{color:#fff;}
+.output{color:rgba(0,255,65,.7);padding-left:4px;display:block;width:100%;}
+.output.highlight{color:#00ff41;}
+.output.dim{color:rgba(0,255,65,.35);}
+.output.gold{color:#d4af37;}
+.cursor{display:inline-block;width:8px;height:14px;background:#00ff41;animation:blink .7s steps(1) infinite;vertical-align:middle;margin-left:2px;}
+@keyframes blink{50%{opacity:0;}}
+
+/* scanlines */
+.scanlines{position:fixed;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.03) 3px,rgba(0,0,0,.03) 4px);}
+</style>
+</head>
+<body>
+<canvas id="matrix"></canvas>
+<div class="scanlines"></div>
+
+<div class="section">
+  <div class="left-text">
+    <div class="tag">About Me</div>
+    <h2>root@<br>edward</h2>
+    <p>Full-stack dev che trasforma caffè e righe di codice in prodotti reali. Flutter, Firebase, JS — il mio stack.</p>
+    <div class="skills-bars" id="skillBars">
+      <div class="skill-row"><span class="skill-name">Flutter</span><div class="skill-bar"><div class="skill-fill" data-w="92"></div></div><span class="skill-pct">92%</span></div>
+      <div class="skill-row"><span class="skill-name">Firebase</span><div class="skill-bar"><div class="skill-fill" data-w="88"></div></div><span class="skill-pct">88%</span></div>
+      <div class="skill-row"><span class="skill-name">JavaScript</span><div class="skill-bar"><div class="skill-fill" data-w="85"></div></div><span class="skill-pct">85%</span></div>
+      <div class="skill-row"><span class="skill-name">UI/UX</span><div class="skill-bar"><div class="skill-fill" data-w="80"></div></div><span class="skill-pct">80%</span></div>
+      <div class="skill-row"><span class="skill-name">Node.js</span><div class="skill-bar"><div class="skill-fill" data-w="72"></div></div><span class="skill-pct">72%</span></div>
+    </div>
+  </div>
+
+  <div class="terminal">
+    <div class="term-bar">
+      <div class="term-dot r"></div>
+      <div class="term-dot y"></div>
+      <div class="term-dot g"></div>
+      <span class="term-title">edward@portfolio ~ zsh</span>
+    </div>
+    <div class="term-body" id="termBody"></div>
+  </div>
+</div>
+
+<script>
+// Matrix rain
+const mc=document.getElementById('matrix'),mctx=mc.getContext('2d');
+mc.width=innerWidth;mc.height=innerHeight;
+const cols=Math.floor(innerWidth/16);const drops=Array(cols).fill(1);
+const chars='アイウエオカキクケコサシスセソタチツテトナニヌネノ01'.split('');
+function drawMatrix(){mctx.fillStyle='rgba(2,10,2,.04)';mctx.fillRect(0,0,mc.width,mc.height);mctx.fillStyle='#00ff41';mctx.font='14px JetBrains Mono';drops.forEach((y,i)=>{const c=chars[Math.floor(Math.random()*chars.length)];mctx.fillText(c,i*16,y*16);if(y*16>mc.height&&Math.random()>.975)drops[i]=0;drops[i]++;});}
+setInterval(drawMatrix,50);
+
+// Terminal typewriter
+const body=document.getElementById('termBody');
+const lines=[
+  {type:'cmd',prompt:'edward@portfolio:~$',text:'whoami'},
+  {type:'out',text:'Edward Attuati — Full-Stack Developer 🚀',cls:'highlight'},
+  {type:'cmd',prompt:'edward@portfolio:~$',text:'cat info.json'},
+  {type:'out',text:'{'                         ,cls:'dim'},
+  {type:'out',text:'  "age": 22,'              ,cls:''},
+  {type:'out',text:'  "city": "Milano, IT 🇮🇹",'      ,cls:''},
+  {type:'out',text:'  "role": "Mobile & Web Dev",'  ,cls:''},
+  {type:'out',text:'  "open_to": "Collaborazioni"' ,cls:'gold'},
+  {type:'out',text:'}'                         ,cls:'dim'},
+  {type:'cmd',prompt:'edward@portfolio:~$',text:'ls projects/'},
+  {type:'out',text:'memive/   chrono/   blackjack/',cls:'highlight'},
+  {type:'cmd',prompt:'edward@portfolio:~$',text:'cat mission.txt'},
+  {type:'out',text:'Costruire prodotti che la gente',cls:''},
+  {type:'out',text:'ama davvero usare ogni giorno.',cls:''},
+  {type:'cmd',prompt:'edward@portfolio:~$',text:'contact --email'},
+  {type:'out',text:'📧  edward@attuati.com',cls:'gold'},
+  {type:'cmd',prompt:'edward@portfolio:~$',text:''},
+];
+
+let li=0,ci=0;
+function typeNext(){
+  if(li>=lines.length){
+    const cursor=document.createElement('span');cursor.className='cursor';body.appendChild(cursor);return;
+  }
+  const l=lines[li];
+  if(l.type==='cmd'){
+    const row=document.createElement('div');row.className='line';
+    const pr=document.createElement('span');pr.className='prompt';pr.textContent=l.prompt;
+    const cm=document.createElement('span');cm.className='cmd';row.appendChild(pr);row.appendChild(cm);
+    body.appendChild(row);
+    if(!l.text){li++;setTimeout(typeNext,200);return;}
+    let ci2=0;
+    const ti=setInterval(()=>{
+      cm.textContent+=l.text[ci2++];body.scrollTop=body.scrollHeight;
+      if(ci2>=l.text.length){clearInterval(ti);li++;setTimeout(typeNext,400);}
+    },40);
+  } else {
+    const o=document.createElement('span');o.className='output '+(l.cls||'');
+    body.appendChild(o);
+    let ci2=0;
+    const ti=setInterval(()=>{
+      o.textContent+=l.text[ci2++];body.scrollTop=body.scrollHeight;
+      if(ci2>=l.text.length){clearInterval(ti);li++;setTimeout(typeNext,80);}
+    },20);
+  }
+}
+setTimeout(typeNext,800);
+
+// Skill bars
+setTimeout(()=>{
+  document.querySelectorAll('.skill-fill').forEach(f=>{f.style.width=f.dataset.w+'%';});
+},1200);
+</script>
+</body>
+</html>

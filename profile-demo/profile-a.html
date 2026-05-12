@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Profile A — Cubo 3D Interattivo</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:#050810;min-height:100vh;display:flex;align-items:center;justify-content:center;font-family:'Segoe UI',sans-serif;overflow:hidden;}
+.bg{position:fixed;inset:0;background:radial-gradient(ellipse at 30% 50%,#0d1a3a 0%,#050810 70%);}
+canvas.stars{position:fixed;inset:0;pointer-events:none;}
+
+.section{position:relative;z-index:10;display:flex;align-items:center;gap:80px;padding:40px;}
+
+/* LEFT TEXT */
+.left-text{color:#fff;max-width:320px;}
+.left-text .tag{font-size:11px;letter-spacing:4px;text-transform:uppercase;color:#d4af37;margin-bottom:16px;opacity:.8;}
+.left-text h2{font-size:52px;font-weight:800;line-height:1.05;margin-bottom:20px;background:linear-gradient(135deg,#fff 40%,#d4af37);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.left-text p{font-size:15px;color:rgba(255,255,255,.6);line-height:1.7;margin-bottom:28px;}
+.stats{display:flex;gap:24px;}
+.stat{text-align:center;}
+.stat .num{font-size:28px;font-weight:700;color:#d4af37;}
+.stat .lbl{font-size:11px;color:rgba(255,255,255,.4);letter-spacing:1px;text-transform:uppercase;}
+.hint{margin-top:24px;font-size:12px;color:rgba(255,255,255,.3);display:flex;align-items:center;gap:8px;}
+.hint::before{content:'';width:20px;height:20px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,.3)' stroke-width='2'%3E%3Cpath d='M5 9l7-7 7 7M5 15l7 7 7-7'/%3E%3C/svg%3E") center/contain no-repeat;}
+
+/* CUBE */
+.scene{width:280px;height:280px;perspective:900px;cursor:grab;flex-shrink:0;}
+.scene:active{cursor:grabbing;}
+.cube{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform .05s linear;}
+.face{position:absolute;width:280px;height:280px;border:1px solid rgba(212,175,55,.25);border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px;text-align:center;backdrop-filter:blur(12px);}
+.face.front {transform:translateZ(140px);background:linear-gradient(135deg,rgba(13,26,58,.85),rgba(5,8,16,.85));}
+.face.back  {transform:rotateY(180deg) translateZ(140px);background:linear-gradient(135deg,rgba(30,10,50,.85),rgba(5,8,16,.85));}
+.face.right {transform:rotateY(90deg)  translateZ(140px);background:linear-gradient(135deg,rgba(10,40,20,.85),rgba(5,8,16,.85));}
+.face.left  {transform:rotateY(-90deg) translateZ(140px);background:linear-gradient(135deg,rgba(40,20,10,.85),rgba(5,8,16,.85));}
+.face.top   {transform:rotateX(90deg)  translateZ(140px);background:linear-gradient(135deg,rgba(20,20,50,.85),rgba(5,8,16,.85));}
+.face.bottom{transform:rotateX(-90deg) translateZ(140px);background:linear-gradient(135deg,rgba(50,20,20,.85),rgba(5,8,16,.85));}
+
+.face-icon{font-size:42px;margin-bottom:14px;}
+.face-title{font-size:13px;letter-spacing:3px;text-transform:uppercase;color:#d4af37;margin-bottom:10px;}
+.face-content{font-size:13px;color:rgba(255,255,255,.75);line-height:1.6;}
+.face-tags{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:12px;}
+.face-tags span{background:rgba(212,175,55,.15);border:1px solid rgba(212,175,55,.3);color:#d4af37;font-size:10px;padding:3px 10px;border-radius:20px;}
+
+/* face nav dots */
+.dots{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:20;}
+.dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.2);cursor:pointer;transition:.3s;}
+.dot.active{background:#d4af37;}
+
+/* glow */
+.cube-wrap{position:relative;}
+.cube-glow{position:absolute;inset:-40px;background:radial-gradient(ellipse at center,rgba(212,175,55,.08),transparent 70%);pointer-events:none;border-radius:50%;}
+</style>
+</head>
+<body>
+<div class="bg"></div>
+<canvas class="stars" id="stars"></canvas>
+
+<div class="section">
+  <div class="left-text">
+    <div class="tag">About Me</div>
+    <h2>Edward<br>Attuati</h2>
+    <p>Sviluppatore mobile & web con la passione per esperienze digitali che lasciano il segno. Trascino idee dal foglio al prodotto finito.</p>
+    <div class="stats">
+      <div class="stat"><div class="num">3+</div><div class="lbl">Anni</div></div>
+      <div class="stat"><div class="num">8+</div><div class="lbl">Progetti</div></div>
+      <div class="stat"><div class="num">∞</div><div class="lbl">Caffè</div></div>
+    </div>
+    <div class="hint">Trascina il cubo per esplorare</div>
+  </div>
+
+  <div class="cube-wrap">
+    <div class="cube-glow"></div>
+    <div class="scene" id="scene">
+      <div class="cube" id="cube">
+
+        <div class="face front">
+          <div class="face-icon">👋</div>
+          <div class="face-title">Chi sono</div>
+          <div class="face-content">Sviluppatore full-stack italiano, 22 anni. Costruisco app mobili e siti web con attenzione al dettaglio.</div>
+        </div>
+
+        <div class="face back">
+          <div class="face-icon">🚀</div>
+          <div class="face-title">Mission</div>
+          <div class="face-content">Creare esperienze digitali che uniscano bellezza estetica e funzionalità reale. Design + Code = Arte.</div>
+        </div>
+
+        <div class="face right">
+          <div class="face-icon">⚡</div>
+          <div class="face-title">Stack</div>
+          <div class="face-tags">
+            <span>Flutter</span><span>Dart</span><span>Firebase</span>
+            <span>JavaScript</span><span>HTML/CSS</span><span>Node.js</span>
+          </div>
+        </div>
+
+        <div class="face left">
+          <div class="face-icon">🎯</div>
+          <div class="face-title">Passioni</div>
+          <div class="face-tags">
+            <span>UI/UX</span><span>3D Design</span><span>Musica</span>
+            <span>Podcast</span><span>AI/ML</span><span>Startup</span>
+          </div>
+        </div>
+
+        <div class="face top">
+          <div class="face-icon">🏆</div>
+          <div class="face-title">Progetti Top</div>
+          <div class="face-content">Memive — app vocale<br>Chrono — time tracker<br>Blackjack — card game</div>
+        </div>
+
+        <div class="face bottom">
+          <div class="face-icon">✉️</div>
+          <div class="face-title">Contatti</div>
+          <div class="face-content">edward@attuati.com<br>GitHub: edward070707<br>Milano, Italia 🇮🇹</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="dots" id="dots">
+  <div class="dot active" data-rx="0"   data-ry="0"   title="Chi sono"></div>
+  <div class="dot"        data-rx="0"   data-ry="180" title="Mission"></div>
+  <div class="dot"        data-rx="0"   data-ry="-90" title="Stack"></div>
+  <div class="dot"        data-rx="0"   data-ry="90"  title="Passioni"></div>
+  <div class="dot"        data-rx="-90" data-ry="0"   title="Progetti"></div>
+  <div class="dot"        data-rx="90"  data-ry="0"   title="Contatti"></div>
+</div>
+
+<script>
+// Stars
+const sc=document.getElementById('stars'),ctx=sc.getContext('2d');
+sc.width=innerWidth;sc.height=innerHeight;
+const stars=Array.from({length:180},()=>({x:Math.random()*sc.width,y:Math.random()*sc.height,r:Math.random()*1.5,a:Math.random()}));
+function drawStars(){ctx.clearRect(0,0,sc.width,sc.height);stars.forEach(s=>{ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle=`rgba(255,255,255,${s.a})`;ctx.fill();});}
+drawStars();
+
+// Cube drag
+const cube=document.getElementById('cube');
+let rotX=-20,rotY=30,startX,startY,dragging=false,animRX=0,animRY=0;
+let autoSpin=true,autoTimer;
+
+function setRot(rx,ry){rotX=rx;rotY=ry;cube.style.transform=`rotateX(${rx}deg) rotateY(${ry}deg)`;}
+
+const scene=document.getElementById('scene');
+scene.addEventListener('mousedown',e=>{dragging=true;startX=e.clientX;startY=e.clientY;autoSpin=false;scene.style.cursor='grabbing';});
+window.addEventListener('mousemove',e=>{
+  if(!dragging)return;
+  rotY+=(e.clientX-startX)*0.4;rotX-=(e.clientY-startY)*0.4;
+  startX=e.clientX;startY=e.clientY;
+  cube.style.transform=`rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+});
+window.addEventListener('mouseup',()=>{dragging=false;scene.style.cursor='grab';clearTimeout(autoTimer);autoTimer=setTimeout(()=>autoSpin=true,3000);});
+
+scene.addEventListener('touchstart',e=>{dragging=true;startX=e.touches[0].clientX;startY=e.touches[0].clientY;autoSpin=false;},{passive:true});
+scene.addEventListener('touchmove',e=>{
+  if(!dragging)return;
+  rotY+=(e.touches[0].clientX-startX)*0.4;rotX-=(e.touches[0].clientY-startY)*0.4;
+  startX=e.touches[0].clientX;startY=e.touches[0].clientY;
+  cube.style.transform=`rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+},{passive:true});
+scene.addEventListener('touchend',()=>{dragging=false;});
+
+// Auto slow spin
+function tick(){if(autoSpin&&!dragging){rotY+=0.15;cube.style.transform=`rotateX(${rotX}deg) rotateY(${rotY}deg)`;}requestAnimationFrame(tick);}
+tick();
+
+// Dots
+document.querySelectorAll('.dot').forEach(d=>{
+  d.addEventListener('click',()=>{
+    autoSpin=false;
+    rotX=+d.dataset.rx;rotY=+d.dataset.ry;
+    cube.style.transition='transform .6s cubic-bezier(.4,0,.2,1)';
+    cube.style.transform=`rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+    setTimeout(()=>cube.style.transition='transform .05s linear',700);
+    document.querySelectorAll('.dot').forEach(x=>x.classList.remove('active'));
+    d.classList.add('active');
+  });
+});
+
+// Glow shimmer on cube edges
+</script>
+</body>
+</html>
