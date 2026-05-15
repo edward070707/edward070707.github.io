@@ -3,213 +3,214 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>About Me C — Apple Premium</title>
+<title>About Me C — Carta Olografica</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700&display=swap');
 *{margin:0;padding:0;box-sizing:border-box;}
-html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;}
-body{background:#000;color:#fff;font-family:'Inter',sans-serif;overflow-x:hidden;}
+body{background:#060612;min-height:100vh;display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;overflow:hidden;}
+canvas#stars{position:fixed;inset:0;pointer-events:none;}
+.particle{position:fixed;pointer-events:none;border-radius:50%;animation:floatUp linear infinite;}
+@keyframes floatUp{0%{transform:translateY(0);opacity:.7;}100%{transform:translateY(-100vh);opacity:0;}}
 
 /* NAV */
-nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:52px;background:rgba(0,0,0,.72);backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:space-between;padding:0 40px;}
-.nav-logo{font-size:17px;font-weight:600;letter-spacing:-.3px;}
-.nav-links{display:flex;gap:32px;}
-.nav-links a{font-size:13px;color:rgba(255,255,255,.6);text-decoration:none;transition:.2s;}
-.nav-links a:hover{color:#fff;}
-.nav-cta{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:20px;padding:7px 18px;font-size:13px;color:#fff;text-decoration:none;transition:.3s;}
-.nav-cta:hover{background:rgba(255,255,255,.2);}
+nav{position:fixed;top:20px;left:24px;right:24px;z-index:100;display:flex;justify-content:space-between;align-items:center;}
+.nav-back{padding:9px 18px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:30px;color:rgba(255,255,255,.8);text-decoration:none;font-size:13px;backdrop-filter:blur(10px);transition:.2s;}
+.nav-back:hover{background:rgba(255,255,255,.12);}
+#lang-switcher{position:relative;}
+#lang-current{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:30px;cursor:pointer;font-size:18px;padding:6px 12px;display:flex;align-items:center;gap:5px;color:rgba(255,255,255,.8);backdrop-filter:blur(10px);}
+#lang-dropdown{display:none;position:absolute;top:calc(100%+6px);right:0;background:rgba(10,10,28,.97);border:1px solid rgba(255,255,255,.12);border-radius:12px;overflow:hidden;z-index:200;min-width:140px;box-shadow:0 8px 24px rgba(0,0,0,.8);}
+#lang-switcher:hover #lang-dropdown{display:block;}
+#lang-dropdown button{display:flex;align-items:center;gap:8px;width:100%;background:none;border:none;padding:9px 14px;cursor:pointer;font-size:13px;color:rgba(255,255,255,.7);transition:.15s;}
+#lang-dropdown button:hover{background:rgba(255,255,255,.08);}
+#lang-dropdown button.active{color:#fff;font-weight:700;}
 
-/* HERO */
-#hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:100px 24px 60px;position:relative;overflow:hidden;}
-.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:6px 16px;font-size:12px;color:rgba(255,255,255,.6);letter-spacing:.5px;margin-bottom:32px;}
-.hero-badge span{width:6px;height:6px;background:#34d399;border-radius:50%;animation:pulse 2s infinite;}
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.6;transform:scale(.8);}}
-.hero-title{font-size:clamp(52px,8vw,96px);font-weight:800;line-height:.95;letter-spacing:-3px;margin-bottom:24px;}
-.hero-title .dim{color:rgba(255,255,255,.25);}
-.hero-sub{font-size:clamp(16px,2vw,21px);font-weight:300;color:rgba(255,255,255,.4);letter-spacing:-.2px;max-width:500px;margin:0 auto 48px;line-height:1.6;}
-.hero-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
-.btn-primary{background:#fff;color:#000;padding:14px 32px;border-radius:40px;font-size:15px;font-weight:600;text-decoration:none;transition:.3s;letter-spacing:-.2px;}
-.btn-primary:hover{transform:scale(1.03);box-shadow:0 20px 40px rgba(255,255,255,.15);}
-.btn-ghost{background:rgba(255,255,255,.08);color:#fff;padding:14px 32px;border-radius:40px;font-size:15px;font-weight:500;text-decoration:none;border:1px solid rgba(255,255,255,.15);transition:.3s;}
-.btn-ghost:hover{background:rgba(255,255,255,.15);}
+/* LAYOUT */
+.section{position:relative;z-index:10;display:flex;align-items:center;gap:80px;padding:40px;}
 
-/* Mesh background */
-.mesh{position:absolute;inset:0;pointer-events:none;}
-.mesh-orb{position:absolute;border-radius:50%;filter:blur(100px);}
-.m1{width:60vw;height:60vw;background:rgba(120,60,220,.12);top:-20%;left:-10%;}
-.m2{width:50vw;height:50vw;background:rgba(20,120,220,.1);bottom:-10%;right:-10%;}
-.m3{width:30vw;height:30vw;background:rgba(200,80,120,.08);top:30%;right:20%;}
+/* LEFT */
+.left-text{color:#fff;max-width:300px;}
+.left-text .tag{font-size:11px;letter-spacing:4px;text-transform:uppercase;color:#d4af37;margin-bottom:14px;}
+.left-text h2{font-family:'Playfair Display',serif;font-size:48px;line-height:1.05;margin-bottom:16px;background:linear-gradient(135deg,#fff 30%,#d4af37);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.left-text p{font-size:14px;color:rgba(255,255,255,.5);line-height:1.75;margin-bottom:22px;}
+.hint{font-size:11px;color:rgba(255,255,255,.25);margin-bottom:18px;}
+.dots-row{display:flex;gap:8px;}
+.dot-btn{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.15);border:none;cursor:pointer;transition:.3s;}
+.dot-btn.active{background:#d4af37;}
 
-/* STATS BAR */
-.stats-bar{width:100%;max-width:700px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:20px;overflow:hidden;margin-top:60px;}
-.stat-item{padding:24px;text-align:center;border-right:1px solid rgba(255,255,255,.06);}
-.stat-item:last-child{border-right:none;}
-.stat-n{font-size:36px;font-weight:800;letter-spacing:-2px;}
-.stat-l{font-size:12px;color:rgba(255,255,255,.35);margin-top:4px;letter-spacing:.5px;}
+/* CARD */
+.card-scene{width:420px;height:270px;perspective:1200px;cursor:pointer;flex-shrink:0;}
+.card-inner{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform .8s cubic-bezier(.4,0,.2,1);}
+.card-inner.flipped{transform:rotateY(180deg);}
+.card-face{position:absolute;inset:0;border-radius:22px;backface-visibility:hidden;overflow:hidden;}
 
-/* SECTION: bento grid */
-#bento{padding:100px 40px;max-width:1000px;margin:0 auto;}
-.bento-title{font-size:clamp(36px,5vw,56px);font-weight:800;letter-spacing:-2px;margin-bottom:56px;text-align:center;}
-.bento-title .accent{background:linear-gradient(135deg,#a78bfa,#60a5fa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+/* FRONT */
+.card-front{background:linear-gradient(135deg,#0d1a3a,#1a0d3a,#0a2418);}
+.holo-layer{position:absolute;inset:0;background:conic-gradient(from var(--a,0deg) at var(--mx,50%) var(--my,50%),rgba(255,0,128,.07),rgba(255,165,0,.09),rgba(0,255,128,.07),rgba(0,128,255,.09),rgba(128,0,255,.07),rgba(255,0,128,.09),rgba(255,0,128,.07));border-radius:22px;mix-blend-mode:screen;pointer-events:none;transition:.05s;}
+.shimmer-layer{position:absolute;inset:0;background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.05) 50%,transparent 70%);border-radius:22px;pointer-events:none;}
+.card-border{position:absolute;inset:0;border:1px solid rgba(212,175,55,.3);border-radius:22px;pointer-events:none;}
+.front-content{position:relative;z-index:2;padding:26px 30px;height:100%;display:flex;flex-direction:column;justify-content:space-between;}
+.card-logo{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(212,175,55,.7);}
+.card-name-big{font-family:'Playfair Display',serif;font-size:24px;color:#fff;margin-top:6px;}
+.card-role{font-size:10px;color:rgba(255,255,255,.45);letter-spacing:2px;text-transform:uppercase;margin-top:3px;}
+.card-bottom-row{display:flex;align-items:flex-end;justify-content:space-between;}
+.card-chip{width:36px;height:28px;border:1px solid rgba(212,175,55,.4);border-radius:4px;background:linear-gradient(135deg,rgba(212,175,55,.1),rgba(212,175,55,.22));position:relative;}
+.card-chip::before,.card-chip::after{content:'';position:absolute;background:rgba(212,175,55,.3);}
+.card-chip::before{width:100%;height:1px;top:50%;transform:translateY(-50%);}
+.card-chip::after{width:1px;height:100%;left:50%;transform:translateX(-50%);}
+.card-num{font-size:11px;color:rgba(255,255,255,.35);letter-spacing:4px;}
+.card-meta{display:flex;gap:18px;}
+.card-meta-item label{font-size:7px;color:rgba(255,255,255,.28);text-transform:uppercase;letter-spacing:1px;display:block;}
+.card-meta-item span{font-size:11px;color:rgba(255,255,255,.65);letter-spacing:1px;}
+.card-avatar{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#d4af37,#8b6914);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:#fff;box-shadow:0 0 16px rgba(212,175,55,.4);}
+.holo-dot{position:absolute;bottom:18px;right:18px;width:32px;height:32px;border-radius:50%;background:conic-gradient(#ff0080,#ff8c00,#00ff80,#0080ff,#8000ff,#ff0080);opacity:.3;animation:spin 4s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
 
-.bento-grid{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:auto;gap:16px;}
-.bento-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:28px;transition:.4s;cursor:default;position:relative;overflow:hidden;}
-.bento-card:hover{border-color:rgba(255,255,255,.18);background:rgba(255,255,255,.07);transform:translateY(-2px);}
-.bento-card::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,.05),transparent 60%);opacity:0;transition:.3s;pointer-events:none;}
-.bento-card:hover::before{opacity:1;}
-.bc-wide{grid-column:span 2;}
-.bc-tall{grid-row:span 2;}
-.bc-icon{font-size:32px;margin-bottom:16px;display:block;}
-.bc-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:8px;}
-.bc-title{font-size:20px;font-weight:700;letter-spacing:-.5px;margin-bottom:10px;}
-.bc-body{font-size:13px;color:rgba(255,255,255,.45);line-height:1.7;}
-.bc-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px;}
-.bc-tag{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:20px;font-size:10px;padding:3px 10px;color:rgba(255,255,255,.45);}
-
-/* Skill bars inside bento */
-.mini-bars{display:flex;flex-direction:column;gap:10px;margin-top:10px;}
-.mb-row{display:flex;align-items:center;gap:10px;}
-.mb-name{font-size:11px;color:rgba(255,255,255,.4);width:80px;}
-.mb-track{flex:1;height:3px;background:rgba(255,255,255,.08);border-radius:2px;overflow:hidden;}
-.mb-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,#a78bfa,#60a5fa);width:0;transition:width 1.4s cubic-bezier(.4,0,.2,1);}
-
-/* Timeline */
-.mini-timeline{display:flex;flex-direction:column;gap:14px;margin-top:10px;}
-.mt-item{display:flex;gap:12px;}
-.mt-dot{width:6px;height:6px;border-radius:50%;background:#a78bfa;flex-shrink:0;margin-top:5px;}
-.mt-txt strong{display:block;font-size:13px;font-weight:600;}
-.mt-txt span{font-size:11px;color:rgba(255,255,255,.35);}
-
-/* Interest pills */
-.int-pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;}
-.int-pill{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:8px 14px;font-size:13px;}
-
-/* FOOTER */
-footer{padding:60px 40px;border-top:1px solid rgba(255,255,255,.06);text-align:center;}
-footer p{font-size:13px;color:rgba(255,255,255,.3);}
-footer a{color:rgba(255,255,255,.6);text-decoration:none;}footer a:hover{color:#fff;}
+/* BACK */
+.card-back{background:linear-gradient(135deg,#1a0d3a,#0d1a3a);transform:rotateY(180deg);}
+.back-stripe{width:100%;height:44px;background:#0a0a0a;margin-top:22px;}
+.back-body{padding:14px 24px;}
+.brow{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.brow-icon{font-size:16px;}
+.brow-text strong{display:block;font-size:9px;text-transform:uppercase;letter-spacing:1px;color:rgba(212,175,55,.7);margin-bottom:2px;}
+.brow-text span{font-size:12px;color:rgba(255,255,255,.6);}
+.back-tags{display:flex;flex-wrap:wrap;gap:5px;padding:4px 24px;}
+.back-tag{background:rgba(212,175,55,.1);border:1px solid rgba(212,175,55,.22);color:#d4af37;font-size:9px;padding:3px 9px;border-radius:20px;}
 </style>
 </head>
 <body>
+<canvas id="stars"></canvas>
 
 <nav>
-  <span class="nav-logo">Edward Attuati</span>
-  <div class="nav-links">
-    <a href="#bento">Skills</a>
-    <a href="#bento">Projects</a>
-    <a href="mailto:edward@attuati.com">Contact</a>
+  <a class="nav-back" href="../aboutme.html">← About Me</a>
+  <div id="lang-switcher">
+    <button id="lang-current"><span id="lang-flag">🇬🇧</span><span style="font-size:9px;opacity:.5;">▼</span></button>
+    <div id="lang-dropdown">
+      <button onclick="setLang('en')" data-lang="en" class="active">🇬🇧 English</button>
+      <button onclick="setLang('it')" data-lang="it">🇮🇹 Italiano</button>
+      <button onclick="setLang('es')" data-lang="es">🇪🇸 Español</button>
+    </div>
   </div>
-  <a class="nav-cta" href="../index.html">← Portfolio</a>
 </nav>
 
-<!-- HERO -->
-<section id="hero">
-  <div class="mesh">
-    <div class="mesh-orb m1"></div>
-    <div class="mesh-orb m2"></div>
-    <div class="mesh-orb m3"></div>
+<div class="section">
+  <div class="left-text">
+    <div class="tag" data-i18n="tag">About Me</div>
+    <h2>Edward<br>Attuati</h2>
+    <p data-i18n="desc">Computer Engineering student, developer, builder. Hover the card for the hologram effect — click to flip it.</p>
+    <div class="hint" data-i18n="hint">🖱 Hover for hologram · Click to flip</div>
+    <div class="dots-row">
+      <button class="dot-btn active" id="btnF">•</button>
+      <button class="dot-btn" id="btnB">•</button>
+    </div>
   </div>
-  <div class="hero-badge"><span></span>Available for collaborations</div>
-  <h1 class="hero-title">Edward<br><span class="dim">Attuati</span></h1>
-  <p class="hero-sub">Full-Stack Developer specializzato in Flutter & Firebase. Costruisco prodotti digitali che funzionano e che la gente ama.</p>
-  <div class="hero-btns">
-    <a href="mailto:edward@attuati.com" class="btn-primary">Scrivimi</a>
-    <a href="../index.html" class="btn-ghost">Vedi Portfolio</a>
+
+  <div class="card-scene" id="scene">
+    <div class="card-inner" id="cardInner">
+
+      <!-- FRONT -->
+      <div class="card-face card-front">
+        <div class="holo-layer" id="holo"></div>
+        <div class="shimmer-layer"></div>
+        <div class="card-border"></div>
+        <div class="front-content">
+          <div>
+            <div class="card-logo" data-i18n="cardLogo">Student ID · Portfolio</div>
+            <div class="card-name-big">Edward Attuati</div>
+            <div class="card-role" data-i18n="cardRole">Computer Engineering · Full-Stack Dev</div>
+          </div>
+          <div style="display:flex;gap:12px;align-items:center;">
+            <div class="card-chip"></div>
+            <div class="card-num">**** **** **** 2001</div>
+          </div>
+          <div class="card-bottom-row">
+            <div>
+              <div class="card-meta">
+                <div class="card-meta-item"><label data-i18n="ml1">City</label><span>Bergamo</span></div>
+                <div class="card-meta-item"><label data-i18n="ml2">Year</label><span>2001</span></div>
+                <div class="card-meta-item"><label data-i18n="ml3">Exp</label><span>3+ yr</span></div>
+              </div>
+            </div>
+            <div class="card-avatar">EA</div>
+          </div>
+        </div>
+        <div class="holo-dot"></div>
+      </div>
+
+      <!-- BACK -->
+      <div class="card-face card-back">
+        <div class="back-stripe"></div>
+        <div class="back-body">
+          <div class="brow">
+            <span class="brow-icon">🎓</span>
+            <div class="brow-text"><strong data-i18n="b1l">Education</strong><span data-i18n="b1v">Università di Brescia — B.Sc. Comp. Eng.</span></div>
+          </div>
+          <div class="brow">
+            <span class="brow-icon">💼</span>
+            <div class="brow-text"><strong data-i18n="b2l">Experience</strong><span data-i18n="b2v">Soluzione1 — IT Internship · 2024</span></div>
+          </div>
+          <div class="brow">
+            <span class="brow-icon">🌍</span>
+            <div class="brow-text"><strong data-i18n="b3l">Languages</strong><span data-i18n="b3v">🇮🇹 Native · 🇬🇧 B2</span></div>
+          </div>
+          <div class="brow">
+            <span class="brow-icon">✉️</span>
+            <div class="brow-text"><strong>Contact</strong><span>edward@attuati.com</span></div>
+          </div>
+        </div>
+        <div class="back-tags">
+          <span class="back-tag">Flutter</span><span class="back-tag">Firebase</span>
+          <span class="back-tag">JavaScript</span><span class="back-tag">Python</span>
+          <span class="back-tag">C/C++</span><span class="back-tag">SQL</span>
+        </div>
+      </div>
+
+    </div>
   </div>
-  <div class="stats-bar">
-    <div class="stat-item"><div class="stat-n">3+</div><div class="stat-l">Anni di esperienza</div></div>
-    <div class="stat-item"><div class="stat-n">8+</div><div class="stat-l">Progetti completati</div></div>
-    <div class="stat-item"><div class="stat-n">2</div><div class="stat-l">App pubblicate</div></div>
-  </div>
-</section>
-
-<!-- BENTO -->
-<section id="bento">
-  <h2 class="bento-title">Tutto su di <span class="accent">me</span></h2>
-  <div class="bento-grid" id="bentoGrid">
-
-    <div class="bento-card bc-wide">
-      <span class="bc-icon">👤</span>
-      <div class="bc-label">Chi Sono</div>
-      <h3 class="bc-title">Edward Attuati, 22 anni</h3>
-      <p class="bc-body">Studente di Ingegneria Informatica all'Università di Brescia. Sviluppatore mobile & web con una forte passione per UI/UX e per creare esperienze digitali memorabili. Milano, Italia 🇮🇹</p>
-    </div>
-
-    <div class="bento-card">
-      <span class="bc-icon">🚀</span>
-      <div class="bc-label">Mission</div>
-      <h3 class="bc-title">Build. Ship. Repeat.</h3>
-      <p class="bc-body">Creare prodotti reali, non solo esercizi. Ogni progetto deve risolvere un problema vero.</p>
-    </div>
-
-    <div class="bento-card bc-tall">
-      <span class="bc-icon">⚡</span>
-      <div class="bc-label">Skills</div>
-      <h3 class="bc-title">Stack</h3>
-      <div class="mini-bars" id="miniBars">
-        <div class="mb-row"><span class="mb-name">Flutter</span><div class="mb-track"><div class="mb-fill" data-w="92"></div></div></div>
-        <div class="mb-row"><span class="mb-name">Firebase</span><div class="mb-track"><div class="mb-fill" data-w="88" style="background:linear-gradient(90deg,#f97316,#facc15)"></div></div></div>
-        <div class="mb-row"><span class="mb-name">JavaScript</span><div class="mb-track"><div class="mb-fill" data-w="85" style="background:linear-gradient(90deg,#facc15,#84cc16)"></div></div></div>
-        <div class="mb-row"><span class="mb-name">HTML/CSS</span><div class="mb-track"><div class="mb-fill" data-w="90" style="background:linear-gradient(90deg,#60a5fa,#a78bfa)"></div></div></div>
-        <div class="mb-row"><span class="mb-name">UI/UX</span><div class="mb-track"><div class="mb-fill" data-w="80" style="background:linear-gradient(90deg,#f472b6,#a78bfa)"></div></div></div>
-        <div class="mb-row"><span class="mb-name">Node.js</span><div class="mb-track"><div class="mb-fill" data-w="72" style="background:linear-gradient(90deg,#34d399,#60a5fa)"></div></div></div>
-      </div>
-      <div class="bc-tags" style="margin-top:16px;">
-        <span class="bc-tag">Dart</span><span class="bc-tag">Python</span><span class="bc-tag">C++</span><span class="bc-tag">SQL</span><span class="bc-tag">Git</span><span class="bc-tag">Figma</span>
-      </div>
-    </div>
-
-    <div class="bento-card">
-      <span class="bc-icon">🎓</span>
-      <div class="bc-label">Formazione</div>
-      <h3 class="bc-title">Education</h3>
-      <div class="mini-timeline">
-        <div class="mt-item"><div class="mt-dot"></div><div class="mt-txt"><strong>Università di Brescia</strong><span>Ing. Informatica · 2022—oggi</span></div></div>
-        <div class="mt-item"><div class="mt-dot" style="background:#60a5fa"></div><div class="mt-txt"><strong>Liceo Don Milani</strong><span>Romano di Lombardia</span></div></div>
-      </div>
-    </div>
-
-    <div class="bento-card">
-      <span class="bc-icon">💼</span>
-      <div class="bc-label">Esperienza</div>
-      <h3 class="bc-title">Soluzione1</h3>
-      <p class="bc-body">Stage IT · Ghisalba, 2024. Infrastruttura reti, troubleshooting, team collaboration in ambiente professionale.</p>
-    </div>
-
-    <div class="bento-card bc-wide">
-      <span class="bc-icon">✨</span>
-      <div class="bc-label">Interessi</div>
-      <h3 class="bc-title">What drives me</h3>
-      <div class="int-pills">
-        <span class="int-pill">🎵 Musica</span><span class="int-pill">✈️ Viaggi</span>
-        <span class="int-pill">🤖 AI/ML</span><span class="int-pill">🎮 Gaming</span>
-        <span class="int-pill">🌍 Culture</span><span class="int-pill">📱 Mobile UX</span>
-        <span class="int-pill">🚀 Startup</span><span class="int-pill">☕ Caffè</span>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<footer>
-  <p>edward@attuati.com · <a href="https://github.com/edward070707">GitHub</a> · Milano, Italia 🇮🇹</p>
-</footer>
+</div>
 
 <script>
-// Mouse glow on bento cards
-document.querySelectorAll('.bento-card').forEach(card=>{
-  card.addEventListener('mousemove',e=>{
-    const r=card.getBoundingClientRect();
-    card.style.setProperty('--mx',((e.clientX-r.left)/r.width*100)+'%');
-    card.style.setProperty('--my',((e.clientY-r.top)/r.height*100)+'%');
-  });
-});
+// Stars + particles
+const sc=document.getElementById('stars'),ctx=sc.getContext('2d');
+sc.width=innerWidth;sc.height=innerHeight;
+for(let i=0;i<200;i++){ctx.beginPath();ctx.arc(Math.random()*sc.width,Math.random()*sc.height,Math.random()*1.4,0,Math.PI*2);ctx.fillStyle=`rgba(255,255,255,${Math.random()*.6})`;ctx.fill();}
+for(let i=0;i<18;i++){const p=document.createElement('div');p.className='particle';p.style.cssText=`left:${Math.random()*100}%;bottom:-10px;width:${Math.random()*3+1}px;height:${Math.random()*3+1}px;background:rgba(212,175,55,${Math.random()*.3+.1});animation-duration:${Math.random()*14+8}s;animation-delay:${Math.random()*10}s;`;document.body.appendChild(p);}
 
-// Skill bars
-const obs=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{if(e.isIntersecting){e.target.querySelectorAll('.mb-fill').forEach(f=>f.style.width=f.dataset.w+'%');obs.unobserve(e.target);}});
-},{threshold:.3});
-document.querySelectorAll('.mini-bars').forEach(el=>obs.observe(el));
+// Holographic tilt
+const scene=document.getElementById('scene'),cardInner=document.getElementById('cardInner'),holo=document.getElementById('holo');
+let flipped=false;
+scene.addEventListener('mousemove',e=>{
+  if(flipped)return;
+  const r=scene.getBoundingClientRect();
+  const x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;
+  cardInner.style.transform=`rotateX(${(y-.5)*-18}deg) rotateY(${(x-.5)*18}deg)`;
+  holo.style.setProperty('--mx',x*100+'%');holo.style.setProperty('--my',y*100+'%');holo.style.setProperty('--a',x*360+'deg');holo.style.opacity=1;
+});
+scene.addEventListener('mouseleave',()=>{if(flipped)return;cardInner.style.transform='rotateX(0) rotateY(0)';holo.style.opacity=.25;});
+scene.addEventListener('click',()=>{
+  flipped=!flipped;
+  cardInner.style.transition='transform .8s cubic-bezier(.4,0,.2,1)';
+  cardInner.style.transform=flipped?'rotateY(180deg)':'rotateX(0) rotateY(0)';
+  document.getElementById('btnF').classList.toggle('active',!flipped);
+  document.getElementById('btnB').classList.toggle('active',flipped);
+});
+document.getElementById('btnF').addEventListener('click',e=>{e.stopPropagation();flipped=false;cardInner.style.transform='rotateY(0)';document.getElementById('btnF').classList.add('active');document.getElementById('btnB').classList.remove('active');});
+document.getElementById('btnB').addEventListener('click',e=>{e.stopPropagation();flipped=true;cardInner.style.transform='rotateY(180deg)';document.getElementById('btnB').classList.add('active');document.getElementById('btnF').classList.remove('active');});
+
+// i18n
+const T={
+  en:{tag:'About Me',desc:'Computer Engineering student, developer, builder. Hover the card for the hologram effect — click to flip it.',hint:'🖱 Hover for hologram · Click to flip',cardLogo:'Student ID · Portfolio',cardRole:'Computer Engineering · Full-Stack Dev',ml1:'City',ml2:'Year',ml3:'Exp',b1l:'Education',b1v:'Università di Brescia — B.Sc. Comp. Eng.',b2l:'Experience',b2v:'Soluzione1 — IT Internship · 2024',b3l:'Languages',b3v:'🇮🇹 Native · 🇬🇧 B2'},
+  it:{tag:'Chi Sono',desc:'Studente di Ingegneria Informatica, sviluppatore, builder. Hover per l\'ologramma — click per girare la carta.',hint:'🖱 Hover per ologramma · Click per girare',cardLogo:'ID Studente · Portfolio',cardRole:'Ingegneria Informatica · Full-Stack Dev',ml1:'Città',ml2:'Anno',ml3:'Esp',b1l:'Formazione',b1v:'Università di Brescia — Ing. Informatica',b2l:'Esperienza',b2v:'Soluzione1 — Stage IT · 2024',b3l:'Lingue',b3v:'🇮🇹 Madrelingua · 🇬🇧 B2'},
+  es:{tag:'Sobre Mí',desc:'Estudiante de Ingeniería Informática, desarrollador, builder. Hover para el holograma — clic para girar.',hint:'🖱 Hover para holograma · Clic para girar',cardLogo:'ID Estudiante · Portfolio',cardRole:'Ing. Informática · Desarrollador Full-Stack',ml1:'Ciudad',ml2:'Año',ml3:'Exp',b1l:'Educación',b1v:'Università di Brescia — Ing. Informática',b2l:'Experiencia',b2v:'Soluzione1 — Prácticas IT · 2024',b3l:'Idiomas',b3v:'🇮🇹 Nativo · 🇬🇧 B2'},
+};
+const FLAGS={en:'🇬🇧',it:'🇮🇹',es:'🇪🇸'};
+function setLang(l){
+  const t=T[l]||T.en;
+  document.querySelectorAll('[data-i18n]').forEach(el=>{if(t[el.dataset.i18n])el.textContent=t[el.dataset.i18n];});
+  document.getElementById('lang-flag').textContent=FLAGS[l];
+  document.querySelectorAll('#lang-dropdown button').forEach(b=>b.classList.toggle('active',b.dataset.lang===l));
+  localStorage.setItem('ea-lang',l);
+}
+setLang(localStorage.getItem('ea-lang')||'en');
 </script>
 </body>
 </html>

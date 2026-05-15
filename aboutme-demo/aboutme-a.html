@@ -3,233 +3,202 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>About Me A — Cinematic Scroll Film</title>
+<title>About Me A — Cubo 3D</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;600;700;800;900&family=Playfair+Display:ital,wght@0,700;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Playfair+Display:wght@700&display=swap');
 *{margin:0;padding:0;box-sizing:border-box;}
-html{scroll-behavior:smooth;}
-body{background:#000;color:#fff;font-family:'Inter',sans-serif;overflow-x:hidden;}
+body{background:#050810;min-height:100vh;display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;overflow:hidden;}
+canvas#stars{position:fixed;inset:0;pointer-events:none;}
 
-/* ── FILM GRAIN ── */
-body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;
-background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");
-opacity:.4;animation:grain .12s steps(1) infinite;}
-@keyframes grain{0%,100%{transform:translate(0,0);}10%{transform:translate(-2%,-3%);}20%{transform:translate(3%,1%);}30%{transform:translate(-1%,4%);}40%{transform:translate(2%,-2%);}50%{transform:translate(-3%,2%);}60%{transform:translate(1%,-1%);}70%{transform:translate(3%,3%);}80%{transform:translate(-2%,1%);}90%{transform:translate(2%,-3%);}
+/* NAV */
+nav{position:fixed;top:20px;left:24px;right:24px;z-index:100;display:flex;justify-content:space-between;align-items:center;}
+.nav-back{display:flex;align-items:center;gap:8px;padding:9px 18px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:30px;color:rgba(255,255,255,.8);text-decoration:none;font-size:13px;backdrop-filter:blur(10px);transition:.2s;}
+.nav-back:hover{background:rgba(255,255,255,.12);color:#fff;}
 
-/* ── NAV ── */
-nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:20px 40px;display:flex;justify-content:space-between;align-items:center;mix-blend-mode:difference;}
-.nav-logo{font-size:13px;letter-spacing:4px;text-transform:uppercase;color:#fff;opacity:.6;}
-.nav-home{font-size:12px;letter-spacing:2px;color:#fff;text-decoration:none;opacity:.5;transition:.3s;}
-.nav-home:hover{opacity:1;}
+/* Lang switcher */
+#lang-switcher{position:relative;}
+#lang-current{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:30px;cursor:pointer;font-size:18px;padding:6px 12px;display:flex;align-items:center;gap:5px;color:rgba(255,255,255,.8);backdrop-filter:blur(10px);transition:.2s;}
+#lang-current:hover{border-color:rgba(255,255,255,.4);}
+#lang-current .arrow{font-size:9px;opacity:.5;}
+#lang-dropdown{display:none;position:absolute;top:calc(100% + 6px);right:0;background:rgba(10,12,28,.97);border:1px solid rgba(255,255,255,.12);border-radius:12px;overflow:hidden;z-index:200;min-width:140px;box-shadow:0 8px 24px rgba(0,0,0,.7);}
+#lang-switcher:hover #lang-dropdown{display:block;}
+#lang-dropdown button{display:flex;align-items:center;gap:9px;width:100%;background:none;border:none;padding:9px 14px;cursor:pointer;font-size:13px;color:rgba(255,255,255,.7);transition:.15s;}
+#lang-dropdown button:hover{background:rgba(255,255,255,.08);}
+#lang-dropdown button.active{color:#fff;font-weight:700;}
 
-/* ── SECTIONS ── */
-section{min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+/* LAYOUT */
+.section{position:relative;z-index:10;display:flex;align-items:center;gap:72px;padding:40px;}
 
-/* ── HERO ── */
-#s1{background:#000;}
-.hero-inner{text-align:center;position:relative;z-index:2;}
-.hero-eyebrow{font-size:11px;letter-spacing:6px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:32px;opacity:0;animation:fadeUp .8s .3s forwards;}
-.hero-name{font-family:'Playfair Display',serif;font-size:clamp(60px,10vw,130px);line-height:.95;margin-bottom:24px;opacity:0;animation:fadeUp .8s .5s forwards;}
-.hero-name em{font-style:italic;color:rgba(255,255,255,.4);}
-.hero-role{font-size:clamp(14px,2vw,18px);font-weight:300;color:rgba(255,255,255,.45);letter-spacing:3px;text-transform:uppercase;opacity:0;animation:fadeUp .8s .7s forwards;}
-.scroll-hint{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);opacity:0;animation:fadeUp .8s 1.2s forwards;}
-.scroll-line{width:1px;height:60px;background:linear-gradient(to bottom,rgba(255,255,255,.5),transparent);margin:0 auto 12px;}
-.scroll-txt{font-size:10px;letter-spacing:3px;color:rgba(255,255,255,.3);text-transform:uppercase;}
+/* LEFT */
+.left-text{color:#fff;max-width:300px;}
+.left-text .tag{font-size:11px;letter-spacing:4px;text-transform:uppercase;color:#d4af37;margin-bottom:14px;opacity:.8;}
+.left-text h2{font-family:'Playfair Display',serif;font-size:48px;font-weight:700;line-height:1.05;margin-bottom:18px;background:linear-gradient(135deg,#fff 40%,#d4af37);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.left-text p{font-size:14px;color:rgba(255,255,255,.5);line-height:1.75;margin-bottom:24px;}
+.stats{display:flex;gap:24px;}
+.stat .num{font-size:26px;font-weight:700;color:#d4af37;}
+.stat .lbl{font-size:10px;color:rgba(255,255,255,.35);letter-spacing:1px;text-transform:uppercase;}
+.hint{margin-top:20px;font-size:11px;color:rgba(255,255,255,.25);letter-spacing:1px;}
 
-/* Background orbs */
-.orb{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none;}
-.orb1{width:600px;height:600px;background:rgba(100,60,200,.12);top:-200px;right:-200px;}
-.orb2{width:400px;height:400px;background:rgba(30,100,200,.1);bottom:-100px;left:-100px;}
+/* CUBE */
+.scene{width:280px;height:280px;perspective:900px;cursor:grab;flex-shrink:0;}
+.scene:active{cursor:grabbing;}
+.cube{width:100%;height:100%;position:relative;transform-style:preserve-3d;transform:rotateX(-18deg) rotateY(28deg);}
+.face{position:absolute;width:280px;height:280px;border:1px solid rgba(212,175,55,.22);border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center;backdrop-filter:blur(10px);}
+.face.front {transform:translateZ(140px);background:linear-gradient(135deg,rgba(13,26,58,.88),rgba(5,8,16,.88));}
+.face.back  {transform:rotateY(180deg) translateZ(140px);background:linear-gradient(135deg,rgba(28,10,50,.88),rgba(5,8,16,.88));}
+.face.right {transform:rotateY(90deg)  translateZ(140px);background:linear-gradient(135deg,rgba(10,38,18,.88),rgba(5,8,16,.88));}
+.face.left  {transform:rotateY(-90deg) translateZ(140px);background:linear-gradient(135deg,rgba(40,20,10,.88),rgba(5,8,16,.88));}
+.face.top   {transform:rotateX(90deg)  translateZ(140px);background:linear-gradient(135deg,rgba(18,18,48,.88),rgba(5,8,16,.88));}
+.face.bottom{transform:rotateX(-90deg) translateZ(140px);background:linear-gradient(135deg,rgba(48,18,18,.88),rgba(5,8,16,.88));}
+.face-icon{font-size:38px;margin-bottom:12px;}
+.face-title{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#d4af37;margin-bottom:10px;}
+.face-content{font-size:12px;color:rgba(255,255,255,.7);line-height:1.65;}
+.face-tags{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;margin-top:10px;}
+.face-tags span{background:rgba(212,175,55,.12);border:1px solid rgba(212,175,55,.25);color:#d4af37;font-size:9px;padding:3px 9px;border-radius:20px;}
 
-@keyframes fadeUp{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
+/* Dots */
+.dots{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);display:flex;gap:10px;z-index:20;}
+.dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.18);cursor:pointer;transition:.3s;border:none;}
+.dot.active,.dot:hover{background:#d4af37;}
 
-/* ── CHAPTER SECTIONS ── */
-.chapter{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:0;}
-.chapter.rev{direction:rtl;}
-.chapter.rev > *{direction:ltr;}
-
-.ch-visual{height:100vh;position:relative;overflow:hidden;}
-.ch-img{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:140px;background:rgba(255,255,255,.02);}
-.ch-num{position:absolute;top:40px;left:40px;font-size:clamp(80px,12vw,160px);font-weight:900;color:rgba(255,255,255,.04);line-height:1;font-family:'Playfair Display',serif;}
-.ch-line{position:absolute;bottom:0;left:0;right:0;height:1px;background:rgba(255,255,255,.08);}
-
-.ch-text{padding:80px 60px;display:flex;flex-direction:column;justify-content:center;}
-.ch-label{font-size:10px;letter-spacing:5px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:24px;}
-.ch-title{font-family:'Playfair Display',serif;font-size:clamp(36px,4vw,58px);line-height:1.1;margin-bottom:28px;}
-.ch-body{font-size:15px;color:rgba(255,255,255,.5);line-height:1.9;margin-bottom:36px;}
-
-/* Skills horizontal bars */
-.skills-list{display:flex;flex-direction:column;gap:14px;}
-.sk{display:flex;align-items:center;gap:16px;}
-.sk-name{font-size:12px;color:rgba(255,255,255,.5);width:90px;flex-shrink:0;letter-spacing:.5px;}
-.sk-track{flex:1;height:1px;background:rgba(255,255,255,.1);position:relative;}
-.sk-fill{position:absolute;left:0;top:0;height:100%;background:#fff;width:0;transition:width 1.5s cubic-bezier(.4,0,.2,1);}
-.sk-pct{font-size:11px;color:rgba(255,255,255,.25);width:30px;text-align:right;}
-
-/* tags */
-.tag-row{display:flex;flex-wrap:wrap;gap:8px;}
-.tag{padding:6px 16px;border:1px solid rgba(255,255,255,.12);border-radius:40px;font-size:11px;color:rgba(255,255,255,.5);letter-spacing:.5px;}
-
-/* Timeline */
-.timeline{display:flex;flex-direction:column;gap:0;}
-.tl-item{display:flex;gap:24px;padding:20px 0;border-bottom:1px solid rgba(255,255,255,.06);}
-.tl-dot{width:8px;height:8px;border-radius:50%;background:#fff;flex-shrink:0;margin-top:6px;box-shadow:0 0 12px rgba(255,255,255,.4);}
-.tl-content{}
-.tl-year{font-size:10px;letter-spacing:2px;color:rgba(255,255,255,.25);margin-bottom:4px;}
-.tl-title{font-size:15px;font-weight:600;margin-bottom:4px;}
-.tl-sub{font-size:13px;color:rgba(255,255,255,.4);}
-
-/* Stat row */
-.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:36px;}
-.stat-box{padding:24px;border:1px solid rgba(255,255,255,.06);border-radius:12px;}
-.stat-num{font-size:36px;font-weight:800;margin-bottom:4px;}
-.stat-lbl{font-size:11px;color:rgba(255,255,255,.35);letter-spacing:1px;text-transform:uppercase;}
-
-/* ── FINAL SECTION ── */
-#sfinal{background:#000;text-align:center;}
-.final-inner{position:relative;z-index:2;}
-.final-tagline{font-family:'Playfair Display',serif;font-size:clamp(32px,5vw,70px);line-height:1.1;margin-bottom:40px;max-width:700px;margin-left:auto;margin-right:auto;}
-.cta-btn{display:inline-block;padding:16px 40px;border:1px solid rgba(255,255,255,.3);border-radius:40px;font-size:13px;letter-spacing:2px;text-transform:uppercase;color:#fff;text-decoration:none;transition:.4s;}
-.cta-btn:hover{background:#fff;color:#000;}
-
-/* reveal animation */
-.reveal{opacity:0;transform:translateY(40px);transition:opacity .9s ease,transform .9s ease;}
-.reveal.visible{opacity:1;transform:translateY(0);}
+/* glow */
+.cube-wrap{position:relative;flex-shrink:0;}
+.cube-glow{position:absolute;inset:-50px;background:radial-gradient(ellipse at center,rgba(212,175,55,.07),transparent 70%);pointer-events:none;border-radius:50%;}
 </style>
 </head>
 <body>
+<canvas id="stars"></canvas>
 
 <nav>
-  <span class="nav-logo">Edward Attuati</span>
-  <a class="nav-home" href="../index.html">← Portfolio</a>
+  <a class="nav-back" href="../aboutme.html">← About Me</a>
+  <div id="lang-switcher">
+    <button id="lang-current"><span id="lang-flag">🇬🇧</span><span class="arrow">▼</span></button>
+    <div id="lang-dropdown">
+      <button onclick="setLang('en')" data-lang="en" class="active">🇬🇧 English</button>
+      <button onclick="setLang('it')" data-lang="it">🇮🇹 Italiano</button>
+      <button onclick="setLang('es')" data-lang="es">🇪🇸 Español</button>
+    </div>
+  </div>
 </nav>
 
-<!-- HERO -->
-<section id="s1">
-  <div class="orb orb1"></div>
-  <div class="orb orb2"></div>
-  <div class="hero-inner">
-    <div class="hero-eyebrow">About Me · Full-Stack Developer</div>
-    <h1 class="hero-name">Edward<br><em>Attuati</em></h1>
-    <p class="hero-role">Milano · Italia · 2001</p>
-  </div>
-  <div class="scroll-hint">
-    <div class="scroll-line"></div>
-    <div class="scroll-txt">Scroll</div>
-  </div>
-</section>
-
-<!-- WHO -->
-<section class="chapter" id="s2">
-  <div class="ch-visual">
-    <div class="ch-img">👤</div>
-    <div class="ch-num">01</div>
-    <div class="ch-line"></div>
-  </div>
-  <div class="ch-text reveal">
-    <div class="ch-label">Chapter 01 · Identità</div>
-    <h2 class="ch-title">Chi sono,<br>davvero.</h2>
-    <p class="ch-body">Sono uno studente di Ingegneria Informatica con una passione sconfinata per il codice e il design. Trasformo idee in prodotti digitali che funzionano — e che la gente ama usare.<br><br>Non mi fermo alle specifiche. Vado alla radice del problema e costruisco la soluzione migliore possibile.</p>
-    <div class="stat-row">
-      <div class="stat-box"><div class="stat-num">3+</div><div class="stat-lbl">Anni Exp</div></div>
-      <div class="stat-box"><div class="stat-num">8+</div><div class="stat-lbl">Progetti</div></div>
-      <div class="stat-box"><div class="stat-num">2</div><div class="stat-lbl">App Live</div></div>
+<div class="section">
+  <div class="left-text">
+    <div class="tag" data-i18n="tag">About Me</div>
+    <h2>Edward<br>Attuati</h2>
+    <p data-i18n="desc">Computer Engineering student with a passion for building real digital products. Code, design, and a lot of coffee.</p>
+    <div class="stats">
+      <div class="stat"><div class="num">3+</div><div class="lbl" data-i18n="s1">Years</div></div>
+      <div class="stat"><div class="num">8+</div><div class="lbl" data-i18n="s2">Projects</div></div>
+      <div class="stat"><div class="num">2</div><div class="lbl" data-i18n="s3">Apps</div></div>
     </div>
+    <div class="hint" data-i18n="hint">Drag the cube · Click dots to navigate</div>
   </div>
-</section>
 
-<!-- SKILLS -->
-<section class="chapter rev" id="s3">
-  <div class="ch-visual">
-    <div class="ch-img">⚡</div>
-    <div class="ch-num">02</div>
-    <div class="ch-line"></div>
-  </div>
-  <div class="ch-text reveal">
-    <div class="ch-label">Chapter 02 · Competenze</div>
-    <h2 class="ch-title">Il mio<br>arsenale.</h2>
-    <div class="skills-list">
-      <div class="sk"><span class="sk-name">Flutter</span><div class="sk-track"><div class="sk-fill" data-w="92"></div></div><span class="sk-pct">92%</span></div>
-      <div class="sk"><span class="sk-name">Firebase</span><div class="sk-track"><div class="sk-fill" data-w="88"></div></div><span class="sk-pct">88%</span></div>
-      <div class="sk"><span class="sk-name">JavaScript</span><div class="sk-track"><div class="sk-fill" data-w="85"></div></div><span class="sk-pct">85%</span></div>
-      <div class="sk"><span class="sk-name">HTML/CSS</span><div class="sk-track"><div class="sk-fill" data-w="90"></div></div><span class="sk-pct">90%</span></div>
-      <div class="sk"><span class="sk-name">UI/UX</span><div class="sk-track"><div class="sk-fill" data-w="80"></div></div><span class="sk-pct">80%</span></div>
-      <div class="sk"><span class="sk-name">Node.js</span><div class="sk-track"><div class="sk-fill" data-w="72"></div></div><span class="sk-pct">72%</span></div>
-    </div>
-    <div class="tag-row" style="margin-top:28px;">
-      <span class="tag">Dart</span><span class="tag">Python</span><span class="tag">Git</span>
-      <span class="tag">Figma</span><span class="tag">SQL</span><span class="tag">C++</span>
-    </div>
-  </div>
-</section>
+  <div class="cube-wrap">
+    <div class="cube-glow"></div>
+    <div class="scene" id="scene">
+      <div class="cube" id="cube">
 
-<!-- EDUCATION -->
-<section class="chapter" id="s4">
-  <div class="ch-visual">
-    <div class="ch-img">🎓</div>
-    <div class="ch-num">03</div>
-    <div class="ch-line"></div>
-  </div>
-  <div class="ch-text reveal">
-    <div class="ch-label">Chapter 03 · Formazione</div>
-    <h2 class="ch-title">Il percorso<br>che mi ha<br>formato.</h2>
-    <div class="timeline">
-      <div class="tl-item">
-        <div class="tl-dot"></div>
-        <div class="tl-content"><div class="tl-year">2022 — OGGI</div><div class="tl-title">Università di Brescia</div><div class="tl-sub">B.Sc. Ingegneria Informatica</div></div>
-      </div>
-      <div class="tl-item">
-        <div class="tl-dot" style="background:rgba(255,255,255,.3)"></div>
-        <div class="tl-content"><div class="tl-year">2024</div><div class="tl-title">Soluzione1 — Ghisalba</div><div class="tl-sub">Stage IT · Infrastruttura & Reti</div></div>
-      </div>
-      <div class="tl-item">
-        <div class="tl-dot" style="background:rgba(255,255,255,.2)"></div>
-        <div class="tl-content"><div class="tl-year">2016 — 2022</div><div class="tl-title">Liceo Don Milani</div><div class="tl-sub">Romano di Lombardia</div></div>
+        <div class="face front">
+          <div class="face-icon">👤</div>
+          <div class="face-title" data-i18n="f1t">Who I Am</div>
+          <div class="face-content" data-i18n="f1c">Computer Engineering student at Università di Brescia. 22 years old, Bergamo, Italy. I build apps that people actually love.</div>
+        </div>
+
+        <div class="face back">
+          <div class="face-icon">🚀</div>
+          <div class="face-title" data-i18n="f2t">Mission</div>
+          <div class="face-content" data-i18n="f2c">Create digital products that solve real problems. Not just exercises — real apps, real users, real impact.</div>
+        </div>
+
+        <div class="face right">
+          <div class="face-icon">⚡</div>
+          <div class="face-title" data-i18n="f3t">Stack</div>
+          <div class="face-tags">
+            <span>Flutter</span><span>Firebase</span><span>JavaScript</span>
+            <span>HTML/CSS</span><span>Python</span><span>C/C++</span><span>SQL</span>
+          </div>
+        </div>
+
+        <div class="face left">
+          <div class="face-icon">✨</div>
+          <div class="face-title" data-i18n="f4t">Passions</div>
+          <div class="face-tags">
+            <span data-i18n="p1">🎵 Music</span><span data-i18n="p2">✈️ Travel</span>
+            <span data-i18n="p3">🎮 Gaming</span><span data-i18n="p4">🤖 AI/ML</span>
+            <span data-i18n="p5">🌍 Cultures</span><span data-i18n="p6">📚 Reading</span>
+          </div>
+        </div>
+
+        <div class="face top">
+          <div class="face-icon">🏆</div>
+          <div class="face-title" data-i18n="f5t">Projects</div>
+          <div class="face-content">Memive 🎙️<br>Chrono ⏱️<br>Blackjack 🃏</div>
+        </div>
+
+        <div class="face bottom">
+          <div class="face-icon">🎓</div>
+          <div class="face-title" data-i18n="f6t">Education</div>
+          <div class="face-content" data-i18n="f6c">Università di Brescia<br>B.Sc. Computer Eng.<br><br>Liceo Don Milani<br>Romano di Lombardia</div>
+        </div>
+
       </div>
     </div>
   </div>
-</section>
+</div>
 
-<!-- INTERESTS -->
-<section class="chapter rev" id="s5">
-  <div class="ch-visual">
-    <div class="ch-img">✨</div>
-    <div class="ch-num">04</div>
-    <div class="ch-line"></div>
-  </div>
-  <div class="ch-text reveal">
-    <div class="ch-label">Chapter 04 · Interessi</div>
-    <h2 class="ch-title">Cosa mi<br>muove.</h2>
-    <p class="ch-body">Musica, viaggi, tecnologia, startup. Cerco costantemente nuovi stimoli — ogni esperienza diventa carburante creativo per i miei progetti.</p>
-    <div class="tag-row">
-      <span class="tag">🎵 Musica</span><span class="tag">✈️ Viaggi</span>
-      <span class="tag">🚀 Startup</span><span class="tag">🎮 Gaming</span>
-      <span class="tag">🤖 AI/ML</span><span class="tag">🌍 Culture</span>
-      <span class="tag">📚 Libri</span><span class="tag">⚽ Sport</span>
-    </div>
-  </div>
-</section>
-
-<!-- FINAL -->
-<section id="sfinal">
-  <div class="final-inner reveal">
-    <p class="final-tagline">Pronto a costruire qualcosa di straordinario insieme.</p>
-    <a href="mailto:edward@attuati.com" class="cta-btn">Scrivimi</a>
-  </div>
-</section>
+<div class="dots" id="dots">
+  <button class="dot active" data-rx="-18" data-ry="28"  title="Who I Am"></button>
+  <button class="dot"        data-rx="-18" data-ry="208" title="Mission"></button>
+  <button class="dot"        data-rx="-18" data-ry="-62" title="Stack"></button>
+  <button class="dot"        data-rx="-18" data-ry="118" title="Passions"></button>
+  <button class="dot"        data-rx="-108" data-ry="28" title="Projects"></button>
+  <button class="dot"        data-rx="72"  data-ry="28"  title="Education"></button>
+</div>
 
 <script>
-// Scroll reveal
-const obs=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');}});
-},{threshold:.15});
-document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+// Stars
+const sc=document.getElementById('stars'),ctx=sc.getContext('2d');
+sc.width=innerWidth;sc.height=innerHeight;
+Array.from({length:200},()=>{ctx.beginPath();ctx.arc(Math.random()*sc.width,Math.random()*sc.height,Math.random()*1.4,0,Math.PI*2);ctx.fillStyle=`rgba(255,255,255,${Math.random()*.6})`;ctx.fill();});
 
-// Skill bars on reveal
-const skillObs=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{if(e.isIntersecting){e.target.querySelectorAll('.sk-fill').forEach(f=>{f.style.width=f.dataset.w+'%';});skillObs.unobserve(e.target);}});
-},{threshold:.3});
-document.querySelectorAll('.skills-list').forEach(el=>skillObs.observe(el));
+// Cube drag
+const cube=document.getElementById('cube'),scene=document.getElementById('scene');
+let rotX=-18,rotY=28,startX,startY,dragging=false,autoSpin=true,autoTimer;
+function applyRot(){cube.style.transform=`rotateX(${rotX}deg) rotateY(${rotY}deg)`;}
+scene.addEventListener('mousedown',e=>{dragging=true;startX=e.clientX;startY=e.clientY;autoSpin=false;});
+window.addEventListener('mousemove',e=>{if(!dragging)return;rotY+=(e.clientX-startX)*.45;rotX-=(e.clientY-startY)*.45;startX=e.clientX;startY=e.clientY;applyRot();});
+window.addEventListener('mouseup',()=>{dragging=false;clearTimeout(autoTimer);autoTimer=setTimeout(()=>autoSpin=true,3000);});
+scene.addEventListener('touchstart',e=>{dragging=true;startX=e.touches[0].clientX;startY=e.touches[0].clientY;autoSpin=false;},{passive:true});
+scene.addEventListener('touchmove',e=>{if(!dragging)return;rotY+=(e.touches[0].clientX-startX)*.45;rotX-=(e.touches[0].clientY-startY)*.45;startX=e.touches[0].clientX;startY=e.touches[0].clientY;applyRot();},{passive:true});
+scene.addEventListener('touchend',()=>dragging=false);
+(function tick(){if(autoSpin&&!dragging){rotY+=.12;applyRot();}requestAnimationFrame(tick);})();
+
+// Dots
+document.querySelectorAll('.dot').forEach((d,i)=>{
+  d.addEventListener('click',()=>{
+    autoSpin=false;rotX=+d.dataset.rx;rotY=+d.dataset.ry;
+    cube.style.transition='transform .7s cubic-bezier(.4,0,.2,1)';applyRot();
+    setTimeout(()=>cube.style.transition='',800);
+    document.querySelectorAll('.dot').forEach(x=>x.classList.remove('active'));d.classList.add('active');
+  });
+});
+
+// i18n
+const T={
+  en:{'tag':'About Me','desc':'Computer Engineering student with a passion for building real digital products. Code, design, and a lot of coffee.','s1':'Years','s2':'Projects','s3':'Apps','hint':'Drag the cube · Click dots to navigate','f1t':'Who I Am','f1c':'Computer Engineering student at Università di Brescia. 22 years old, Bergamo, Italy. I build apps that people actually love.','f2t':'Mission','f2c':'Create digital products that solve real problems. Not just exercises — real apps, real users, real impact.','f3t':'Stack','f4t':'Passions','p1':'🎵 Music','p2':'✈️ Travel','p3':'🎮 Gaming','p4':'🤖 AI/ML','p5':'🌍 Cultures','p6':'📚 Reading','f5t':'Projects','f6t':'Education','f6c':'Università di Brescia\nB.Sc. Computer Eng.\n\nLiceo Don Milani\nRomano di Lombardia'},
+  it:{'tag':'Chi Sono','desc':'Studente di Ingegneria Informatica con la passione per creare prodotti digitali reali. Codice, design e tanto caffè.','s1':'Anni','s2':'Progetti','s3':'App','hint':'Trascina il cubo · Clicca i punti','f1t':'Chi Sono','f1c':'Studente di Ingegneria Informatica all\'Università di Brescia. 22 anni, Bergamo, Italia. Costruisco app che la gente ama usare.','f2t':'Mission','f2c':'Creare prodotti digitali che risolvono problemi reali. Non esercizi — app vere, utenti veri, impatto reale.','f3t':'Stack','f4t':'Passioni','p1':'🎵 Musica','p2':'✈️ Viaggi','p3':'🎮 Gaming','p4':'🤖 AI/ML','p5':'🌍 Culture','p6':'📚 Lettura','f5t':'Progetti','f6t':'Formazione','f6c':'Università di Brescia\nIngegneria Informatica\n\nLiceo Don Milani\nRomano di Lombardia'},
+  es:{'tag':'Sobre Mí','desc':'Estudiante de Ingeniería Informática con pasión por crear productos digitales reales. Código, diseño y mucho café.','s1':'Años','s2':'Proyectos','s3':'Apps','hint':'Arrastra el cubo · Clic en puntos','f1t':'Quién Soy','f1c':'Estudiante de Ingeniería Informática en la Università di Brescia. 22 años, Bérgamo, Italia.','f2t':'Misión','f2c':'Crear productos digitales que resuelvan problemas reales. No ejercicios — apps reales, usuarios reales.','f3t':'Stack','f4t':'Pasiones','p1':'🎵 Música','p2':'✈️ Viajes','p3':'🎮 Gaming','p4':'🤖 IA/ML','p5':'🌍 Culturas','p6':'📚 Lectura','f5t':'Proyectos','f6t':'Educación','f6c':'Università di Brescia\nIng. Informática\n\nLiceo Don Milani\nRomano di Lombardia'},
+};
+const FLAGS={en:'🇬🇧',it:'🇮🇹',es:'🇪🇸'};
+function setLang(l){
+  const t=T[l]||T.en;
+  document.querySelectorAll('[data-i18n]').forEach(el=>{const v=t[el.dataset.i18n];if(v)el.textContent=v;});
+  document.getElementById('lang-flag').textContent=FLAGS[l];
+  document.querySelectorAll('#lang-dropdown button').forEach(b=>b.classList.toggle('active',b.dataset.lang===l));
+  localStorage.setItem('ea-lang',l);
+}
+setLang(localStorage.getItem('ea-lang')||'en');
 </script>
 </body>
 </html>

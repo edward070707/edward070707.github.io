@@ -3,182 +3,214 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>About Me B — 3D Room / Workspace</title>
+<title>About Me B — Terminal Hacker</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;700&family=Inter:wght@400;600&display=swap');
 *{margin:0;padding:0;box-sizing:border-box;}
-body{background:#0a0a0f;color:#fff;font-family:'Inter',sans-serif;overflow:hidden;height:100vh;display:flex;align-items:center;justify-content:center;}
+body{background:#020a02;min-height:100vh;font-family:'JetBrains Mono',monospace;overflow:hidden;display:flex;align-items:center;justify-content:center;}
+canvas#matrix{position:fixed;inset:0;opacity:.07;pointer-events:none;}
+.scanlines{position:fixed;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.04) 3px,rgba(0,0,0,.04) 4px);z-index:1;}
 
-/* BG */
-.bg-grad{position:fixed;inset:0;background:radial-gradient(ellipse at 60% 40%,#0f1a2e 0%,#050508 70%);pointer-events:none;}
+/* NAV */
+nav{position:fixed;top:20px;left:24px;right:24px;z-index:100;display:flex;justify-content:space-between;align-items:center;}
+.nav-back{display:flex;align-items:center;gap:8px;padding:9px 18px;background:rgba(0,255,65,.06);border:1px solid rgba(0,255,65,.2);border-radius:30px;color:rgba(0,255,65,.8);text-decoration:none;font-size:12px;transition:.2s;}
+.nav-back:hover{background:rgba(0,255,65,.12);color:#00ff41;}
+#lang-switcher{position:relative;}
+#lang-current{background:rgba(0,255,65,.05);border:1px solid rgba(0,255,65,.2);border-radius:30px;cursor:pointer;font-size:16px;padding:6px 12px;display:flex;align-items:center;gap:5px;color:rgba(0,255,65,.7);transition:.2s;}
+#lang-dropdown{display:none;position:absolute;top:calc(100%+6px);right:0;background:rgba(2,12,2,.97);border:1px solid rgba(0,255,65,.2);border-radius:10px;overflow:hidden;z-index:200;min-width:130px;}
+#lang-switcher:hover #lang-dropdown{display:block;}
+#lang-dropdown button{display:flex;align-items:center;gap:8px;width:100%;background:none;border:none;padding:8px 12px;cursor:pointer;font-size:12px;color:rgba(0,255,65,.6);font-family:'JetBrains Mono',monospace;transition:.15s;}
+#lang-dropdown button:hover{background:rgba(0,255,65,.08);color:#00ff41;}
+#lang-dropdown button.active{color:#00ff41;font-weight:700;}
 
-/* TOP NAV */
-nav{position:fixed;top:20px;left:40px;right:40px;z-index:100;display:flex;justify-content:space-between;align-items:center;}
-.nav-name{font-size:12px;letter-spacing:3px;color:rgba(255,255,255,.4);text-transform:uppercase;}
-.nav-back{font-size:12px;color:rgba(255,255,255,.4);text-decoration:none;transition:.2s;letter-spacing:1px;}
-.nav-back:hover{color:#fff;}
+/* LAYOUT */
+.layout{position:relative;z-index:10;display:flex;align-items:flex-start;gap:48px;padding:80px 40px 40px;max-width:1100px;width:100%;}
 
-/* SCENE WRAPPER */
-.scene-wrap{position:relative;width:min(900px,95vw);height:min(560px,90vh);}
+/* LEFT */
+.left{min-width:240px;max-width:260px;color:#00ff41;}
+.left .lbl{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:rgba(0,255,65,.4);margin-bottom:10px;}
+.left h2{font-size:32px;font-weight:700;line-height:1.1;margin-bottom:16px;text-shadow:0 0 20px rgba(0,255,65,.4);}
+.left .sub{font-size:12px;color:rgba(0,255,65,.5);line-height:1.7;margin-bottom:24px;}
+.skill-bars{display:flex;flex-direction:column;gap:10px;}
+.sk-row{display:flex;align-items:center;gap:10px;}
+.sk-name{font-size:10px;color:rgba(0,255,65,.55);width:80px;flex-shrink:0;}
+.sk-track{flex:1;height:3px;background:rgba(0,255,65,.1);border-radius:2px;overflow:hidden;}
+.sk-fill{height:100%;background:linear-gradient(90deg,#00ff41,#00aa28);width:0;transition:width 1.4s cubic-bezier(.4,0,.2,1);}
+.sk-pct{font-size:9px;color:rgba(0,255,65,.35);width:28px;text-align:right;}
 
-/* ISOMETRIC ROOM */
-.room{position:absolute;inset:0;perspective:1200px;}
-.room-inner{width:100%;height:100%;transform-style:preserve-3d;transform:rotateX(20deg) rotateY(-15deg);transition:transform .8s cubic-bezier(.4,0,.2,1);}
-
-/* Floor */
-.floor{position:absolute;width:520px;height:380px;left:50%;top:50%;transform:translateX(-50%) translateY(-50%) translateZ(-60px) rotateX(90deg);background:linear-gradient(135deg,#0d1120,#111827);border:1px solid rgba(255,255,255,.04);}
-.floor-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:40px 40px;}
-
-/* Left wall */
-.wall-left{position:absolute;width:520px;height:320px;left:50%;bottom:50%;transform:translateX(-50%) translateY(50%) translateZ(100px) rotateY(0deg);background:rgba(15,20,40,.6);border:1px solid rgba(255,255,255,.04);}
-
-/* Objects */
-.obj{position:absolute;cursor:pointer;transition:transform .3s,filter .3s;}
-.obj:hover{filter:brightness(1.4);}
-.obj.active{filter:brightness(1.8);}
-
-/* Desk */
-.desk{position:absolute;bottom:28%;left:18%;width:260px;height:100px;background:linear-gradient(135deg,#1a1410,#2a1e16);border-radius:8px 8px 0 0;border:1px solid rgba(255,200,100,.1);transform:translateZ(0);}
-.desk-surface{position:absolute;top:-12px;left:-4px;right:-4px;height:14px;background:linear-gradient(135deg,#2e2016,#3d2a1a);border-radius:6px 6px 0 0;}
-
-/* Monitor */
-.monitor{position:absolute;bottom:calc(28% + 100px);left:22%;width:140px;height:96px;background:#080c18;border:2px solid rgba(100,150,255,.2);border-radius:6px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.3s;}
-.monitor:hover{border-color:rgba(100,150,255,.6);box-shadow:0 0 30px rgba(100,150,255,.2);}
-.monitor-screen{width:calc(100% - 8px);height:calc(100% - 8px);background:linear-gradient(135deg,#0a1428,#0d1f3c);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:9px;color:rgba(100,150,255,.7);text-align:center;line-height:1.4;letter-spacing:.5px;}
-.monitor-stand{position:absolute;bottom:-14px;left:50%;transform:translateX(-50%);width:20px;height:14px;background:#1a1a2e;border-radius:0 0 4px 4px;}
-
-/* Bookshelf */
-.shelf{position:absolute;bottom:32%;right:15%;width:120px;height:140px;background:#1a1208;border:1px solid rgba(255,200,100,.1);border-radius:4px;display:flex;flex-direction:column;justify-content:flex-end;padding:6px;gap:4px;cursor:pointer;transition:.3s;}
-.shelf:hover{border-color:rgba(255,200,100,.4);box-shadow:0 0 20px rgba(255,200,100,.1);}
-.book{height:14px;border-radius:2px;}
-
-/* Plant */
-.plant{position:absolute;bottom:calc(28% + 100px);right:22%;font-size:36px;cursor:pointer;transition:.3s;filter:drop-shadow(0 0 10px rgba(0,200,100,.2));}
-.plant:hover{transform:scale(1.1);filter:drop-shadow(0 0 20px rgba(0,200,100,.4));}
-
-/* Coffee */
-.coffee{position:absolute;bottom:calc(28% + 100px);left:32%;font-size:24px;cursor:pointer;transition:.3s;}
-.coffee:hover{transform:scale(1.15);}
-
-/* Headphones */
-.headphones{position:absolute;bottom:calc(28% + 100px);left:42%;font-size:28px;cursor:pointer;transition:.3s;}
-.headphones:hover{transform:scale(1.1) rotate(-10deg);}
-
-/* Lamp */
-.lamp{position:absolute;bottom:calc(28% + 98px);left:17%;font-size:28px;cursor:pointer;transition:.3s;filter:drop-shadow(0 0 8px rgba(255,220,100,.3));}
-.lamp:hover{filter:drop-shadow(0 0 20px rgba(255,220,100,.6));}
-
-/* PANEL (pops up when clicking objects) */
-#panel{position:absolute;top:50%;right:-20px;transform:translateY(-50%) translateX(110%);width:260px;background:rgba(10,14,30,.95);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:24px;backdrop-filter:blur(20px);transition:transform .4s cubic-bezier(.4,0,.2,1);z-index:50;box-shadow:0 20px 60px rgba(0,0,0,.8);}
-#panel.open{transform:translateY(-50%) translateX(0);}
-.panel-icon{font-size:36px;margin-bottom:12px;}
-.panel-title{font-size:16px;font-weight:700;margin-bottom:8px;}
-.panel-body{font-size:13px;color:rgba(255,255,255,.5);line-height:1.7;}
-.panel-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;}
-.panel-tag{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:20px;font-size:10px;padding:3px 10px;color:rgba(255,255,255,.5);}
-.panel-close{position:absolute;top:12px;right:14px;background:none;border:none;color:rgba(255,255,255,.3);font-size:18px;cursor:pointer;transition:.2s;}
-.panel-close:hover{color:#fff;}
-
-/* HINT label */
-.hint{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);font-size:11px;color:rgba(255,255,255,.2);letter-spacing:2px;text-transform:uppercase;white-space:nowrap;}
-
-/* Drag hint */
-.drag-hint{position:absolute;top:80px;left:50%;transform:translateX(-50%);font-size:11px;color:rgba(255,255,255,.2);letter-spacing:1px;}
+/* TERMINAL */
+.terminal{flex:1;background:#050e05;border:1px solid rgba(0,255,65,.2);border-radius:12px;overflow:hidden;box-shadow:0 0 60px rgba(0,255,65,.08),0 0 120px rgba(0,0,0,.8);}
+.term-bar{background:#080f08;padding:11px 16px;display:flex;align-items:center;gap:8px;border-bottom:1px solid rgba(0,255,65,.12);}
+.tdot{width:11px;height:11px;border-radius:50%;}
+.tdot.r{background:#ff5f57;}.tdot.y{background:#ffbd2e;}.tdot.g{background:#28c840;}
+.term-title{font-size:11px;color:rgba(0,255,65,.35);margin:0 auto;letter-spacing:1px;}
+.term-body{padding:18px 22px;height:420px;overflow-y:auto;font-size:12px;line-height:2;}
+.term-body::-webkit-scrollbar{width:3px;}
+.term-body::-webkit-scrollbar-thumb{background:rgba(0,255,65,.2);}
+.tline{display:flex;gap:8px;flex-wrap:wrap;}
+.prompt{color:#00cc33;flex-shrink:0;}
+.cmd-txt{color:#fff;}
+.out{color:rgba(0,255,65,.65);display:block;padding-left:2px;width:100%;}
+.out.hi{color:#00ff41;font-weight:700;}
+.out.dim{color:rgba(0,255,65,.3);}
+.out.gold{color:#d4af37;}
+.out.red{color:#ff6b6b;}
+.cursor{display:inline-block;width:7px;height:13px;background:#00ff41;animation:blink .7s steps(1) infinite;vertical-align:middle;}
+@keyframes blink{50%{opacity:0;}}
 </style>
 </head>
 <body>
-<div class="bg-grad"></div>
+<canvas id="matrix"></canvas>
+<div class="scanlines"></div>
 
 <nav>
-  <span class="nav-name">Edward Attuati</span>
-  <a class="nav-back" href="../index.html">← Portfolio</a>
+  <a class="nav-back" href="../aboutme.html">← About Me</a>
+  <div id="lang-switcher">
+    <button id="lang-current"><span id="lang-flag">🇬🇧</span><span style="font-size:9px;opacity:.5;">▼</span></button>
+    <div id="lang-dropdown">
+      <button onclick="setLang('en')" data-lang="en" class="active">🇬🇧 EN</button>
+      <button onclick="setLang('it')" data-lang="it">🇮🇹 IT</button>
+      <button onclick="setLang('es')" data-lang="es">🇪🇸 ES</button>
+    </div>
+  </div>
 </nav>
 
-<div class="scene-wrap" id="sceneWrap">
-
-  <!-- ROOM -->
-  <div class="room" id="room">
-    <div class="room-inner" id="roomInner">
-      <div class="floor"><div class="floor-grid"></div></div>
-      <div class="wall-left"></div>
-
-      <!-- Objects -->
-      <div class="lamp obj" id="o-lamp">💡</div>
-      <div class="desk obj" id="o-desk">
-        <div class="desk-surface"></div>
-      </div>
-      <div class="monitor obj" id="o-monitor">
-        <div class="monitor-screen">flutter pub get<br>Building... ▌</div>
-        <div class="monitor-stand"></div>
-      </div>
-      <div class="shelf obj" id="o-shelf">
-        <div class="book" style="background:#4f8ef7;"></div>
-        <div class="book" style="background:#a259ff;"></div>
-        <div class="book" style="background:#ff6b6b;"></div>
-        <div class="book" style="background:#00d4aa;"></div>
-        <div class="book" style="background:#ffaa00;"></div>
-      </div>
-      <div class="plant obj" id="o-plant">🪴</div>
-      <div class="coffee obj" id="o-coffee">☕</div>
-      <div class="headphones obj" id="o-headphones">🎧</div>
+<div class="layout">
+  <div class="left">
+    <div class="lbl" data-i18n="lbl">Profile</div>
+    <h2>root@<br>edward</h2>
+    <p class="sub" data-i18n="sub">Computer Engineering student. Builder. Caffeine-powered developer from Bergamo, Italy.</p>
+    <div class="skill-bars" id="skillBars">
+      <div class="sk-row"><span class="sk-name">Flutter</span><div class="sk-track"><div class="sk-fill" data-w="85"></div></div><span class="sk-pct">85%</span></div>
+      <div class="sk-row"><span class="sk-name">JS/HTML</span><div class="sk-track"><div class="sk-fill" data-w="75"></div></div><span class="sk-pct">75%</span></div>
+      <div class="sk-row"><span class="sk-name">Python</span><div class="sk-track"><div class="sk-fill" data-w="70"></div></div><span class="sk-pct">70%</span></div>
+      <div class="sk-row"><span class="sk-name">C/C++</span><div class="sk-track"><div class="sk-fill" data-w="65"></div></div><span class="sk-pct">65%</span></div>
+      <div class="sk-row"><span class="sk-name">SQL</span><div class="sk-track"><div class="sk-fill" data-w="55"></div></div><span class="sk-pct">55%</span></div>
     </div>
   </div>
 
-  <!-- PANEL -->
-  <div id="panel">
-    <button class="panel-close" id="panelClose">✕</button>
-    <div class="panel-icon" id="pIcon"></div>
-    <div class="panel-title" id="pTitle"></div>
-    <div class="panel-body" id="pBody"></div>
-    <div class="panel-tags" id="pTags"></div>
+  <div class="terminal">
+    <div class="term-bar">
+      <div class="tdot r"></div><div class="tdot y"></div><div class="tdot g"></div>
+      <span class="term-title">edward@portfolio ~ zsh</span>
+    </div>
+    <div class="term-body" id="termBody"></div>
   </div>
-
-  <div class="hint">Clicca gli oggetti per scoprire di più</div>
-  <div class="drag-hint">Trascina per ruotare la stanza</div>
 </div>
 
 <script>
-const DATA={
-  'o-monitor':{icon:'💻',title:'Stack Tecnologico',body:'Il mio setup quotidiano: VS Code, Flutter, Firebase, Git. Costruisco app mobile e web full-stack.',tags:['Flutter','Firebase','JavaScript','Dart','Node.js']},
-  'o-shelf':{icon:'📚',title:'Formazione',body:'Università di Brescia — Ingegneria Informatica. Liceo Don Milani. Costante apprendimento autodidatta.',tags:['UniBS','Computer Eng','Self-taught']},
-  'o-plant':{icon:'🪴',title:'Chi Sono',body:'Edward Attuati, 22 anni, Milano. Sviluppatore con la passione per il design e i prodotti digitali che funzionano davvero.',tags:['22 anni','Milano 🇮🇹','Dev & Designer']},
-  'o-coffee':{icon:'☕',title:'Interessi',body:'Caffè, codice, musica e viaggi. Ogni esperienza nuova diventa ispirazione creativa per i miei progetti.',tags:['Musica','Viaggi','Startup','Gaming']},
-  'o-headphones':{icon:'🎧',title:'Progetti',body:'Memive — app vocale social. Chrono — time tracker. Blackjack — card game. Sempre in cantiere qualcosa di nuovo.',tags:['Memive','Chrono','Blackjack']},
-  'o-lamp':{icon:'💡',title:'Contatti',body:'Pronto per nuove collaborazioni e opportunità. Scrivimi!',tags:['edward@attuati.com','GitHub: edward070707']},
-  'o-desk':{icon:'🖥️',title:'Work Experience',body:'Stage IT presso Soluzione1 (Ghisalba, 2024). Infrastruttura reti, troubleshooting, team collaboration.',tags:['Soluzione1','2024','IT Infra']},
+// Matrix rain
+const mc=document.getElementById('matrix'),mctx=mc.getContext('2d');
+mc.width=innerWidth;mc.height=innerHeight;
+const cols=Math.floor(innerWidth/16),drops=Array(cols).fill(1);
+const chars='アイウエオカキクケコサシスセソタチツ01'.split('');
+setInterval(()=>{mctx.fillStyle='rgba(2,10,2,.04)';mctx.fillRect(0,0,mc.width,mc.height);mctx.fillStyle='#00ff41';mctx.font='14px JetBrains Mono';drops.forEach((y,i)=>{mctx.fillText(chars[Math.floor(Math.random()*chars.length)],i*16,y*16);if(y*16>mc.height&&Math.random()>.975)drops[i]=0;drops[i]++;});},55);
+
+// Skill bars
+setTimeout(()=>document.querySelectorAll('.sk-fill').forEach(f=>f.style.width=f.dataset.w+'%'),600);
+
+// i18n
+const SCRIPTS={
+  en:[
+    {type:'cmd',p:'edward@portfolio:~$',t:'whoami'},
+    {type:'out',t:'Edward Attuati — Full-Stack Developer 🇮🇹',cls:'hi'},
+    {type:'cmd',p:'edward@portfolio:~$',t:'cat info.json'},
+    {type:'out',t:'{',cls:'dim'},
+    {type:'out',t:'  "age": 22,'},
+    {type:'out',t:'  "city": "Bergamo, Italy",'},
+    {type:'out',t:'  "university": "Università di Brescia",'},
+    {type:'out',t:'  "degree": "B.Sc. Computer Engineering",',cls:'gold'},
+    {type:'out',t:'  "status": "open_to_work"',cls:'gold'},
+    {type:'out',t:'}',cls:'dim'},
+    {type:'cmd',p:'edward@portfolio:~$',t:'ls education/'},
+    {type:'out',t:'Universita_di_Brescia/   Liceo_Don_Milani/   Sacra_Famiglia/',cls:'hi'},
+    {type:'cmd',p:'edward@portfolio:~$',t:'cat work/soluzione1.txt'},
+    {type:'out',t:'💼 IT Internship @ Soluzione1 — Ghisalba, 2024'},
+    {type:'out',t:'   Infrastructure · Networking · Teamwork'},
+    {type:'cmd',p:'edward@portfolio:~$',t:'ls projects/'},
+    {type:'out',t:'memive/   chrono/   blackjack/',cls:'hi'},
+    {type:'cmd',p:'edward@portfolio:~$',t:'cat languages.txt'},
+    {type:'out',t:'🇮🇹 Italian — Native  |  🇬🇧 English — B2',cls:'gold'},
+    {type:'cmd',p:'edward@portfolio:~$',t:'echo $CONTACT'},
+    {type:'out',t:'📧 edward@attuati.com',cls:'gold'},
+    {type:'cmd',p:'edward@portfolio:~$',t:''},
+  ],
+  it:[
+    {type:'cmd',p:'edward@portfolio:~$',t:'whoami'},
+    {type:'out',t:'Edward Attuati — Sviluppatore Full-Stack 🇮🇹',cls:'hi'},
+    {type:'cmd',p:'edward@portfolio:~$',t:'cat info.json'},
+    {type:'out',t:'{',cls:'dim'},
+    {type:'out',t:'  "età": 22,'},
+    {type:'out',t:'  "città": "Bergamo, Italia",'},
+    {type:'out',t:'  "università": "Università di Brescia",'},
+    {type:'out',t:'  "laurea": "Ingegneria Informatica",',cls:'gold'},
+    {type:'out',t:'  "stato": "aperto_a_collaborazioni"',cls:'gold'},
+    {type:'out',t:'}',cls:'dim'},
+    {type:'cmd',p:'edward@portfolio:~$',t:'ls formazione/'},
+    {type:'out',t:'UniBS/   Liceo_Don_Milani/   Sacra_Famiglia/',cls:'hi'},
+    {type:'cmd',p:'edward@portfolio:~$',t:'cat lavoro/soluzione1.txt'},
+    {type:'out',t:'💼 Stage IT @ Soluzione1 — Ghisalba, 2024'},
+    {type:'out',t:'   Infrastruttura · Reti · Lavoro di team'},
+    {type:'cmd',p:'edward@portfolio:~$',t:'ls progetti/'},
+    {type:'out',t:'memive/   chrono/   blackjack/',cls:'hi'},
+    {type:'cmd',p:'edward@portfolio:~$',t:'cat lingue.txt'},
+    {type:'out',t:'🇮🇹 Italiano — Madrelingua  |  🇬🇧 Inglese — B2',cls:'gold'},
+    {type:'cmd',p:'edward@portfolio:~$',t:'echo $CONTATTO'},
+    {type:'out',t:'📧 edward@attuati.com',cls:'gold'},
+    {type:'cmd',p:'edward@portfolio:~$',t:''},
+  ],
+  es:[
+    {type:'cmd',p:'edward@portfolio:~$',t:'whoami'},
+    {type:'out',t:'Edward Attuati — Desarrollador Full-Stack 🇮🇹',cls:'hi'},
+    {type:'cmd',p:'edward@portfolio:~$',t:'cat info.json'},
+    {type:'out',t:'{',cls:'dim'},
+    {type:'out',t:'  "edad": 22,'},
+    {type:'out',t:'  "ciudad": "Bérgamo, Italia",'},
+    {type:'out',t:'  "universidad": "Università di Brescia",',cls:'gold'},
+    {type:'out',t:'  "estado": "abierto_a_colaboraciones"',cls:'gold'},
+    {type:'out',t:'}',cls:'dim'},
+    {type:'cmd',p:'edward@portfolio:~$',t:'ls proyectos/'},
+    {type:'out',t:'memive/   chrono/   blackjack/',cls:'hi'},
+    {type:'cmd',p:'edward@portfolio:~$',t:'echo $CONTACTO'},
+    {type:'out',t:'📧 edward@attuati.com',cls:'gold'},
+    {type:'cmd',p:'edward@portfolio:~$',t:''},
+  ],
 };
+const FLAGS={en:'🇬🇧',it:'🇮🇹',es:'🇪🇸'};
+const SUBs={en:'Computer Engineering student. Builder. Caffeine-powered developer from Bergamo, Italy.',it:'Studente di Ingegneria Informatica. Builder. Sviluppatore a prova di caffè da Bergamo, Italia.',es:'Estudiante de Ingeniería Informática. Builder. Desarrollador de Bérgamo, Italia.'};
+let currentLang='en';
+function setLang(l){
+  currentLang=l;
+  document.getElementById('lang-flag').textContent=FLAGS[l];
+  document.querySelectorAll('#lang-dropdown button').forEach(b=>b.classList.toggle('active',b.dataset.lang===l));
+  const sub=document.querySelector('.sub');if(sub)sub.textContent=SUBs[l];
+  localStorage.setItem('ea-lang',l);
+  restartTerminal(l);
+}
 
-const panel=document.getElementById('panel');
-const pIcon=document.getElementById('pIcon');
-const pTitle=document.getElementById('pTitle');
-const pBody=document.getElementById('pBody');
-const pTags=document.getElementById('pTags');
-
-Object.keys(DATA).forEach(id=>{
-  const el=document.getElementById(id);
-  if(!el)return;
-  el.addEventListener('click',e=>{
-    e.stopPropagation();
-    const d=DATA[id];
-    pIcon.textContent=d.icon;pTitle.textContent=d.title;pBody.textContent=d.body;
-    pTags.innerHTML=d.tags.map(t=>`<span class="panel-tag">${t}</span>`).join('');
-    panel.classList.add('open');
-  });
-});
-document.getElementById('panelClose').addEventListener('click',()=>panel.classList.remove('open'));
-
-// Drag to rotate
-const ri=document.getElementById('roomInner');
-let dragging=false,startX=0,startY=0,rotX=20,rotY=-15;
-document.getElementById('room').addEventListener('mousedown',e=>{dragging=true;startX=e.clientX;startY=e.clientY;});
-window.addEventListener('mousemove',e=>{
-  if(!dragging)return;
-  rotY+=(e.clientX-startX)*.3;rotX-=(e.clientY-startY)*.3;
-  rotX=Math.max(-5,Math.min(40,rotX));
-  ri.style.transform=`rotateX(${rotX}deg) rotateY(${rotY}deg)`;
-  startX=e.clientX;startY=e.clientY;
-});
-window.addEventListener('mouseup',()=>dragging=false);
+function restartTerminal(l){
+  const body=document.getElementById('termBody');
+  body.innerHTML='';
+  const script=SCRIPTS[l]||SCRIPTS.en;
+  let li=0;
+  function next(){
+    if(li>=script.length){const c=document.createElement('span');c.className='cursor';body.appendChild(c);return;}
+    const s=script[li];
+    if(s.type==='cmd'){
+      const row=document.createElement('div');row.className='tline';
+      const pr=document.createElement('span');pr.className='prompt';pr.textContent=s.p;
+      const cm=document.createElement('span');cm.className='cmd-txt';
+      row.appendChild(pr);row.appendChild(cm);body.appendChild(row);
+      if(!s.t){li++;setTimeout(next,200);return;}
+      let ci=0;const ti=setInterval(()=>{cm.textContent+=s.t[ci++];body.scrollTop=9999;if(ci>=s.t.length){clearInterval(ti);li++;setTimeout(next,380);}},38);
+    } else {
+      const o=document.createElement('span');o.className='out '+(s.cls||'');body.appendChild(o);
+      let ci=0;const ti=setInterval(()=>{o.textContent+=s.t[ci++];body.scrollTop=9999;if(ci>=s.t.length){clearInterval(ti);li++;setTimeout(next,60);}},16);
+    }
+  }
+  setTimeout(next,400);
+}
+setLang(localStorage.getItem('ea-lang')||'en');
 </script>
 </body>
 </html>

@@ -8,101 +8,96 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
 *{margin:0;padding:0;box-sizing:border-box;}
 body{background:#04060d;min-height:100vh;font-family:'Inter',sans-serif;color:#fff;padding:48px 24px;}
-
-h1{text-align:center;font-size:clamp(28px,5vw,40px);font-weight:800;letter-spacing:-1px;margin-bottom:8px;background:linear-gradient(135deg,#fff,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-.sub{text-align:center;color:rgba(255,255,255,.35);font-size:14px;margin-bottom:52px;letter-spacing:.3px;}
-
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;max-width:1060px;margin:0 auto;}
-
-.card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:20px;overflow:hidden;text-decoration:none;transition:.35s;display:block;}
-.card:hover{border-color:rgba(255,255,255,.2);transform:translateY(-5px);box-shadow:0 24px 64px rgba(0,0,0,.6);}
-
-.preview{height:190px;display:flex;align-items:center;justify-content:center;font-size:60px;position:relative;overflow:hidden;}
-.preview .bg-letter{position:absolute;font-size:110px;font-weight:900;opacity:.06;letter-spacing:-4px;pointer-events:none;}
-
-.card-a .preview{background:linear-gradient(135deg,#000 0%,#0a0a14 100%);}
-.card-b .preview{background:linear-gradient(135deg,#080b12,#0d1220);}
-.card-c .preview{background:linear-gradient(135deg,#000,#08000f);}
-.card-d .preview{background:linear-gradient(135deg,#06080f,#0d0a1a);}
-.card-e .preview{background:linear-gradient(135deg,#04060d,#0a0614);}
-
-.info{padding:22px 24px;}
-.badge{display:inline-block;background:rgba(167,139,250,.12);border:1px solid rgba(167,139,250,.25);color:#a78bfa;font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;margin-bottom:10px;letter-spacing:1px;}
-.info h3{font-size:17px;font-weight:700;letter-spacing:-.3px;margin-bottom:6px;}
-.info p{font-size:13px;color:rgba(255,255,255,.4);line-height:1.65;margin-bottom:14px;}
-.tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:16px;}
-.tag{background:rgba(255,255,255,.05);border-radius:20px;font-size:10px;padding:3px 10px;color:rgba(255,255,255,.4);}
-.open{display:block;text-align:center;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:10px;font-size:13px;font-weight:600;color:rgba(255,255,255,.7);transition:.2s;}
-.card:hover .open{background:rgba(167,139,250,.15);border-color:rgba(167,139,250,.3);color:#a78bfa;}
-
-.back-link{text-align:center;margin-top:40px;font-size:12px;color:rgba(255,255,255,.2);}
-.back-link a{color:rgba(167,139,250,.5);text-decoration:none;}
-.back-link a:hover{color:#a78bfa;}
+h1{text-align:center;font-size:clamp(26px,5vw,38px);font-weight:800;letter-spacing:-1px;margin-bottom:8px;background:linear-gradient(135deg,#fff,#d4af37);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.sub{text-align:center;color:rgba(255,255,255,.35);font-size:14px;margin-bottom:48px;}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;max-width:1060px;margin:0 auto;}
+.card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:20px;overflow:hidden;text-decoration:none;transition:.35s;display:block;}
+.card:hover{border-color:rgba(212,175,55,.35);transform:translateY(-5px);box-shadow:0 24px 64px rgba(0,0,0,.6);}
+.preview{height:180px;display:flex;align-items:center;justify-content:center;font-size:56px;position:relative;overflow:hidden;}
+.bg-ltr{position:absolute;font-size:100px;font-weight:900;opacity:.05;pointer-events:none;}
+.card-a .preview{background:linear-gradient(135deg,#050810,#0d1a3a);}
+.card-b .preview{background:linear-gradient(135deg,#020a02,#030f03);}
+.card-c .preview{background:linear-gradient(135deg,#060612,#0d0a20);}
+.card-d .preview{background:linear-gradient(135deg,#030612,#06031a);}
+.card-e .preview{background:linear-gradient(135deg,#060610,#100610);}
+.info{padding:20px 22px;}
+.badge{display:inline-block;background:rgba(212,175,55,.12);border:1px solid rgba(212,175,55,.25);color:#d4af37;font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;margin-bottom:10px;letter-spacing:1px;}
+.info h3{font-size:16px;font-weight:700;letter-spacing:-.2px;margin-bottom:6px;}
+.info p{font-size:13px;color:rgba(255,255,255,.38);line-height:1.65;margin-bottom:12px;}
+.tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:14px;}
+.tag{background:rgba(255,255,255,.05);border-radius:20px;font-size:10px;padding:3px 10px;color:rgba(255,255,255,.38);}
+.open{display:block;text-align:center;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-radius:10px;padding:10px;font-size:13px;font-weight:600;color:rgba(255,255,255,.6);transition:.2s;}
+.card:hover .open{background:rgba(212,175,55,.14);border-color:rgba(212,175,55,.3);color:#d4af37;}
+.links{text-align:center;margin-top:36px;font-size:12px;color:rgba(255,255,255,.2);}
+.links a{color:rgba(212,175,55,.45);text-decoration:none;transition:.2s;}
+.links a:hover{color:#d4af37;}
 </style>
 </head>
 <body>
 <h1>About Me — 5 Proposte</h1>
-<p class="sub">Apri ogni demo in Safari e dimmi quale preferisci sostituire all'attuale</p>
+<p class="sub">Apri ogni demo e dimmi quale sostituisce l'attuale aboutme.html</p>
 
 <div class="grid">
 
   <a href="aboutme-a.html" target="_blank" class="card card-a">
-    <div class="preview"><span class="bg-letter">A</span>🎬</div>
+    <div class="preview"><span class="bg-ltr">A</span>🎲</div>
     <div class="info">
       <div class="badge">OPZIONE A</div>
-      <h3>Cinematic Scroll Film</h3>
-      <p>Stile documentario / Netflix. Scorrendo si rivelano "capitoli" della tua storia con animazioni cinematografiche. Minimalismo totale su sfondo nero.</p>
-      <div class="tags"><span class="tag">Scroll reveal</span><span class="tag">Fullscreen chapters</span><span class="tag">Dark minimal</span></div>
+      <h3>Cubo 3D Interattivo</h3>
+      <p>Cubo 3D trascinabile con 6 facce: Chi sei, Mission, Stack, Passioni, Progetti, Formazione. Si auto-spinna lentamente. Cielo stellato in background.</p>
+      <div class="tags"><span class="tag">3D drag</span><span class="tag">6 facce</span><span class="tag">Auto-spin</span><span class="tag">Stelle</span></div>
       <div class="open">Apri Demo A →</div>
     </div>
   </a>
 
   <a href="aboutme-b.html" target="_blank" class="card card-b">
-    <div class="preview"><span class="bg-letter">B</span>🏠</div>
+    <div class="preview"><span class="bg-ltr">B</span>💻</div>
     <div class="info">
       <div class="badge">OPZIONE B</div>
-      <h3>3D Room / Workspace</h3>
-      <p>Una stanza 3D isometrica che puoi ruotare trascinando. Ogni oggetto (monitor, libri, pianta, caffè…) è cliccabile e rivela info su di te.</p>
-      <div class="tags"><span class="tag">3D drag rotate</span><span class="tag">Clickable objects</span><span class="tag">Isometric</span></div>
+      <h3>Terminal Hacker</h3>
+      <p>Terminale Matrix con typewriter che esegue comandi rivelando il tuo profilo (università, stage, progetti, lingue). Pioggia katakana, scanlines, skill bars verde neon.</p>
+      <div class="tags"><span class="tag">Matrix rain</span><span class="tag">Typewriter</span><span class="tag">Scanlines</span><span class="tag">Skill bars</span></div>
       <div class="open">Apri Demo B →</div>
     </div>
   </a>
 
   <a href="aboutme-c.html" target="_blank" class="card card-c">
-    <div class="preview"><span class="bg-letter">C</span>🍎</div>
+    <div class="preview"><span class="bg-ltr">C</span>💳</div>
     <div class="info">
       <div class="badge">OPZIONE C</div>
-      <h3>Apple / Linear Style</h3>
-      <p>Ultra-premium, ispirato ad Apple e Linear. Hero enorme con gradient mesh, Bento grid con mouse glow, nav pillola glassmorphism. Modernissimo.</p>
-      <div class="tags"><span class="tag">Bento grid</span><span class="tag">Mesh gradient</span><span class="tag">Glass nav</span></div>
+      <h3>Carta d'Identità Olografica</h3>
+      <p>Credit card futuristica che si inclina seguendo il mouse con effetto ologramma arcobaleno. Click per girarla: retro con formazione, stage, lingue e contatti.</p>
+      <div class="tags"><span class="tag">Tilt + holo</span><span class="tag">Card flip</span><span class="tag">3D CSS</span><span class="tag">Particelle</span></div>
       <div class="open">Apri Demo C →</div>
     </div>
   </a>
 
   <a href="aboutme-d.html" target="_blank" class="card card-d">
-    <div class="preview"><span class="bg-letter">D</span>⏳</div>
+    <div class="preview"><span class="bg-ltr">D</span>✨</div>
     <div class="info">
       <div class="badge">OPZIONE D</div>
-      <h3>Interactive Timeline</h3>
-      <p>La tua storia come una timeline verticale con tappe cliccabili che si espandono. Dot colorati, animazioni scroll, skill grid finale. Narrativo.</p>
-      <div class="tags"><span class="tag">Timeline verticale</span><span class="tag">Click to expand</span><span class="tag">Scroll reveal</span></div>
+      <h3>Costellazione delle Skills</h3>
+      <p>Cielo notturno con stelle = skills (Flutter, Python, SQL…) + istruzione (UniBS, Don Milani) + soft skills. Filtri per categoria, hover tooltip con descrizione.</p>
+      <div class="tags"><span class="tag">Canvas</span><span class="tag">Costellazioni</span><span class="tag">Filtri</span><span class="tag">Tooltip</span></div>
       <div class="open">Apri Demo D →</div>
     </div>
   </a>
 
   <a href="aboutme-e.html" target="_blank" class="card card-e">
-    <div class="preview"><span class="bg-letter">E</span>💎</div>
+    <div class="preview"><span class="bg-ltr">E</span>🌊</div>
     <div class="info">
       <div class="badge">OPZIONE E</div>
-      <h3>Glassmorphism Luxury</h3>
-      <p>Hero con card 3D vetro sovrapposte che si separano al hover. Nav pillola centrale, orbs animati in background, cards con mouse spotlight. Elegantissimo.</p>
-      <div class="tags"><span class="tag">Glass cards</span><span class="tag">Orb BG</span><span class="tag">Mouse spotlight</span></div>
+      <h3>Liquid Blob Avatar</h3>
+      <p>Blob liquido con le iniziali "EA" che pulsa e si deforma seguendo il mouse. Chip delle skill flottano attorno. Pills con formazione, stage e lingue a sinistra.</p>
+      <div class="tags"><span class="tag">Blob canvas</span><span class="tag">Mouse morph</span><span class="tag">Chip flottanti</span><span class="tag">Color themes</span></div>
       <div class="open">Apri Demo E →</div>
     </div>
   </a>
 
 </div>
 
-<div class="back-link">← <a href="../aboutme.html">Vedi attuale</a> · <a href="../index.html">Portfolio</a></div>
+<div class="links">
+  ← <a href="../aboutme.html">Vedi attuale aboutme.html</a> &nbsp;·&nbsp; <a href="../index.html">Portfolio</a>
+</div>
 </body>
 </html>
