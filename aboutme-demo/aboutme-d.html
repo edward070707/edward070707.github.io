@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Me D — Interactive Timeline</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;1,700&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:#06080f;color:#fff;font-family:'Inter',sans-serif;overflow-x:hidden;}
+
+/* BG */
+.bg-dots{position:fixed;inset:0;background-image:radial-gradient(rgba(255,255,255,.04) 1px,transparent 1px);background-size:32px 32px;pointer-events:none;}
+.bg-glow{position:fixed;width:600px;height:600px;background:radial-gradient(circle,rgba(100,60,200,.06),transparent 70%);border-radius:50%;pointer-events:none;transition:left .2s,top .2s;transform:translate(-50%,-50%);left:50%;top:50%;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 48px;display:flex;justify-content:space-between;align-items:center;background:rgba(6,8,15,.8);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.05);}
+.nav-logo{font-size:15px;font-weight:700;letter-spacing:-.3px;}
+.nav-back{font-size:12px;color:rgba(255,255,255,.4);text-decoration:none;letter-spacing:1px;transition:.2s;}
+.nav-back:hover{color:#fff;}
+
+/* HERO */
+#hero{min-height:100vh;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:100px 24px 60px;position:relative;}
+.hero-year{font-size:11px;letter-spacing:5px;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:28px;}
+.hero-h1{font-family:'Playfair Display',serif;font-size:clamp(48px,8vw,90px);line-height:1;margin-bottom:20px;}
+.hero-h1 em{font-style:italic;color:rgba(255,255,255,.35);}
+.hero-sub{font-size:16px;color:rgba(255,255,255,.4);max-width:480px;line-height:1.7;margin-bottom:48px;}
+.hero-scroll{display:flex;align-items:center;gap:12px;font-size:11px;color:rgba(255,255,255,.25);letter-spacing:2px;text-transform:uppercase;}
+.scroll-bar{width:40px;height:1px;background:rgba(255,255,255,.2);}
+
+/* TIMELINE SECTION */
+#timeline-section{padding:100px 0;position:relative;}
+.tl-title{text-align:center;margin-bottom:80px;}
+.tl-title h2{font-family:'Playfair Display',serif;font-size:clamp(32px,5vw,54px);margin-bottom:12px;}
+.tl-title p{font-size:14px;color:rgba(255,255,255,.35);letter-spacing:1px;}
+
+/* Center vertical line */
+.tl-line{position:absolute;left:50%;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,transparent,rgba(255,255,255,.12) 10%,rgba(255,255,255,.12) 90%,transparent);transform:translateX(-50%);}
+
+/* Timeline items */
+.tl-items{position:relative;max-width:900px;margin:0 auto;padding:0 40px;}
+.tl-item{display:flex;align-items:flex-start;margin-bottom:80px;position:relative;opacity:0;transform:translateY(30px);transition:opacity .7s ease,transform .7s ease;}
+.tl-item.visible{opacity:1;transform:translateY(0);}
+.tl-item:nth-child(odd){flex-direction:row;}
+.tl-item:nth-child(even){flex-direction:row-reverse;}
+
+/* Dot on center line */
+.tl-dot-wrap{position:absolute;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;z-index:2;}
+.tl-dot{width:14px;height:14px;border-radius:50%;border:2px solid var(--c,#a78bfa);background:#06080f;box-shadow:0 0 16px var(--c,#a78bfa);transition:.4s;}
+.tl-item.visible .tl-dot{background:var(--c,#a78bfa);}
+.tl-dot-year{font-size:10px;color:rgba(255,255,255,.3);letter-spacing:2px;margin-top:8px;white-space:nowrap;}
+
+/* Card */
+.tl-card{width:calc(50% - 50px);background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:28px;position:relative;transition:.4s;cursor:pointer;}
+.tl-card:hover{border-color:rgba(255,255,255,.18);background:rgba(255,255,255,.06);transform:scale(1.02);}
+.tl-item:nth-child(odd) .tl-card{margin-right:auto;}
+.tl-item:nth-child(even) .tl-card{margin-left:auto;}
+
+.tc-icon{font-size:28px;margin-bottom:12px;}
+.tc-cat{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--c,#a78bfa);margin-bottom:8px;}
+.tc-title{font-size:17px;font-weight:700;margin-bottom:8px;letter-spacing:-.3px;}
+.tc-body{font-size:13px;color:rgba(255,255,255,.45);line-height:1.7;}
+.tc-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px;}
+.tc-tag{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:20px;font-size:10px;padding:2px 10px;color:rgba(255,255,255,.4);}
+
+/* Expanded detail */
+.tc-detail{max-height:0;overflow:hidden;transition:max-height .4s ease;}
+.tl-card.expanded .tc-detail{max-height:200px;}
+.tc-detail-inner{padding-top:14px;border-top:1px solid rgba(255,255,255,.06);margin-top:14px;font-size:13px;color:rgba(255,255,255,.4);line-height:1.7;}
+
+/* Skills animated section */
+#skills-section{padding:80px 40px;max-width:700px;margin:0 auto;text-align:center;}
+.sk-title{font-family:'Playfair Display',serif;font-size:clamp(28px,4vw,44px);margin-bottom:48px;}
+.sk-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;}
+.sk-item{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:20px;text-align:left;}
+.sk-name{font-size:13px;font-weight:600;margin-bottom:10px;display:flex;justify-content:space-between;}
+.sk-name span{color:rgba(255,255,255,.3);font-weight:400;}
+.sk-bar{height:4px;background:rgba(255,255,255,.07);border-radius:2px;overflow:hidden;}
+.sk-fill{height:100%;border-radius:2px;width:0;transition:width 1.4s cubic-bezier(.4,0,.2,1);}
+
+/* Final CTA */
+#cta{padding:120px 40px;text-align:center;}
+.cta-h{font-family:'Playfair Display',serif;font-size:clamp(32px,5vw,60px);margin-bottom:32px;line-height:1.1;}
+.cta-h em{font-style:italic;color:rgba(255,255,255,.3);}
+.cta-btn{display:inline-block;background:#fff;color:#000;padding:16px 44px;border-radius:40px;font-size:15px;font-weight:700;text-decoration:none;transition:.3s;letter-spacing:-.3px;}
+.cta-btn:hover{transform:scale(1.04);box-shadow:0 20px 40px rgba(255,255,255,.12);}
+</style>
+</head>
+<body>
+<div class="bg-dots"></div>
+<div class="bg-glow" id="bgGlow"></div>
+
+<nav>
+  <span class="nav-logo">Edward Attuati</span>
+  <a class="nav-back" href="../index.html">← Portfolio</a>
+</nav>
+
+<section id="hero">
+  <div class="hero-year">2001 — Present</div>
+  <h1 class="hero-h1">La mia<br><em>storia</em></h1>
+  <p class="hero-sub">Ogni grande prodotto è il risultato di un percorso. Ecco il mio — clicca sulle tappe per saperne di più.</p>
+  <div class="hero-scroll"><div class="scroll-bar"></div>Scorri<div class="scroll-bar"></div></div>
+</section>
+
+<section id="timeline-section">
+  <div class="tl-line"></div>
+  <div class="tl-title">
+    <h2>Il percorso</h2>
+    <p>Formazione · Esperienze · Progetti</p>
+  </div>
+
+  <div class="tl-items">
+
+    <div class="tl-item" style="--c:#a78bfa">
+      <div class="tl-dot-wrap"><div class="tl-dot"></div><div class="tl-dot-year">2001</div></div>
+      <div class="tl-card">
+        <div class="tc-icon">👶</div>
+        <div class="tc-cat">Origins</div>
+        <h3 class="tc-title">Bergamo, Italia</h3>
+        <p class="tc-body">Cresciuto in Lombardia con una curiosità sconfinata per la tecnologia. Le prime esperienze con i computer hanno acceso tutto il resto.</p>
+      </div>
+    </div>
+
+    <div class="tl-item" style="--c:#60a5fa">
+      <div class="tl-dot-wrap"><div class="tl-dot"></div><div class="tl-dot-year">2016</div></div>
+      <div class="tl-card">
+        <div class="tc-icon">🏫</div>
+        <div class="tc-cat">Formazione</div>
+        <h3 class="tc-title">Liceo Don Milani</h3>
+        <p class="tc-body">Romano di Lombardia. Qui ho sviluppato il pensiero critico e la capacità di apprendere rapidamente nuovi concetti.</p>
+        <div class="tc-detail"><div class="tc-detail-inner">5 anni di formazione classica con ottimi risultati. Qui ho capito che volevo studiare informatica all'università.</div></div>
+      </div>
+    </div>
+
+    <div class="tl-item" style="--c:#34d399">
+      <div class="tl-dot-wrap"><div class="tl-dot"></div><div class="tl-dot-year">2020</div></div>
+      <div class="tl-card">
+        <div class="tc-icon">💻</div>
+        <div class="tc-cat">Primo Codice</div>
+        <h3 class="tc-title">Self-Taught Developer</h3>
+        <p class="tc-body">Iniziato a programmare in autonomia: HTML, CSS, JavaScript. Da quel momento non mi sono più fermato.</p>
+        <div class="tc-tags"><span class="tc-tag">HTML</span><span class="tc-tag">CSS</span><span class="tc-tag">JavaScript</span></div>
+        <div class="tc-detail"><div class="tc-detail-inner">Primo sito web, primo script Python, prima automazione. La soddisfazione di vedere il codice funzionare dal vivo è stata immediata.</div></div>
+      </div>
+    </div>
+
+    <div class="tl-item" style="--c:#f97316">
+      <div class="tl-dot-wrap"><div class="tl-dot"></div><div class="tl-dot-year">2022</div></div>
+      <div class="tl-card">
+        <div class="tc-icon">🎓</div>
+        <div class="tc-cat">Università</div>
+        <h3 class="tc-title">Ingegneria Informatica</h3>
+        <p class="tc-body">Università di Brescia. B.Sc. in corso. Algoritmi, reti, basi di dati, sistemi operativi — la base teorica che dà senso alla pratica.</p>
+        <div class="tc-tags"><span class="tc-tag">UniBS</span><span class="tc-tag">C++</span><span class="tc-tag">Python</span><span class="tc-tag">SQL</span></div>
+        <div class="tc-detail"><div class="tc-detail-inner">Ottimi risultati negli esami. La teoria universitaria si fonde con lo sviluppo pratico dei miei progetti personali.</div></div>
+      </div>
+    </div>
+
+    <div class="tl-item" style="--c:#f472b6">
+      <div class="tl-dot-wrap"><div class="tl-dot"></div><div class="tl-dot-year">2023</div></div>
+      <div class="tl-card">
+        <div class="tc-icon">📱</div>
+        <div class="tc-cat">App Development</div>
+        <h3 class="tc-title">Flutter & Firebase</h3>
+        <p class="tc-body">Scoperta di Flutter: dall'idea al prodotto in poche settimane. Prime app mobili, prime pubblicazioni, primo vero stack full-stack.</p>
+        <div class="tc-tags"><span class="tc-tag">Flutter</span><span class="tc-tag">Dart</span><span class="tc-tag">Firebase</span></div>
+        <div class="tc-detail"><div class="tc-detail-inner">Memive nasce in questo periodo. Un'app vocale social che continuo a sviluppare e a migliorare ogni settimana.</div></div>
+      </div>
+    </div>
+
+    <div class="tl-item" style="--c:#facc15">
+      <div class="tl-dot-wrap"><div class="tl-dot"></div><div class="tl-dot-year">2024</div></div>
+      <div class="tl-card">
+        <div class="tc-icon">💼</div>
+        <div class="tc-cat">Esperienza</div>
+        <h3 class="tc-title">Soluzione1 — Stage IT</h3>
+        <p class="tc-body">Ghisalba. Infrastruttura reti, troubleshooting, collaborazione in team professionale. Prima vera esperienza lavorativa.</p>
+        <div class="tc-tags"><span class="tc-tag">IT Infra</span><span class="tc-tag">Networking</span><span class="tc-tag">Teamwork</span></div>
+        <div class="tc-detail"><div class="tc-detail-inner">Esperienza formativa che ha dimostrato come le competenze teoriche si traducano in soluzioni concrete per problemi reali.</div></div>
+      </div>
+    </div>
+
+    <div class="tl-item" style="--c:#a78bfa">
+      <div class="tl-dot-wrap"><div class="tl-dot"></div><div class="tl-dot-year">NOW</div></div>
+      <div class="tl-card">
+        <div class="tc-icon">🚀</div>
+        <div class="tc-cat">Presente</div>
+        <h3 class="tc-title">Building the future</h3>
+        <p class="tc-body">Memive, Chrono, nuovi progetti in cantiere. Aperto a collaborazioni, opportunità e sfide stimolanti. Il meglio deve ancora venire.</p>
+        <div class="tc-tags"><span class="tc-tag">Memive</span><span class="tc-tag">Chrono</span><span class="tc-tag">Open to work</span></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section id="skills-section">
+  <h2 class="sk-title">Cosa so fare</h2>
+  <div class="sk-grid" id="skGrid">
+    <div class="sk-item"><div class="sk-name">Flutter <span>92%</span></div><div class="sk-bar"><div class="sk-fill" data-w="92" style="background:linear-gradient(90deg,#60a5fa,#a78bfa)"></div></div></div>
+    <div class="sk-item"><div class="sk-name">Firebase <span>88%</span></div><div class="sk-bar"><div class="sk-fill" data-w="88" style="background:linear-gradient(90deg,#f97316,#facc15)"></div></div></div>
+    <div class="sk-item"><div class="sk-name">JavaScript <span>85%</span></div><div class="sk-bar"><div class="sk-fill" data-w="85" style="background:linear-gradient(90deg,#facc15,#34d399)"></div></div></div>
+    <div class="sk-item"><div class="sk-name">HTML/CSS <span>90%</span></div><div class="sk-bar"><div class="sk-fill" data-w="90" style="background:linear-gradient(90deg,#f472b6,#a78bfa)"></div></div></div>
+    <div class="sk-item"><div class="sk-name">UI/UX <span>80%</span></div><div class="sk-bar"><div class="sk-fill" data-w="80" style="background:linear-gradient(90deg,#34d399,#60a5fa)"></div></div></div>
+    <div class="sk-item"><div class="sk-name">Node.js <span>72%</span></div><div class="sk-bar"><div class="sk-fill" data-w="72" style="background:linear-gradient(90deg,#a78bfa,#f472b6)"></div></div></div>
+  </div>
+</section>
+
+<section id="cta">
+  <h2 class="cta-h">Costruiamo qualcosa<br><em>di straordinario</em></h2>
+  <a href="mailto:edward@attuati.com" class="cta-btn">Parliamoci</a>
+</section>
+
+<script>
+// Mouse bg glow
+document.addEventListener('mousemove',e=>{
+  const g=document.getElementById('bgGlow');
+  g.style.left=e.clientX+'px';g.style.top=e.clientY+'px';
+});
+
+// Scroll reveal
+const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible');});},{threshold:.15});
+document.querySelectorAll('.tl-item').forEach(el=>obs.observe(el));
+
+// Click to expand
+document.querySelectorAll('.tl-card').forEach(card=>{
+  const detail=card.querySelector('.tc-detail');
+  if(!detail)return;
+  card.addEventListener('click',()=>{card.classList.toggle('expanded');});
+});
+
+// Skill bars
+const skObs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.querySelectorAll('.sk-fill').forEach(f=>f.style.width=f.dataset.w+'%');skObs.unobserve(x.target);}});},{threshold:.3});
+document.querySelectorAll('.sk-grid').forEach(el=>skObs.observe(el));
+</script>
+</body>
+</html>

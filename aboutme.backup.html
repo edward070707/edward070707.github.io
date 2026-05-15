@@ -1,343 +1,551 @@
 <!DOCTYPE HTML>
-
 <html>
-	<head>
-		<title>Edward Attuati</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assetsAboutMe/css/main.css" />
-		<noscript><link rel="stylesheet" href="assetsAboutMe/css/noscript.css" /></noscript>
-	</head>
-	<body class="is-preload">
+<head>
+    <title>Edward Attuati — About Me</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="assetsAboutMe/css/main.css" />
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
 
-		<!-- Wrapper -->
-			<div id="wrapper">
+        body.aboutme-body {
+            margin: 0;
+            min-height: 100vh;
+            background: #0b0c1a;
+            color: #fff;
+            font-family: 'Arial', sans-serif;
+            overflow-x: hidden;
+        }
 
-				<!-- Header -->
-					<header id="header">
-						<div class="logo">
-							<span class="icon fa-user fa-spin-pulse"></span>
+        /* ── Barra superiore (btn home + selettore lingua) ── */
+        #top-bar {
+            position: fixed;
+            top: 20px;
+            left: 24px;
+            right: 24px;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
 
+        #home-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.18);
+            border-radius: 30px;
+            color: rgba(255,255,255,0.85);
+            text-decoration: none;
+            font-size: 0.85em;
+            letter-spacing: 0.05em;
+            backdrop-filter: blur(10px);
+            transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.2s;
+        }
+        #home-btn:hover {
+            background: rgba(255,255,255,0.14);
+            border-color: rgba(255,255,255,0.5);
+            color: #fff;
+            transform: translateX(-3px);
+        }
 
-						</div>
-						<div class="content">
-							<div class="inner">
-								<h1>Edward Attuati</h1>
-								<p>Here everything you can know about me</p>
-							</div>
-						</div>
-						<nav>
-							<ul>
-								<li><a href="#intro">About me</a></li>
-								<li><a href="#work">School</a></li>
-								<li><a href="#about">Work</a></li>
-								<li><a href="#contact">to home</a></li>
-								<!--<li><a href="#elements">Elements</a></li> -->
-							</ul>
-						</nav>
-					</header>
+        /* ── Selettore lingua (stesso stile di index.html) ── */
+        #lang-switcher {
+            position: relative;
+            display: inline-block;
+        }
 
-				<!-- Main -->
-					<div id="main">
+        #lang-current {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.18);
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 18px;
+            padding: 6px 12px;
+            line-height: 1;
+            transition: border-color 0.2s, background 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: rgba(255,255,255,0.8);
+            backdrop-filter: blur(10px);
+        }
+        #lang-current:hover,
+        #lang-switcher:hover #lang-current {
+            border-color: rgba(255,255,255,0.5);
+            background: rgba(255,255,255,0.14);
+        }
+        #lang-current .arrow { font-size: 9px; opacity: 0.6; }
 
-						<!-- Intro -->
-							<article id="intro">
-								<h2 class="major">Information about me</h2>
-								<span class="image main"><img src="imagesAboutMe/pic01.jpg" alt="" /></span>
-								<p>I am a Computer Engineering student with strong theoretical and practical skills in programming. Proficient in rapid learning, listening, and teamwork; I stand out for precision in executing assigned tasks and for being proactive.</p>
-							</article>
+        #lang-dropdown {
+            display: none;
+            position: absolute;
+            top: calc(100% + 6px);
+            right: 0;
+            background: rgba(15,15,30,0.97);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 12px;
+            overflow: hidden;
+            z-index: 200;
+            min-width: 140px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+        }
+        #lang-switcher:hover #lang-dropdown { display: block; }
 
-						<!-- Work -->
-							<article id="work">
-								<h2 class="major">School</h2>
-								<span class="image main"><img src="imagesAboutMe/pic02.jpeg" alt="" /></span>
-								<p>I attended elementary and middle school in Martinengo, at the private school, Sacra Famiglia! A journey that made me grow and mature, with enormous sacrifices for a child.</p>
-								<p>I attended high school at Liceo Don Milani in Romano di Lombardia. A very challenging 5-year journey that led me to enroll in university: Computer Engineering in Brescia. I am currently still studying for my bachelor's degree, also exploring the right field to specialize in!</p>
-							</article>
+        #lang-dropdown button {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            width: 100%;
+            background: none;
+            border: none;
+            padding: 9px 14px;
+            cursor: pointer;
+            font-size: 13px;
+            color: rgba(255,255,255,0.8);
+            transition: background 0.15s;
+            white-space: nowrap;
+        }
+        #lang-dropdown button:hover { background: rgba(255,255,255,0.08); }
+        #lang-dropdown button.active { color: #fff; font-weight: bold; }
+        #lang-dropdown button .flag { font-size: 18px; }
 
-						<!-- About -->
-							<article id="about">
-								<h2 class="major">Work Experience</h2>
-								<span class="image main"><img src="imagesAboutMe/pic03.jpg" alt="" /></span>
-								<p>For the moment, I have done an internship at Soluzione1 in Ghisalba, an IT company. I am always ready for new experiences and to tackle them at 101%.</p>
-							</article>
+        /* ── Sezione hero ── */
+        .am-hero {
+            text-align: center;
+            padding: 120px 24px 60px;
+            position: relative;
+            z-index: 1;
+        }
 
-						<!-- Contact -->
-						<article id="contact">
-							<section class="main-section">
-    			<h2 class="major">Return to main website</h2>
-    <a href="https://edwardattuati.com/" class="button bordered-button">Return to home website</a>
-     <div class="spacer"></div>
+        .am-hero-avatar {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid rgba(255,255,255,0.15);
+            box-shadow: 0 0 40px rgba(79,142,247,0.35);
+            margin-bottom: 24px;
+        }
 
-    <ul class="icons">
-        <li><a href="#" class="icon brands fa-twitter" target="_blank"><span class="label">Twitter</span></a></li>
-        <li><a href="https://m.facebook.com/edward.attuati.9" class="icon brands fa-facebook-f" target="_blank"><span class="label">Facebook</span></a></li>
-        <li><a href="https://www.instagram.com/edwardattuati/" class="icon brands fa-instagram" target="_blank"><span class="label">Instagram</span></a></li>
-        <li><a href="https://github.com/edward070707" class="icon brands fa-github"><span class="label" target="_blank">GitHub</span></a></li>
-    </ul>
-</section>
-							</article>
+        .am-hero h1 {
+            font-size: 2.6em;
+            margin: 0 0 10px;
+            letter-spacing: 0.04em;
+            background: linear-gradient(120deg, #fff 30%, #8ab4f8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
 
-						<!-- Elements -->
-							<article id="elements">
-								<h2 class="major">Ciaoooo</h2>
+        .am-hero p {
+            font-size: 1em;
+            color: rgba(255,255,255,0.5);
+            margin: 0;
+            letter-spacing: 0.08em;
+        }
 
-								<section>
-									<h3 class="major">Oiiiiiii</h3>
-									<p>This is <b>bold</b> and this is <strong>strong</strong>. This is <i>italic</i> and this is <em>emphasized</em>.
-									This is <sup>superscript</sup> SIUUUUUM <sub>subscript</sub> text.
-									This is <u>underlined</u> and this is code: <code>for (;;) { ... }</code>. Finally, <a href="#">this is a link</a>.</p>
-									<hr />
-									<h2>Heading Level 2</h2>
-									<h3>Heading Level 3</h3>
-									<h4>Heading Level 4</h4>
-									<h5>Heading Level 5</h5>
-									<h6>Heading Level 6</h6>
-									<hr />
-									<h4>Blockquote</h4>
-									<blockquote>Fringilla nisl. Donec accumsan interdum nisi, quis tincidunt felis sagittis eget tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan faucibus. Vestibulum ante ipsum primis in faucibus lorem ipsum dolor sit amet nullam adipiscing eu felis.</blockquote>
-									<h4>Preformatted</h4>
-									<pre><code>i = 0;
+        /* ── Particelle fluttuanti di sfondo ── */
+        #am-particles {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+        .am-particle {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0;
+            animation: am-float linear infinite;
+        }
+        @keyframes am-float {
+            0%   { transform: translateY(100vh) scale(0); opacity: 0; }
+            10%  { opacity: .4; }
+            90%  { opacity: .2; }
+            100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+        }
 
-while (!deck.isInOrder()) {
-    print 'Iteration ' + i;
-    deck.shuffle();
-    i++;
-}
+        /* ── Griglia di card ── */
+        .am-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 28px;
+            justify-content: center;
+            padding: 0 32px 80px;
+            max-width: 1100px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
 
-print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
-								</section>
+        /* ── Card con effetto tilt 3D ── */
+        .am-card {
+            position: relative;
+            width: 300px;
+            min-height: 280px;
+            border-radius: 22px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(14px);
+            transform-style: preserve-3d;
+            transition: box-shadow 0.3s ease;
+            cursor: default;
+            overflow: hidden;
+        }
 
-								<section>
-									<h3 class="major">Lists</h3>
+        .am-card-inner {
+            position: relative;
+            z-index: 2;
+            padding: 36px 30px 30px;
+            transform: translateZ(28px);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
 
-									<h4>Unordered</h4>
-									<ul>
-										<li>Dolor pulvinar etiam.</li>
-										<li>Sagittis adipiscing.</li>
-										<li>Felis enim feugiat.</li>
-									</ul>
+        .am-card-icon { font-size: 2.6em; filter: drop-shadow(0 0 14px rgba(255,255,255,0.3)); }
+        .am-card h2  { margin: 0; font-size: 1.15em; color: #fff; letter-spacing: 0.04em; }
+        .am-card p   { margin: 0; font-size: 0.88em; color: rgba(255,255,255,0.55); line-height: 1.7; }
 
-									<h4>Alternate</h4>
-									<ul class="alt">
-										<li>Dolor pulvinar etiam.</li>
-										<li>Sagittis adipiscing.</li>
-										<li>Felis enim feugiat.</li>
-									</ul>
+        .am-tags { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 6px; }
+        .am-tag  {
+            padding: 3px 11px; border-radius: 20px; font-size: 0.72em; letter-spacing: 0.06em;
+            border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.65);
+            background: rgba(255,255,255,0.06);
+        }
 
-									<h4>Ordered</h4>
-									<ol>
-										<li>Dolor pulvinar etiam.</li>
-										<li>Etiam vel felis viverra.</li>
-										<li>Felis enim feugiat.</li>
-										<li>Dolor pulvinar etiam.</li>
-										<li>Etiam vel felis lorem.</li>
-										<li>Felis enim et feugiat.</li>
-									</ol>
-									<h4>Icons</h4>
-									<ul class="icons">
-										<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
-										<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
-										<li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
-										<li><a href="#" class="icon brands fa-github"><span class="label">Github</span></a></li>
-									</ul>
+        .am-glow {
+            position: absolute; inset: 0; border-radius: 22px;
+            background: radial-gradient(circle at var(--gx,50%) var(--gy,50%), var(--glow-color,rgba(255,255,255,.18)) 0%, transparent 65%);
+            opacity: 0; transition: opacity 0.35s ease; pointer-events: none; z-index: 1;
+        }
+        .am-card:hover .am-glow { opacity: 1; }
+        .am-card:hover { box-shadow: 0 28px 56px rgba(0,0,0,.5), 0 0 36px var(--shadow-color,rgba(255,255,255,.08)); }
 
-									<h4>Actions</h4>
-									<ul class="actions">
-										<li><a href="#" class="button primary">Default</a></li>
-										<li><a href="#" class="button">Default</a></li>
-									</ul>
-									<ul class="actions stacked">
-										<li><a href="#" class="button primary">Default</a></li>
-										<li><a href="#" class="button">Default</a></li>
-									</ul>
-								</section>
+        .am-burst-particle {
+            position: absolute; border-radius: 50%; pointer-events: none;
+            animation: am-burst 0.7s ease-out forwards; z-index: 3;
+        }
+        @keyframes am-burst {
+            0%   { transform: translate(0,0) scale(1); opacity: 1; }
+            100% { transform: translate(var(--tx),var(--ty)) scale(0); opacity: 0; }
+        }
 
-								<section>
-									<h3 class="major">Table</h3>
-									<h4>Default</h4>
-									<div class="table-wrapper">
-										<table>
-											<thead>
-												<tr>
-													<th>Name</th>
-													<th>Description</th>
-													<th>Price</th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr>
-													<td>Item One</td>
-													<td>Ante turpis integer aliquet porttitor.</td>
-													<td>29.99</td>
-												</tr>
-												<tr>
-													<td>Item Two</td>
-													<td>Vis ac commodo adipiscing arcu aliquet.</td>
-													<td>19.99</td>
-												</tr>
-												<tr>
-													<td>Item Three</td>
-													<td> Morbi faucibus arcu accumsan lorem.</td>
-													<td>29.99</td>
-												</tr>
-												<tr>
-													<td>Item Four</td>
-													<td>Vitae integer tempus condimentum.</td>
-													<td>19.99</td>
-												</tr>
-												<tr>
-													<td>Item Five</td>
-													<td>Ante turpis integer aliquet porttitor.</td>
-													<td>29.99</td>
-												</tr>
-											</tbody>
-											<tfoot>
-												<tr>
-													<td colspan="2"></td>
-													<td>100.00</td>
-												</tr>
-											</tfoot>
-										</table>
-									</div>
+        /* ── Barre delle competenze ── */
+        .am-skill { margin-bottom: 14px; }
+        .am-skill-label {
+            display: flex; justify-content: space-between;
+            font-size: 0.82em; color: rgba(255,255,255,0.65); margin-bottom: 5px;
+        }
+        .am-skill-track { height: 5px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden; }
+        .am-skill-bar {
+            height: 100%; border-radius: 3px;
+            background: linear-gradient(90deg, var(--bar-color,#4f8ef7), var(--bar-color2,#a259ff));
+            width: 0%; transition: width 1.2s cubic-bezier(.25,.46,.45,.94);
+        }
+    </style>
+</head>
+<body class="aboutme-body">
 
-									<h4>Alternate</h4>
-									<div class="table-wrapper">
-										<table class="alt">
-											<thead>
-												<tr>
-													<th>Name</th>
-													<th>Description</th>
-													<th>Price</th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr>
-													<td>Item One</td>
-													<td>Ante turpis integer aliquet porttitor.</td>
-													<td>29.99</td>
-												</tr>
-												<tr>
-													<td>Item Two</td>
-													<td>Vis ac commodo adipiscing arcu aliquet.</td>
-													<td>19.99</td>
-												</tr>
-												<tr>
-													<td>Item Three</td>
-													<td> Morbi faucibus arcu accumsan lorem.</td>
-													<td>29.99</td>
-												</tr>
-												<tr>
-													<td>Item Four</td>
-													<td>Vitae integer tempus condimentum.</td>
-													<td>19.99</td>
-												</tr>
-												<tr>
-													<td>Item Five</td>
-													<td>Ante turpis integer aliquet porttitor.</td>
-													<td>29.99</td>
-												</tr>
-											</tbody>
-											<tfoot>
-												<tr>
-													<td colspan="2"></td>
-													<td>100.00</td>
-												</tr>
-											</tfoot>
-										</table>
-									</div>
-								</section>
+    <div id="am-particles"></div>
 
-								<section>
-									<h3 class="major">Buttons</h3>
-									<ul class="actions">
-										<li><a href="#" class="button primary">Primary</a></li>
-										<li><a href="#" class="button">Default</a></li>
-									</ul>
-									<ul class="actions">
-										<li><a href="#" class="button">Default</a></li>
-										<li><a href="#" class="button small">Small</a></li>
-									</ul>
-									<ul class="actions">
-										<li><a href="#" class="button primary icon solid fa-download">Icon</a></li>
-										<li><a href="#" class="button icon solid fa-download">Icon</a></li>
-									</ul>
-									<ul class="actions">
-										<li><span class="button primary disabled">Disabled</span></li>
-										<li><span class="button disabled">Disabled</span></li>
-									</ul>
-								</section>
+    <!-- Barra superiore -->
+    <div id="top-bar">
+        <a id="home-btn" href="https://edwardattuati.com/">
+            <span>←</span> <span data-i18n="home-btn">Back to Home</span>
+        </a>
 
-								<section>
-									<h3 class="major">Form</h3>
-									<form method="post" action="#">
-										<div class="fields">
-											<div class="field half">
-												<label for="demo-name">Name</label>
-												<input type="text" name="demo-name" id="demo-name" value="" placeholder="Jane Doe" />
-											</div>
-											<div class="field half">
-												<label for="demo-email">Email</label>
-												<input type="email" name="demo-email" id="demo-email" value="" placeholder="jane@untitled.tld" />
-											</div>
-											<div class="field">
-												<label for="demo-category">Category</label>
-												<select name="demo-category" id="demo-category">
-													<option value="">-</option>
-													<option value="1">Manufacturing</option>
-													<option value="1">Shipping</option>
-													<option value="1">Administration</option>
-													<option value="1">Human Resources</option>
-												</select>
-											</div>
-											<div class="field half">
-												<input type="radio" id="demo-priority-low" name="demo-priority" checked>
-												<label for="demo-priority-low">Low</label>
-											</div>
-											<div class="field half">
-												<input type="radio" id="demo-priority-high" name="demo-priority">
-												<label for="demo-priority-high">High</label>
-											</div>
-											<div class="field half">
-												<input type="checkbox" id="demo-copy" name="demo-copy">
-												<label for="demo-copy">Email me a copy</label>
-											</div>
-											<div class="field half">
-												<input type="checkbox" id="demo-human" name="demo-human" checked>
-												<label for="demo-human">Not a robot</label>
-											</div>
-											<div class="field">
-												<label for="demo-message">Message</label>
-												<textarea name="demo-message" id="demo-message" placeholder="Enter your message" rows="6"></textarea>
-											</div>
-										</div>
-										<ul class="actions">
-											<li><input type="submit" value="Send Message" class="primary" /></li>
-											<li><input type="reset" value="Reset" /></li>
-										</ul>
-									</form>
-								</section>
+        <div id="lang-switcher">
+            <button id="lang-current">
+                <span id="lang-flag">🇬🇧</span>
+                <span class="arrow">▼</span>
+            </button>
+            <div id="lang-dropdown">
+                <button onclick="setLang('en')" data-lang="en" class="active"><span class="flag">🇬🇧</span> English</button>
+                <button onclick="setLang('it')" data-lang="it"><span class="flag">🇮🇹</span> Italiano</button>
+                <button onclick="setLang('es')" data-lang="es"><span class="flag">🇪🇸</span> Español</button>
+                <button onclick="setLang('zh')" data-lang="zh"><span class="flag">🇨🇳</span> 中文</button>
+                <button onclick="setLang('ja')" data-lang="ja"><span class="flag">🇯🇵</span> 日本語</button>
+            </div>
+        </div>
+    </div>
 
-							</article>
+    <!-- Sezione hero -->
+    <div class="am-hero">
+        <img src="imagesAboutMe/pic01.jpg" alt="Edward Attuati" class="am-hero-avatar"
+             onerror="this.style.display='none'">
+        <h1>Edward Attuati</h1>
+        <p data-i18n="hero-sub">Computer Engineering Student · Bergamo, Italy</p>
+    </div>
 
-					</div>
+    <!-- Card informative -->
+    <div class="am-grid">
 
-				<!-- Footer -->
-					<!--<footer id="footer">
-						<p class="copyright">Edward Attuati</p>
-					</footer> -->
+        <div class="am-card" data-color="#4f8ef7">
+            <div class="am-card-inner">
+                <div class="am-card-icon">👤</div>
+                <h2 data-i18n="card-about-title">About Me</h2>
+                <p data-i18n="card-about-desc">I am a Computer Engineering student with strong theoretical and practical skills in programming. Proficient in rapid learning, listening, and teamwork — I stand out for precision in executing assigned tasks and for being proactive.</p>
+            </div>
+            <div class="am-glow"></div>
+        </div>
 
-			</div>
+        <div class="am-card" data-color="#a259ff">
+            <div class="am-card-inner">
+                <div class="am-card-icon">⚡</div>
+                <h2 data-i18n="card-skills-title">Skills</h2>
+                <div class="am-skill">
+                    <div class="am-skill-label"><span>Python</span><span>70%</span></div>
+                    <div class="am-skill-track"><div class="am-skill-bar" data-w="70" style="--bar-color:#4f8ef7;--bar-color2:#00d4aa"></div></div>
+                </div>
+                <div class="am-skill">
+                    <div class="am-skill-label"><span>C / C++</span><span>65%</span></div>
+                    <div class="am-skill-track"><div class="am-skill-bar" data-w="65" style="--bar-color:#a259ff;--bar-color2:#4f8ef7"></div></div>
+                </div>
+                <div class="am-skill">
+                    <div class="am-skill-label"><span>Java</span><span>60%</span></div>
+                    <div class="am-skill-track"><div class="am-skill-bar" data-w="60" style="--bar-color:#ff6b6b;--bar-color2:#ffa500"></div></div>
+                </div>
+                <div class="am-skill">
+                    <div class="am-skill-label"><span>HTML / CSS / JS</span><span>75%</span></div>
+                    <div class="am-skill-track"><div class="am-skill-bar" data-w="75" style="--bar-color:#00d4aa;--bar-color2:#4f8ef7"></div></div>
+                </div>
+                <div class="am-skill">
+                    <div class="am-skill-label"><span>SQL</span><span>55%</span></div>
+                    <div class="am-skill-track"><div class="am-skill-bar" data-w="55" style="--bar-color:#ffaa00;--bar-color2:#ff6b6b"></div></div>
+                </div>
+            </div>
+            <div class="am-glow"></div>
+        </div>
 
-		<!-- BG -->
-			<div id="bg"></div>
+        <div class="am-card" data-color="#00d4aa">
+            <div class="am-card-inner">
+                <div class="am-card-icon">🎓</div>
+                <h2 data-i18n="card-edu-title">Education</h2>
+                <p data-i18n-html="card-edu-desc">
+                    <strong style="color:rgba(255,255,255,.85);">Università di Brescia</strong><br>
+                    B.Sc. Computer Engineering — ongoing<br><br>
+                    <strong style="color:rgba(255,255,255,.85);">Liceo Don Milani</strong><br>
+                    Romano di Lombardia — graduated<br><br>
+                    <strong style="color:rgba(255,255,255,.85);">Sacra Famiglia</strong><br>
+                    Elementary &amp; Middle — Martinengo
+                </p>
+            </div>
+            <div class="am-glow"></div>
+        </div>
 
-		<!-- Scripts -->
-			<script src="assetsAboutMe/js/jquery.min.js"></script>
-			<script src="assetsAboutMe/js/browser.min.js"></script>
-			<script src="assetsAboutMe/js/breakpoints.min.js"></script>
-			<script src="assetsAboutMe/js/util.js"></script>
-			<script src="assetsAboutMe/js/main.js"></script>
+        <div class="am-card" data-color="#ff6b6b">
+            <div class="am-card-inner">
+                <div class="am-card-icon">💼</div>
+                <h2 data-i18n="card-work-title">Work Experience</h2>
+                <p data-i18n-html="card-work-desc">
+                    <strong style="color:rgba(255,255,255,.85);">Soluzione1 — Ghisalba</strong><br>
+                    IT Internship · 2024<br><br>
+                    Hands-on experience in a professional IT environment. Worked on infrastructure tasks and collaborated with the team on real-world problems.
+                </p>
+            </div>
+            <div class="am-glow"></div>
+        </div>
 
-	</body>
+        <div class="am-card" data-color="#ffaa00">
+            <div class="am-card-inner">
+                <div class="am-card-icon">🌍</div>
+                <h2 data-i18n="card-lang-title">Languages</h2>
+                <div class="am-skill">
+                    <div class="am-skill-label"><span data-i18n="lang-it">🇮🇹 Italian</span><span data-i18n="lang-it-level">Native</span></div>
+                    <div class="am-skill-track"><div class="am-skill-bar" data-w="100" style="--bar-color:#009246;--bar-color2:#ce2b37"></div></div>
+                </div>
+                <div class="am-skill">
+                    <div class="am-skill-label"><span data-i18n="lang-en">🇬🇧 English</span><span data-i18n="lang-en-level">B2</span></div>
+                    <div class="am-skill-track"><div class="am-skill-bar" data-w="70" style="--bar-color:#012169;--bar-color2:#C8102E"></div></div>
+                </div>
+            </div>
+            <div class="am-glow"></div>
+        </div>
+
+        <div class="am-card" data-color="#00aaff">
+            <div class="am-card-inner">
+                <div class="am-card-icon">✨</div>
+                <h2 data-i18n="card-interests-title">Interests</h2>
+                <div class="am-tags">
+                    <span class="am-tag" data-i18n="int-1">Software Dev</span>
+                    <span class="am-tag" data-i18n="int-2">Problem Solving</span>
+                    <span class="am-tag" data-i18n="int-3">Cultures</span>
+                    <span class="am-tag" data-i18n="int-4">Travel</span>
+                    <span class="am-tag" data-i18n="int-5">Music</span>
+                    <span class="am-tag" data-i18n="int-6">Technology</span>
+                    <span class="am-tag" data-i18n="int-7">Gaming</span>
+                    <span class="am-tag" data-i18n="int-8">Open Source</span>
+                </div>
+            </div>
+            <div class="am-glow"></div>
+        </div>
+
+    </div>
+
+    <script>
+    /* ── Traduzioni ── */
+    const translations = {
+        en: {
+            'home-btn': 'Back to Home',
+            'hero-sub': 'Computer Engineering Student · Bergamo, Italy',
+            'card-about-title': 'About Me',
+            'card-about-desc': 'I am a Computer Engineering student with strong theoretical and practical skills in programming. Proficient in rapid learning, listening, and teamwork — I stand out for precision in executing assigned tasks and for being proactive.',
+            'card-skills-title': 'Skills',
+            'card-edu-title': 'Education',
+            'card-edu-desc': '<strong style="color:rgba(255,255,255,.85);">Università di Brescia</strong><br>B.Sc. Computer Engineering — ongoing<br><br><strong style="color:rgba(255,255,255,.85);">Liceo Don Milani</strong><br>Romano di Lombardia — graduated<br><br><strong style="color:rgba(255,255,255,.85);">Sacra Famiglia</strong><br>Elementary &amp; Middle — Martinengo',
+            'card-work-title': 'Work Experience',
+            'card-work-desc': '<strong style="color:rgba(255,255,255,.85);">Soluzione1 — Ghisalba</strong><br>IT Internship · 2024<br><br>Hands-on experience in a professional IT environment. Worked on infrastructure tasks and collaborated with the team on real-world problems.',
+            'card-lang-title': 'Languages',
+            'lang-it': '🇮🇹 Italian', 'lang-it-level': 'Native',
+            'lang-en': '🇬🇧 English', 'lang-en-level': 'B2',
+            'card-interests-title': 'Interests',
+            'int-1':'Software Dev','int-2':'Problem Solving','int-3':'Cultures',
+            'int-4':'Travel','int-5':'Music','int-6':'Technology','int-7':'Gaming','int-8':'Open Source',
+        },
+        it: {
+            'home-btn': 'Torna al sito principale',
+            'hero-sub': 'Studente di Ingegneria Informatica · Bergamo, Italia',
+            'card-about-title': 'Chi Sono',
+            'card-about-desc': 'Sono uno studente di Ingegneria Informatica con solide competenze teoriche e pratiche nella programmazione. Abile nell\'apprendimento rapido, nell\'ascolto e nel lavoro di squadra — mi distinguo per la precisione nell\'esecuzione e per essere proattivo.',
+            'card-skills-title': 'Competenze',
+            'card-edu-title': 'Formazione',
+            'card-edu-desc': '<strong style="color:rgba(255,255,255,.85);">Università di Brescia</strong><br>Ingegneria Informatica — in corso<br><br><strong style="color:rgba(255,255,255,.85);">Liceo Don Milani</strong><br>Romano di Lombardia — diplomato<br><br><strong style="color:rgba(255,255,255,.85);">Sacra Famiglia</strong><br>Elementari e medie — Martinengo',
+            'card-work-title': 'Esperienza Lavorativa',
+            'card-work-desc': '<strong style="color:rgba(255,255,255,.85);">Soluzione1 — Ghisalba</strong><br>Stage IT · 2024<br><br>Esperienza pratica in un ambiente IT professionale. Ho lavorato su attività infrastrutturali e collaborato con il team su problemi reali.',
+            'card-lang-title': 'Lingue',
+            'lang-it': '🇮🇹 Italiano', 'lang-it-level': 'Madrelingua',
+            'lang-en': '🇬🇧 Inglese', 'lang-en-level': 'B2',
+            'card-interests-title': 'Interessi',
+            'int-1':'Sviluppo Software','int-2':'Problem Solving','int-3':'Culture',
+            'int-4':'Viaggi','int-5':'Musica','int-6':'Tecnologia','int-7':'Gaming','int-8':'Open Source',
+        },
+        es: {
+            'home-btn': 'Volver al sitio principal',
+            'hero-sub': 'Estudiante de Ingeniería Informática · Bérgamo, Italia',
+            'card-about-title': 'Sobre Mí',
+            'card-about-desc': 'Soy estudiante de Ingeniería Informática con sólidas habilidades teóricas y prácticas en programación. Destaco por mi capacidad de aprendizaje rápido, trabajo en equipo y precisión en la ejecución de tareas.',
+            'card-skills-title': 'Habilidades',
+            'card-edu-title': 'Educación',
+            'card-edu-desc': '<strong style="color:rgba(255,255,255,.85);">Università di Brescia</strong><br>Ing. Informática — en curso<br><br><strong style="color:rgba(255,255,255,.85);">Liceo Don Milani</strong><br>Romano di Lombardia — graduado<br><br><strong style="color:rgba(255,255,255,.85);">Sacra Famiglia</strong><br>Primaria y secundaria — Martinengo',
+            'card-work-title': 'Experiencia Laboral',
+            'card-work-desc': '<strong style="color:rgba(255,255,255,.85);">Soluzione1 — Ghisalba</strong><br>Prácticas IT · 2024<br><br>Experiencia práctica en un entorno IT profesional. Trabajé en tareas de infraestructura y colaboré con el equipo en problemas reales.',
+            'card-lang-title': 'Idiomas',
+            'lang-it': '🇮🇹 Italiano', 'lang-it-level': 'Nativo',
+            'lang-en': '🇬🇧 Inglés', 'lang-en-level': 'B2',
+            'card-interests-title': 'Intereses',
+            'int-1':'Desarrollo Software','int-2':'Resolución de Problemas','int-3':'Culturas',
+            'int-4':'Viajes','int-5':'Música','int-6':'Tecnología','int-7':'Gaming','int-8':'Open Source',
+        },
+        zh: {
+            'home-btn': '← 返回主页',
+            'hero-sub': '计算机工程专业学生 · 意大利贝尔加莫',
+            'card-about-title': '关于我',
+            'card-about-desc': '我是一名计算机工程专业的学生，具备扎实的编程理论与实践能力。善于快速学习、团队协作，以执行任务的精准度和积极主动的态度著称。',
+            'card-skills-title': '技能',
+            'card-edu-title': '教育经历',
+            'card-edu-desc': '<strong style="color:rgba(255,255,255,.85);">布雷西亚大学</strong><br>计算机工程学士 — 在读<br><br><strong style="color:rgba(255,255,255,.85);">Don Milani 高中</strong><br>Romano di Lombardia — 已毕业<br><br><strong style="color:rgba(255,255,255,.85);">Sacra Famiglia</strong><br>小学与初中 — Martinengo',
+            'card-work-title': '工作经历',
+            'card-work-desc': '<strong style="color:rgba(255,255,255,.85);">Soluzione1 — Ghisalba</strong><br>IT 实习 · 2024<br><br>在专业 IT 环境中积累了实践经验，参与基础设施任务并与团队协作解决实际问题。',
+            'card-lang-title': '语言',
+            'lang-it': '🇮🇹 意大利语', 'lang-it-level': '母语',
+            'lang-en': '🇬🇧 英语', 'lang-en-level': 'B2',
+            'card-interests-title': '兴趣爱好',
+            'int-1':'软件开发','int-2':'解决问题','int-3':'多元文化',
+            'int-4':'旅行','int-5':'音乐','int-6':'科技','int-7':'游戏','int-8':'开源',
+        },
+        ja: {
+            'home-btn': '← ホームへ戻る',
+            'hero-sub': 'コンピューターエンジニアリング専攻 · ベルガモ、イタリア',
+            'card-about-title': '私について',
+            'card-about-desc': '私はコンピューターエンジニアリングを学ぶ学生で、プログラミングの理論と実践において高いスキルを持っています。素早い学習、傾聴、チームワークが得意で、正確さと積極性で周囲と差をつけています。',
+            'card-skills-title': 'スキル',
+            'card-edu-title': '学歴',
+            'card-edu-desc': '<strong style="color:rgba(255,255,255,.85);">ブレシア大学</strong><br>コンピューターエンジニアリング学士 — 在学中<br><br><strong style="color:rgba(255,255,255,.85);">Don Milani 高校</strong><br>Romano di Lombardia — 卒業<br><br><strong style="color:rgba(255,255,255,.85);">Sacra Famiglia</strong><br>小学・中学 — Martinengo',
+            'card-work-title': '職務経験',
+            'card-work-desc': '<strong style="color:rgba(255,255,255,.85);">Soluzione1 — Ghisalba</strong><br>ITインターンシップ · 2024<br><br>実際のIT環境で実践的な経験を積みました。インフラ業務に携わり、チームと協力して実際の問題に取り組みました。',
+            'card-lang-title': '言語',
+            'lang-it': '🇮🇹 イタリア語', 'lang-it-level': 'ネイティブ',
+            'lang-en': '🇬🇧 英語', 'lang-en-level': 'B2',
+            'card-interests-title': '趣味・関心',
+            'int-1':'ソフトウェア開発','int-2':'問題解決','int-3':'異文化',
+            'int-4':'旅行','int-5':'音楽','int-6':'テクノロジー','int-7':'ゲーム','int-8':'オープンソース',
+        }
+    };
+
+    const langFlags = { en:'🇬🇧', it:'🇮🇹', es:'🇪🇸', zh:'🇨🇳', ja:'🇯🇵' };
+
+    function setLang(lang) {
+        if (!translations[lang]) return;
+        localStorage.setItem('ea-lang', lang);
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const v = translations[lang][el.getAttribute('data-i18n')];
+            if (v !== undefined) el.textContent = v;
+        });
+        document.querySelectorAll('[data-i18n-html]').forEach(el => {
+            const v = translations[lang][el.getAttribute('data-i18n-html')];
+            if (v !== undefined) el.innerHTML = v;
+        });
+        document.getElementById('lang-flag').textContent = langFlags[lang];
+        document.querySelectorAll('#lang-dropdown button').forEach(btn =>
+            btn.classList.toggle('active', btn.getAttribute('data-lang') === lang)
+        );
+    }
+
+    // Ripristina la lingua salvata (default: inglese)
+    document.addEventListener('DOMContentLoaded', () => {
+        setLang(localStorage.getItem('ea-lang') || 'en');
+    });
+
+    /* ── Particelle fluttuanti ── */
+    (function(){
+        const container = document.getElementById('am-particles');
+        const colors = ['#4f8ef7','#a259ff','#00d4aa','#ff6b6b','#ffaa00'];
+        for(let i = 0; i < 28; i++){
+            const p = document.createElement('div');
+            p.className = 'am-particle';
+            const size = Math.random()*5+2;
+            p.style.cssText = `width:${size}px;height:${size}px;background:${colors[i%colors.length]};left:${Math.random()*100}%;animation-duration:${8+Math.random()*14}s;animation-delay:${Math.random()*10}s;box-shadow:0 0 6px currentColor;`;
+            container.appendChild(p);
+        }
+    })();
+
+    /* ── Tilt 3D + bagliore + esplosione particelle ── */
+    document.querySelectorAll('.am-card').forEach(card => {
+        const color = card.dataset.color || '#fff';
+        card.style.setProperty('--glow-color', color + '44');
+        card.style.setProperty('--shadow-color', color + '33');
+
+        card.addEventListener('mousemove', e => {
+            const r = card.getBoundingClientRect();
+            const x = e.clientX-r.left, y = e.clientY-r.top;
+            card.style.transform = `perspective(1100px) rotateX(${((y-r.height/2)/r.height)*-13}deg) rotateY(${((x-r.width/2)/r.width)*13}deg) scale3d(1.05,1.05,1.05)`;
+            card.style.setProperty('--gx', `${(x/r.width)*100}%`);
+            card.style.setProperty('--gy', `${(y/r.height)*100}%`);
+        });
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = 'perspective(1100px) rotateX(0) rotateY(0) scale3d(1,1,1)';
+        });
+        card.addEventListener('mouseenter', () => {
+            for(let i=0;i<10;i++){
+                const p = document.createElement('div');
+                p.className = 'am-burst-particle';
+                const size = Math.random()*5+3, angle = Math.random()*360, dist = Math.random()*70+30;
+                p.style.cssText = `width:${size}px;height:${size}px;background:${color};left:${Math.random()*80+10}%;top:${Math.random()*80+10}%;--tx:${Math.cos(angle*Math.PI/180)*dist}px;--ty:${Math.sin(angle*Math.PI/180)*dist}px;animation-delay:${Math.random()*0.1}s;box-shadow:0 0 5px ${color};`;
+                card.appendChild(p);
+                setTimeout(()=>p.remove(),800);
+            }
+        });
+    });
+
+    /* ── Barre competenze animate allo scroll ── */
+    const obs = new IntersectionObserver(entries => {
+        entries.forEach(e => { if(e.isIntersecting){ e.target.style.width=e.target.dataset.w+'%'; obs.unobserve(e.target); } });
+    }, { threshold: 0.3 });
+    document.querySelectorAll('.am-skill-bar').forEach(b => obs.observe(b));
+    </script>
+</body>
 </html>

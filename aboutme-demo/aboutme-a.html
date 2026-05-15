@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Me A — Cinematic Scroll Film</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;600;700;800;900&family=Playfair+Display:ital,wght@0,700;1,700&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:#000;color:#fff;font-family:'Inter',sans-serif;overflow-x:hidden;}
+
+/* ── FILM GRAIN ── */
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;
+background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");
+opacity:.4;animation:grain .12s steps(1) infinite;}
+@keyframes grain{0%,100%{transform:translate(0,0);}10%{transform:translate(-2%,-3%);}20%{transform:translate(3%,1%);}30%{transform:translate(-1%,4%);}40%{transform:translate(2%,-2%);}50%{transform:translate(-3%,2%);}60%{transform:translate(1%,-1%);}70%{transform:translate(3%,3%);}80%{transform:translate(-2%,1%);}90%{transform:translate(2%,-3%);}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:20px 40px;display:flex;justify-content:space-between;align-items:center;mix-blend-mode:difference;}
+.nav-logo{font-size:13px;letter-spacing:4px;text-transform:uppercase;color:#fff;opacity:.6;}
+.nav-home{font-size:12px;letter-spacing:2px;color:#fff;text-decoration:none;opacity:.5;transition:.3s;}
+.nav-home:hover{opacity:1;}
+
+/* ── SECTIONS ── */
+section{min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+
+/* ── HERO ── */
+#s1{background:#000;}
+.hero-inner{text-align:center;position:relative;z-index:2;}
+.hero-eyebrow{font-size:11px;letter-spacing:6px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:32px;opacity:0;animation:fadeUp .8s .3s forwards;}
+.hero-name{font-family:'Playfair Display',serif;font-size:clamp(60px,10vw,130px);line-height:.95;margin-bottom:24px;opacity:0;animation:fadeUp .8s .5s forwards;}
+.hero-name em{font-style:italic;color:rgba(255,255,255,.4);}
+.hero-role{font-size:clamp(14px,2vw,18px);font-weight:300;color:rgba(255,255,255,.45);letter-spacing:3px;text-transform:uppercase;opacity:0;animation:fadeUp .8s .7s forwards;}
+.scroll-hint{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);opacity:0;animation:fadeUp .8s 1.2s forwards;}
+.scroll-line{width:1px;height:60px;background:linear-gradient(to bottom,rgba(255,255,255,.5),transparent);margin:0 auto 12px;}
+.scroll-txt{font-size:10px;letter-spacing:3px;color:rgba(255,255,255,.3);text-transform:uppercase;}
+
+/* Background orbs */
+.orb{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none;}
+.orb1{width:600px;height:600px;background:rgba(100,60,200,.12);top:-200px;right:-200px;}
+.orb2{width:400px;height:400px;background:rgba(30,100,200,.1);bottom:-100px;left:-100px;}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
+
+/* ── CHAPTER SECTIONS ── */
+.chapter{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:0;}
+.chapter.rev{direction:rtl;}
+.chapter.rev > *{direction:ltr;}
+
+.ch-visual{height:100vh;position:relative;overflow:hidden;}
+.ch-img{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:140px;background:rgba(255,255,255,.02);}
+.ch-num{position:absolute;top:40px;left:40px;font-size:clamp(80px,12vw,160px);font-weight:900;color:rgba(255,255,255,.04);line-height:1;font-family:'Playfair Display',serif;}
+.ch-line{position:absolute;bottom:0;left:0;right:0;height:1px;background:rgba(255,255,255,.08);}
+
+.ch-text{padding:80px 60px;display:flex;flex-direction:column;justify-content:center;}
+.ch-label{font-size:10px;letter-spacing:5px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:24px;}
+.ch-title{font-family:'Playfair Display',serif;font-size:clamp(36px,4vw,58px);line-height:1.1;margin-bottom:28px;}
+.ch-body{font-size:15px;color:rgba(255,255,255,.5);line-height:1.9;margin-bottom:36px;}
+
+/* Skills horizontal bars */
+.skills-list{display:flex;flex-direction:column;gap:14px;}
+.sk{display:flex;align-items:center;gap:16px;}
+.sk-name{font-size:12px;color:rgba(255,255,255,.5);width:90px;flex-shrink:0;letter-spacing:.5px;}
+.sk-track{flex:1;height:1px;background:rgba(255,255,255,.1);position:relative;}
+.sk-fill{position:absolute;left:0;top:0;height:100%;background:#fff;width:0;transition:width 1.5s cubic-bezier(.4,0,.2,1);}
+.sk-pct{font-size:11px;color:rgba(255,255,255,.25);width:30px;text-align:right;}
+
+/* tags */
+.tag-row{display:flex;flex-wrap:wrap;gap:8px;}
+.tag{padding:6px 16px;border:1px solid rgba(255,255,255,.12);border-radius:40px;font-size:11px;color:rgba(255,255,255,.5);letter-spacing:.5px;}
+
+/* Timeline */
+.timeline{display:flex;flex-direction:column;gap:0;}
+.tl-item{display:flex;gap:24px;padding:20px 0;border-bottom:1px solid rgba(255,255,255,.06);}
+.tl-dot{width:8px;height:8px;border-radius:50%;background:#fff;flex-shrink:0;margin-top:6px;box-shadow:0 0 12px rgba(255,255,255,.4);}
+.tl-content{}
+.tl-year{font-size:10px;letter-spacing:2px;color:rgba(255,255,255,.25);margin-bottom:4px;}
+.tl-title{font-size:15px;font-weight:600;margin-bottom:4px;}
+.tl-sub{font-size:13px;color:rgba(255,255,255,.4);}
+
+/* Stat row */
+.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:36px;}
+.stat-box{padding:24px;border:1px solid rgba(255,255,255,.06);border-radius:12px;}
+.stat-num{font-size:36px;font-weight:800;margin-bottom:4px;}
+.stat-lbl{font-size:11px;color:rgba(255,255,255,.35);letter-spacing:1px;text-transform:uppercase;}
+
+/* ── FINAL SECTION ── */
+#sfinal{background:#000;text-align:center;}
+.final-inner{position:relative;z-index:2;}
+.final-tagline{font-family:'Playfair Display',serif;font-size:clamp(32px,5vw,70px);line-height:1.1;margin-bottom:40px;max-width:700px;margin-left:auto;margin-right:auto;}
+.cta-btn{display:inline-block;padding:16px 40px;border:1px solid rgba(255,255,255,.3);border-radius:40px;font-size:13px;letter-spacing:2px;text-transform:uppercase;color:#fff;text-decoration:none;transition:.4s;}
+.cta-btn:hover{background:#fff;color:#000;}
+
+/* reveal animation */
+.reveal{opacity:0;transform:translateY(40px);transition:opacity .9s ease,transform .9s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-logo">Edward Attuati</span>
+  <a class="nav-home" href="../index.html">← Portfolio</a>
+</nav>
+
+<!-- HERO -->
+<section id="s1">
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="hero-inner">
+    <div class="hero-eyebrow">About Me · Full-Stack Developer</div>
+    <h1 class="hero-name">Edward<br><em>Attuati</em></h1>
+    <p class="hero-role">Milano · Italia · 2001</p>
+  </div>
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    <div class="scroll-txt">Scroll</div>
+  </div>
+</section>
+
+<!-- WHO -->
+<section class="chapter" id="s2">
+  <div class="ch-visual">
+    <div class="ch-img">👤</div>
+    <div class="ch-num">01</div>
+    <div class="ch-line"></div>
+  </div>
+  <div class="ch-text reveal">
+    <div class="ch-label">Chapter 01 · Identità</div>
+    <h2 class="ch-title">Chi sono,<br>davvero.</h2>
+    <p class="ch-body">Sono uno studente di Ingegneria Informatica con una passione sconfinata per il codice e il design. Trasformo idee in prodotti digitali che funzionano — e che la gente ama usare.<br><br>Non mi fermo alle specifiche. Vado alla radice del problema e costruisco la soluzione migliore possibile.</p>
+    <div class="stat-row">
+      <div class="stat-box"><div class="stat-num">3+</div><div class="stat-lbl">Anni Exp</div></div>
+      <div class="stat-box"><div class="stat-num">8+</div><div class="stat-lbl">Progetti</div></div>
+      <div class="stat-box"><div class="stat-num">2</div><div class="stat-lbl">App Live</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section class="chapter rev" id="s3">
+  <div class="ch-visual">
+    <div class="ch-img">⚡</div>
+    <div class="ch-num">02</div>
+    <div class="ch-line"></div>
+  </div>
+  <div class="ch-text reveal">
+    <div class="ch-label">Chapter 02 · Competenze</div>
+    <h2 class="ch-title">Il mio<br>arsenale.</h2>
+    <div class="skills-list">
+      <div class="sk"><span class="sk-name">Flutter</span><div class="sk-track"><div class="sk-fill" data-w="92"></div></div><span class="sk-pct">92%</span></div>
+      <div class="sk"><span class="sk-name">Firebase</span><div class="sk-track"><div class="sk-fill" data-w="88"></div></div><span class="sk-pct">88%</span></div>
+      <div class="sk"><span class="sk-name">JavaScript</span><div class="sk-track"><div class="sk-fill" data-w="85"></div></div><span class="sk-pct">85%</span></div>
+      <div class="sk"><span class="sk-name">HTML/CSS</span><div class="sk-track"><div class="sk-fill" data-w="90"></div></div><span class="sk-pct">90%</span></div>
+      <div class="sk"><span class="sk-name">UI/UX</span><div class="sk-track"><div class="sk-fill" data-w="80"></div></div><span class="sk-pct">80%</span></div>
+      <div class="sk"><span class="sk-name">Node.js</span><div class="sk-track"><div class="sk-fill" data-w="72"></div></div><span class="sk-pct">72%</span></div>
+    </div>
+    <div class="tag-row" style="margin-top:28px;">
+      <span class="tag">Dart</span><span class="tag">Python</span><span class="tag">Git</span>
+      <span class="tag">Figma</span><span class="tag">SQL</span><span class="tag">C++</span>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section class="chapter" id="s4">
+  <div class="ch-visual">
+    <div class="ch-img">🎓</div>
+    <div class="ch-num">03</div>
+    <div class="ch-line"></div>
+  </div>
+  <div class="ch-text reveal">
+    <div class="ch-label">Chapter 03 · Formazione</div>
+    <h2 class="ch-title">Il percorso<br>che mi ha<br>formato.</h2>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-content"><div class="tl-year">2022 — OGGI</div><div class="tl-title">Università di Brescia</div><div class="tl-sub">B.Sc. Ingegneria Informatica</div></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="background:rgba(255,255,255,.3)"></div>
+        <div class="tl-content"><div class="tl-year">2024</div><div class="tl-title">Soluzione1 — Ghisalba</div><div class="tl-sub">Stage IT · Infrastruttura & Reti</div></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="background:rgba(255,255,255,.2)"></div>
+        <div class="tl-content"><div class="tl-year">2016 — 2022</div><div class="tl-title">Liceo Don Milani</div><div class="tl-sub">Romano di Lombardia</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INTERESTS -->
+<section class="chapter rev" id="s5">
+  <div class="ch-visual">
+    <div class="ch-img">✨</div>
+    <div class="ch-num">04</div>
+    <div class="ch-line"></div>
+  </div>
+  <div class="ch-text reveal">
+    <div class="ch-label">Chapter 04 · Interessi</div>
+    <h2 class="ch-title">Cosa mi<br>muove.</h2>
+    <p class="ch-body">Musica, viaggi, tecnologia, startup. Cerco costantemente nuovi stimoli — ogni esperienza diventa carburante creativo per i miei progetti.</p>
+    <div class="tag-row">
+      <span class="tag">🎵 Musica</span><span class="tag">✈️ Viaggi</span>
+      <span class="tag">🚀 Startup</span><span class="tag">🎮 Gaming</span>
+      <span class="tag">🤖 AI/ML</span><span class="tag">🌍 Culture</span>
+      <span class="tag">📚 Libri</span><span class="tag">⚽ Sport</span>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL -->
+<section id="sfinal">
+  <div class="final-inner reveal">
+    <p class="final-tagline">Pronto a costruire qualcosa di straordinario insieme.</p>
+    <a href="mailto:edward@attuati.com" class="cta-btn">Scrivimi</a>
+  </div>
+</section>
+
+<script>
+// Scroll reveal
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');}});
+},{threshold:.15});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+// Skill bars on reveal
+const skillObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.querySelectorAll('.sk-fill').forEach(f=>{f.style.width=f.dataset.w+'%';});skillObs.unobserve(e.target);}});
+},{threshold:.3});
+document.querySelectorAll('.skills-list').forEach(el=>skillObs.observe(el));
+</script>
+</body>
+</html>

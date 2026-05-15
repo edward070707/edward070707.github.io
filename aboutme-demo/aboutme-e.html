@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Me E — Glassmorphism Luxury</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;1,700&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;}
+html{-webkit-font-smoothing:antialiased;}
+body{background:#04060d;color:#fff;font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden;}
+
+/* Animated gradient orbs background */
+.orb-bg{position:fixed;inset:0;overflow:hidden;pointer-events:none;}
+.orb{position:absolute;border-radius:50%;filter:blur(100px);animation:drift ease-in-out infinite alternate;}
+.o1{width:70vw;height:70vw;background:rgba(88,28,220,.1);top:-20%;left:-20%;animation-duration:18s;}
+.o2{width:50vw;height:50vw;background:rgba(20,80,200,.08);bottom:-10%;right:-10%;animation-duration:22s;animation-delay:-8s;}
+.o3{width:40vw;height:40vw;background:rgba(180,30,100,.07);top:30%;right:10%;animation-duration:16s;animation-delay:-4s;}
+.o4{width:30vw;height:30vw;background:rgba(0,180,120,.06);bottom:20%;left:15%;animation-duration:20s;animation-delay:-12s;}
+@keyframes drift{from{transform:translate(0,0) scale(1);}to{transform:translate(5%,8%) scale(1.1);}}
+
+/* NAV */
+nav{position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:1000;background:rgba(255,255,255,.05);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.1);border-radius:50px;padding:10px 24px;display:flex;align-items:center;gap:24px;white-space:nowrap;}
+.nav-name{font-size:13px;font-weight:600;letter-spacing:-.2px;}
+.nav-sep{width:1px;height:14px;background:rgba(255,255,255,.15);}
+.nav-link{font-size:12px;color:rgba(255,255,255,.4);text-decoration:none;transition:.2s;}
+.nav-link:hover{color:#fff;}
+.nav-cta{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:20px;padding:5px 14px;font-size:12px;color:#fff;text-decoration:none;transition:.3s;}
+.nav-cta:hover{background:rgba(255,255,255,.2);}
+
+/* WRAPPER */
+.page{max-width:1080px;margin:0 auto;padding:100px 32px 60px;}
+
+/* HERO */
+.hero{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;min-height:90vh;padding:40px 0;}
+.hero-left{}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:6px 14px;font-size:11px;color:rgba(255,255,255,.5);letter-spacing:.5px;margin-bottom:24px;}
+.badge-dot{width:6px;height:6px;border-radius:50%;background:#4ade80;box-shadow:0 0 8px #4ade80;animation:breathe 2s ease-in-out infinite;}
+@keyframes breathe{0%,100%{opacity:1;}50%{opacity:.4;}}
+.hero-h1{font-family:'Playfair Display',serif;font-size:clamp(44px,6vw,80px);line-height:1;letter-spacing:-2px;margin-bottom:16px;}
+.hero-h1 em{font-style:italic;color:rgba(255,255,255,.3);}
+.hero-sub{font-size:16px;color:rgba(255,255,255,.4);line-height:1.75;margin-bottom:36px;max-width:420px;}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;}
+.btn-main{background:linear-gradient(135deg,rgba(255,255,255,.15),rgba(255,255,255,.08));border:1px solid rgba(255,255,255,.2);border-radius:40px;padding:13px 30px;font-size:14px;font-weight:600;color:#fff;text-decoration:none;backdrop-filter:blur(10px);transition:.3s;}
+.btn-main:hover{background:rgba(255,255,255,.2);transform:translateY(-2px);}
+.btn-sec{border:1px solid rgba(255,255,255,.1);border-radius:40px;padding:13px 30px;font-size:14px;color:rgba(255,255,255,.55);text-decoration:none;transition:.3s;}
+.btn-sec:hover{border-color:rgba(255,255,255,.3);color:#fff;}
+
+/* RIGHT: glass card stack */
+.hero-right{position:relative;height:480px;}
+.glass-card{position:absolute;background:rgba(255,255,255,.04);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.1);border-radius:24px;padding:24px;transition:transform .4s cubic-bezier(.4,0,.2,1),box-shadow .4s;}
+
+.gc-main{width:100%;height:100%;top:0;left:0;display:flex;flex-direction:column;justify-content:space-between;}
+.gc-mini1{width:70%;bottom:-40px;right:-20px;background:rgba(88,28,220,.12);border-color:rgba(120,60,255,.2);}
+.gc-mini2{width:60%;top:-30px;left:-20px;background:rgba(20,80,200,.1);border-color:rgba(60,120,255,.2);}
+
+.hero-right:hover .gc-mini1{transform:translate(12px,8px) rotate(3deg);}
+.hero-right:hover .gc-mini2{transform:translate(-8px,-6px) rotate(-2deg);}
+.hero-right:hover .gc-main{transform:scale(1.01);}
+
+.gc-avatar{width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#2563eb);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:800;color:#fff;margin-bottom:16px;box-shadow:0 0 20px rgba(124,58,237,.4);}
+.gc-name{font-size:20px;font-weight:700;letter-spacing:-.5px;margin-bottom:4px;}
+.gc-role{font-size:12px;color:rgba(255,255,255,.4);letter-spacing:.5px;}
+.gc-divider{height:1px;background:rgba(255,255,255,.07);margin:16px 0;}
+.gc-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+.gc-stat{text-align:center;}
+.gc-stat .n{font-size:22px;font-weight:800;letter-spacing:-1px;}
+.gc-stat .l{font-size:9px;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:1px;}
+.gc-skills{display:flex;flex-wrap:wrap;gap:6px;}
+.gc-skill{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:20px;font-size:10px;padding:3px 10px;color:rgba(255,255,255,.5);}
+
+.gc-mini-inner{font-size:12px;color:rgba(255,255,255,.4);line-height:1.5;}
+.gc-mini-inner strong{color:#fff;display:block;margin-bottom:4px;}
+
+/* CARDS GRID */
+.cards-section{padding:80px 0 0;}
+.section-label{font-size:11px;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:12px;}
+.section-h{font-family:'Playfair Display',serif;font-size:clamp(32px,4vw,50px);margin-bottom:48px;}
+
+.cards-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+.info-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:20px;padding:24px;position:relative;overflow:hidden;transition:.4s;cursor:default;}
+.info-card::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,.04),transparent 60%);opacity:0;transition:.3s;pointer-events:none;}
+.info-card:hover{border-color:rgba(255,255,255,.15);}
+.info-card:hover::after{opacity:1;}
+.info-card:hover{transform:translateY(-3px);box-shadow:0 16px 48px rgba(0,0,0,.5);}
+.ic-icon{font-size:30px;margin-bottom:14px;}
+.ic-title{font-size:15px;font-weight:700;margin-bottom:8px;letter-spacing:-.3px;}
+.ic-body{font-size:12px;color:rgba(255,255,255,.4);line-height:1.7;}
+.ic-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:12px;}
+.ic-tag{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:20px;font-size:9px;padding:2px 9px;color:rgba(255,255,255,.35);}
+
+/* Skill bars in card */
+.ic-bars{display:flex;flex-direction:column;gap:8px;margin-top:8px;}
+.ic-bar-row{display:flex;align-items:center;gap:8px;}
+.ic-bar-name{font-size:10px;color:rgba(255,255,255,.35);width:70px;}
+.ic-bar-track{flex:1;height:2px;background:rgba(255,255,255,.07);border-radius:1px;}
+.ic-bar-fill{height:100%;border-radius:1px;width:0;transition:width 1.5s cubic-bezier(.4,0,.2,1);}
+
+/* Wide card */
+.ic-wide{grid-column:span 2;}
+
+/* CTA */
+.cta-section{padding:100px 0 60px;text-align:center;}
+.cta-glass{display:inline-block;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:32px;padding:60px 80px;backdrop-filter:blur(20px);}
+.cta-h{font-family:'Playfair Display',serif;font-size:clamp(28px,4vw,48px);margin-bottom:12px;}
+.cta-sub{font-size:14px;color:rgba(255,255,255,.35);margin-bottom:32px;}
+.cta-btn{display:inline-block;background:linear-gradient(135deg,#7c3aed,#2563eb);border-radius:40px;padding:15px 44px;font-size:15px;font-weight:700;color:#fff;text-decoration:none;transition:.3s;box-shadow:0 8px 32px rgba(124,58,237,.3);}
+.cta-btn:hover{transform:scale(1.04);box-shadow:0 16px 48px rgba(124,58,237,.5);}
+</style>
+</head>
+<body>
+<div class="orb-bg">
+  <div class="orb o1"></div><div class="orb o2"></div>
+  <div class="orb o3"></div><div class="orb o4"></div>
+</div>
+
+<nav>
+  <span class="nav-name">Edward Attuati</span>
+  <div class="nav-sep"></div>
+  <a class="nav-link" href="#about">About</a>
+  <a class="nav-link" href="#cards">Skills</a>
+  <a class="nav-link" href="mailto:edward@attuati.com">Contact</a>
+  <div class="nav-sep"></div>
+  <a class="nav-cta" href="../index.html">← Portfolio</a>
+</nav>
+
+<div class="page">
+
+  <!-- HERO -->
+  <div class="hero" id="about">
+    <div class="hero-left">
+      <div class="hero-badge"><span class="badge-dot"></span>Available for collaborations</div>
+      <h1 class="hero-h1">Edward<br><em>Attuati</em></h1>
+      <p class="hero-sub">Full-Stack Developer con la passione per esperienze digitali che lasciano il segno. Costruisco dal design al deploy.</p>
+      <div class="hero-actions">
+        <a href="mailto:edward@attuati.com" class="btn-main">Scrivimi ✉️</a>
+        <a href="../index.html" class="btn-sec">Vedi Portfolio →</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <!-- Behind cards -->
+      <div class="glass-card gc-mini2" style="height:120px;">
+        <div class="gc-mini-inner">
+          <strong>🎓 Università di Brescia</strong>
+          Ingegneria Informatica · 2022–oggi
+        </div>
+      </div>
+      <!-- Main card -->
+      <div class="glass-card gc-main">
+        <div>
+          <div class="gc-avatar">EA</div>
+          <div class="gc-name">Edward Attuati</div>
+          <div class="gc-role">Full-Stack Developer · Milano 🇮🇹</div>
+        </div>
+        <div class="gc-divider"></div>
+        <div class="gc-stats">
+          <div class="gc-stat"><div class="n">3+</div><div class="l">Years</div></div>
+          <div class="gc-stat"><div class="n">8+</div><div class="l">Projects</div></div>
+          <div class="gc-stat"><div class="n">∞</div><div class="l">Caffè</div></div>
+        </div>
+        <div class="gc-divider"></div>
+        <div class="gc-skills">
+          <span class="gc-skill">Flutter</span><span class="gc-skill">Firebase</span>
+          <span class="gc-skill">JavaScript</span><span class="gc-skill">UI/UX</span>
+          <span class="gc-skill">Node.js</span><span class="gc-skill">Figma</span>
+        </div>
+      </div>
+      <!-- Front card -->
+      <div class="glass-card gc-mini1" style="height:110px;">
+        <div class="gc-mini-inner">
+          <strong>💼 Soluzione1 · 2024</strong>
+          Stage IT · Ghisalba
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARDS GRID -->
+  <div class="cards-section" id="cards">
+    <div class="section-label">Chi Sono</div>
+    <h2 class="section-h">Tutto su di me</h2>
+    <div class="cards-grid" id="cardsGrid">
+
+      <div class="info-card ic-wide">
+        <div class="ic-icon">👤</div>
+        <div class="ic-title">Identità</div>
+        <p class="ic-body">Studente di Ingegneria Informatica all'Università di Brescia, 22 anni, cresciuto in Lombardia. Sviluppatore mobile & web con una forte estetica nel codice e nel design. Ogni progetto deve funzionare bene E essere bello.</p>
+      </div>
+
+      <div class="info-card">
+        <div class="ic-icon">⚡</div>
+        <div class="ic-title">Skills</div>
+        <div class="ic-bars" id="icBars">
+          <div class="ic-bar-row"><span class="ic-bar-name">Flutter</span><div class="ic-bar-track"><div class="ic-bar-fill" data-w="92" style="background:linear-gradient(90deg,#a78bfa,#60a5fa)"></div></div></div>
+          <div class="ic-bar-row"><span class="ic-bar-name">Firebase</span><div class="ic-bar-track"><div class="ic-bar-fill" data-w="88" style="background:linear-gradient(90deg,#f97316,#facc15)"></div></div></div>
+          <div class="ic-bar-row"><span class="ic-bar-name">JavaScript</span><div class="ic-bar-track"><div class="ic-bar-fill" data-w="85" style="background:linear-gradient(90deg,#4ade80,#60a5fa)"></div></div></div>
+          <div class="ic-bar-row"><span class="ic-bar-name">HTML/CSS</span><div class="ic-bar-track"><div class="ic-bar-fill" data-w="90" style="background:linear-gradient(90deg,#f472b6,#a78bfa)"></div></div></div>
+          <div class="ic-bar-row"><span class="ic-bar-name">UI/UX</span><div class="ic-bar-track"><div class="ic-bar-fill" data-w="80" style="background:linear-gradient(90deg,#60a5fa,#34d399)"></div></div></div>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="ic-icon">🚀</div>
+        <div class="ic-title">Mission</div>
+        <p class="ic-body">Creare prodotti digitali reali che risolvono problemi reali. Non solo esercizi: app che la gente installa, usa, e consiglia.</p>
+        <div class="ic-tags"><span class="ic-tag">Memive</span><span class="ic-tag">Chrono</span><span class="ic-tag">Blackjack</span></div>
+      </div>
+
+      <div class="info-card">
+        <div class="ic-icon">🌍</div>
+        <div class="ic-title">Lingue</div>
+        <div class="ic-bars">
+          <div class="ic-bar-row"><span class="ic-bar-name">🇮🇹 Italiano</span><div class="ic-bar-track"><div class="ic-bar-fill" data-w="100" style="background:linear-gradient(90deg,#4ade80,#34d399)"></div></div></div>
+          <div class="ic-bar-row"><span class="ic-bar-name">🇬🇧 English</span><div class="ic-bar-track"><div class="ic-bar-fill" data-w="70" style="background:linear-gradient(90deg,#60a5fa,#a78bfa)"></div></div></div>
+        </div>
+      </div>
+
+      <div class="info-card ic-wide">
+        <div class="ic-icon">✨</div>
+        <div class="ic-title">Interessi & Passioni</div>
+        <div class="ic-tags" style="gap:8px;">
+          <span class="ic-tag" style="font-size:12px;padding:5px 14px;">🎵 Musica</span>
+          <span class="ic-tag" style="font-size:12px;padding:5px 14px;">✈️ Viaggi</span>
+          <span class="ic-tag" style="font-size:12px;padding:5px 14px;">🤖 AI/ML</span>
+          <span class="ic-tag" style="font-size:12px;padding:5px 14px;">🎮 Gaming</span>
+          <span class="ic-tag" style="font-size:12px;padding:5px 14px;">🌍 Culture</span>
+          <span class="ic-tag" style="font-size:12px;padding:5px 14px;">☕ Caffè</span>
+          <span class="ic-tag" style="font-size:12px;padding:5px 14px;">🚀 Startup</span>
+          <span class="ic-tag" style="font-size:12px;padding:5px 14px;">📱 UX</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-section">
+    <div class="cta-glass">
+      <h2 class="cta-h">Lavoriamo insieme</h2>
+      <p class="cta-sub">Ho sempre spazio per progetti interessanti e nuove collaborazioni.</p>
+      <a href="mailto:edward@attuati.com" class="cta-btn">Scrivimi ora</a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// Mouse glow on cards
+document.querySelectorAll('.info-card').forEach(card=>{
+  card.addEventListener('mousemove',e=>{
+    const r=card.getBoundingClientRect();
+    card.style.setProperty('--mx',((e.clientX-r.left)/r.width*100)+'%');
+    card.style.setProperty('--my',((e.clientY-r.top)/r.height*100)+'%');
+  });
+});
+
+// Skill bars
+const obs=new IntersectionObserver(e=>{
+  e.forEach(x=>{if(x.isIntersecting){x.target.querySelectorAll('.ic-bar-fill').forEach(f=>f.style.width=f.dataset.w+'%');obs.unobserve(x.target);}});
+},{threshold:.3});
+document.querySelectorAll('.ic-bars').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>

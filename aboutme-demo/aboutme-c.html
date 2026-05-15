@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Me C — Apple Premium</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800;900&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;}
+body{background:#000;color:#fff;font-family:'Inter',sans-serif;overflow-x:hidden;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:52px;background:rgba(0,0,0,.72);backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:space-between;padding:0 40px;}
+.nav-logo{font-size:17px;font-weight:600;letter-spacing:-.3px;}
+.nav-links{display:flex;gap:32px;}
+.nav-links a{font-size:13px;color:rgba(255,255,255,.6);text-decoration:none;transition:.2s;}
+.nav-links a:hover{color:#fff;}
+.nav-cta{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:20px;padding:7px 18px;font-size:13px;color:#fff;text-decoration:none;transition:.3s;}
+.nav-cta:hover{background:rgba(255,255,255,.2);}
+
+/* HERO */
+#hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:100px 24px 60px;position:relative;overflow:hidden;}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:6px 16px;font-size:12px;color:rgba(255,255,255,.6);letter-spacing:.5px;margin-bottom:32px;}
+.hero-badge span{width:6px;height:6px;background:#34d399;border-radius:50%;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.6;transform:scale(.8);}}
+.hero-title{font-size:clamp(52px,8vw,96px);font-weight:800;line-height:.95;letter-spacing:-3px;margin-bottom:24px;}
+.hero-title .dim{color:rgba(255,255,255,.25);}
+.hero-sub{font-size:clamp(16px,2vw,21px);font-weight:300;color:rgba(255,255,255,.4);letter-spacing:-.2px;max-width:500px;margin:0 auto 48px;line-height:1.6;}
+.hero-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
+.btn-primary{background:#fff;color:#000;padding:14px 32px;border-radius:40px;font-size:15px;font-weight:600;text-decoration:none;transition:.3s;letter-spacing:-.2px;}
+.btn-primary:hover{transform:scale(1.03);box-shadow:0 20px 40px rgba(255,255,255,.15);}
+.btn-ghost{background:rgba(255,255,255,.08);color:#fff;padding:14px 32px;border-radius:40px;font-size:15px;font-weight:500;text-decoration:none;border:1px solid rgba(255,255,255,.15);transition:.3s;}
+.btn-ghost:hover{background:rgba(255,255,255,.15);}
+
+/* Mesh background */
+.mesh{position:absolute;inset:0;pointer-events:none;}
+.mesh-orb{position:absolute;border-radius:50%;filter:blur(100px);}
+.m1{width:60vw;height:60vw;background:rgba(120,60,220,.12);top:-20%;left:-10%;}
+.m2{width:50vw;height:50vw;background:rgba(20,120,220,.1);bottom:-10%;right:-10%;}
+.m3{width:30vw;height:30vw;background:rgba(200,80,120,.08);top:30%;right:20%;}
+
+/* STATS BAR */
+.stats-bar{width:100%;max-width:700px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:20px;overflow:hidden;margin-top:60px;}
+.stat-item{padding:24px;text-align:center;border-right:1px solid rgba(255,255,255,.06);}
+.stat-item:last-child{border-right:none;}
+.stat-n{font-size:36px;font-weight:800;letter-spacing:-2px;}
+.stat-l{font-size:12px;color:rgba(255,255,255,.35);margin-top:4px;letter-spacing:.5px;}
+
+/* SECTION: bento grid */
+#bento{padding:100px 40px;max-width:1000px;margin:0 auto;}
+.bento-title{font-size:clamp(36px,5vw,56px);font-weight:800;letter-spacing:-2px;margin-bottom:56px;text-align:center;}
+.bento-title .accent{background:linear-gradient(135deg,#a78bfa,#60a5fa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+
+.bento-grid{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:auto;gap:16px;}
+.bento-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:28px;transition:.4s;cursor:default;position:relative;overflow:hidden;}
+.bento-card:hover{border-color:rgba(255,255,255,.18);background:rgba(255,255,255,.07);transform:translateY(-2px);}
+.bento-card::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,.05),transparent 60%);opacity:0;transition:.3s;pointer-events:none;}
+.bento-card:hover::before{opacity:1;}
+.bc-wide{grid-column:span 2;}
+.bc-tall{grid-row:span 2;}
+.bc-icon{font-size:32px;margin-bottom:16px;display:block;}
+.bc-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:8px;}
+.bc-title{font-size:20px;font-weight:700;letter-spacing:-.5px;margin-bottom:10px;}
+.bc-body{font-size:13px;color:rgba(255,255,255,.45);line-height:1.7;}
+.bc-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px;}
+.bc-tag{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:20px;font-size:10px;padding:3px 10px;color:rgba(255,255,255,.45);}
+
+/* Skill bars inside bento */
+.mini-bars{display:flex;flex-direction:column;gap:10px;margin-top:10px;}
+.mb-row{display:flex;align-items:center;gap:10px;}
+.mb-name{font-size:11px;color:rgba(255,255,255,.4);width:80px;}
+.mb-track{flex:1;height:3px;background:rgba(255,255,255,.08);border-radius:2px;overflow:hidden;}
+.mb-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,#a78bfa,#60a5fa);width:0;transition:width 1.4s cubic-bezier(.4,0,.2,1);}
+
+/* Timeline */
+.mini-timeline{display:flex;flex-direction:column;gap:14px;margin-top:10px;}
+.mt-item{display:flex;gap:12px;}
+.mt-dot{width:6px;height:6px;border-radius:50%;background:#a78bfa;flex-shrink:0;margin-top:5px;}
+.mt-txt strong{display:block;font-size:13px;font-weight:600;}
+.mt-txt span{font-size:11px;color:rgba(255,255,255,.35);}
+
+/* Interest pills */
+.int-pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;}
+.int-pill{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:8px 14px;font-size:13px;}
+
+/* FOOTER */
+footer{padding:60px 40px;border-top:1px solid rgba(255,255,255,.06);text-align:center;}
+footer p{font-size:13px;color:rgba(255,255,255,.3);}
+footer a{color:rgba(255,255,255,.6);text-decoration:none;}footer a:hover{color:#fff;}
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-logo">Edward Attuati</span>
+  <div class="nav-links">
+    <a href="#bento">Skills</a>
+    <a href="#bento">Projects</a>
+    <a href="mailto:edward@attuati.com">Contact</a>
+  </div>
+  <a class="nav-cta" href="../index.html">← Portfolio</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="mesh">
+    <div class="mesh-orb m1"></div>
+    <div class="mesh-orb m2"></div>
+    <div class="mesh-orb m3"></div>
+  </div>
+  <div class="hero-badge"><span></span>Available for collaborations</div>
+  <h1 class="hero-title">Edward<br><span class="dim">Attuati</span></h1>
+  <p class="hero-sub">Full-Stack Developer specializzato in Flutter & Firebase. Costruisco prodotti digitali che funzionano e che la gente ama.</p>
+  <div class="hero-btns">
+    <a href="mailto:edward@attuati.com" class="btn-primary">Scrivimi</a>
+    <a href="../index.html" class="btn-ghost">Vedi Portfolio</a>
+  </div>
+  <div class="stats-bar">
+    <div class="stat-item"><div class="stat-n">3+</div><div class="stat-l">Anni di esperienza</div></div>
+    <div class="stat-item"><div class="stat-n">8+</div><div class="stat-l">Progetti completati</div></div>
+    <div class="stat-item"><div class="stat-n">2</div><div class="stat-l">App pubblicate</div></div>
+  </div>
+</section>
+
+<!-- BENTO -->
+<section id="bento">
+  <h2 class="bento-title">Tutto su di <span class="accent">me</span></h2>
+  <div class="bento-grid" id="bentoGrid">
+
+    <div class="bento-card bc-wide">
+      <span class="bc-icon">👤</span>
+      <div class="bc-label">Chi Sono</div>
+      <h3 class="bc-title">Edward Attuati, 22 anni</h3>
+      <p class="bc-body">Studente di Ingegneria Informatica all'Università di Brescia. Sviluppatore mobile & web con una forte passione per UI/UX e per creare esperienze digitali memorabili. Milano, Italia 🇮🇹</p>
+    </div>
+
+    <div class="bento-card">
+      <span class="bc-icon">🚀</span>
+      <div class="bc-label">Mission</div>
+      <h3 class="bc-title">Build. Ship. Repeat.</h3>
+      <p class="bc-body">Creare prodotti reali, non solo esercizi. Ogni progetto deve risolvere un problema vero.</p>
+    </div>
+
+    <div class="bento-card bc-tall">
+      <span class="bc-icon">⚡</span>
+      <div class="bc-label">Skills</div>
+      <h3 class="bc-title">Stack</h3>
+      <div class="mini-bars" id="miniBars">
+        <div class="mb-row"><span class="mb-name">Flutter</span><div class="mb-track"><div class="mb-fill" data-w="92"></div></div></div>
+        <div class="mb-row"><span class="mb-name">Firebase</span><div class="mb-track"><div class="mb-fill" data-w="88" style="background:linear-gradient(90deg,#f97316,#facc15)"></div></div></div>
+        <div class="mb-row"><span class="mb-name">JavaScript</span><div class="mb-track"><div class="mb-fill" data-w="85" style="background:linear-gradient(90deg,#facc15,#84cc16)"></div></div></div>
+        <div class="mb-row"><span class="mb-name">HTML/CSS</span><div class="mb-track"><div class="mb-fill" data-w="90" style="background:linear-gradient(90deg,#60a5fa,#a78bfa)"></div></div></div>
+        <div class="mb-row"><span class="mb-name">UI/UX</span><div class="mb-track"><div class="mb-fill" data-w="80" style="background:linear-gradient(90deg,#f472b6,#a78bfa)"></div></div></div>
+        <div class="mb-row"><span class="mb-name">Node.js</span><div class="mb-track"><div class="mb-fill" data-w="72" style="background:linear-gradient(90deg,#34d399,#60a5fa)"></div></div></div>
+      </div>
+      <div class="bc-tags" style="margin-top:16px;">
+        <span class="bc-tag">Dart</span><span class="bc-tag">Python</span><span class="bc-tag">C++</span><span class="bc-tag">SQL</span><span class="bc-tag">Git</span><span class="bc-tag">Figma</span>
+      </div>
+    </div>
+
+    <div class="bento-card">
+      <span class="bc-icon">🎓</span>
+      <div class="bc-label">Formazione</div>
+      <h3 class="bc-title">Education</h3>
+      <div class="mini-timeline">
+        <div class="mt-item"><div class="mt-dot"></div><div class="mt-txt"><strong>Università di Brescia</strong><span>Ing. Informatica · 2022—oggi</span></div></div>
+        <div class="mt-item"><div class="mt-dot" style="background:#60a5fa"></div><div class="mt-txt"><strong>Liceo Don Milani</strong><span>Romano di Lombardia</span></div></div>
+      </div>
+    </div>
+
+    <div class="bento-card">
+      <span class="bc-icon">💼</span>
+      <div class="bc-label">Esperienza</div>
+      <h3 class="bc-title">Soluzione1</h3>
+      <p class="bc-body">Stage IT · Ghisalba, 2024. Infrastruttura reti, troubleshooting, team collaboration in ambiente professionale.</p>
+    </div>
+
+    <div class="bento-card bc-wide">
+      <span class="bc-icon">✨</span>
+      <div class="bc-label">Interessi</div>
+      <h3 class="bc-title">What drives me</h3>
+      <div class="int-pills">
+        <span class="int-pill">🎵 Musica</span><span class="int-pill">✈️ Viaggi</span>
+        <span class="int-pill">🤖 AI/ML</span><span class="int-pill">🎮 Gaming</span>
+        <span class="int-pill">🌍 Culture</span><span class="int-pill">📱 Mobile UX</span>
+        <span class="int-pill">🚀 Startup</span><span class="int-pill">☕ Caffè</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <p>edward@attuati.com · <a href="https://github.com/edward070707">GitHub</a> · Milano, Italia 🇮🇹</p>
+</footer>
+
+<script>
+// Mouse glow on bento cards
+document.querySelectorAll('.bento-card').forEach(card=>{
+  card.addEventListener('mousemove',e=>{
+    const r=card.getBoundingClientRect();
+    card.style.setProperty('--mx',((e.clientX-r.left)/r.width*100)+'%');
+    card.style.setProperty('--my',((e.clientY-r.top)/r.height*100)+'%');
+  });
+});
+
+// Skill bars
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.querySelectorAll('.mb-fill').forEach(f=>f.style.width=f.dataset.w+'%');obs.unobserve(e.target);}});
+},{threshold:.3});
+document.querySelectorAll('.mini-bars').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>

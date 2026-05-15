@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Me B — 3D Room / Workspace</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:#0a0a0f;color:#fff;font-family:'Inter',sans-serif;overflow:hidden;height:100vh;display:flex;align-items:center;justify-content:center;}
+
+/* BG */
+.bg-grad{position:fixed;inset:0;background:radial-gradient(ellipse at 60% 40%,#0f1a2e 0%,#050508 70%);pointer-events:none;}
+
+/* TOP NAV */
+nav{position:fixed;top:20px;left:40px;right:40px;z-index:100;display:flex;justify-content:space-between;align-items:center;}
+.nav-name{font-size:12px;letter-spacing:3px;color:rgba(255,255,255,.4);text-transform:uppercase;}
+.nav-back{font-size:12px;color:rgba(255,255,255,.4);text-decoration:none;transition:.2s;letter-spacing:1px;}
+.nav-back:hover{color:#fff;}
+
+/* SCENE WRAPPER */
+.scene-wrap{position:relative;width:min(900px,95vw);height:min(560px,90vh);}
+
+/* ISOMETRIC ROOM */
+.room{position:absolute;inset:0;perspective:1200px;}
+.room-inner{width:100%;height:100%;transform-style:preserve-3d;transform:rotateX(20deg) rotateY(-15deg);transition:transform .8s cubic-bezier(.4,0,.2,1);}
+
+/* Floor */
+.floor{position:absolute;width:520px;height:380px;left:50%;top:50%;transform:translateX(-50%) translateY(-50%) translateZ(-60px) rotateX(90deg);background:linear-gradient(135deg,#0d1120,#111827);border:1px solid rgba(255,255,255,.04);}
+.floor-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:40px 40px;}
+
+/* Left wall */
+.wall-left{position:absolute;width:520px;height:320px;left:50%;bottom:50%;transform:translateX(-50%) translateY(50%) translateZ(100px) rotateY(0deg);background:rgba(15,20,40,.6);border:1px solid rgba(255,255,255,.04);}
+
+/* Objects */
+.obj{position:absolute;cursor:pointer;transition:transform .3s,filter .3s;}
+.obj:hover{filter:brightness(1.4);}
+.obj.active{filter:brightness(1.8);}
+
+/* Desk */
+.desk{position:absolute;bottom:28%;left:18%;width:260px;height:100px;background:linear-gradient(135deg,#1a1410,#2a1e16);border-radius:8px 8px 0 0;border:1px solid rgba(255,200,100,.1);transform:translateZ(0);}
+.desk-surface{position:absolute;top:-12px;left:-4px;right:-4px;height:14px;background:linear-gradient(135deg,#2e2016,#3d2a1a);border-radius:6px 6px 0 0;}
+
+/* Monitor */
+.monitor{position:absolute;bottom:calc(28% + 100px);left:22%;width:140px;height:96px;background:#080c18;border:2px solid rgba(100,150,255,.2);border-radius:6px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.3s;}
+.monitor:hover{border-color:rgba(100,150,255,.6);box-shadow:0 0 30px rgba(100,150,255,.2);}
+.monitor-screen{width:calc(100% - 8px);height:calc(100% - 8px);background:linear-gradient(135deg,#0a1428,#0d1f3c);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:9px;color:rgba(100,150,255,.7);text-align:center;line-height:1.4;letter-spacing:.5px;}
+.monitor-stand{position:absolute;bottom:-14px;left:50%;transform:translateX(-50%);width:20px;height:14px;background:#1a1a2e;border-radius:0 0 4px 4px;}
+
+/* Bookshelf */
+.shelf{position:absolute;bottom:32%;right:15%;width:120px;height:140px;background:#1a1208;border:1px solid rgba(255,200,100,.1);border-radius:4px;display:flex;flex-direction:column;justify-content:flex-end;padding:6px;gap:4px;cursor:pointer;transition:.3s;}
+.shelf:hover{border-color:rgba(255,200,100,.4);box-shadow:0 0 20px rgba(255,200,100,.1);}
+.book{height:14px;border-radius:2px;}
+
+/* Plant */
+.plant{position:absolute;bottom:calc(28% + 100px);right:22%;font-size:36px;cursor:pointer;transition:.3s;filter:drop-shadow(0 0 10px rgba(0,200,100,.2));}
+.plant:hover{transform:scale(1.1);filter:drop-shadow(0 0 20px rgba(0,200,100,.4));}
+
+/* Coffee */
+.coffee{position:absolute;bottom:calc(28% + 100px);left:32%;font-size:24px;cursor:pointer;transition:.3s;}
+.coffee:hover{transform:scale(1.15);}
+
+/* Headphones */
+.headphones{position:absolute;bottom:calc(28% + 100px);left:42%;font-size:28px;cursor:pointer;transition:.3s;}
+.headphones:hover{transform:scale(1.1) rotate(-10deg);}
+
+/* Lamp */
+.lamp{position:absolute;bottom:calc(28% + 98px);left:17%;font-size:28px;cursor:pointer;transition:.3s;filter:drop-shadow(0 0 8px rgba(255,220,100,.3));}
+.lamp:hover{filter:drop-shadow(0 0 20px rgba(255,220,100,.6));}
+
+/* PANEL (pops up when clicking objects) */
+#panel{position:absolute;top:50%;right:-20px;transform:translateY(-50%) translateX(110%);width:260px;background:rgba(10,14,30,.95);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:24px;backdrop-filter:blur(20px);transition:transform .4s cubic-bezier(.4,0,.2,1);z-index:50;box-shadow:0 20px 60px rgba(0,0,0,.8);}
+#panel.open{transform:translateY(-50%) translateX(0);}
+.panel-icon{font-size:36px;margin-bottom:12px;}
+.panel-title{font-size:16px;font-weight:700;margin-bottom:8px;}
+.panel-body{font-size:13px;color:rgba(255,255,255,.5);line-height:1.7;}
+.panel-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;}
+.panel-tag{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:20px;font-size:10px;padding:3px 10px;color:rgba(255,255,255,.5);}
+.panel-close{position:absolute;top:12px;right:14px;background:none;border:none;color:rgba(255,255,255,.3);font-size:18px;cursor:pointer;transition:.2s;}
+.panel-close:hover{color:#fff;}
+
+/* HINT label */
+.hint{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);font-size:11px;color:rgba(255,255,255,.2);letter-spacing:2px;text-transform:uppercase;white-space:nowrap;}
+
+/* Drag hint */
+.drag-hint{position:absolute;top:80px;left:50%;transform:translateX(-50%);font-size:11px;color:rgba(255,255,255,.2);letter-spacing:1px;}
+</style>
+</head>
+<body>
+<div class="bg-grad"></div>
+
+<nav>
+  <span class="nav-name">Edward Attuati</span>
+  <a class="nav-back" href="../index.html">← Portfolio</a>
+</nav>
+
+<div class="scene-wrap" id="sceneWrap">
+
+  <!-- ROOM -->
+  <div class="room" id="room">
+    <div class="room-inner" id="roomInner">
+      <div class="floor"><div class="floor-grid"></div></div>
+      <div class="wall-left"></div>
+
+      <!-- Objects -->
+      <div class="lamp obj" id="o-lamp">💡</div>
+      <div class="desk obj" id="o-desk">
+        <div class="desk-surface"></div>
+      </div>
+      <div class="monitor obj" id="o-monitor">
+        <div class="monitor-screen">flutter pub get<br>Building... ▌</div>
+        <div class="monitor-stand"></div>
+      </div>
+      <div class="shelf obj" id="o-shelf">
+        <div class="book" style="background:#4f8ef7;"></div>
+        <div class="book" style="background:#a259ff;"></div>
+        <div class="book" style="background:#ff6b6b;"></div>
+        <div class="book" style="background:#00d4aa;"></div>
+        <div class="book" style="background:#ffaa00;"></div>
+      </div>
+      <div class="plant obj" id="o-plant">🪴</div>
+      <div class="coffee obj" id="o-coffee">☕</div>
+      <div class="headphones obj" id="o-headphones">🎧</div>
+    </div>
+  </div>
+
+  <!-- PANEL -->
+  <div id="panel">
+    <button class="panel-close" id="panelClose">✕</button>
+    <div class="panel-icon" id="pIcon"></div>
+    <div class="panel-title" id="pTitle"></div>
+    <div class="panel-body" id="pBody"></div>
+    <div class="panel-tags" id="pTags"></div>
+  </div>
+
+  <div class="hint">Clicca gli oggetti per scoprire di più</div>
+  <div class="drag-hint">Trascina per ruotare la stanza</div>
+</div>
+
+<script>
+const DATA={
+  'o-monitor':{icon:'💻',title:'Stack Tecnologico',body:'Il mio setup quotidiano: VS Code, Flutter, Firebase, Git. Costruisco app mobile e web full-stack.',tags:['Flutter','Firebase','JavaScript','Dart','Node.js']},
+  'o-shelf':{icon:'📚',title:'Formazione',body:'Università di Brescia — Ingegneria Informatica. Liceo Don Milani. Costante apprendimento autodidatta.',tags:['UniBS','Computer Eng','Self-taught']},
+  'o-plant':{icon:'🪴',title:'Chi Sono',body:'Edward Attuati, 22 anni, Milano. Sviluppatore con la passione per il design e i prodotti digitali che funzionano davvero.',tags:['22 anni','Milano 🇮🇹','Dev & Designer']},
+  'o-coffee':{icon:'☕',title:'Interessi',body:'Caffè, codice, musica e viaggi. Ogni esperienza nuova diventa ispirazione creativa per i miei progetti.',tags:['Musica','Viaggi','Startup','Gaming']},
+  'o-headphones':{icon:'🎧',title:'Progetti',body:'Memive — app vocale social. Chrono — time tracker. Blackjack — card game. Sempre in cantiere qualcosa di nuovo.',tags:['Memive','Chrono','Blackjack']},
+  'o-lamp':{icon:'💡',title:'Contatti',body:'Pronto per nuove collaborazioni e opportunità. Scrivimi!',tags:['edward@attuati.com','GitHub: edward070707']},
+  'o-desk':{icon:'🖥️',title:'Work Experience',body:'Stage IT presso Soluzione1 (Ghisalba, 2024). Infrastruttura reti, troubleshooting, team collaboration.',tags:['Soluzione1','2024','IT Infra']},
+};
+
+const panel=document.getElementById('panel');
+const pIcon=document.getElementById('pIcon');
+const pTitle=document.getElementById('pTitle');
+const pBody=document.getElementById('pBody');
+const pTags=document.getElementById('pTags');
+
+Object.keys(DATA).forEach(id=>{
+  const el=document.getElementById(id);
+  if(!el)return;
+  el.addEventListener('click',e=>{
+    e.stopPropagation();
+    const d=DATA[id];
+    pIcon.textContent=d.icon;pTitle.textContent=d.title;pBody.textContent=d.body;
+    pTags.innerHTML=d.tags.map(t=>`<span class="panel-tag">${t}</span>`).join('');
+    panel.classList.add('open');
+  });
+});
+document.getElementById('panelClose').addEventListener('click',()=>panel.classList.remove('open'));
+
+// Drag to rotate
+const ri=document.getElementById('roomInner');
+let dragging=false,startX=0,startY=0,rotX=20,rotY=-15;
+document.getElementById('room').addEventListener('mousedown',e=>{dragging=true;startX=e.clientX;startY=e.clientY;});
+window.addEventListener('mousemove',e=>{
+  if(!dragging)return;
+  rotY+=(e.clientX-startX)*.3;rotX-=(e.clientY-startY)*.3;
+  rotX=Math.max(-5,Math.min(40,rotX));
+  ri.style.transform=`rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+  startX=e.clientX;startY=e.clientY;
+});
+window.addEventListener('mouseup',()=>dragging=false);
+</script>
+</body>
+</html>
