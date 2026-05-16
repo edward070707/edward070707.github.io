@@ -2283,8 +2283,6 @@
         <a href="#skills"          class="sb-dot" data-label="Proficiency"></a>
         <a href="#timeline"        class="sb-dot" data-label="Timeline"></a>
         <a href="#work"            class="sb-dot" data-label="Work"></a>
-        <a href="#roadmap"         class="sb-dot" data-label="Roadmap"></a>
-        <a href="#sitemap"         class="sb-dot" data-label="Sitemap"></a>
         <a href="#contact"         class="sb-dot" data-label="Contact"></a>
     </nav>
 
@@ -3154,698 +3152,6 @@
 
 </style>
 
-<!-- ─── ROADMAP ─── -->
-<section id="roadmap">
-<style>
-  #roadmap {
-    background: var(--void);
-    padding: 120px 72px 120px calc(var(--sb-w) + 20px);
-    position: relative;
-    overflow: hidden;
-  }
-
-  #roadmap::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background:
-      radial-gradient(ellipse 600px 400px at 80% 20%, rgba(124,58,237,0.06), transparent 70%),
-      radial-gradient(ellipse 500px 350px at 10% 80%, rgba(14,165,233,0.05), transparent 70%);
-    pointer-events: none;
-  }
-
-  .rm-inner {
-    max-width: 900px;
-    position: relative;
-    z-index: 1;
-  }
-
-  .rm-label {
-    font-family: var(--mono);
-    font-size: .65rem;
-    letter-spacing: .18em;
-    text-transform: uppercase;
-    color: var(--violet);
-    margin-bottom: 10px;
-  }
-
-  .rm-title {
-    font-size: clamp(1.8rem, 3vw, 2.6rem);
-    font-weight: 700;
-    letter-spacing: -.03em;
-    color: var(--text);
-    margin-bottom: 8px;
-    line-height: 1.1;
-  }
-
-  .rm-sub {
-    font-size: .95rem;
-    color: var(--muted);
-    margin-bottom: 64px;
-    max-width: 520px;
-    line-height: 1.7;
-  }
-
-  /* ── Fase row ── */
-  .rm-phase {
-    display: grid;
-    grid-template-columns: 180px 1fr;
-    gap: 0 40px;
-    margin-bottom: 56px;
-    position: relative;
-  }
-
-  .rm-phase::before {
-    content: '';
-    position: absolute;
-    left: 180px;
-    top: 0;
-    bottom: -56px;
-    width: 1px;
-    background: linear-gradient(to bottom, rgba(124,58,237,0.3), transparent);
-  }
-  .rm-phase:last-child::before { display: none; }
-
-  .rm-phase-meta {
-    padding-top: 2px;
-    text-align: right;
-    padding-right: 40px;
-  }
-
-  .rm-phase-tag {
-    display: inline-block;
-    font-family: var(--mono);
-    font-size: .58rem;
-    letter-spacing: .12em;
-    text-transform: uppercase;
-    padding: 3px 10px;
-    border-radius: 2px;
-    margin-bottom: 8px;
-  }
-
-  .rm-phase-tag.done    { color: #34d399; border: 1px solid rgba(52,211,153,.25); background: rgba(52,211,153,.06); }
-  .rm-phase-tag.active  { color: var(--cyan); border: 1px solid rgba(34,211,238,.25); background: rgba(34,211,238,.06); }
-  .rm-phase-tag.planned { color: var(--muted); border: 1px solid rgba(255,255,255,.08); }
-
-  .rm-phase-period {
-    display: block;
-    font-size: .72rem;
-    color: var(--low);
-    font-family: var(--mono);
-    letter-spacing: .06em;
-  }
-
-  .rm-phase-title {
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--text);
-    margin-bottom: 16px;
-    letter-spacing: -.01em;
-  }
-
-  .rm-items {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .rm-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    padding: 12px 16px;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    background: var(--surface);
-    transition: border-color .25s, background .25s;
-  }
-  .rm-item:hover {
-    border-color: rgba(124,58,237,0.25);
-    background: rgba(124,58,237,0.04);
-  }
-
-  .rm-item-dot {
-    width: 7px; height: 7px;
-    border-radius: 50%;
-    margin-top: 5px;
-    flex-shrink: 0;
-  }
-  .rm-item-dot.done    { background: #34d399; box-shadow: 0 0 8px rgba(52,211,153,.4); }
-  .rm-item-dot.active  { background: var(--cyan); box-shadow: 0 0 8px rgba(34,211,238,.4); animation: rmPulse 2s ease-in-out infinite; }
-  .rm-item-dot.planned { background: rgba(255,255,255,.15); }
-
-  @keyframes rmPulse {
-    0%,100% { box-shadow: 0 0 8px rgba(34,211,238,.4); }
-    50%     { box-shadow: 0 0 16px rgba(34,211,238,.8); }
-  }
-
-  .rm-item-body {}
-
-  .rm-item-name {
-    font-size: .88rem;
-    font-weight: 600;
-    color: var(--text);
-    margin-bottom: 2px;
-    letter-spacing: -.01em;
-  }
-  .rm-item-name.done-text { color: var(--muted); text-decoration: line-through; text-decoration-color: rgba(255,255,255,.15); }
-
-  .rm-item-desc {
-    font-size: .78rem;
-    color: var(--muted);
-    line-height: 1.55;
-  }
-
-  .rm-item-tag {
-    display: inline-block;
-    font-family: var(--mono);
-    font-size: .55rem;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-    padding: 2px 7px;
-    border-radius: 2px;
-    margin-right: 5px;
-    margin-top: 6px;
-    color: var(--low);
-    border: 1px solid rgba(255,255,255,.07);
-  }
-
-  @media (max-width: 700px) {
-    #roadmap { padding: 80px 24px 80px calc(var(--sb-w) + 16px); }
-    .rm-phase { grid-template-columns: 1fr; }
-    .rm-phase-meta { text-align: left; padding-right: 0; margin-bottom: 12px; }
-    .rm-phase::before { display: none; }
-  }
-</style>
-
-<div class="rm-inner">
-  <div class="rm-label">// site_roadmap</div>
-  <h2 class="rm-title">What's next</h2>
-  <p class="rm-sub">A living document — tracking what's shipped, what's building, and what's planned for this portfolio and the projects around it.</p>
-
-  <!-- FASE 1 — Done -->
-  <div class="rm-phase">
-    <div class="rm-phase-meta">
-      <span class="rm-phase-tag done">Shipped</span>
-      <span class="rm-phase-period">2024 – Q1 2025</span>
-    </div>
-    <div>
-      <div class="rm-phase-title">Foundation</div>
-      <div class="rm-items">
-        <div class="rm-item">
-          <div class="rm-item-dot done"></div>
-          <div class="rm-item-body">
-            <div class="rm-item-name done-text">Interactive hero with 3D atom</div>
-            <div class="rm-item-desc">CSS-only orbital rings, click-to-excite states (Ground / Excited / Quantum), particle canvas, parallax layers.</div>
-            <span class="rm-item-tag">CSS</span><span class="rm-item-tag">Canvas</span>
-          </div>
-        </div>
-        <div class="rm-item">
-          <div class="rm-item-dot done"></div>
-          <div class="rm-item-body">
-            <div class="rm-item-name done-text">Solar system project explorer</div>
-            <div class="rm-item-desc">Each project is a planet in orbit. Click to expand detail panel with description, tech stack and live link.</div>
-            <span class="rm-item-tag">JavaScript</span><span class="rm-item-tag">SVG</span>
-          </div>
-        </div>
-        <div class="rm-item">
-          <div class="rm-item-dot done"></div>
-          <div class="rm-item-body">
-            <div class="rm-item-name done-text">DNA skills visualizer</div>
-            <div class="rm-item-desc">Interactive double-helix canvas that encodes skill proficiency as base-pair distance. Click any node for detail panel.</div>
-            <span class="rm-item-tag">Canvas</span><span class="rm-item-tag">WebGL</span>
-          </div>
-        </div>
-        <div class="rm-item">
-          <div class="rm-item-dot done"></div>
-          <div class="rm-item-body">
-            <div class="rm-item-name done-text">Multi-language support</div>
-            <div class="rm-item-desc">Full i18n in 5 languages: English, Italiano, Español, Chinese, Japanese. Runtime switching with no page reload.</div>
-            <span class="rm-item-tag">i18n</span>
-          </div>
-        </div>
-        <div class="rm-item">
-          <div class="rm-item-dot done"></div>
-          <div class="rm-item-body">
-            <div class="rm-item-name done-text">AI chatbot (Edward Bot)</div>
-            <div class="rm-item-desc">Contextual Q&amp;A chatbot trained on Edward's profile. Answers questions about experience, stack and availability.</div>
-            <span class="rm-item-tag">NLP</span><span class="rm-item-tag">JavaScript</span>
-          </div>
-        </div>
-        <div class="rm-item">
-          <div class="rm-item-dot done"></div>
-          <div class="rm-item-body">
-            <div class="rm-item-name done-text">Memive — Flutter web app</div>
-            <div class="rm-item-desc">Full social audio platform built with Flutter, Firebase Auth, Firestore. Deployed to /app/ on GitHub Pages.</div>
-            <span class="rm-item-tag">Flutter</span><span class="rm-item-tag">Firebase</span><span class="rm-item-tag">Dart</span>
-          </div>
-        </div>
-        <div class="rm-item">
-          <div class="rm-item-dot done"></div>
-          <div class="rm-item-body">
-            <div class="rm-item-name done-text">GitHub activity dashboard</div>
-            <div class="rm-item-desc">Live contribution calendar and stats fetched from the GitHub API. Auto-updates on each page load.</div>
-            <span class="rm-item-tag">GitHub API</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- FASE 2 — In progress -->
-  <div class="rm-phase">
-    <div class="rm-phase-meta">
-      <span class="rm-phase-tag active">In progress</span>
-      <span class="rm-phase-period">Q2 2025</span>
-    </div>
-    <div>
-      <div class="rm-phase-title">Deepening</div>
-      <div class="rm-items">
-        <div class="rm-item">
-          <div class="rm-item-dot active"></div>
-          <div class="rm-item-body">
-            <div class="rm-item-name">Memive — real audio recording</div>
-            <div class="rm-item-desc">Integrating the <code style="font-size:.75rem;background:rgba(255,255,255,.06);padding:1px 5px;border-radius:3px;">record</code> and <code style="font-size:.75rem;background:rgba(255,255,255,.06);padding:1px 5px;border-radius:3px;">just_audio</code> packages for actual microphone capture and playback. Firebase Storage for audio files.</div>
-            <span class="rm-item-tag">Flutter</span><span class="rm-item-tag">Firebase Storage</span>
-          </div>
-        </div>
-        <div class="rm-item">
-          <div class="rm-item-dot active"></div>
-          <div class="rm-item-body">
-            <div class="rm-item-name">Memive — production security rules</div>
-            <div class="rm-item-desc">Replacing Firestore test-mode rules with scoped production rules. App Check activation with reCAPTCHA v3.</div>
-            <span class="rm-item-tag">Firebase</span><span class="rm-item-tag">Security</span>
-          </div>
-        </div>
-        <div class="rm-item">
-          <div class="rm-item-dot active"></div>
-          <div class="rm-item-body">
-            <div class="rm-item-name">Case study pages</div>
-            <div class="rm-item-desc">Dedicated deep-dive pages for each major project: architecture decisions, challenges encountered, metrics and screenshots.</div>
-            <span class="rm-item-tag">HTML</span><span class="rm-item-tag">CSS</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- FASE 3 — Planned -->
-  <div class="rm-phase">
-    <div class="rm-phase-meta">
-      <span class="rm-phase-tag planned">Planned</span>
-      <span class="rm-phase-period">Q3 2025</span>
-    </div>
-    <div>
-      <div class="rm-phase-title">Expansion</div>
-      <div class="rm-items">
-        <div class="rm-item">
-          <div class="rm-item-dot planned"></div>
-          <div class="rm-item-body">
-            <div class="rm-item-name">Memive — iOS & Android release</div>
-            <div class="rm-item-desc">App Store and Google Play submissions. Requires Apple Developer Account, signing configuration and store assets.</div>
-            <span class="rm-item-tag">iOS</span><span class="rm-item-tag">Android</span>
-          </div>
-        </div>
-        <div class="rm-item">
-          <div class="rm-item-dot planned"></div>
-          <div class="rm-item-body">
-            <div class="rm-item-name">Memive — real social graph</div>
-            <div class="rm-item-desc">Follow / following system, real feed from followed users, push notifications via Firebase Cloud Messaging.</div>
-            <span class="rm-item-tag">Firestore</span><span class="rm-item-tag">FCM</span>
-          </div>
-        </div>
-        <div class="rm-item">
-          <div class="rm-item-dot planned"></div>
-          <div class="rm-item-body">
-            <div class="rm-item-name">Writing section — technical notes</div>
-            <div class="rm-item-desc">Short-form technical notes on things learned while building: Flutter web quirks, Firebase gotchas, CSS techniques.</div>
-            <span class="rm-item-tag">Content</span>
-          </div>
-        </div>
-        <div class="rm-item">
-          <div class="rm-item-dot planned"></div>
-          <div class="rm-item-body">
-            <div class="rm-item-name">Open-source contributions tracker</div>
-            <div class="rm-item-desc">Live section pulling merged PRs from public repos via GitHub API. Complements the contribution calendar.</div>
-            <span class="rm-item-tag">GitHub API</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- FASE 4 — Future -->
-  <div class="rm-phase">
-    <div class="rm-phase-meta">
-      <span class="rm-phase-tag planned">Future</span>
-      <span class="rm-phase-period">2026+</span>
-    </div>
-    <div>
-      <div class="rm-phase-title">Long term</div>
-      <div class="rm-items">
-        <div class="rm-item">
-          <div class="rm-item-dot planned"></div>
-          <div class="rm-item-body">
-            <div class="rm-item-name">Memive — voice transcription</div>
-            <div class="rm-item-desc">Automatic transcript generation via Whisper API or Google Speech-to-Text. Enables search and accessibility.</div>
-            <span class="rm-item-tag">AI</span><span class="rm-item-tag">STT</span>
-          </div>
-        </div>
-        <div class="rm-item">
-          <div class="rm-item-dot planned"></div>
-          <div class="rm-item-body">
-            <div class="rm-item-name">Memive — live voice rooms</div>
-            <div class="rm-item-desc">Real-time audio streaming with Agora.io or LiveKit SDK. Replaces the current UI-only placeholder.</div>
-            <span class="rm-item-tag">WebRTC</span><span class="rm-item-tag">Agora</span>
-          </div>
-        </div>
-        <div class="rm-item">
-          <div class="rm-item-dot planned"></div>
-          <div class="rm-item-body">
-            <div class="rm-item-name">Portfolio v2 — full redesign</div>
-            <div class="rm-item-desc">Complete rearchitecture with a proper build system, component library and CMS for project data. Current site is hand-coded HTML.</div>
-            <span class="rm-item-tag">Next.js</span><span class="rm-item-tag">CMS</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-</div>
-</section>
-
-<!-- ─── SITEMAP ─── -->
-<section id="sitemap">
-<style>
-  #sitemap {
-    background: var(--void);
-    padding: 120px 72px 120px calc(var(--sb-w) + 20px);
-    position: relative;
-    overflow: hidden;
-  }
-  #sitemap::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background:
-      radial-gradient(ellipse 500px 350px at 15% 50%, rgba(14,165,233,0.05), transparent 70%),
-      radial-gradient(ellipse 400px 300px at 85% 20%, rgba(124,58,237,0.05), transparent 70%);
-    pointer-events: none;
-  }
-
-  .sm-inner {
-    max-width: 900px;
-    position: relative;
-    z-index: 1;
-  }
-  .sm-label {
-    font-family: var(--mono);
-    font-size: .65rem;
-    letter-spacing: .18em;
-    text-transform: uppercase;
-    color: var(--violet);
-    margin-bottom: 10px;
-  }
-  .sm-title {
-    font-size: clamp(1.8rem, 3vw, 2.6rem);
-    font-weight: 700;
-    letter-spacing: -.03em;
-    color: var(--text);
-    margin-bottom: 8px;
-    line-height: 1.1;
-  }
-  .sm-sub {
-    font-size: .95rem;
-    color: var(--muted);
-    margin-bottom: 56px;
-    max-width: 480px;
-    line-height: 1.7;
-  }
-
-  /* ── tree layout ── */
-  .sm-tree {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-  }
-
-  /* root node */
-  .sm-root {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 20px;
-    border: 1px solid rgba(124,58,237,.35);
-    border-radius: 6px;
-    background: rgba(124,58,237,.06);
-    font-family: var(--mono);
-    font-size: .78rem;
-    font-weight: 700;
-    color: var(--violet2, #a855f7);
-    letter-spacing: .04em;
-    margin-bottom: 0;
-    text-decoration: none;
-    transition: background .2s, border-color .2s, box-shadow .2s;
-    cursor: default;
-  }
-  .sm-root-dot {
-    width: 7px; height: 7px;
-    border-radius: 50%;
-    background: var(--violet);
-    box-shadow: 0 0 8px rgba(124,58,237,.6);
-  }
-
-  /* branch row */
-  .sm-branches {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 14px;
-    margin-top: 28px;
-    padding-left: 24px;
-    position: relative;
-  }
-  /* vertical line from root */
-  .sm-branches::before {
-    content: '';
-    position: absolute;
-    top: -28px;
-    left: 30px;
-    width: 1px;
-    height: 28px;
-    background: linear-gradient(to bottom, rgba(124,58,237,.4), rgba(124,58,237,.15));
-  }
-
-  /* each section card */
-  .sm-card {
-    display: block;
-    text-decoration: none !important;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    background: var(--surface);
-    padding: 16px 18px;
-    transition: border-color .22s, background .22s, transform .2s, box-shadow .22s;
-    position: relative;
-  }
-  .sm-card:hover {
-    border-color: rgba(124,58,237,.3);
-    background: rgba(124,58,237,.05);
-    transform: translateY(-3px);
-    box-shadow: 0 8px 24px rgba(0,0,0,.25);
-  }
-
-  .sm-card-top {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 6px;
-  }
-  .sm-card-icon {
-    width: 30px; height: 30px;
-    border-radius: 6px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: .85rem;
-    flex-shrink: 0;
-  }
-  .sm-card-name {
-    font-size: .85rem;
-    font-weight: 700;
-    color: var(--text);
-    letter-spacing: -.01em;
-  }
-  .sm-card-anchor {
-    position: absolute;
-    top: 12px; right: 14px;
-    font-family: var(--mono);
-    font-size: .5rem;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-    color: var(--low);
-  }
-  .sm-card-desc {
-    font-size: .76rem;
-    color: var(--muted);
-    line-height: 1.55;
-  }
-
-  /* external pages row */
-  .sm-ext-label {
-    font-family: var(--mono);
-    font-size: .6rem;
-    letter-spacing: .14em;
-    text-transform: uppercase;
-    color: var(--low);
-    margin: 36px 0 14px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .sm-ext-label::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--border);
-  }
-
-  .sm-ext-cards {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-  .sm-ext-card {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    text-decoration: none !important;
-    padding: 9px 16px;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    background: var(--surface);
-    font-size: .8rem;
-    color: var(--muted) !important;
-    font-family: var(--mono);
-    letter-spacing: .04em;
-    transition: color .2s, border-color .2s, background .2s;
-  }
-  .sm-ext-card:hover {
-    color: var(--cyan) !important;
-    border-color: rgba(34,211,238,.3) !important;
-    background: rgba(34,211,238,.04);
-  }
-  .sm-ext-card i { font-size: .72rem; opacity: .6; }
-
-  @media (max-width: 700px) {
-    #sitemap { padding: 80px 24px 80px calc(var(--sb-w) + 16px); }
-    .sm-branches { grid-template-columns: 1fr; }
-  }
-</style>
-
-<div class="sm-inner">
-  <div class="sm-label">// site_structure</div>
-  <h2 class="sm-title">Mappa del sito</h2>
-  <p class="sm-sub">Tutte le sezioni e le pagine di questo portfolio, organizzate in un'unica vista.</p>
-
-  <div class="sm-tree">
-
-    <!-- Root -->
-    <div class="sm-root">
-      <div class="sm-root-dot"></div>
-      edward070707.github.io
-    </div>
-
-    <!-- Sections grid -->
-    <div class="sm-branches">
-
-      <a href="#intro" class="sm-card">
-        <div class="sm-card-top">
-          <div class="sm-card-icon" style="background:rgba(124,58,237,.12);">🏠</div>
-          <div class="sm-card-name">Home</div>
-        </div>
-        <span class="sm-card-anchor">#intro</span>
-        <div class="sm-card-desc">Hero con atomo 3D CSS, animazioni di stato, parallax e canvas di particelle.</div>
-      </a>
-
-      <a href="#one" class="sm-card">
-        <div class="sm-card-top">
-          <div class="sm-card-icon" style="background:rgba(14,165,233,.12);">🧬</div>
-          <div class="sm-card-name">Skills</div>
-        </div>
-        <span class="sm-card-anchor">#one</span>
-        <div class="sm-card-desc">DNA interattivo su canvas: elica doppia che codifica le competenze come coppie di basi.</div>
-      </a>
-
-      <a href="#two" class="sm-card">
-        <div class="sm-card-top">
-          <div class="sm-card-icon" style="background:rgba(34,211,238,.10);">👤</div>
-          <div class="sm-card-name">About</div>
-        </div>
-        <span class="sm-card-anchor">#two</span>
-        <div class="sm-card-desc">Bio, lingue parlate, interessi e il terminale interattivo con statistiche live.</div>
-      </a>
-
-      <a href="#skills" class="sm-card">
-        <div class="sm-card-top">
-          <div class="sm-card-icon" style="background:rgba(52,211,153,.10);">📊</div>
-          <div class="sm-card-name">Proficiency</div>
-        </div>
-        <span class="sm-card-anchor">#skills</span>
-        <div class="sm-card-desc">Stack tecnico dettagliato con barre di competenza, categorie e anni di esperienza.</div>
-      </a>
-
-      <a href="#timeline" class="sm-card">
-        <div class="sm-card-top">
-          <div class="sm-card-icon" style="background:rgba(249,115,22,.10);">📅</div>
-          <div class="sm-card-name">Timeline</div>
-        </div>
-        <span class="sm-card-anchor">#timeline</span>
-        <div class="sm-card-desc">Percorso formativo e professionale: università, scuola, certificazioni ed esperienze.</div>
-      </a>
-
-      <a href="#work" class="sm-card">
-        <div class="sm-card-top">
-          <div class="sm-card-icon" style="background:rgba(234,179,8,.10);">🪐</div>
-          <div class="sm-card-name">Projects</div>
-        </div>
-        <span class="sm-card-anchor">#work</span>
-        <div class="sm-card-desc">Sistema solare interattivo: ogni pianeta è un progetto con panel di dettaglio e link live.</div>
-      </a>
-
-      <a href="#roadmap" class="sm-card">
-        <div class="sm-card-top">
-          <div class="sm-card-icon" style="background:rgba(124,58,237,.12);">🗺️</div>
-          <div class="sm-card-name">Roadmap</div>
-        </div>
-        <span class="sm-card-anchor">#roadmap</span>
-        <div class="sm-card-desc">Documento pubblico: cosa è stato rilasciato, cosa è in sviluppo e cosa è pianificato.</div>
-      </a>
-
-      <a href="#contact" class="sm-card">
-        <div class="sm-card-top">
-          <div class="sm-card-icon" style="background:rgba(236,72,153,.10);">📬</div>
-          <div class="sm-card-name">Contact</div>
-        </div>
-        <span class="sm-card-anchor">#contact</span>
-        <div class="sm-card-desc">Email, LinkedIn, GitHub, Instagram — tutti i contatti in un posto.</div>
-      </a>
-
-    </div>
-
-    <!-- External pages -->
-    <div class="sm-ext-label">Pagine separate</div>
-    <div class="sm-ext-cards">
-      <a href="roadmap.html" class="sm-ext-card">
-        <i class="fa-solid fa-arrow-up-right-from-square"></i>
-        roadmap.html
-      </a>
-      <a href="/app/" class="sm-ext-card">
-        <i class="fa-solid fa-arrow-up-right-from-square"></i>
-        /app/ — Memive
-      </a>
-    </div>
-
-  </div>
-</div>
-</section>
-
 <!-- ─── CONTACT ─── -->
 <section id="contact" class="main style3 secondary">
     <div class="content">
@@ -3973,6 +3279,42 @@
     .dim-footer-copy span {
         color: var(--violet);
     }
+    /* sitemap col */
+    .dim-footer-sitemap {
+        display: flex;
+        gap: 40px;
+    }
+    .dim-footer-sitemap-col {}
+    .dim-footer-sitemap-title {
+        font-family: var(--mono);
+        font-size: .52rem;
+        letter-spacing: .18em;
+        text-transform: uppercase;
+        color: var(--low);
+        margin-bottom: 12px;
+    }
+    .dim-footer-sitemap-links {
+        list-style: none;
+        padding: 0; margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+    }
+    .dim-footer-sitemap-links li a {
+        font-family: var(--mono);
+        font-size: .62rem;
+        letter-spacing: .07em;
+        color: var(--muted) !important;
+        text-decoration: none !important;
+        transition: color .18s;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+    .dim-footer-sitemap-links li a:hover { color: var(--violet) !important; }
+    .dim-footer-sitemap-links li a.ext-link { color: var(--low) !important; }
+    .dim-footer-sitemap-links li a.ext-link:hover { color: var(--cyan) !important; }
+    .dim-footer-sitemap-links li a i { font-size: .5rem; opacity: .5; }
     /* roadmap button */
     .dim-footer-roadmap {
         display: inline-flex;
@@ -4009,31 +3351,67 @@
         0%,100% { box-shadow: 0 0 5px rgba(34,211,238,.4); }
         50%     { box-shadow: 0 0 14px rgba(34,211,238,.9); }
     }
+    @media (max-width: 900px) {
+        .dim-footer-sitemap { gap: 28px; }
+    }
     @media (max-width: 768px) {
         .dim-footer-inner {
-            padding: 28px 24px;
+            padding: 36px 24px;
             flex-direction: column;
             align-items: center;
             text-align: center;
+            gap: 36px;
         }
         .dim-footer-copy { text-align: center; }
+        .dim-footer-sitemap { justify-content: center; }
+        .dim-footer-sitemap-links { align-items: center; }
     }
     </style>
 
     <div class="dim-footer-inner">
+
+        <!-- Brand -->
         <div class="dim-footer-brand">
             <span class="dim-footer-logo">EA</span>
             <span class="dim-footer-tagline">Edward Attuati</span>
+            <div style="display:flex;gap:8px;margin-top:10px;">
+                <a href="https://m.facebook.com/edward.attuati.9" target="_blank" aria-label="Facebook" style="display:flex;align-items:center;justify-content:center;width:30px;height:30px;border:1px solid var(--border);border-radius:2px;color:var(--muted);font-size:.75rem;text-decoration:none;background:var(--surface);transition:color .2s,border-color .2s;" onmouseover="this.style.color='var(--violet)';this.style.borderColor='rgba(124,58,237,.4)'" onmouseout="this.style.color='var(--muted)';this.style.borderColor='var(--border)'"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://www.instagram.com/edwardattuati/" target="_blank" aria-label="Instagram" style="display:flex;align-items:center;justify-content:center;width:30px;height:30px;border:1px solid var(--border);border-radius:2px;color:var(--muted);font-size:.75rem;text-decoration:none;background:var(--surface);transition:color .2s,border-color .2s;" onmouseover="this.style.color='var(--violet)';this.style.borderColor='rgba(124,58,237,.4)'" onmouseout="this.style.color='var(--muted)';this.style.borderColor='var(--border)'"><i class="fab fa-instagram"></i></a>
+                <a href="https://it.linkedin.com/in/edward-attuati-41a54823b" target="_blank" aria-label="LinkedIn" style="display:flex;align-items:center;justify-content:center;width:30px;height:30px;border:1px solid var(--border);border-radius:2px;color:var(--muted);font-size:.75rem;text-decoration:none;background:var(--surface);transition:color .2s,border-color .2s;" onmouseover="this.style.color='var(--violet)';this.style.borderColor='rgba(124,58,237,.4)'" onmouseout="this.style.color='var(--muted)';this.style.borderColor='var(--border)'"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://github.com/edward070707" target="_blank" aria-label="GitHub" style="display:flex;align-items:center;justify-content:center;width:30px;height:30px;border:1px solid var(--border);border-radius:2px;color:var(--muted);font-size:.75rem;text-decoration:none;background:var(--surface);transition:color .2s,border-color .2s;" onmouseover="this.style.color='var(--violet)';this.style.borderColor='rgba(124,58,237,.4)'" onmouseout="this.style.color='var(--muted)';this.style.borderColor='var(--border)'"><i class="fab fa-github"></i></a>
+            </div>
         </div>
 
-        <ul class="dim-footer-socials">
-            <li><a href="https://m.facebook.com/edward.attuati.9" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a></li>
-            <li><a href="https://www.instagram.com/edwardattuati/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a></li>
-            <li><a href="https://it.linkedin.com/in/edward-attuati-41a54823b" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a></li>
-            <li><a href="https://github.com/edward070707" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a></li>
-        </ul>
+        <!-- Sitemap -->
+        <div class="dim-footer-sitemap">
+            <div class="dim-footer-sitemap-col">
+                <div class="dim-footer-sitemap-title">Pagina</div>
+                <ul class="dim-footer-sitemap-links">
+                    <li><a href="#intro">Home</a></li>
+                    <li><a href="#one">Skills</a></li>
+                    <li><a href="#two">About</a></li>
+                    <li><a href="#skills">Proficiency</a></li>
+                </ul>
+            </div>
+            <div class="dim-footer-sitemap-col">
+                <div class="dim-footer-sitemap-title">&nbsp;</div>
+                <ul class="dim-footer-sitemap-links">
+                    <li><a href="#timeline">Timeline</a></li>
+                    <li><a href="#work">Projects</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="dim-footer-sitemap-col">
+                <div class="dim-footer-sitemap-title">Altro</div>
+                <ul class="dim-footer-sitemap-links">
+                    <li><a href="roadmap.html" class="ext-link"><i class="fa-solid fa-arrow-up-right-from-square"></i>Roadmap</a></li>
+                    <li><a href="/app/" class="ext-link"><i class="fa-solid fa-arrow-up-right-from-square"></i>Memive</a></li>
+                </ul>
+            </div>
+        </div>
 
-        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:12px;">
+        <!-- Right: roadmap button + copyright -->
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:14px;">
             <a href="roadmap.html" class="dim-footer-roadmap">
                 <span class="dim-footer-roadmap-dot"></span>
                 Public Roadmap
@@ -4044,6 +3422,7 @@
                 <p>Built from scratch &mdash; no frameworks</p>
             </div>
         </div>
+
     </div>
 </footer>
 
@@ -4353,7 +3732,7 @@ document.addEventListener('DOMContentLoaded', () => setLang(localStorage.getItem
    SCROLL: punti sidebar + barra progresso + torna su
 ══════════════════════════════════ */
 (function () {
-    const sections = ['intro','one','two','skills','timeline','work','roadmap','sitemap','contact'];
+    const sections = ['intro','one','two','skills','timeline','work','contact'];
     const dots = document.querySelectorAll('.sb-dot');
     const fill = document.getElementById('sb-fill');
 
@@ -5519,7 +4898,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // active section highlight on mobile nav
     const mobBtns = document.querySelectorAll('.mob-nav-btn[data-mob]');
-    const sections = ['intro','one','two','skills','timeline','work','roadmap','sitemap','contact'];
+    const sections = ['intro','one','two','skills','timeline','work','contact'];
     const secEls   = sections.map(id => document.getElementById(id)).filter(Boolean);
 
     function updateActive() {
