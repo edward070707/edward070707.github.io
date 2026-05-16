@@ -2283,6 +2283,7 @@
         <a href="#skills"          class="sb-dot" data-label="Proficiency"></a>
         <a href="#timeline"        class="sb-dot" data-label="Timeline"></a>
         <a href="#work"            class="sb-dot" data-label="Work"></a>
+        <a href="#roadmap"         class="sb-dot" data-label="Roadmap"></a>
         <a href="#contact"         class="sb-dot" data-label="Contact"></a>
     </nav>
 
@@ -3151,6 +3152,386 @@
     }
 
 </style>
+
+<!-- ─── ROADMAP ─── -->
+<section id="roadmap">
+<style>
+  #roadmap {
+    background: var(--void);
+    padding: 120px 72px 120px calc(var(--sb-w) + 20px);
+    position: relative;
+    overflow: hidden;
+  }
+
+  #roadmap::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 600px 400px at 80% 20%, rgba(124,58,237,0.06), transparent 70%),
+      radial-gradient(ellipse 500px 350px at 10% 80%, rgba(14,165,233,0.05), transparent 70%);
+    pointer-events: none;
+  }
+
+  .rm-inner {
+    max-width: 900px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .rm-label {
+    font-family: var(--mono);
+    font-size: .65rem;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--violet);
+    margin-bottom: 10px;
+  }
+
+  .rm-title {
+    font-size: clamp(1.8rem, 3vw, 2.6rem);
+    font-weight: 700;
+    letter-spacing: -.03em;
+    color: var(--text);
+    margin-bottom: 8px;
+    line-height: 1.1;
+  }
+
+  .rm-sub {
+    font-size: .95rem;
+    color: var(--muted);
+    margin-bottom: 64px;
+    max-width: 520px;
+    line-height: 1.7;
+  }
+
+  /* ── Fase row ── */
+  .rm-phase {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 0 40px;
+    margin-bottom: 56px;
+    position: relative;
+  }
+
+  .rm-phase::before {
+    content: '';
+    position: absolute;
+    left: 180px;
+    top: 0;
+    bottom: -56px;
+    width: 1px;
+    background: linear-gradient(to bottom, rgba(124,58,237,0.3), transparent);
+  }
+  .rm-phase:last-child::before { display: none; }
+
+  .rm-phase-meta {
+    padding-top: 2px;
+    text-align: right;
+    padding-right: 40px;
+  }
+
+  .rm-phase-tag {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: .58rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 2px;
+    margin-bottom: 8px;
+  }
+
+  .rm-phase-tag.done    { color: #34d399; border: 1px solid rgba(52,211,153,.25); background: rgba(52,211,153,.06); }
+  .rm-phase-tag.active  { color: var(--cyan); border: 1px solid rgba(34,211,238,.25); background: rgba(34,211,238,.06); }
+  .rm-phase-tag.planned { color: var(--muted); border: 1px solid rgba(255,255,255,.08); }
+
+  .rm-phase-period {
+    display: block;
+    font-size: .72rem;
+    color: var(--low);
+    font-family: var(--mono);
+    letter-spacing: .06em;
+  }
+
+  .rm-phase-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 16px;
+    letter-spacing: -.01em;
+  }
+
+  .rm-items {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .rm-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 16px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--surface);
+    transition: border-color .25s, background .25s;
+  }
+  .rm-item:hover {
+    border-color: rgba(124,58,237,0.25);
+    background: rgba(124,58,237,0.04);
+  }
+
+  .rm-item-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    margin-top: 5px;
+    flex-shrink: 0;
+  }
+  .rm-item-dot.done    { background: #34d399; box-shadow: 0 0 8px rgba(52,211,153,.4); }
+  .rm-item-dot.active  { background: var(--cyan); box-shadow: 0 0 8px rgba(34,211,238,.4); animation: rmPulse 2s ease-in-out infinite; }
+  .rm-item-dot.planned { background: rgba(255,255,255,.15); }
+
+  @keyframes rmPulse {
+    0%,100% { box-shadow: 0 0 8px rgba(34,211,238,.4); }
+    50%     { box-shadow: 0 0 16px rgba(34,211,238,.8); }
+  }
+
+  .rm-item-body {}
+
+  .rm-item-name {
+    font-size: .88rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 2px;
+    letter-spacing: -.01em;
+  }
+  .rm-item-name.done-text { color: var(--muted); text-decoration: line-through; text-decoration-color: rgba(255,255,255,.15); }
+
+  .rm-item-desc {
+    font-size: .78rem;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+
+  .rm-item-tag {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: .55rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 2px;
+    margin-right: 5px;
+    margin-top: 6px;
+    color: var(--low);
+    border: 1px solid rgba(255,255,255,.07);
+  }
+
+  @media (max-width: 700px) {
+    #roadmap { padding: 80px 24px 80px calc(var(--sb-w) + 16px); }
+    .rm-phase { grid-template-columns: 1fr; }
+    .rm-phase-meta { text-align: left; padding-right: 0; margin-bottom: 12px; }
+    .rm-phase::before { display: none; }
+  }
+</style>
+
+<div class="rm-inner">
+  <div class="rm-label">// site_roadmap</div>
+  <h2 class="rm-title">What's next</h2>
+  <p class="rm-sub">A living document — tracking what's shipped, what's building, and what's planned for this portfolio and the projects around it.</p>
+
+  <!-- FASE 1 — Done -->
+  <div class="rm-phase">
+    <div class="rm-phase-meta">
+      <span class="rm-phase-tag done">Shipped</span>
+      <span class="rm-phase-period">2024 – Q1 2025</span>
+    </div>
+    <div>
+      <div class="rm-phase-title">Foundation</div>
+      <div class="rm-items">
+        <div class="rm-item">
+          <div class="rm-item-dot done"></div>
+          <div class="rm-item-body">
+            <div class="rm-item-name done-text">Interactive hero with 3D atom</div>
+            <div class="rm-item-desc">CSS-only orbital rings, click-to-excite states (Ground / Excited / Quantum), particle canvas, parallax layers.</div>
+            <span class="rm-item-tag">CSS</span><span class="rm-item-tag">Canvas</span>
+          </div>
+        </div>
+        <div class="rm-item">
+          <div class="rm-item-dot done"></div>
+          <div class="rm-item-body">
+            <div class="rm-item-name done-text">Solar system project explorer</div>
+            <div class="rm-item-desc">Each project is a planet in orbit. Click to expand detail panel with description, tech stack and live link.</div>
+            <span class="rm-item-tag">JavaScript</span><span class="rm-item-tag">SVG</span>
+          </div>
+        </div>
+        <div class="rm-item">
+          <div class="rm-item-dot done"></div>
+          <div class="rm-item-body">
+            <div class="rm-item-name done-text">DNA skills visualizer</div>
+            <div class="rm-item-desc">Interactive double-helix canvas that encodes skill proficiency as base-pair distance. Click any node for detail panel.</div>
+            <span class="rm-item-tag">Canvas</span><span class="rm-item-tag">WebGL</span>
+          </div>
+        </div>
+        <div class="rm-item">
+          <div class="rm-item-dot done"></div>
+          <div class="rm-item-body">
+            <div class="rm-item-name done-text">Multi-language support</div>
+            <div class="rm-item-desc">Full i18n in 5 languages: English, Italiano, Español, Chinese, Japanese. Runtime switching with no page reload.</div>
+            <span class="rm-item-tag">i18n</span>
+          </div>
+        </div>
+        <div class="rm-item">
+          <div class="rm-item-dot done"></div>
+          <div class="rm-item-body">
+            <div class="rm-item-name done-text">AI chatbot (Edward Bot)</div>
+            <div class="rm-item-desc">Contextual Q&amp;A chatbot trained on Edward's profile. Answers questions about experience, stack and availability.</div>
+            <span class="rm-item-tag">NLP</span><span class="rm-item-tag">JavaScript</span>
+          </div>
+        </div>
+        <div class="rm-item">
+          <div class="rm-item-dot done"></div>
+          <div class="rm-item-body">
+            <div class="rm-item-name done-text">Memive — Flutter web app</div>
+            <div class="rm-item-desc">Full social audio platform built with Flutter, Firebase Auth, Firestore. Deployed to /app/ on GitHub Pages.</div>
+            <span class="rm-item-tag">Flutter</span><span class="rm-item-tag">Firebase</span><span class="rm-item-tag">Dart</span>
+          </div>
+        </div>
+        <div class="rm-item">
+          <div class="rm-item-dot done"></div>
+          <div class="rm-item-body">
+            <div class="rm-item-name done-text">GitHub activity dashboard</div>
+            <div class="rm-item-desc">Live contribution calendar and stats fetched from the GitHub API. Auto-updates on each page load.</div>
+            <span class="rm-item-tag">GitHub API</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FASE 2 — In progress -->
+  <div class="rm-phase">
+    <div class="rm-phase-meta">
+      <span class="rm-phase-tag active">In progress</span>
+      <span class="rm-phase-period">Q2 2025</span>
+    </div>
+    <div>
+      <div class="rm-phase-title">Deepening</div>
+      <div class="rm-items">
+        <div class="rm-item">
+          <div class="rm-item-dot active"></div>
+          <div class="rm-item-body">
+            <div class="rm-item-name">Memive — real audio recording</div>
+            <div class="rm-item-desc">Integrating the <code style="font-size:.75rem;background:rgba(255,255,255,.06);padding:1px 5px;border-radius:3px;">record</code> and <code style="font-size:.75rem;background:rgba(255,255,255,.06);padding:1px 5px;border-radius:3px;">just_audio</code> packages for actual microphone capture and playback. Firebase Storage for audio files.</div>
+            <span class="rm-item-tag">Flutter</span><span class="rm-item-tag">Firebase Storage</span>
+          </div>
+        </div>
+        <div class="rm-item">
+          <div class="rm-item-dot active"></div>
+          <div class="rm-item-body">
+            <div class="rm-item-name">Memive — production security rules</div>
+            <div class="rm-item-desc">Replacing Firestore test-mode rules with scoped production rules. App Check activation with reCAPTCHA v3.</div>
+            <span class="rm-item-tag">Firebase</span><span class="rm-item-tag">Security</span>
+          </div>
+        </div>
+        <div class="rm-item">
+          <div class="rm-item-dot active"></div>
+          <div class="rm-item-body">
+            <div class="rm-item-name">Case study pages</div>
+            <div class="rm-item-desc">Dedicated deep-dive pages for each major project: architecture decisions, challenges encountered, metrics and screenshots.</div>
+            <span class="rm-item-tag">HTML</span><span class="rm-item-tag">CSS</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FASE 3 — Planned -->
+  <div class="rm-phase">
+    <div class="rm-phase-meta">
+      <span class="rm-phase-tag planned">Planned</span>
+      <span class="rm-phase-period">Q3 2025</span>
+    </div>
+    <div>
+      <div class="rm-phase-title">Expansion</div>
+      <div class="rm-items">
+        <div class="rm-item">
+          <div class="rm-item-dot planned"></div>
+          <div class="rm-item-body">
+            <div class="rm-item-name">Memive — iOS & Android release</div>
+            <div class="rm-item-desc">App Store and Google Play submissions. Requires Apple Developer Account, signing configuration and store assets.</div>
+            <span class="rm-item-tag">iOS</span><span class="rm-item-tag">Android</span>
+          </div>
+        </div>
+        <div class="rm-item">
+          <div class="rm-item-dot planned"></div>
+          <div class="rm-item-body">
+            <div class="rm-item-name">Memive — real social graph</div>
+            <div class="rm-item-desc">Follow / following system, real feed from followed users, push notifications via Firebase Cloud Messaging.</div>
+            <span class="rm-item-tag">Firestore</span><span class="rm-item-tag">FCM</span>
+          </div>
+        </div>
+        <div class="rm-item">
+          <div class="rm-item-dot planned"></div>
+          <div class="rm-item-body">
+            <div class="rm-item-name">Writing section — technical notes</div>
+            <div class="rm-item-desc">Short-form technical notes on things learned while building: Flutter web quirks, Firebase gotchas, CSS techniques.</div>
+            <span class="rm-item-tag">Content</span>
+          </div>
+        </div>
+        <div class="rm-item">
+          <div class="rm-item-dot planned"></div>
+          <div class="rm-item-body">
+            <div class="rm-item-name">Open-source contributions tracker</div>
+            <div class="rm-item-desc">Live section pulling merged PRs from public repos via GitHub API. Complements the contribution calendar.</div>
+            <span class="rm-item-tag">GitHub API</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FASE 4 — Future -->
+  <div class="rm-phase">
+    <div class="rm-phase-meta">
+      <span class="rm-phase-tag planned">Future</span>
+      <span class="rm-phase-period">2026+</span>
+    </div>
+    <div>
+      <div class="rm-phase-title">Long term</div>
+      <div class="rm-items">
+        <div class="rm-item">
+          <div class="rm-item-dot planned"></div>
+          <div class="rm-item-body">
+            <div class="rm-item-name">Memive — voice transcription</div>
+            <div class="rm-item-desc">Automatic transcript generation via Whisper API or Google Speech-to-Text. Enables search and accessibility.</div>
+            <span class="rm-item-tag">AI</span><span class="rm-item-tag">STT</span>
+          </div>
+        </div>
+        <div class="rm-item">
+          <div class="rm-item-dot planned"></div>
+          <div class="rm-item-body">
+            <div class="rm-item-name">Memive — live voice rooms</div>
+            <div class="rm-item-desc">Real-time audio streaming with Agora.io or LiveKit SDK. Replaces the current UI-only placeholder.</div>
+            <span class="rm-item-tag">WebRTC</span><span class="rm-item-tag">Agora</span>
+          </div>
+        </div>
+        <div class="rm-item">
+          <div class="rm-item-dot planned"></div>
+          <div class="rm-item-body">
+            <div class="rm-item-name">Portfolio v2 — full redesign</div>
+            <div class="rm-item-desc">Complete rearchitecture with a proper build system, component library and CMS for project data. Current site is hand-coded HTML.</div>
+            <span class="rm-item-tag">Next.js</span><span class="rm-item-tag">CMS</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</section>
 
 <!-- ─── CONTACT ─── -->
 <section id="contact" class="main style3 secondary">
