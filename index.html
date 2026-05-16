@@ -2284,6 +2284,7 @@
         <a href="#timeline"        class="sb-dot" data-label="Timeline"></a>
         <a href="#work"            class="sb-dot" data-label="Work"></a>
         <a href="#roadmap"         class="sb-dot" data-label="Roadmap"></a>
+        <a href="#sitemap"         class="sb-dot" data-label="Sitemap"></a>
         <a href="#contact"         class="sb-dot" data-label="Contact"></a>
     </nav>
 
@@ -3533,6 +3534,318 @@
 </div>
 </section>
 
+<!-- ─── SITEMAP ─── -->
+<section id="sitemap">
+<style>
+  #sitemap {
+    background: var(--void);
+    padding: 120px 72px 120px calc(var(--sb-w) + 20px);
+    position: relative;
+    overflow: hidden;
+  }
+  #sitemap::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 500px 350px at 15% 50%, rgba(14,165,233,0.05), transparent 70%),
+      radial-gradient(ellipse 400px 300px at 85% 20%, rgba(124,58,237,0.05), transparent 70%);
+    pointer-events: none;
+  }
+
+  .sm-inner {
+    max-width: 900px;
+    position: relative;
+    z-index: 1;
+  }
+  .sm-label {
+    font-family: var(--mono);
+    font-size: .65rem;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--violet);
+    margin-bottom: 10px;
+  }
+  .sm-title {
+    font-size: clamp(1.8rem, 3vw, 2.6rem);
+    font-weight: 700;
+    letter-spacing: -.03em;
+    color: var(--text);
+    margin-bottom: 8px;
+    line-height: 1.1;
+  }
+  .sm-sub {
+    font-size: .95rem;
+    color: var(--muted);
+    margin-bottom: 56px;
+    max-width: 480px;
+    line-height: 1.7;
+  }
+
+  /* ── tree layout ── */
+  .sm-tree {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  /* root node */
+  .sm-root {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 20px;
+    border: 1px solid rgba(124,58,237,.35);
+    border-radius: 6px;
+    background: rgba(124,58,237,.06);
+    font-family: var(--mono);
+    font-size: .78rem;
+    font-weight: 700;
+    color: var(--violet2, #a855f7);
+    letter-spacing: .04em;
+    margin-bottom: 0;
+    text-decoration: none;
+    transition: background .2s, border-color .2s, box-shadow .2s;
+    cursor: default;
+  }
+  .sm-root-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--violet);
+    box-shadow: 0 0 8px rgba(124,58,237,.6);
+  }
+
+  /* branch row */
+  .sm-branches {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 14px;
+    margin-top: 28px;
+    padding-left: 24px;
+    position: relative;
+  }
+  /* vertical line from root */
+  .sm-branches::before {
+    content: '';
+    position: absolute;
+    top: -28px;
+    left: 30px;
+    width: 1px;
+    height: 28px;
+    background: linear-gradient(to bottom, rgba(124,58,237,.4), rgba(124,58,237,.15));
+  }
+
+  /* each section card */
+  .sm-card {
+    display: block;
+    text-decoration: none !important;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--surface);
+    padding: 16px 18px;
+    transition: border-color .22s, background .22s, transform .2s, box-shadow .22s;
+    position: relative;
+  }
+  .sm-card:hover {
+    border-color: rgba(124,58,237,.3);
+    background: rgba(124,58,237,.05);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0,0,0,.25);
+  }
+
+  .sm-card-top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 6px;
+  }
+  .sm-card-icon {
+    width: 30px; height: 30px;
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: .85rem;
+    flex-shrink: 0;
+  }
+  .sm-card-name {
+    font-size: .85rem;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -.01em;
+  }
+  .sm-card-anchor {
+    position: absolute;
+    top: 12px; right: 14px;
+    font-family: var(--mono);
+    font-size: .5rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--low);
+  }
+  .sm-card-desc {
+    font-size: .76rem;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+
+  /* external pages row */
+  .sm-ext-label {
+    font-family: var(--mono);
+    font-size: .6rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--low);
+    margin: 36px 0 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .sm-ext-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .sm-ext-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .sm-ext-card {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none !important;
+    padding: 9px 16px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--surface);
+    font-size: .8rem;
+    color: var(--muted) !important;
+    font-family: var(--mono);
+    letter-spacing: .04em;
+    transition: color .2s, border-color .2s, background .2s;
+  }
+  .sm-ext-card:hover {
+    color: var(--cyan) !important;
+    border-color: rgba(34,211,238,.3) !important;
+    background: rgba(34,211,238,.04);
+  }
+  .sm-ext-card i { font-size: .72rem; opacity: .6; }
+
+  @media (max-width: 700px) {
+    #sitemap { padding: 80px 24px 80px calc(var(--sb-w) + 16px); }
+    .sm-branches { grid-template-columns: 1fr; }
+  }
+</style>
+
+<div class="sm-inner">
+  <div class="sm-label">// site_structure</div>
+  <h2 class="sm-title">Mappa del sito</h2>
+  <p class="sm-sub">Tutte le sezioni e le pagine di questo portfolio, organizzate in un'unica vista.</p>
+
+  <div class="sm-tree">
+
+    <!-- Root -->
+    <div class="sm-root">
+      <div class="sm-root-dot"></div>
+      edward070707.github.io
+    </div>
+
+    <!-- Sections grid -->
+    <div class="sm-branches">
+
+      <a href="#intro" class="sm-card">
+        <div class="sm-card-top">
+          <div class="sm-card-icon" style="background:rgba(124,58,237,.12);">🏠</div>
+          <div class="sm-card-name">Home</div>
+        </div>
+        <span class="sm-card-anchor">#intro</span>
+        <div class="sm-card-desc">Hero con atomo 3D CSS, animazioni di stato, parallax e canvas di particelle.</div>
+      </a>
+
+      <a href="#one" class="sm-card">
+        <div class="sm-card-top">
+          <div class="sm-card-icon" style="background:rgba(14,165,233,.12);">🧬</div>
+          <div class="sm-card-name">Skills</div>
+        </div>
+        <span class="sm-card-anchor">#one</span>
+        <div class="sm-card-desc">DNA interattivo su canvas: elica doppia che codifica le competenze come coppie di basi.</div>
+      </a>
+
+      <a href="#two" class="sm-card">
+        <div class="sm-card-top">
+          <div class="sm-card-icon" style="background:rgba(34,211,238,.10);">👤</div>
+          <div class="sm-card-name">About</div>
+        </div>
+        <span class="sm-card-anchor">#two</span>
+        <div class="sm-card-desc">Bio, lingue parlate, interessi e il terminale interattivo con statistiche live.</div>
+      </a>
+
+      <a href="#skills" class="sm-card">
+        <div class="sm-card-top">
+          <div class="sm-card-icon" style="background:rgba(52,211,153,.10);">📊</div>
+          <div class="sm-card-name">Proficiency</div>
+        </div>
+        <span class="sm-card-anchor">#skills</span>
+        <div class="sm-card-desc">Stack tecnico dettagliato con barre di competenza, categorie e anni di esperienza.</div>
+      </a>
+
+      <a href="#timeline" class="sm-card">
+        <div class="sm-card-top">
+          <div class="sm-card-icon" style="background:rgba(249,115,22,.10);">📅</div>
+          <div class="sm-card-name">Timeline</div>
+        </div>
+        <span class="sm-card-anchor">#timeline</span>
+        <div class="sm-card-desc">Percorso formativo e professionale: università, scuola, certificazioni ed esperienze.</div>
+      </a>
+
+      <a href="#work" class="sm-card">
+        <div class="sm-card-top">
+          <div class="sm-card-icon" style="background:rgba(234,179,8,.10);">🪐</div>
+          <div class="sm-card-name">Projects</div>
+        </div>
+        <span class="sm-card-anchor">#work</span>
+        <div class="sm-card-desc">Sistema solare interattivo: ogni pianeta è un progetto con panel di dettaglio e link live.</div>
+      </a>
+
+      <a href="#roadmap" class="sm-card">
+        <div class="sm-card-top">
+          <div class="sm-card-icon" style="background:rgba(124,58,237,.12);">🗺️</div>
+          <div class="sm-card-name">Roadmap</div>
+        </div>
+        <span class="sm-card-anchor">#roadmap</span>
+        <div class="sm-card-desc">Documento pubblico: cosa è stato rilasciato, cosa è in sviluppo e cosa è pianificato.</div>
+      </a>
+
+      <a href="#contact" class="sm-card">
+        <div class="sm-card-top">
+          <div class="sm-card-icon" style="background:rgba(236,72,153,.10);">📬</div>
+          <div class="sm-card-name">Contact</div>
+        </div>
+        <span class="sm-card-anchor">#contact</span>
+        <div class="sm-card-desc">Email, LinkedIn, GitHub, Instagram — tutti i contatti in un posto.</div>
+      </a>
+
+    </div>
+
+    <!-- External pages -->
+    <div class="sm-ext-label">Pagine separate</div>
+    <div class="sm-ext-cards">
+      <a href="roadmap.html" class="sm-ext-card">
+        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+        roadmap.html
+      </a>
+      <a href="/app/" class="sm-ext-card">
+        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+        /app/ — Memive
+      </a>
+    </div>
+
+  </div>
+</div>
+</section>
+
 <!-- ─── CONTACT ─── -->
 <section id="contact" class="main style3 secondary">
     <div class="content">
@@ -4040,7 +4353,7 @@ document.addEventListener('DOMContentLoaded', () => setLang(localStorage.getItem
    SCROLL: punti sidebar + barra progresso + torna su
 ══════════════════════════════════ */
 (function () {
-    const sections = ['intro','one','two','skills','timeline','work','contact'];
+    const sections = ['intro','one','two','skills','timeline','work','roadmap','sitemap','contact'];
     const dots = document.querySelectorAll('.sb-dot');
     const fill = document.getElementById('sb-fill');
 
@@ -5206,7 +5519,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // active section highlight on mobile nav
     const mobBtns = document.querySelectorAll('.mob-nav-btn[data-mob]');
-    const sections = ['intro','one','two','skills','timeline','work','contact'];
+    const sections = ['intro','one','two','skills','timeline','work','roadmap','sitemap','contact'];
     const secEls   = sections.map(id => document.getElementById(id)).filter(Boolean);
 
     function updateActive() {
