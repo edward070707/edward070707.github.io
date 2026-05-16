@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Roadmap — Edward Attuati</title>
+  <meta name="description" content="A living roadmap of everything built, in progress, and planned — by Edward Attuati.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" referrerpolicy="no-referrer"/>
+
+  <style>
+  /* ─── ROOT ─────────────────────────────────────────────────── */
+  :root {
+    --void:    #05050f;
+    --void2:   #0a0a1e;
+    --surface: rgba(255,255,255,0.04);
+    --border:  rgba(255,255,255,0.07);
+    --violet:  #7c3aed;
+    --violet2: #a855f7;
+    --blue:    #0ea5e9;
+    --cyan:    #22d3ee;
+    --green:   #34d399;
+    --text:    #f0f4ff;
+    --muted:   rgba(240,244,255,0.50);
+    --low:     rgba(240,244,255,0.22);
+    --sg:      'Space Grotesk', system-ui, sans-serif;
+    --mono:    'Space Mono', monospace;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--void);
+    color: var(--text);
+    font-family: var(--sg);
+    line-height: 1.65;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  /* ─── CANVAS BACKGROUND ─────────────────────────────────── */
+  #rm-canvas {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ─── AMBIENT GLOWS ─────────────────────────────────────── */
+  .rm-glow {
+    position: fixed;
+    pointer-events: none;
+    z-index: 0;
+    border-radius: 50%;
+    filter: blur(120px);
+  }
+  .rm-glow-1 {
+    width: 600px; height: 600px;
+    top: -200px; left: -100px;
+    background: rgba(124,58,237,0.12);
+    animation: drift1 18s ease-in-out infinite alternate;
+  }
+  .rm-glow-2 {
+    width: 500px; height: 500px;
+    bottom: -150px; right: -80px;
+    background: rgba(34,211,238,0.08);
+    animation: drift2 22s ease-in-out infinite alternate;
+  }
+  @keyframes drift1 {
+    from { transform: translate(0,0) scale(1); }
+    to   { transform: translate(80px,60px) scale(1.15); }
+  }
+  @keyframes drift2 {
+    from { transform: translate(0,0) scale(1); }
+    to   { transform: translate(-60px,-80px) scale(1.1); }
+  }
+
+  /* ─── LAYOUT WRAPPER ────────────────────────────────────── */
+  .rm-wrap {
+    position: relative;
+    z-index: 1;
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 0 32px 120px;
+  }
+
+  /* ─── NAV BAR ───────────────────────────────────────────── */
+  .rm-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 28px 0 0;
+    margin-bottom: 0;
+  }
+  .rm-nav-back {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: .7rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    transition: color .2s;
+  }
+  .rm-nav-back:hover { color: var(--violet2); }
+  .rm-nav-back i { font-size: .65rem; }
+  .rm-nav-logo {
+    font-family: var(--sg);
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    background: linear-gradient(135deg, var(--violet), var(--cyan));
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* ─── HERO ──────────────────────────────────────────────── */
+  .rm-hero {
+    padding: 80px 0 72px;
+    position: relative;
+  }
+
+  .rm-hero-eyebrow {
+    font-family: var(--mono);
+    font-size: .65rem;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: var(--violet2);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .rm-hero-eyebrow::before {
+    content: '';
+    display: block;
+    width: 28px;
+    height: 1px;
+    background: var(--violet2);
+    opacity: .6;
+  }
+
+  .rm-hero-title {
+    font-size: clamp(2.8rem, 7vw, 5.2rem);
+    font-weight: 700;
+    letter-spacing: -.04em;
+    line-height: 1;
+    background: linear-gradient(120deg, var(--text) 0%, var(--violet2) 50%, var(--cyan) 100%);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 20px;
+  }
+
+  .rm-hero-sub {
+    font-size: 1rem;
+    color: var(--muted);
+    max-width: 500px;
+    line-height: 1.75;
+    margin-bottom: 40px;
+  }
+
+  /* progress summary bar */
+  .rm-progress-bar-wrap {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    max-width: 480px;
+  }
+  .rm-progress-label {
+    font-family: var(--mono);
+    font-size: .62rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--low);
+    white-space: nowrap;
+  }
+  .rm-progress-track {
+    flex: 1;
+    height: 4px;
+    background: rgba(255,255,255,0.07);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .rm-progress-fill {
+    height: 100%;
+    width: 0%;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--violet), var(--cyan));
+    transition: width 1.4s cubic-bezier(0.16,1,0.3,1);
+  }
+  .rm-progress-pct {
+    font-family: var(--mono);
+    font-size: .7rem;
+    color: var(--cyan);
+    white-space: nowrap;
+  }
+
+  /* stat pills */
+  .rm-hero-stats {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 32px;
+  }
+  .rm-stat-pill {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border: 1px solid var(--border);
+    border-radius: 40px;
+    background: var(--surface);
+    font-size: .8rem;
+    color: var(--muted);
+    font-family: var(--mono);
+    letter-spacing: .04em;
+  }
+  .rm-stat-pill-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+  }
+  .rm-stat-pill-dot.green  { background: var(--green);  box-shadow: 0 0 8px rgba(52,211,153,.5); }
+  .rm-stat-pill-dot.cyan   { background: var(--cyan);   box-shadow: 0 0 8px rgba(34,211,238,.5); animation: rmPulse 2s ease-in-out infinite; }
+  .rm-stat-pill-dot.muted  { background: rgba(255,255,255,.25); }
+
+  /* ─── DIVIDER ───────────────────────────────────────────── */
+  .rm-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(124,58,237,0.4) 30%, rgba(34,211,238,0.3) 70%, transparent);
+    margin-bottom: 80px;
+  }
+
+  /* ─── PHASE GRID ────────────────────────────────────────── */
+  .rm-phases {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .rm-phase {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 0 48px;
+    margin-bottom: 64px;
+    position: relative;
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity .6s ease, transform .6s ease;
+  }
+  .rm-phase.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* vertical connector */
+  .rm-phase::after {
+    content: '';
+    position: absolute;
+    left: 200px;
+    top: 28px;
+    bottom: calc(-64px + 28px);
+    width: 1px;
+    background: linear-gradient(to bottom, rgba(124,58,237,0.25) 0%, rgba(124,58,237,0.05) 100%);
+  }
+  .rm-phase:last-child::after { display: none; }
+
+  /* ─── PHASE META ─────────────────────────────────────────── */
+  .rm-phase-meta {
+    padding-top: 3px;
+    text-align: right;
+    padding-right: 48px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+  }
+
+  .rm-phase-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--mono);
+    font-size: .58rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 2px;
+  }
+  .rm-phase-badge.done {
+    color: var(--green);
+    border: 1px solid rgba(52,211,153,.2);
+    background: rgba(52,211,153,.05);
+  }
+  .rm-phase-badge.active {
+    color: var(--cyan);
+    border: 1px solid rgba(34,211,238,.2);
+    background: rgba(34,211,238,.05);
+  }
+  .rm-phase-badge.planned {
+    color: var(--muted);
+    border: 1px solid rgba(255,255,255,.08);
+    background: rgba(255,255,255,.02);
+  }
+
+  .rm-phase-period {
+    font-family: var(--mono);
+    font-size: .68rem;
+    color: var(--low);
+    letter-spacing: .06em;
+  }
+
+  /* ─── PHASE CONTENT ─────────────────────────────────────── */
+  .rm-phase-content {}
+
+  .rm-phase-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -.02em;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .rm-phase-title::after {
+    content: '';
+    display: block;
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+    max-width: 80px;
+  }
+
+  /* ─── ITEMS ──────────────────────────────────────────────── */
+  .rm-items {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .rm-item {
+    display: grid;
+    grid-template-columns: 28px 1fr;
+    gap: 0 10px;
+    padding: 14px 18px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--surface);
+    backdrop-filter: blur(8px);
+    transition: border-color .25s, background .25s, transform .2s;
+    cursor: default;
+  }
+  .rm-item:hover {
+    border-color: rgba(124,58,237,0.3);
+    background: rgba(124,58,237,0.05);
+    transform: translateX(4px);
+  }
+
+  .rm-item-icon-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 4px;
+    gap: 4px;
+  }
+
+  .rm-item-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .rm-item-dot.done    { background: var(--green);  box-shadow: 0 0 8px rgba(52,211,153,.4); }
+  .rm-item-dot.active  { background: var(--cyan);   box-shadow: 0 0 8px rgba(34,211,238,.4); animation: rmPulse 2s ease-in-out infinite; }
+  .rm-item-dot.planned { background: rgba(255,255,255,.18); }
+
+  @keyframes rmPulse {
+    0%,100% { box-shadow: 0 0 6px rgba(34,211,238,.4); }
+    50%     { box-shadow: 0 0 18px rgba(34,211,238,.9); }
+  }
+
+  .rm-item-body {}
+
+  .rm-item-name {
+    font-size: .9rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 4px;
+    letter-spacing: -.015em;
+  }
+  .rm-item-name.strikethrough {
+    color: var(--muted);
+    text-decoration: line-through;
+    text-decoration-color: rgba(255,255,255,.18);
+  }
+
+  .rm-item-desc {
+    font-size: .78rem;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 8px;
+  }
+
+  .rm-item-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+  .rm-item-tag {
+    font-family: var(--mono);
+    font-size: .52rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 2px;
+    color: var(--low);
+    border: 1px solid rgba(255,255,255,.07);
+    background: rgba(255,255,255,.02);
+  }
+
+  /* ─── FOOTER ─────────────────────────────────────────────── */
+  .rm-footer {
+    margin-top: 96px;
+    padding-top: 40px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .rm-footer-note {
+    font-family: var(--mono);
+    font-size: .62rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--low);
+  }
+
+  .rm-footer-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    font-family: var(--mono);
+    font-size: .68rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 8px 18px;
+    background: var(--surface);
+    transition: color .2s, border-color .2s, background .2s;
+  }
+  .rm-footer-back:hover {
+    color: var(--violet2);
+    border-color: rgba(124,58,237,.4);
+    background: rgba(124,58,237,.06);
+  }
+
+  /* ─── SCROLL-TO-TOP ─────────────────────────────────────── */
+  #rm-top-btn {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    width: 40px; height: 40px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    backdrop-filter: blur(12px);
+    border-radius: 4px;
+    color: var(--muted);
+    font-size: .85rem;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    z-index: 100;
+    transition: color .2s, border-color .2s, background .2s, opacity .3s;
+    opacity: 0; pointer-events: none;
+  }
+  #rm-top-btn.visible { opacity: 1; pointer-events: auto; }
+  #rm-top-btn:hover { color: var(--violet2); border-color: rgba(124,58,237,.4); }
+
+  /* ─── RESPONSIVE ─────────────────────────────────────────── */
+  @media (max-width: 720px) {
+    .rm-wrap { padding: 0 20px 80px; }
+    .rm-phase {
+      grid-template-columns: 1fr;
+      gap: 12px 0;
+    }
+    .rm-phase::after { display: none; }
+    .rm-phase-meta {
+      text-align: left;
+      align-items: flex-start;
+      padding-right: 0;
+      flex-direction: row;
+      align-items: center;
+      gap: 12px;
+    }
+    .rm-hero-title { font-size: clamp(2.4rem, 11vw, 3.6rem); }
+  }
+  </style>
+</head>
+<body>
+
+<!-- Ambient glows -->
+<div class="rm-glow rm-glow-1"></div>
+<div class="rm-glow rm-glow-2"></div>
+
+<!-- Star canvas -->
+<canvas id="rm-canvas"></canvas>
+
+<!-- ─── MAIN WRAP ─────────────────────────────────────────────── -->
+<div class="rm-wrap">
+
+  <!-- NAV -->
+  <nav class="rm-nav">
+    <a href="index.html" class="rm-nav-back">
+      <i class="fa-solid fa-arrow-left-long"></i>
+      Back to portfolio
+    </a>
+    <span class="rm-nav-logo">EA</span>
+  </nav>
+
+  <!-- HERO -->
+  <header class="rm-hero">
+    <div class="rm-hero-eyebrow">// public_roadmap</div>
+    <h1 class="rm-hero-title">What's<br>being built.</h1>
+    <p class="rm-hero-sub">
+      A living document — tracking what's shipped, what's
+      in progress, and what comes next for this portfolio and the
+      projects around it.
+    </p>
+
+    <div class="rm-progress-bar-wrap">
+      <span class="rm-progress-label">Overall</span>
+      <div class="rm-progress-track">
+        <div class="rm-progress-fill" id="rm-pf"></div>
+      </div>
+      <span class="rm-progress-pct" id="rm-pct">0%</span>
+    </div>
+
+    <div class="rm-hero-stats">
+      <div class="rm-stat-pill">
+        <div class="rm-stat-pill-dot green"></div>
+        <span>10 shipped</span>
+      </div>
+      <div class="rm-stat-pill">
+        <div class="rm-stat-pill-dot cyan"></div>
+        <span>3 in progress</span>
+      </div>
+      <div class="rm-stat-pill">
+        <div class="rm-stat-pill-dot muted"></div>
+        <span>7 planned</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="rm-divider"></div>
+
+  <!-- ─── PHASES ────────────────────────────────────────────── -->
+  <div class="rm-phases">
+
+    <!-- ── FASE 1 — Shipped ── -->
+    <div class="rm-phase" data-phase>
+      <div class="rm-phase-meta">
+        <span class="rm-phase-badge done">Shipped</span>
+        <span class="rm-phase-period">2024 – Q1 2025</span>
+      </div>
+      <div class="rm-phase-content">
+        <div class="rm-phase-title">Foundation</div>
+        <div class="rm-items">
+
+          <div class="rm-item">
+            <div class="rm-item-icon-col"><div class="rm-item-dot done"></div></div>
+            <div class="rm-item-body">
+              <div class="rm-item-name strikethrough">Interactive hero with 3D atom</div>
+              <div class="rm-item-desc">CSS-only orbital rings, click-to-excite states (Ground / Excited / Quantum), particle canvas, parallax layers.</div>
+              <div class="rm-item-tags">
+                <span class="rm-item-tag">CSS</span>
+                <span class="rm-item-tag">Canvas</span>
+                <span class="rm-item-tag">JavaScript</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="rm-item">
+            <div class="rm-item-icon-col"><div class="rm-item-dot done"></div></div>
+            <div class="rm-item-body">
+              <div class="rm-item-name strikethrough">Solar system project explorer</div>
+              <div class="rm-item-desc">Each project is a planet in orbit. Click to expand a detail panel with description, tech stack, and live link.</div>
+              <div class="rm-item-tags">
+                <span class="rm-item-tag">JavaScript</span>
+                <span class="rm-item-tag">SVG</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="rm-item">
+            <div class="rm-item-icon-col"><div class="rm-item-dot done"></div></div>
+            <div class="rm-item-body">
+              <div class="rm-item-name strikethrough">DNA skills visualizer</div>
+              <div class="rm-item-desc">Interactive double-helix canvas encoding skill proficiency as base-pair distance. Click any node for a detail panel.</div>
+              <div class="rm-item-tags">
+                <span class="rm-item-tag">Canvas</span>
+                <span class="rm-item-tag">WebGL</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="rm-item">
+            <div class="rm-item-icon-col"><div class="rm-item-dot done"></div></div>
+            <div class="rm-item-body">
+              <div class="rm-item-name strikethrough">Multi-language support</div>
+              <div class="rm-item-desc">Full i18n in 5 languages: English, Italiano, Español, Chinese, Japanese. Runtime switching with no page reload.</div>
+              <div class="rm-item-tags">
+                <span class="rm-item-tag">i18n</span>
+                <span class="rm-item-tag">JavaScript</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="rm-item">
+            <div class="rm-item-icon-col"><div class="rm-item-dot done"></div></div>
+            <div class="rm-item-body">
+              <div class="rm-item-name strikethrough">AI chatbot — Edward Bot</div>
+              <div class="rm-item-desc">Contextual Q&amp;A chatbot trained on Edward's profile. Answers questions about experience, stack, and availability in 5 languages.</div>
+              <div class="rm-item-tags">
+                <span class="rm-item-tag">NLP</span>
+                <span class="rm-item-tag">JavaScript</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="rm-item">
+            <div class="rm-item-icon-col"><div class="rm-item-dot done"></div></div>
+            <div class="rm-item-body">
+              <div class="rm-item-name strikethrough">Memive — Flutter web app</div>
+              <div class="rm-item-desc">Full social audio platform built with Flutter, Firebase Auth, and Firestore. Deployed to <code style="font-size:.74rem;background:rgba(255,255,255,.06);padding:1px 5px;border-radius:3px;">/app/</code> on GitHub Pages.</div>
+              <div class="rm-item-tags">
+                <span class="rm-item-tag">Flutter</span>
+                <span class="rm-item-tag">Firebase</span>
+                <span class="rm-item-tag">Dart</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="rm-item">
+            <div class="rm-item-icon-col"><div class="rm-item-dot done"></div></div>
+            <div class="rm-item-body">
+              <div class="rm-item-name strikethrough">GitHub activity dashboard</div>
+              <div class="rm-item-desc">Live contribution calendar and stats fetched from the GitHub API. Updates automatically on each page load.</div>
+              <div class="rm-item-tags">
+                <span class="rm-item-tag">GitHub API</span>
+                <span class="rm-item-tag">REST</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="rm-item">
+            <div class="rm-item-icon-col"><div class="rm-item-dot done"></div></div>
+            <div class="rm-item-body">
+              <div class="rm-item-name strikethrough">Public roadmap page</div>
+              <div class="rm-item-desc">This page. A standalone, animated roadmap tracking all shipped, active, and planned work — linked from the portfolio footer.</div>
+              <div class="rm-item-tags">
+                <span class="rm-item-tag">HTML</span>
+                <span class="rm-item-tag">CSS</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ── FASE 2 — In progress ── -->
+    <div class="rm-phase" data-phase>
+      <div class="rm-phase-meta">
+        <span class="rm-phase-badge active">In progress</span>
+        <span class="rm-phase-period">Q2 2025</span>
+      </div>
+      <div class="rm-phase-content">
+        <div class="rm-phase-title">Deepening</div>
+        <div class="rm-items">
+
+          <div class="rm-item">
+            <div class="rm-item-icon-col"><div class="rm-item-dot active"></div></div>
+            <div class="rm-item-body">
+              <div class="rm-item-name">Memive — real audio recording</div>
+              <div class="rm-item-desc">Integrating the <code style="font-size:.74rem;background:rgba(255,255,255,.06);padding:1px 5px;border-radius:3px;">record</code> and <code style="font-size:.74rem;background:rgba(255,255,255,.06);padding:1px 5px;border-radius:3px;">just_audio</code> packages for actual microphone capture and playback. Firebase Storage for audio files.</div>
+              <div class="rm-item-tags">
+                <span class="rm-item-tag">Flutter</span>
+                <span class="rm-item-tag">Firebase Storage</span>
+                <span class="rm-item-tag">Dart</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="rm-item">
+            <div class="rm-item-icon-col"><div class="rm-item-dot active"></div></div>
+            <div class="rm-item-body">
+              <div class="rm-item-name">Memive — production security rules</div>
+              <div class="rm-item-desc">Replacing Firestore test-mode rules with scoped production rules. App Check activation with reCAPTCHA v3 for web.</div>
+              <div class="rm-item-tags">
+                <span class="rm-item-tag">Firebase</span>
+                <span class="rm-item-tag">Security Rules</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="rm-item">
+            <div class="rm-item-icon-col"><div class="rm-item-dot active"></div></div>
+            <div class="rm-item-body">
+              <div class="rm-item-name">Case study pages</div>
+              <div class="rm-item-desc">Dedicated deep-dive pages for each major project: architecture decisions, challenges encountered, key metrics, and screenshots.</div>
+              <div class="rm-item-tags">
+                <span class="rm-item-tag">HTML</span>
+                <span class="rm-item-tag">CSS</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ── FASE 3 — Planned ── -->
+    <div class="rm-phase" data-phase>
+      <div class="rm-phase-meta">
+        <span class="rm-phase-badge planned">Planned</span>
+        <span class="rm-phase-period">Q3 2025</span>
+      </div>
+      <div class="rm-phase-content">
+        <div class="rm-phase-title">Expansion</div>
+        <div class="rm-items">
+
+          <div class="rm-item">
+            <div class="rm-item-icon-col"><div class="rm-item-dot planned"></div></div>
+            <div class="rm-item-body">
+              <div class="rm-item-name">Memive — iOS & Android release</div>
+              <div class="rm-item-desc">App Store and Google Play submissions. Requires Apple Developer Account, code signing configuration, and store assets.</div>
+              <div class="rm-item-tags">
+                <span class="rm-item-tag">iOS</span>
+                <span class="rm-item-tag">Android</span>
+                <span class="rm-item-tag">Flutter</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="rm-item">
+            <div class="rm-item-icon-col"><div class="rm-item-dot planned"></div></div>
+            <div class="rm-item-body">
+              <div class="rm-item-name">Memive — real social graph</div>
+              <div class="rm-item-desc">Follow / following system, real feed from followed users, push notifications via Firebase Cloud Messaging.</div>
+              <div class="rm-item-tags">
+                <span class="rm-item-tag">Firestore</span>
+                <span class="rm-item-tag">FCM</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="rm-item">
+            <div class="rm-item-icon-col"><div class="rm-item-dot planned"></div></div>
+            <div class="rm-item-body">
+              <div class="rm-item-name">Writing section — technical notes</div>
+              <div class="rm-item-desc">Short-form technical notes on things learned while building: Flutter web quirks, Firebase gotchas, CSS animation techniques.</div>
+              <div class="rm-item-tags">
+                <span class="rm-item-tag">Content</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="rm-item">
+            <div class="rm-item-icon-col"><div class="rm-item-dot planned"></div></div>
+            <div class="rm-item-body">
+              <div class="rm-item-name">Open-source contributions tracker</div>
+              <div class="rm-item-desc">Live section pulling merged PRs from public repos via GitHub API. Complements the existing contribution calendar.</div>
+              <div class="rm-item-tags">
+                <span class="rm-item-tag">GitHub API</span>
+                <span class="rm-item-tag">REST</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ── FASE 4 — Future ── -->
+    <div class="rm-phase" data-phase>
+      <div class="rm-phase-meta">
+        <span class="rm-phase-badge planned">Future</span>
+        <span class="rm-phase-period">2026+</span>
+      </div>
+      <div class="rm-phase-content">
+        <div class="rm-phase-title">Long term</div>
+        <div class="rm-items">
+
+          <div class="rm-item">
+            <div class="rm-item-icon-col"><div class="rm-item-dot planned"></div></div>
+            <div class="rm-item-body">
+              <div class="rm-item-name">Memive — voice transcription</div>
+              <div class="rm-item-desc">Automatic transcript generation via Whisper API or Google Speech-to-Text. Enables full-text search and accessibility.</div>
+              <div class="rm-item-tags">
+                <span class="rm-item-tag">AI</span>
+                <span class="rm-item-tag">STT</span>
+                <span class="rm-item-tag">Whisper</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="rm-item">
+            <div class="rm-item-icon-col"><div class="rm-item-dot planned"></div></div>
+            <div class="rm-item-body">
+              <div class="rm-item-name">Memive — live voice rooms</div>
+              <div class="rm-item-desc">Real-time audio streaming with Agora.io or LiveKit SDK. Replaces the current UI-only placeholder.</div>
+              <div class="rm-item-tags">
+                <span class="rm-item-tag">WebRTC</span>
+                <span class="rm-item-tag">Agora</span>
+                <span class="rm-item-tag">LiveKit</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="rm-item">
+            <div class="rm-item-icon-col"><div class="rm-item-dot planned"></div></div>
+            <div class="rm-item-body">
+              <div class="rm-item-name">Portfolio v2 — full redesign</div>
+              <div class="rm-item-desc">Complete rearchitecture with a proper build system, component library, and CMS for project data. The current site is 100% hand-coded HTML.</div>
+              <div class="rm-item-tags">
+                <span class="rm-item-tag">Next.js</span>
+                <span class="rm-item-tag">TypeScript</span>
+                <span class="rm-item-tag">CMS</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /rm-phases -->
+
+  <!-- FOOTER -->
+  <footer class="rm-footer">
+    <span class="rm-footer-note">Last updated &mdash; Q2 2025</span>
+    <a href="index.html" class="rm-footer-back">
+      <i class="fa-solid fa-arrow-left-long"></i>
+      Back to portfolio
+    </a>
+  </footer>
+
+</div><!-- /rm-wrap -->
+
+<!-- Scroll to top -->
+<button id="rm-top-btn" aria-label="Back to top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+  <i class="fa-solid fa-arrow-up"></i>
+</button>
+
+<script>
+/* ─── STAR CANVAS ─────────────────────────────────────── */
+(function(){
+  const canvas = document.getElementById('rm-canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, stars = [];
+
+  function resize(){
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+
+  function seed(){
+    stars = [];
+    const count = Math.floor((W * H) / 5200);
+    for(let i = 0; i < count; i++){
+      stars.push({
+        x: Math.random() * W,
+        y: Math.random() * H,
+        r: Math.random() * 0.9 + 0.2,
+        alpha: Math.random() * 0.5 + 0.15,
+        speed: Math.random() * 0.4 + 0.1,
+        twinkle: Math.random() * Math.PI * 2,
+        twinkleSpeed: Math.random() * 0.8 + 0.3,
+      });
+    }
+  }
+
+  let t = 0;
+  function draw(){
+    ctx.clearRect(0, 0, W, H);
+    t += 0.012;
+    stars.forEach(s => {
+      const a = s.alpha * (0.55 + 0.45 * Math.sin(t * s.twinkleSpeed + s.twinkle));
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(200,210,255,${a})`;
+      ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  }
+
+  resize(); seed(); draw();
+  window.addEventListener('resize', () => { resize(); seed(); });
+})();
+
+/* ─── SCROLL ANIMATIONS ───────────────────────────────── */
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.08 });
+document.querySelectorAll('[data-phase]').forEach(el => observer.observe(el));
+
+/* ─── PROGRESS BAR ────────────────────────────────────── */
+(function(){
+  const total   = 10 + 3 + 7;   // shipped + active + planned
+  const done    = 10;
+  const pct     = Math.round((done / total) * 100);
+  const fill    = document.getElementById('rm-pf');
+  const pctEl   = document.getElementById('rm-pct');
+
+  setTimeout(() => {
+    fill.style.width = pct + '%';
+    let cur = 0;
+    const step = () => {
+      cur++;
+      pctEl.textContent = cur + '%';
+      if(cur < pct) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }, 400);
+})();
+
+/* ─── SCROLL TO TOP BUTTON ────────────────────────────── */
+const topBtn = document.getElementById('rm-top-btn');
+window.addEventListener('scroll', () => {
+  topBtn.classList.toggle('visible', window.scrollY > 400);
+});
+</script>
+
+</body>
+</html>
