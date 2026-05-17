@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pagina non trovata — Memive</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Space+Mono&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:     #08080f;
+      --violet: #a855f7;
+      --pink:   #ec4899;
+      --cyan:   #22d3ee;
+      --text:   #f0f4ff;
+      --muted:  rgba(240,244,255,0.45);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Space Grotesk', system-ui, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    /* stars */
+    canvas { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+
+    /* glow blobs */
+    .blob {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(120px);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .blob-1 { width:500px;height:500px;top:-200px;left:-100px;background:rgba(168,85,247,.12);animation:b1 18s ease-in-out infinite alternate; }
+    .blob-2 { width:400px;height:400px;bottom:-150px;right:-80px;background:rgba(236,72,153,.09);animation:b2 22s ease-in-out infinite alternate; }
+    @keyframes b1 { to { transform:translate(60px,80px) scale(1.1); } }
+    @keyframes b2 { to { transform:translate(-50px,-70px) scale(1.08); } }
+
+    .content {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 40px 24px;
+      max-width: 480px;
+    }
+
+    /* big 404 */
+    .big-num {
+      font-family: 'Space Mono', monospace;
+      font-size: clamp(5rem, 20vw, 9rem);
+      font-weight: 700;
+      letter-spacing: -.04em;
+      line-height: 1;
+      background: linear-gradient(135deg, var(--violet), var(--pink));
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 8px;
+      animation: flicker 4s ease-in-out infinite;
+    }
+    @keyframes flicker {
+      0%,94%,96%,100% { opacity:1; }
+      95% { opacity:0.7; }
+    }
+
+    /* waveform decoration */
+    .wave-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      margin-bottom: 32px;
+    }
+    .wave-bar {
+      width: 4px;
+      border-radius: 2px;
+      background: linear-gradient(to top, var(--violet), var(--pink));
+      opacity: 0.6;
+      animation: waveBounce var(--dur) ease-in-out infinite alternate;
+    }
+    @keyframes waveBounce {
+      from { transform: scaleY(0.3); }
+      to   { transform: scaleY(1); }
+    }
+
+    .label {
+      font-family: 'Space Mono', monospace;
+      font-size: .62rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--violet);
+      margin-bottom: 16px;
+    }
+    h1 {
+      font-size: clamp(1.4rem, 4vw, 2rem);
+      font-weight: 700;
+      letter-spacing: -.02em;
+      margin-bottom: 12px;
+    }
+    p {
+      font-size: .95rem;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 36px;
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: .88rem;
+      font-weight: 600;
+      border-radius: 12px;
+      padding: 12px 24px;
+      transition: transform .2s, box-shadow .2s;
+      cursor: pointer;
+      border: none;
+      outline: none;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--violet), var(--pink));
+      color: #fff;
+      box-shadow: 0 6px 24px rgba(168,85,247,.35);
+    }
+    .btn-primary:hover { box-shadow: 0 10px 32px rgba(168,85,247,.5); }
+    .btn-ghost {
+      background: rgba(255,255,255,.05);
+      color: var(--muted);
+      border: 1px solid rgba(255,255,255,.1);
+    }
+    .btn-ghost:hover { background: rgba(255,255,255,.09); color: var(--text); }
+
+    .footer-note {
+      margin-top: 40px;
+      font-family: 'Space Mono', monospace;
+      font-size: .55rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: rgba(240,244,255,.15);
+    }
+  </style>
+</head>
+<body>
+
+<div class="blob blob-1"></div>
+<div class="blob blob-2"></div>
+<canvas id="c"></canvas>
+
+<div class="content">
+  <div class="big-num">404</div>
+
+  <!-- Waveform -->
+  <div class="wave-row" id="waverow"></div>
+
+  <div class="label">// frequenza_non_trovata</div>
+  <h1>Questa voce non esiste</h1>
+  <p>La pagina che cerchi non è qui.<br>
+     Forse è stata rimossa, o non è mai esistita.</p>
+
+  <div class="btn-row">
+    <a href="/app/" class="btn btn-primary">
+      🎙 Torna a Memive
+    </a>
+    <button class="btn btn-ghost" onclick="history.back()">
+      ← Vai indietro
+    </button>
+  </div>
+
+  <div class="footer-note">memive &mdash; la tua voce. il tuo mondo.</div>
+</div>
+
+<script>
+/* stars */
+(function(){
+  const c = document.getElementById('c');
+  const ctx = c.getContext('2d');
+  let W, H, stars = [];
+  function resize(){ W=c.width=innerWidth; H=c.height=innerHeight; }
+  function seed(){
+    stars=[];
+    const n=Math.floor(W*H/6000);
+    for(let i=0;i<n;i++) stars.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*.8+.15,a:Math.random()*.4+.1,tw:Math.random()*Math.PI*2,ts:Math.random()*.7+.2});
+  }
+  let t=0;
+  function draw(){ ctx.clearRect(0,0,W,H); t+=.012;
+    stars.forEach(s=>{ const a=s.a*(0.5+0.5*Math.sin(t*s.ts+s.tw)); ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2); ctx.fillStyle=`rgba(200,210,255,${a})`; ctx.fill(); });
+    requestAnimationFrame(draw);
+  }
+  resize(); seed(); draw();
+  window.addEventListener('resize',()=>{resize();seed();});
+})();
+
+/* wave bars */
+(function(){
+  const row = document.getElementById('waverow');
+  const heights = [12,20,32,24,40,28,36,20,44,30,38,22,34,18,28,42,16,38,26,32];
+  heights.forEach((h,i) => {
+    const bar = document.createElement('div');
+    bar.className = 'wave-bar';
+    bar.style.height = h + 'px';
+    bar.style.setProperty('--dur', (0.6 + Math.random() * 0.8).toFixed(2) + 's');
+    bar.style.animationDelay = (i * 0.06).toFixed(2) + 's';
+    row.appendChild(bar);
+  });
+})();
+</script>
+</body>
+</html>
