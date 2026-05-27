@@ -66,34 +66,32 @@ body::after{
 #boot-skip:hover{color:var(--green);border-color:var(--green)}
 
 /* ── ROBOT CANVAS + SPEECH ────────────────────────── */
-#robot-wrap{
-  position:fixed;bottom:28px;right:24px;
+#robot-canvas{
+  position:fixed;inset:0;
+  width:100vw;height:100vh;
   z-index:5000;pointer-events:none;
-  display:flex;flex-direction:column;align-items:center;
+  display:block;
 }
 #speech{
-  background:rgba(5,5,8,.92);
+  position:fixed;
+  z-index:5001;pointer-events:none;
+  background:rgba(5,5,8,.95);
   border:1px solid var(--green);
-  border-radius:8px 8px 8px 0;
-  padding:8px 14px;
+  border-radius:8px;
+  padding:7px 13px;
   font-size:11px;color:var(--green);
   white-space:nowrap;
-  margin-bottom:6px;
   opacity:0;
-  transform:translateY(6px);
-  transition:opacity .4s,transform .4s;
-  pointer-events:none;
+  transition:opacity .35s,transform .35s;
+  transform:translateX(-50%) translateY(4px);
+  box-shadow:0 0 16px rgba(0,255,136,.15);
 }
-#speech.show{opacity:1;transform:translateY(0)}
+#speech.show{opacity:1;transform:translateX(-50%) translateY(0)}
 #speech::after{
   content:'▌';
   animation:bcur 1s step-end infinite;
 }
 @keyframes bcur{0%,100%{opacity:1}50%{opacity:0}}
-#robot-canvas{
-  width:140px;height:190px;
-  display:block;
-}
 
 /* ── NAV ──────────────────────────────────────────── */
 .nav{
@@ -332,10 +330,8 @@ body::after{
 </div>
 
 <!-- ══ ROBOT ══════════════════════════════════════════ -->
-<div id="robot-wrap">
-  <div id="speech"></div>
-  <canvas id="robot-canvas"></canvas>
-</div>
+<canvas id="robot-canvas"></canvas>
+<div id="speech"></div>
 
 <!-- ══ NAV ════════════════════════════════════════════ -->
 <nav class="nav">
@@ -717,24 +713,37 @@ document.addEventListener('keydown', endBoot, { once: true });
 
 
 /* ════════════════════════════════════════════════════
-   THREE.JS ROBOT
+   THREE.JS ROBOT — autonomous walker
 ════════════════════════════════════════════════════ */
-const canvas  = document.getElementById('robot-canvas');
-const W = 140, H = 190;
-canvas.width  = W * Math.min(window.devicePixelRatio, 2);
-canvas.height = H * Math.min(window.devicePixelRatio, 2);
-canvas.style.width  = W + 'px';
-canvas.style.height = H + 'px';
+const canvas = document.getElementById('robot-canvas');
+const dpr    = Math.min(window.devicePixelRatio, 2);
 
-const scene    = new THREE.Scene();
-const camera   = new THREE.PerspectiveCamera(36, W / H, 0.1, 100);
-camera.position.set(0, 0.5, 8);
-camera.lookAt(0, 0.5, 0);
+const scene  = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
+camera.position.set(0, 0, 14);
+camera.lookAt(0, 0, 0);
 
 const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-renderer.setSize(W, H);
 renderer.setClearColor(0x000000, 0);
+
+function resizeRobot() {
+  const W = window.innerWidth, H = window.innerHeight;
+  canvas.width  = W * dpr; canvas.height = H * dpr;
+  canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
+  renderer.setSize(W, H);
+  camera.aspect = W / H;
+  camera.updateProjectionMatrix();
+}
+resizeRobot();
+window.addEventListener('resize', resizeRobot);
+
+/* Map normalized viewport (0-1) → world XY at z=0 */
+function vp2w(nx, ny) {
+  const fov2 = camera.fov * Math.PI / 360;
+  const hH   = Math.tan(fov2) * camera.position.z;
+  const hW   = hH * camera.aspect;
+  return { x: (nx * 2 - 1) * hW, y: -(ny * 2 - 1) * hH };
+}
 
 // Lighting
 scene.add(new THREE.AmbientLight(0x223344, 2.5));
@@ -843,137 +852,178 @@ const disc = new THREE.Mesh(new THREE.CircleGeometry(0.8,32), new THREE.MeshBasi
 disc.rotation.x = -Math.PI/2; disc.position.y = -1.25;
 robot.add(disc);
 
-robot.position.y = 0; // baseline
+// Place robot at first waypoint (set after waypoints defined)
 
 
-/* ── ANIMATION ─────────────────────────────────────── */
-let walkPhase  = 0;
-let idlePhase  = 0;
-let walkSpeed  = 0;  // 0 = idle, 1 = walk, 2 = run
-let targetWalk = 0;
-let waveClock  = 0;
-let waving     = false;
-let waveT      = 0;
+/* ── AUTONOMOUS WAYPOINT SYSTEM ──────────────────── */
+/*
+  The robot walks a continuous loop around the content area.
+  Each waypoint: { nx, ny } in viewport-normalized coords (0-1),
+  rest time in ms, optional speech bubble, optional wave.
+*/
+const WAYPOINTS = [
+  { nx:0.87, ny:0.22, rest:3000, msg:'$ neofetch',             wave:true  },
+  { nx:0.87, ny:0.50, rest:2200, msg:'$ pub list --installed', wave:false },
+  { nx:0.87, ny:0.78, rest:1500, msg:null,                     wave:false },
+  { nx:0.55, ny:0.90, rest: 900, msg:null,                     wave:false },
+  { nx:0.13, ny:0.78, rest:2800, msg:'$ cat README.md',        wave:true  },
+  { nx:0.13, ny:0.52, rest:2200, msg:'$ git log --all',        wave:false },
+  { nx:0.13, ny:0.22, rest:2500, msg:'$ ./contact.sh',         wave:true  },
+  { nx:0.45, ny:0.10, rest: 900, msg:null,                     wave:false },
+];
+
+const ST = { WALK:0, IDLE:1, WAVE:2 };
+let state    = ST.IDLE;
+let wpIdx    = 0;
+let restMs   = 4000; // initial idle before first walk
+let walkPh   = 0;
+let idlePh   = 0;
+let waveT    = 0;
+let rX       = 0;    // robot "ground" X in world coords
+let rY       = 0;    // robot "ground" Y in world coords
+
+// Set initial world position
+;(function(){
+  const wp0 = vp2w(WAYPOINTS[0].nx, WAYPOINTS[0].ny);
+  rX = wp0.x; rY = wp0.y;
+  robot.position.set(rX, rY, 0);
+})();
+
+const SPEED = 0.038; // world units per frame (~60fps)
 
 function lerp(a,b,t){ return a+(b-a)*t }
 
-function animateRobot(t) {
-  idlePhase += 0.012;
-  walkSpeed  = lerp(walkSpeed, targetWalk, 0.06);
+/* ── STATE: WALKING ──────────────────────────────── */
+function stepWalk() {
+  const wp  = WAYPOINTS[wpIdx];
+  const tw  = vp2w(wp.nx, wp.ny);
+  const dx  = tw.x - rX;
+  const dy  = tw.y - rY;
+  const d   = Math.sqrt(dx*dx + dy*dy);
 
-  const isMoving = walkSpeed > 0.05;
-
-  if (isMoving) {
-    walkPhase += 0.07 + walkSpeed * 0.04;
-    const amp = Math.min(walkSpeed * 0.5, 0.55);
-    lLP.rotation.x = Math.sin(walkPhase) * amp;
-    lRP.rotation.x = Math.sin(walkPhase + Math.PI) * amp;
-    aLP.rotation.x = Math.sin(walkPhase + Math.PI) * amp * 0.5;
-    aRP.rotation.x = Math.sin(walkPhase) * amp * 0.5;
-    robot.position.y = Math.abs(Math.sin(walkPhase * 2)) * 0.06;
+  if (d < 0.1) {
+    // arrived
+    state  = ST.IDLE;
+    restMs = wp.rest;
+    if (wp.msg) showSpeech(wp.msg);
+    if (wp.wave) setTimeout(()=>{ if(state===ST.IDLE){state=ST.WAVE;waveT=0;} }, 500);
   } else {
-    // idle
-    lLP.rotation.x = lerp(lLP.rotation.x, 0, 0.08);
-    lRP.rotation.x = lerp(lRP.rotation.x, 0, 0.08);
-    aLP.rotation.x = lerp(aLP.rotation.x, 0, 0.08);
-    aRP.rotation.x = lerp(aRP.rotation.x, 0, 0.08);
-    robot.position.y = Math.sin(idlePhase) * 0.06;
-    headG.rotation.y = Math.sin(idlePhase * 0.55) * 0.22;
+    const inv = 1/d;
+    rX += dx * inv * SPEED;
+    rY += dy * inv * SPEED;
+
+    // face direction of travel
+    if (Math.abs(dx) > 0.04) robot.scale.x = dx > 0 ? 1 : -1;
+
+    // walking animation
+    walkPh += 0.11;
+    const amp = 0.48;
+    lLP.rotation.x =  Math.sin(walkPh)        * amp;
+    lRP.rotation.x =  Math.sin(walkPh + Math.PI) * amp;
+    aLP.rotation.x =  Math.sin(walkPh + Math.PI) * amp * 0.52;
+    aRP.rotation.x =  Math.sin(walkPh)        * amp * 0.52;
+    aLP.rotation.z = lerp(aLP.rotation.z, 0, 0.1);
+    aRP.rotation.z = lerp(aRP.rotation.z, 0, 0.1);
+
+    // step bob
+    const bob = Math.abs(Math.sin(walkPh * 2)) * 0.09;
+    robot.position.set(rX, rY + bob, 0);
+
+    // subtle lean into direction
+    robot.rotation.z = -Math.sign(dx) * 0.03;
+    headG.rotation.y = lerp(headG.rotation.y, 0, 0.06);
   }
-
-  // waving
-  if (waving) {
-    waveT += 0.08;
-    aRP.rotation.x = Math.sin(waveT * 2) * 0.6 - 0.4;
-    aRP.rotation.z = -0.6 + Math.sin(waveT * 3) * 0.2;
-    if (waveT > Math.PI * 2.5) {
-      waving = false; waveT = 0;
-      aRP.rotation.x = 0; aRP.rotation.z = 0;
-    }
-  }
-
-  // eye blink
-  const blink = Math.sin(t * 0.0008) > 0.995;
-  eyeL.scale.y = blink ? 0.1 : 1;
-  eyeR.scale.y = blink ? 0.1 : 1;
-
-  // antenna pulse
-  const pulse = 0.5 + 0.5 * Math.sin(t * 0.003);
-  antB.material.color.setRGB(pulse * 0.2, 1 * pulse, 0.5 * pulse);
-  gl.intensity = 2 + pulse * 2;
-
-  // subtle body lean when walking
-  robot.rotation.z = isMoving ? Math.sin(walkPhase * 0.5) * 0.02 : 0;
-
-  renderer.render(scene, camera);
 }
 
-// animation loop
-let rafId;
-(function loop(t) {
-  rafId = requestAnimationFrame(loop);
-  animateRobot(t);
-})(0);
+/* ── STATE: IDLE ─────────────────────────────────── */
+function stepIdle(dt) {
+  // ease limbs back to neutral
+  lLP.rotation.x = lerp(lLP.rotation.x, 0, 0.08);
+  lRP.rotation.x = lerp(lRP.rotation.x, 0, 0.08);
+  aLP.rotation.x = lerp(aLP.rotation.x, 0, 0.08);
+  aRP.rotation.x = lerp(aRP.rotation.x, 0, 0.08);
+  robot.rotation.z = lerp(robot.rotation.z, 0, 0.06);
 
+  idlePh += 0.016;
+  robot.position.set(rX, rY + Math.sin(idlePh) * 0.055, 0);
+  headG.rotation.y = Math.sin(idlePh * 0.58) * 0.30;
+  torso.rotation.z = Math.sin(idlePh * 0.4)  * 0.008;
 
-/* ── SCROLL → WALK ─────────────────────────────────── */
-let lastY = 0;
-let scrollTimer;
+  restMs -= dt;
+  if (restMs <= 0) {
+    wpIdx = (wpIdx + 1) % WAYPOINTS.length;
+    state = ST.WALK;
+  }
+}
 
-window.addEventListener('scroll', () => {
-  const dy = Math.abs(window.scrollY - lastY);
-  lastY = window.scrollY;
-  targetWalk = Math.min(dy * 0.15, 2);
-  clearTimeout(scrollTimer);
-  scrollTimer = setTimeout(() => { targetWalk = 0; }, 180);
+/* ── STATE: WAVE ─────────────────────────────────── */
+function stepWave() {
+  waveT += 0.075;
+  aRP.rotation.x = Math.sin(waveT * 2.8) * 0.55 - 0.55;
+  aRP.rotation.z = -0.75 + Math.sin(waveT * 3.2) * 0.28;
+  headG.rotation.y = Math.sin(waveT * 1.1) * 0.2;
 
-  // section detection
-  detectSection();
-}, { passive: true });
+  if (waveT > Math.PI * 2.6) {
+    state = ST.IDLE; waveT = 0;
+    aRP.rotation.x = 0; aRP.rotation.z = 0;
+    restMs += 800; // extend idle after wave
+  }
+}
 
-
-/* ── SPEECH BUBBLES ────────────────────────────────── */
+/* ── SPEECH BUBBLE ───────────────────────────────── */
 const speechEl = document.getElementById('speech');
-const sectionMap = [
-  { id: 'hero',    msg: '$ neofetch' },
-  { id: 'skills',  msg: '$ pub list --installed' },
-  { id: 'readme',  msg: '$ cat README.md' },
-  { id: 'gitlog',  msg: '$ git log --all' },
-  { id: 'contact', msg: '$ bash ./contact.sh' },
-];
-let lastSection = '';
-
-function detectSection() {
-  const mid = window.scrollY + window.innerHeight * 0.5;
-  for (const { id, msg } of sectionMap) {
-    const el = document.getElementById(id);
-    if (!el) continue;
-    const rect = el.getBoundingClientRect();
-    const top  = window.scrollY + rect.top;
-    const bot  = top + el.offsetHeight;
-    if (mid >= top && mid < bot) {
-      if (lastSection !== id) {
-        lastSection = id;
-        showSpeech(msg);
-        waving = true; waveT = 0;
-      }
-      break;
-    }
-  }
-}
-
 let speechTimer;
+
 function showSpeech(msg) {
   speechEl.textContent = msg;
   speechEl.classList.add('show');
   clearTimeout(speechTimer);
-  speechTimer = setTimeout(() => speechEl.classList.remove('show'), 2800);
+  speechTimer = setTimeout(() => speechEl.classList.remove('show'), 3000);
 }
 
-// initial wave + speech
+function updateSpeechPos() {
+  if (!speechEl.classList.contains('show')) return;
+  const h3 = new THREE.Vector3(robot.position.x, robot.position.y + 2.0, 0);
+  h3.project(camera);
+  const sx = (h3.x + 1) / 2 * window.innerWidth;
+  const sy = (1 - (h3.y + 1) / 2) * window.innerHeight;
+  speechEl.style.left = sx + 'px';
+  speechEl.style.top  = (sy - 64) + 'px';
+}
+
+/* ── MAIN LOOP ───────────────────────────────────── */
+let lastT = 0;
+
+function tick(t) {
+  requestAnimationFrame(tick);
+  const dt = t - lastT;
+  lastT = t;
+
+  if      (state === ST.WALK) stepWalk();
+  else if (state === ST.IDLE) stepIdle(dt);
+  else if (state === ST.WAVE) stepWave();
+
+  // Always-on FX
+  const pulse = 0.5 + 0.5 * Math.sin(t * 0.0028);
+  antB.material.color.setRGB(0, pulse, pulse * 0.55);
+  gl.intensity = 1.8 + pulse * 2.4;
+  gl.position.set(robot.position.x - 1.5, robot.position.y + 2, 3);
+
+  const blink = Math.sin(t * 0.00085) > 0.994;
+  eyeL.scale.y = eyeR.scale.y = blink ? 0.08 : 1;
+
+  // screen scanline animation on chest
+  scFg.material.color.setRGB(0, pulse * 0.08, pulse * 0.05);
+
+  updateSpeechPos();
+  renderer.render(scene, camera);
+}
+
+// Start after boot sequence ends
 setTimeout(() => {
-  waving = true; waveT = 0;
+  state = ST.WALK;
   showSpeech('$ whoami');
+  requestAnimationFrame(tick);
 }, 3200);
 
 
