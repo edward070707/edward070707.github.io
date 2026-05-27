@@ -1,1211 +1,703 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Edward Attuati — About Me</title>
-<meta name="description" content="Edward Attuati — Computer Engineering student, developer, builder. Full profile.">
+<title>Edward Attuati — Chi sono</title>
+<meta name="description" content="Edward Attuati — Computer Engineering student, Flutter developer, multilingual builder.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<!-- Three.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<!-- GSAP + ScrollTrigger -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
-/* ── ROOT ──────────────────────────────────────────────────────── */
+
+/* ── ROOT ──────────────────────────────────────────── */
 :root {
-  --void:    #05050f;
-  --void2:   #0a0a1e;
-  --surface: rgba(255,255,255,0.04);
+  --bg:      #07070f;
+  --bg2:     #0d0d1c;
+  --card:    #10101f;
+  --card2:   #15152a;
   --border:  rgba(255,255,255,0.07);
-  --violet:  #7c3aed;
-  --violet2: #a855f7;
-  --cyan:    #22d3ee;
-  --green:   #34d399;
-  --text:    #f0f4ff;
-  --muted:   rgba(240,244,255,0.50);
-  --low:     rgba(240,244,255,0.22);
-  --sg:      'Space Grotesk', system-ui, sans-serif;
-  --mono:    'Space Mono', monospace;
+  --bh:      rgba(255,255,255,0.13);
+  --text:    #e8eaf6;
+  --muted:   rgba(232,234,246,0.52);
+  --low:     rgba(232,234,246,0.24);
+
+  /* Category accent colours */
+  --c-mob:  #7c3aed; --c-mob2: #a855f7;
+  --c-web:  #0891b2; --c-web2: #22d3ee;
+  --c-bck:  #c2410c; --c-bck2: #f97316;
+  --c-tol:  #166534; --c-tol2: #22c55e;
+  --c-lng:  #be185d; --c-lng2: #ec4899;
+
+  --r: 16px;
+  --gap: 14px;
+  --row: 220px;
+  --inter: 'Inter', system-ui, sans-serif;
+  --mono:  'Space Mono', monospace;
 }
 
 *,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior:smooth; }
 body {
-  background: var(--void);
+  background: var(--bg);
   color: var(--text);
-  font-family: var(--sg);
-  overflow-x: hidden;
-  cursor: none;
-}
-
-/* ── CUSTOM CURSOR ─────────────────────────────────────────────── */
-#cursor-dot {
-  position: fixed; top:0; left:0; z-index:9999;
-  width:8px; height:8px; border-radius:50%;
-  background: var(--violet2);
-  pointer-events: none;
-  transform: translate(-50%,-50%);
-  transition: width .15s, height .15s, background .2s;
-  mix-blend-mode: screen;
-}
-#cursor-ring {
-  position: fixed; top:0; left:0; z-index:9998;
-  width:36px; height:36px; border-radius:50%;
-  border: 1px solid rgba(168,85,247,.5);
-  pointer-events: none;
-  transform: translate(-50%,-50%);
-  transition: transform .1s linear, width .25s, height .25s, border-color .2s;
-}
-body:has(a:hover) #cursor-dot { width:14px; height:14px; background:var(--cyan); }
-body:has(a:hover) #cursor-ring { width:52px; height:52px; border-color:var(--cyan); }
-
-/* ── THREE.JS CANVAS ───────────────────────────────────────────── */
-#three-canvas {
-  position: fixed; inset:0; z-index:0;
-  pointer-events: none;
-}
-
-/* ── NAV ────────────────────────────────────────────────────────── */
-.am-nav {
-  position: fixed; top:0; left:0; right:0; z-index:500;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 20px 40px;
-  background: rgba(5,5,15,0);
-  backdrop-filter: blur(0px);
-  border-bottom: 1px solid transparent;
-  transition: background .4s, backdrop-filter .4s, border-color .4s;
-}
-.am-nav.scrolled {
-  background: rgba(5,5,15,0.88);
-  backdrop-filter: blur(20px);
-  border-color: var(--border);
-}
-.am-nav-back {
-  display: flex; align-items: center; gap:8px;
-  text-decoration: none;
-  font-family: var(--mono);
-  font-size: .65rem; letter-spacing:.14em; text-transform:uppercase;
-  color: var(--muted);
-  transition: color .2s;
-}
-.am-nav-back:hover { color: var(--violet2); }
-.am-nav-back i { font-size:.6rem; }
-.am-nav-logo {
-  font-family: var(--sg); font-weight:700; font-size:.9rem;
-  letter-spacing:.08em;
-  background: linear-gradient(135deg, var(--violet),var(--cyan));
-  -webkit-background-clip: text; background-clip:text;
-  -webkit-text-fill-color: transparent;
-}
-.am-nav-links {
-  display: flex; gap:28px; list-style:none;
-}
-.am-nav-links a {
-  font-family: var(--mono); font-size:.58rem; letter-spacing:.14em;
-  text-transform:uppercase; color:var(--low); text-decoration:none;
-  transition: color .2s;
-}
-.am-nav-links a:hover { color:var(--text); }
-
-/* ── HERO ────────────────────────────────────────────────────────── */
-.am-hero {
-  position: relative; z-index:1;
+  font-family: var(--inter);
   min-height: 100vh;
-  display: flex; flex-direction:column;
-  align-items:center; justify-content:center;
-  text-align:center;
-  padding: 0 24px;
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
-.am-hero-eyebrow {
-  font-family: var(--mono); font-size:.62rem;
-  letter-spacing:.22em; text-transform:uppercase;
-  color: var(--violet2); margin-bottom:24px;
-  opacity:0;
+/* ── NAV ────────────────────────────────────────────── */
+.nav {
+  position: fixed; top:0; left:0; right:0; z-index:200;
+  display: flex; align-items:center; justify-content:space-between;
+  padding: 16px 40px;
+  background: rgba(7,7,15,0.88);
+  backdrop-filter: blur(18px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-back {
+  display:flex; align-items:center; gap:8px;
+  text-decoration:none; color:var(--muted);
+  font-size:13px; font-weight:500; transition:color .2s;
+}
+.nav-back:hover { color:var(--text); }
+.nav-back svg { width:16px; height:16px; flex-shrink:0; }
+.nav-title { font-size:13px; font-weight:600; color:var(--text); letter-spacing:-.2px; }
+.nav-pulse {
+  width:8px; height:8px; border-radius:50%;
+  background:#22c55e;
+  box-shadow:0 0 8px #22c55e;
+  animation:pulse 2s infinite;
+}
+@keyframes pulse { 0%,100%{box-shadow:0 0 8px #22c55e} 50%{box-shadow:0 0 18px #22c55e,0 0 32px rgba(34,197,94,.35)} }
+
+/* ── PAGE ───────────────────────────────────────────── */
+.wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 92px 28px 80px;
 }
 
-.am-hero-name {
-  font-size: clamp(3.2rem, 10vw, 8rem);
-  font-weight: 700; letter-spacing:-.04em; line-height:1;
-  margin-bottom: 20px;
-  position: relative;
-  opacity:0;
-}
-/* glitch layers */
-.am-hero-name::before,
-.am-hero-name::after {
-  content: attr(data-text);
-  position:absolute; top:0; left:0; right:0;
-  pointer-events:none;
-}
-.am-hero-name::before {
-  background: linear-gradient(135deg, var(--violet2), var(--cyan));
-  -webkit-background-clip:text; background-clip:text;
-  -webkit-text-fill-color:transparent;
-  clip-path: polygon(0 0,100% 0,100% 45%,0 45%);
-  transform: translateX(-3px);
-  animation: glitch1 4s infinite;
-}
-.am-hero-name::after {
-  background: linear-gradient(135deg, var(--cyan), var(--violet2));
-  -webkit-background-clip:text; background-clip:text;
-  -webkit-text-fill-color:transparent;
-  clip-path: polygon(0 55%,100% 55%,100% 100%,0 100%);
-  transform: translateX(3px);
-  animation: glitch2 4s infinite;
-}
-/* base name gradient */
-.am-hero-name span {
-  background: linear-gradient(135deg, var(--text) 0%, var(--violet2) 50%, var(--cyan) 100%);
-  -webkit-background-clip:text; background-clip:text;
-  -webkit-text-fill-color:transparent;
-  display:block;
-}
-@keyframes glitch1 {
-  0%,90%,100% { transform:translateX(-3px); opacity:0; }
-  91% { transform:translateX(-6px) skewX(-2deg); opacity:.7; }
-  92% { transform:translateX(4px); opacity:.5; }
-  93% { transform:translateX(-3px); opacity:.8; }
-  95%,97%,99% { opacity:0; }
-}
-@keyframes glitch2 {
-  0%,90%,100% { transform:translateX(3px); opacity:0; }
-  91% { transform:translateX(6px) skewX(2deg); opacity:.6; }
-  92% { transform:translateX(-4px); opacity:.4; }
-  93% { transform:translateX(3px); opacity:.7; }
-  95%,97%,99% { opacity:0; }
+/* ── BENTO GRID ─────────────────────────────────────── */
+.bento {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: var(--row);
+  gap: var(--gap);
 }
 
-/* typewriter role */
-.am-hero-role {
-  font-family: var(--mono); font-size:clamp(.85rem,2vw,1.1rem);
-  color: var(--muted); letter-spacing:.08em;
-  margin-bottom: 40px; min-height:1.5em;
-  opacity:0;
-}
-.am-cursor { display:inline-block; width:2px; height:1em; background:var(--violet2); margin-left:2px; animation:blink 1s step-end infinite; vertical-align:text-bottom; }
-@keyframes blink { 50% { opacity:0; } }
-
-/* scroll cue */
-.am-scroll-cue {
-  position:absolute; bottom:36px; left:50%;
-  transform:translateX(-50%);
-  display:flex; flex-direction:column; align-items:center; gap:6px;
-  opacity:0;
-}
-.am-scroll-cue-line {
-  width:1px; height:60px;
-  background: linear-gradient(to bottom, var(--violet2), transparent);
-  animation: scrollLine 2s ease-in-out infinite;
-}
-.am-scroll-cue-label {
-  font-family:var(--mono); font-size:.5rem; letter-spacing:.2em;
-  text-transform:uppercase; color:var(--low);
-}
-@keyframes scrollLine {
-  0% { transform:scaleY(0); transform-origin:top; }
-  50% { transform:scaleY(1); transform-origin:top; }
-  51% { transform-origin:bottom; }
-  100% { transform:scaleY(0); transform-origin:bottom; }
-}
-
-/* ── HOLOGRAPHIC ID CARD ─────────────────────────────────────────── */
-.am-card-section {
-  position: relative; z-index:1;
-  padding: 80px 40px 100px;
-  display: flex; align-items:center; justify-content:center; gap:80px;
-  flex-wrap: wrap;
-}
-
-.am-holo-card-wrap {
-  perspective: 800px;
-  width: 340px; flex-shrink:0;
-}
-
-.am-holo-card {
-  width:340px; height:460px;
-  border-radius: 24px;
-  position: relative;
-  transform-style: preserve-3d;
-  transition: transform .08s linear;
-  cursor: none;
-}
-
-/* animated gradient border */
-.am-holo-card::before {
-  content:'';
-  position:absolute; inset:-2px;
-  border-radius:26px;
-  background: conic-gradient(
-    from var(--angle, 0deg),
-    var(--violet), var(--cyan), #ec4899, var(--violet2), var(--cyan), var(--violet)
-  );
-  animation: spinBorder 4s linear infinite;
-  z-index:-1;
-}
-@property --angle { syntax:'<angle>'; inherits:false; initial-value:0deg; }
-@keyframes spinBorder { to { --angle: 360deg; } }
-
-/* card inner */
-.am-holo-card-inner {
-  position:absolute; inset:2px;
-  border-radius:22px;
-  background: linear-gradient(145deg, #0d0d20, #12112a, #0a0a1a);
-  overflow:hidden;
-  padding:32px 28px;
-  display:flex; flex-direction:column;
-}
-
-/* scan line */
-.am-scan-line {
-  position:absolute; left:0; right:0; height:2px;
-  background: linear-gradient(90deg, transparent, rgba(34,211,238,.6), transparent);
-  animation: scanDown 3s ease-in-out infinite;
-  pointer-events:none;
-}
-@keyframes scanDown {
-  0%   { top:-2px; opacity:0; }
-  5%   { opacity:1; }
-  95%  { opacity:1; }
-  100% { top:100%; opacity:0; }
-}
-
-/* holographic sheen */
-.am-holo-sheen {
-  position:absolute; inset:0; border-radius:22px;
-  background: linear-gradient(
-    105deg,
-    transparent 40%,
-    rgba(168,85,247,.08) 50%,
-    rgba(34,211,238,.06) 60%,
-    transparent 70%
-  );
-  pointer-events:none;
-  transition: opacity .3s;
-}
-
-.am-card-chip {
-  width:42px; height:30px; border-radius:5px;
-  background: linear-gradient(135deg, #d4a853, #f5d483, #b8860b);
-  margin-bottom:24px; position:relative;
-  box-shadow: 0 2px 8px rgba(212,168,83,.3);
-}
-.am-card-chip::after {
-  content:''; position:absolute; inset:4px;
-  border-radius:3px;
-  border: 1px solid rgba(0,0,0,.2);
-}
-
-.am-card-avatar {
-  font-size:3rem; margin-bottom:12px; line-height:1;
-}
-
-.am-card-name {
-  font-size:1.3rem; font-weight:700; letter-spacing:-.02em;
-  color:var(--text); margin-bottom:4px;
-}
-.am-card-role {
-  font-family:var(--mono); font-size:.62rem; letter-spacing:.14em;
-  text-transform:uppercase; color:var(--cyan); margin-bottom:20px;
-}
-
-.am-card-divider {
-  height:1px; background:var(--border); margin-bottom:20px;
-}
-
-.am-card-stats {
-  display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:auto;
-}
-.am-card-stat-label {
-  font-family:var(--mono); font-size:.48rem; letter-spacing:.14em;
-  text-transform:uppercase; color:var(--low); margin-bottom:3px;
-}
-.am-card-stat-val {
-  font-size:.82rem; font-weight:600; color:var(--text);
-}
-
-.am-card-id {
-  margin-top:auto; padding-top:16px;
-  display:flex; align-items:center; justify-content:space-between;
-}
-.am-card-id-num {
-  font-family:var(--mono); font-size:.52rem; letter-spacing:.14em;
-  color:var(--low);
-}
-.am-card-nfc {
-  width:22px; height:22px; border-radius:50%;
+/* ── BASE CARD ──────────────────────────────────────── */
+.card {
+  background: var(--card);
   border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+  transition: transform .35s cubic-bezier(.4,0,.2,1),
+              border-color .3s, box-shadow .3s,
+              opacity .5s ease;
+  cursor: default;
+  /* reveal start state */
+  opacity: 0;
+  transform: translateY(18px) scale(.98);
+}
+.card.on {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+.card.on:hover {
+  transform: translateY(-5px) scale(1);
+  border-color: var(--bh);
+}
+
+/* category top stripe */
+.card[data-c]::after {
+  content:'';
+  position:absolute; top:0; left:0; right:0; height:2px;
+  border-radius: var(--r) var(--r) 0 0;
+}
+.card[data-c="mob"]::after { background:linear-gradient(90deg,var(--c-mob),var(--c-mob2)); }
+.card[data-c="web"]::after { background:linear-gradient(90deg,var(--c-web),var(--c-web2)); }
+.card[data-c="bck"]::after { background:linear-gradient(90deg,var(--c-bck),var(--c-bck2)); }
+.card[data-c="tol"]::after { background:linear-gradient(90deg,var(--c-tol),var(--c-tol2)); }
+.card[data-c="lng"]::after { background:linear-gradient(90deg,var(--c-lng),var(--c-lng2)); }
+
+/* category hover glow */
+.card[data-c="mob"].on:hover { box-shadow:0 20px 60px rgba(124,58,237,.18); border-color:rgba(168,85,247,.35); }
+.card[data-c="web"].on:hover { box-shadow:0 20px 60px rgba(8,145,178,.15); border-color:rgba(34,211,238,.35); }
+.card[data-c="bck"].on:hover { box-shadow:0 20px 60px rgba(194,65,12,.15); border-color:rgba(249,115,22,.35); }
+.card[data-c="tol"].on:hover { box-shadow:0 20px 60px rgba(34,197,94,.12); border-color:rgba(34,197,94,.35); }
+.card[data-c="lng"].on:hover { box-shadow:0 20px 60px rgba(236,72,153,.15); border-color:rgba(236,72,153,.35); }
+
+/* span helpers */
+.s2c { grid-column:span 2; }
+.s3c { grid-column:span 3; }
+.s4c { grid-column:span 4; }
+.s2r { grid-row:span 2; }
+
+/* ── HERO CARD ──────────────────────────────────────── */
+@property --ha { syntax:'<angle>'; inherits:false; initial-value:0deg; }
+@keyframes spin-h { to { --ha:360deg; } }
+
+.card-hero {
+  background: linear-gradient(140deg,#0e0820 0%,#12091e 45%,#07121e 100%);
+  border-color: rgba(124,58,237,.2);
+  animation: spin-h 8s linear infinite;
+}
+.card-hero::before {
+  content:'';
+  position:absolute; inset:-1px;
+  border-radius: calc(var(--r) + 1px);
+  background: conic-gradient(from var(--ha), #7c3aed, #22d3ee, #7c3aed);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  -webkit-mask-composite: xor;
+  padding:1px;
+  opacity:.5;
+}
+.card-hero.on:hover { transform:translateY(-5px); box-shadow:0 28px 80px rgba(124,58,237,.25); border-color:rgba(168,85,247,.3); }
+
+/* hero orbs */
+.orb {
+  position:absolute; border-radius:50%;
+  pointer-events:none; animation:drift 7s ease-in-out infinite;
+}
+.orb1 { width:140px;height:140px; background:radial-gradient(circle,rgba(124,58,237,.3) 0%,transparent 70%); bottom:-50px;right:10px; }
+.orb2 { width:90px;height:90px; background:radial-gradient(circle,rgba(34,211,238,.2) 0%,transparent 70%); top:20px;right:70px; animation-delay:-3.5s; }
+@keyframes drift { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-14px)} }
+
+.hero-inner { position:relative; z-index:1; height:100%; display:flex; flex-direction:column; }
+.hero-tag {
+  font-family:var(--mono); font-size:11px; color:var(--low);
+  margin-bottom:18px; letter-spacing:.3px;
+}
+.hero-name {
+  font-size: clamp(30px,3.8vw,50px);
+  font-weight:900; letter-spacing:-2px; line-height:1.05;
+  background: linear-gradient(135deg,#fff 0%,rgba(168,85,247,.9) 55%,rgba(34,211,238,.8) 100%);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+  margin-bottom:10px;
+}
+.hero-sub {
+  font-size:13px; color:var(--muted); line-height:1.65; margin-bottom:auto;
+}
+.hero-badges { display:flex; flex-wrap:wrap; gap:7px; padding-top:20px; }
+
+/* ── BADGES ─────────────────────────────────────────── */
+.badge {
+  display:inline-flex; align-items:center; gap:5px;
+  padding:4px 11px; border-radius:20px;
+  font-size:11px; font-weight:500; border:1px solid;
+}
+.bg-green  { background:rgba(34,197,94,.1); color:#4ade80; border-color:rgba(34,197,94,.2); }
+.bg-violet { background:rgba(168,85,247,.1); color:#c084fc; border-color:rgba(168,85,247,.2); }
+.bg-cyan   { background:rgba(34,211,238,.1); color:#22d3ee; border-color:rgba(34,211,238,.2); }
+
+/* ── STAT CARD ──────────────────────────────────────── */
+.stat-num {
+  font-size:clamp(38px,5vw,56px);
+  font-weight:900; letter-spacing:-2px; line-height:1;
+  background:linear-gradient(135deg,var(--text) 0%,var(--muted) 100%);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+  margin-top:auto;
+}
+.stat-label {
+  font-size:11px; color:var(--muted); font-weight:600;
+  text-transform:uppercase; letter-spacing:.8px; margin-top:6px;
+}
+.stat-icon { position:absolute; top:20px; right:20px; font-size:26px; opacity:.25; }
+.stat-card-inner { height:100%; display:flex; flex-direction:column; }
+
+/* ── CATEGORY CARD ──────────────────────────────────── */
+.cat-head {
+  display:flex; align-items:center; gap:10px; margin-bottom:16px;
+}
+.cat-icon {
+  width:32px; height:32px; border-radius:8px;
   display:flex; align-items:center; justify-content:center;
+  font-size:16px; flex-shrink:0;
 }
-.am-card-nfc::before,
-.am-card-nfc::after {
-  content:''; position:absolute;
-  border-radius:50%; border:1px solid rgba(34,211,238,.3);
-  animation:nfcPulse 2.5s ease-out infinite;
+.ci-mob { background:rgba(124,58,237,.15); }
+.ci-web { background:rgba(8,145,178,.15); }
+.ci-bck { background:rgba(194,65,12,.15); }
+.ci-tol { background:rgba(22,101,52,.15); }
+.ci-lng { background:rgba(190,24,93,.15); }
+
+.cat-title { font-size:13px; font-weight:600; color:var(--text); }
+.cat-n { font-size:11px; color:var(--muted); margin-left:auto; }
+
+/* ── CHIPS ──────────────────────────────────────────── */
+.chips { display:flex; flex-wrap:wrap; gap:6px; }
+.chip {
+  display:inline-flex; align-items:center;
+  padding:4px 10px; border-radius:6px;
+  font-size:11px; font-weight:500; border:1px solid;
+  transition:all .2s; white-space:nowrap;
 }
-.am-card-nfc::before { width:28px;height:28px; }
-.am-card-nfc::after  { width:36px;height:36px; animation-delay:.4s; }
-@keyframes nfcPulse {
-  0%   { transform:scale(.8); opacity:.8; }
-  100% { transform:scale(1.5); opacity:0; }
+.ch-mob { background:rgba(124,58,237,.1); color:#c084fc; border-color:rgba(124,58,237,.2); }
+.ch-mob:hover { background:rgba(124,58,237,.2); border-color:rgba(168,85,247,.4); }
+.ch-web { background:rgba(8,145,178,.1); color:#22d3ee; border-color:rgba(8,145,178,.2); }
+.ch-web:hover { background:rgba(8,145,178,.2); border-color:rgba(34,211,238,.4); }
+.ch-bck { background:rgba(194,65,12,.1); color:#fb923c; border-color:rgba(194,65,12,.2); }
+.ch-bck:hover { background:rgba(194,65,12,.2); border-color:rgba(249,115,22,.4); }
+.ch-tol { background:rgba(22,101,52,.1); color:#4ade80; border-color:rgba(22,101,52,.2); }
+.ch-tol:hover { background:rgba(22,101,52,.2); border-color:rgba(34,197,94,.4); }
+.ch-lng { background:rgba(190,24,93,.1); color:#f472b6; border-color:rgba(190,24,93,.2); }
+.ch-lng:hover { background:rgba(190,24,93,.2); border-color:rgba(236,72,153,.4); }
+
+/* ── LANGUAGE SPOKEN CARD ───────────────────────────── */
+.spoken-rows { display:flex; flex-direction:column; gap:11px; }
+.sp-row { display:flex; flex-direction:column; gap:4px; }
+.sp-top { display:flex; justify-content:space-between; align-items:center; font-size:12px; }
+.sp-name { display:flex; align-items:center; gap:6px; color:var(--text); font-weight:500; }
+.sp-flag { font-size:14px; }
+.sp-lvl { color:var(--muted); font-size:11px; }
+.bar-bg {
+  height:4px; background:rgba(255,255,255,0.06);
+  border-radius:2px; overflow:hidden;
+}
+.bar-fill {
+  height:100%; border-radius:2px; width:0;
+  transition:width 1.3s cubic-bezier(.4,0,.2,1);
+}
+.bf-it { background:linear-gradient(90deg,#7c3aed,#a855f7); box-shadow:0 0 6px rgba(124,58,237,.4); }
+.bf-en { background:linear-gradient(90deg,#0891b2,#22d3ee); box-shadow:0 0 6px rgba(34,211,238,.3); }
+.bf-es { background:linear-gradient(90deg,#c2410c,#f97316); box-shadow:0 0 6px rgba(249,115,22,.3); }
+.bf-zh { background:linear-gradient(90deg,#b91c1c,#ef4444); box-shadow:0 0 6px rgba(239,68,68,.3); }
+.bf-ja { background:linear-gradient(90deg,#be185d,#ec4899); box-shadow:0 0 6px rgba(236,72,153,.3); }
+
+/* ── ABOUT CARD ─────────────────────────────────────── */
+.about-label {
+  font-size:10px; font-weight:700; text-transform:uppercase;
+  letter-spacing:2px; color:var(--low); margin-bottom:14px;
+}
+.about-text {
+  font-size:13.5px; line-height:1.8; color:var(--muted);
+}
+.about-text strong { color:var(--text); font-weight:600; }
+
+/* ── QUOTE CARD ─────────────────────────────────────── */
+.quote-mark { font-size:40px; color:var(--low); line-height:1; margin-bottom:6px; font-family:Georgia,serif; }
+.quote-txt { font-size:14px; font-weight:500; line-height:1.65; color:var(--text); font-style:italic; }
+.quote-by  { font-size:11px; color:var(--muted); margin-top:10px; }
+
+/* ── TIMELINE CARD ──────────────────────────────────── */
+.tl-card-inner { height:100%; display:flex; flex-direction:column; }
+.tl-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; flex-shrink:0; }
+.tl-head-title { font-size:13px; font-weight:600; }
+.tl-hint { font-size:11px; color:var(--low); display:flex; align-items:center; gap:4px; }
+.tl-track {
+  display:flex; gap:12px;
+  overflow-x:auto; padding-bottom:4px;
+  scroll-behavior:smooth; -webkit-overflow-scrolling:touch;
+  scrollbar-width:none; flex:1;
+}
+.tl-track::-webkit-scrollbar { display:none; }
+.tl-item {
+  flex-shrink:0; width:190px;
+  background:rgba(255,255,255,0.03);
+  border:1px solid var(--border);
+  border-radius:12px; padding:14px;
+  transition:all .3s; cursor:default;
+}
+.tl-item:hover { background:rgba(255,255,255,0.06); border-color:var(--bh); transform:translateY(-3px); }
+.tl-year { font-size:11px; font-family:var(--mono); color:var(--muted); margin-bottom:7px; display:flex; align-items:center; gap:6px; }
+.tl-dot { width:7px; height:7px; border-radius:50%; flex-shrink:0; }
+.tl-ttl { font-size:13px; font-weight:600; color:var(--text); margin-bottom:4px; line-height:1.3; }
+.tl-body { font-size:11px; color:var(--muted); line-height:1.55; }
+
+/* ── CONTACT CARD ───────────────────────────────────── */
+a.card { text-decoration:none; color:inherit; display:flex; flex-direction:column; justify-content:space-between; }
+.cc-platform { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:2px; color:var(--low); margin-bottom:8px; }
+.cc-icon { font-size:34px; margin-bottom:6px; display:block; }
+.cc-handle { font-size:13px; font-weight:600; color:var(--text); }
+.cc-arrow { font-size:20px; color:var(--low); align-self:flex-end; transition:transform .3s, color .3s; }
+a.card:hover .cc-arrow { transform:translate(4px,-4px); color:var(--text); }
+
+/* ── RESPONSIVE ─────────────────────────────────────── */
+@media (max-width:960px) {
+  .bento { grid-template-columns:repeat(2,1fr); }
+  .s3c { grid-column:span 2; }
+  .s4c { grid-column:span 2; }
+  .s2r { grid-row:span 1; }
+}
+@media (max-width:560px) {
+  .bento { grid-template-columns:1fr; grid-auto-rows:auto; }
+  .s2c,.s3c,.s4c,.s2r { grid-column:span 1; grid-row:span 1; }
+  .card { min-height:180px; }
+  .wrapper { padding:80px 14px 60px; }
+  .nav { padding:14px 18px; }
 }
 
-/* card bio text */
-.am-card-bio-wrap {
-  flex:1; max-width:480px;
-}
-.am-card-bio-eyebrow {
-  font-family:var(--mono); font-size:.6rem; letter-spacing:.18em;
-  text-transform:uppercase; color:var(--violet2); margin-bottom:16px;
-}
-.am-card-bio-text {
-  font-size:1.05rem; line-height:1.8; color:var(--muted);
-  margin-bottom:28px;
-}
-.am-card-bio-text strong { color:var(--text); font-weight:600; }
-.am-card-bio-links {
-  display:flex; flex-wrap:wrap; gap:10px;
-}
-.am-card-link {
-  display:inline-flex; align-items:center; gap:6px;
-  text-decoration:none; font-family:var(--mono); font-size:.62rem;
-  letter-spacing:.08em; text-transform:uppercase;
-  padding:8px 16px; border-radius:6px;
-  border:1px solid var(--border); background:var(--surface);
-  color:var(--muted);
-  transition: color .2s, border-color .2s, background .2s;
-}
-.am-card-link:hover { color:var(--violet2); border-color:rgba(168,85,247,.4); background:rgba(168,85,247,.06); }
-.am-card-link.primary {
-  background:linear-gradient(135deg,var(--violet),var(--violet2));
-  border-color:transparent; color:#fff;
-}
-.am-card-link.primary:hover { opacity:.88; }
-
-/* ── SECTION SHARED ──────────────────────────────────────────────── */
-.am-section {
-  position:relative; z-index:1;
-  padding:100px 40px;
-  max-width:1100px; margin:0 auto;
-}
-.am-sec-label {
-  font-family:var(--mono); font-size:.62rem; letter-spacing:.2em;
-  text-transform:uppercase; color:var(--violet2); margin-bottom:12px;
-  display:flex; align-items:center; gap:10px;
-}
-.am-sec-label::before {
-  content:''; width:24px; height:1px; background:var(--violet2); opacity:.6;
-}
-.am-sec-title {
-  font-size:clamp(2rem,4vw,3rem); font-weight:700; letter-spacing:-.03em;
-  color:var(--text); margin-bottom:56px; line-height:1.1;
-}
-
-/* ── STATS COUNTER ───────────────────────────────────────────────── */
-.am-stats-grid {
-  display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
-  gap:20px; margin-top:0;
-}
-.am-stat-card {
-  padding:28px 24px;
-  border:1px solid var(--border); border-radius:16px;
-  background:var(--surface);
-  text-align:center;
-  position:relative; overflow:hidden;
-  transition: border-color .3s, background .3s, transform .3s;
-}
-.am-stat-card::before {
-  content:''; position:absolute; inset:0;
-  background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(124,58,237,.1), transparent);
-  opacity:0; transition:opacity .3s;
-}
-.am-stat-card:hover { border-color:rgba(124,58,237,.35); transform:translateY(-4px); }
-.am-stat-card:hover::before { opacity:1; }
-.am-stat-icon { font-size:1.6rem; margin-bottom:12px; }
-.am-stat-num {
-  font-family:var(--mono); font-size:2.8rem; font-weight:700;
-  background:linear-gradient(135deg,var(--violet2),var(--cyan));
-  -webkit-background-clip:text; background-clip:text;
-  -webkit-text-fill-color:transparent;
-  line-height:1; margin-bottom:6px;
-}
-.am-stat-desc {
-  font-size:.8rem; color:var(--low); letter-spacing:.04em;
-}
-
-/* ── SKILL SPHERE ───────────────────────────────────────────────── */
-.am-sphere-wrap {
-  display:flex; flex-direction:column; align-items:center;
-  gap:48px;
-}
-#skill-sphere {
-  position:relative;
-  width:520px; height:520px;
-  max-width:90vw;
-}
-.skill-tag {
-  position:absolute;
-  font-family:var(--mono); font-size:.62rem; letter-spacing:.08em;
-  text-transform:uppercase;
-  padding:5px 12px; border-radius:4px;
-  border:1px solid rgba(255,255,255,.06);
-  background:rgba(255,255,255,.03);
-  color:var(--low);
-  cursor:default;
-  transition:color .3s, border-color .3s, background .3s;
-  white-space:nowrap;
-  transform-origin:center center;
-  user-select:none;
-}
-.skill-tag:hover {
-  color:var(--text); border-color:rgba(168,85,247,.5);
-  background:rgba(168,85,247,.08);
-}
-
-/* ── LANGUAGES ────────────────────────────────────────────────────── */
-.am-langs-grid {
-  display:flex; flex-wrap:wrap; gap:40px; justify-content:center;
-}
-.am-lang-item {
-  display:flex; flex-direction:column; align-items:center; gap:14px;
-  width:130px;
-}
-.am-ring-wrap {
-  position:relative; width:100px; height:100px;
-}
-.am-ring-wrap svg { transform:rotate(-90deg); }
-.am-ring-bg { fill:none; stroke:rgba(255,255,255,.06); stroke-width:4; }
-.am-ring-fill {
-  fill:none; stroke-width:4; stroke-linecap:round;
-  stroke-dasharray:283; stroke-dashoffset:283;
-  transition:stroke-dashoffset 1.5s cubic-bezier(0.16,1,0.3,1);
-}
-.am-ring-label {
-  position:absolute; top:50%; left:50%;
-  transform:translate(-50%,-50%);
-  font-family:var(--mono); font-size:.85rem; font-weight:700;
-  color:var(--text);
-}
-.am-lang-name {
-  font-size:.88rem; font-weight:600; color:var(--text); text-align:center;
-}
-.am-lang-level {
-  font-family:var(--mono); font-size:.52rem; letter-spacing:.12em;
-  text-transform:uppercase; color:var(--low); text-align:center;
-}
-
-/* ── TIMELINE 3D ────────────────────────────────────────────────────── */
-.am-timeline {
-  position:relative; padding-left:40px;
-}
-.am-timeline::before {
-  content:''; position:absolute; left:0; top:0; bottom:0; width:1px;
-  background:linear-gradient(to bottom, transparent, var(--violet) 15%, rgba(124,58,237,.3) 85%, transparent);
-}
-.am-tl-item {
-  position:relative; margin-bottom:48px;
-  padding-left:32px;
-  opacity:0; transform:translateX(-24px) translateZ(-20px);
-}
-.am-tl-item.visible {
-  opacity:1; transform:translateX(0) translateZ(0);
-  transition:opacity .6s ease, transform .6s ease;
-}
-.am-tl-dot {
-  position:absolute; left:-42px; top:4px;
-  width:12px; height:12px; border-radius:50%;
-  border:2px solid var(--violet);
-  background:var(--void);
-  box-shadow:0 0 12px rgba(124,58,237,.5);
-}
-.am-tl-dot.active { background:var(--violet2); box-shadow:0 0 16px rgba(168,85,247,.8); }
-.am-tl-period {
-  font-family:var(--mono); font-size:.58rem; letter-spacing:.14em;
-  text-transform:uppercase; color:var(--low); margin-bottom:6px;
-}
-.am-tl-title {
-  font-size:1rem; font-weight:700; color:var(--text);
-  margin-bottom:6px; letter-spacing:-.01em;
-}
-.am-tl-sub {
-  font-size:.82rem; color:var(--muted); line-height:1.6;
-}
-.am-tl-tags {
-  display:flex; flex-wrap:wrap; gap:5px; margin-top:10px;
-}
-.am-tl-tag {
-  font-family:var(--mono); font-size:.5rem; letter-spacing:.1em;
-  text-transform:uppercase; padding:2px 8px; border-radius:2px;
-  color:var(--low); border:1px solid rgba(255,255,255,.07);
-}
-
-/* ── DECODE TEXT ─────────────────────────────────────────────────── */
-.am-decode {
-  font-size:1.05rem; line-height:1.85; color:var(--muted);
-  max-width:640px;
-}
-.am-decode strong { color:var(--text); }
-.am-decode .hl { color:var(--violet2); }
-.am-decode .hl-c { color:var(--cyan); }
-
-/* ── CONTACT SECTION ─────────────────────────────────────────────── */
-.am-contact-grid {
-  display:flex; flex-wrap:wrap; gap:14px;
-}
-.am-contact-btn {
-  display:inline-flex; align-items:center; gap:10px;
-  text-decoration:none; font-family:var(--mono); font-size:.68rem;
-  letter-spacing:.1em; text-transform:uppercase;
-  padding:14px 24px; border-radius:10px;
-  border:1px solid var(--border); background:var(--surface);
-  color:var(--muted);
-  transition:color .2s,border-color .2s,background .2s,transform .2s;
-}
-.am-contact-btn:hover {
-  color:var(--text); border-color:rgba(168,85,247,.4);
-  background:rgba(168,85,247,.06); transform:translateY(-3px);
-}
-.am-contact-btn.primary {
-  background:linear-gradient(135deg,var(--violet),var(--violet2));
-  border-color:transparent; color:#fff;
-}
-.am-contact-btn.primary:hover { opacity:.88; transform:translateY(-3px); }
-
-/* ── SECTION DIVIDERS ─────────────────────────────────────────────── */
-.am-divider {
-  height:1px; max-width:1100px; margin:0 auto;
-  background:linear-gradient(90deg,transparent,rgba(124,58,237,.3) 30%,rgba(34,211,238,.2) 70%,transparent);
-  position:relative; z-index:1;
-}
-
-/* ── NOISE OVERLAY ────────────────────────────────────────────────── */
-.am-noise {
-  position:fixed; inset:0; z-index:2; pointer-events:none;
-  opacity:.025;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
-
-/* ── RESPONSIVE ───────────────────────────────────────────────────── */
-@media(max-width:768px){
-  .am-nav { padding:16px 20px; }
-  .am-nav-links { display:none; }
-  .am-card-section { gap:40px; padding:60px 20px 80px; }
-  .am-holo-card-wrap,.am-holo-card { width:300px; }
-  .am-holo-card { height:420px; }
-  .am-section { padding:72px 20px; }
-  #skill-sphere { width:340px; height:340px; }
-}
-@media(max-width:480px){
-  .am-hero-name { font-size:clamp(2.4rem,12vw,3.6rem); }
-}
 </style>
 </head>
 <body>
 
-<!-- Custom cursor -->
-<div id="cursor-dot"></div>
-<div id="cursor-ring"></div>
-
-<!-- Three.js canvas -->
-<canvas id="three-canvas"></canvas>
-
-<!-- Noise overlay -->
-<div class="am-noise"></div>
-
-<!-- ── NAV ────────────────────────────────────────────────────────── -->
-<nav class="am-nav" id="amNav">
-  <a href="index.html" class="am-nav-back">← Portfolio</a>
-  <span class="am-nav-logo">EA</span>
-  <ul class="am-nav-links">
-    <li><a href="#identity">Identity</a></li>
-    <li><a href="#skills">Skills</a></li>
-    <li><a href="#journey">Journey</a></li>
-    <li><a href="#languages">Languages</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
+<!-- NAV -->
+<nav class="nav">
+  <a href="index.html" class="nav-back">
+    <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd"/></svg>
+    Portfolio
+  </a>
+  <div class="nav-title">Chi sono</div>
+  <div class="nav-pulse"></div>
 </nav>
 
-<!-- ── HERO ───────────────────────────────────────────────────────── -->
-<section class="am-hero" id="hero">
-  <div class="am-hero-eyebrow" id="heroEyebrow">// identity_file — edward_attuati.json</div>
+<main class="wrapper">
+<div class="bento">
 
-  <h1 class="am-hero-name" id="heroName" data-text="EDWARD ATTUATI">
-    <span>EDWARD ATTUATI</span>
-  </h1>
-
-  <p class="am-hero-role" id="heroRole">
-    <span id="typeTarget"></span><span class="am-cursor"></span>
-  </p>
-
-  <div class="am-scroll-cue" id="scrollCue">
-    <div class="am-scroll-cue-line"></div>
-    <span class="am-scroll-cue-label">scroll</span>
+  <!-- ① HERO  2×2 ──────────────────────────────────── -->
+  <div class="card card-hero s2c s2r">
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="hero-inner">
+      <div class="hero-tag">edward@portfolio:~$ whoami</div>
+      <div class="hero-name">Edward<br>Attuati</div>
+      <div class="hero-sub">
+        Computer Engineering Student<br>
+        Flutter Developer · Web Builder · Multilingual
+      </div>
+      <div class="hero-badges">
+        <span class="badge bg-green">● Open to projects</span>
+        <span class="badge bg-violet">🇮🇹 Italy</span>
+        <span class="badge bg-cyan">2026</span>
+      </div>
+    </div>
   </div>
-</section>
 
-<!-- ── HOLOGRAPHIC CARD + BIO ─────────────────────────────────────── -->
-<section class="am-card-section" id="identity">
+  <!-- ② STAT: Years ────────────────────────────────── -->
+  <div class="card">
+    <span class="stat-icon">⚡</span>
+    <div class="stat-card-inner">
+      <div class="stat-num" data-target="6">0</div>
+      <div class="stat-label">Years coding</div>
+    </div>
+  </div>
 
-  <!-- 3D Tilt Card -->
-  <div class="am-holo-card-wrap" id="cardWrap">
-    <div class="am-holo-card" id="holoCard">
-      <div class="am-holo-card-inner">
-        <div class="am-scan-line"></div>
-        <div class="am-holo-sheen" id="holoSheen"></div>
-        <div class="am-card-chip"></div>
-        <div class="am-card-avatar">🧑‍💻</div>
-        <div class="am-card-name">Edward Attuati</div>
-        <div class="am-card-role">Computer Engineering</div>
-        <div class="am-card-divider"></div>
-        <div class="am-card-stats">
-          <div>
-            <div class="am-card-stat-label">University</div>
-            <div class="am-card-stat-val">UniBS</div>
-          </div>
-          <div>
-            <div class="am-card-stat-label">Year</div>
-            <div class="am-card-stat-val">2024 →</div>
-          </div>
-          <div>
-            <div class="am-card-stat-label">Languages</div>
-            <div class="am-card-stat-val">5</div>
-          </div>
-          <div>
-            <div class="am-card-stat-label">Projects</div>
-            <div class="am-card-stat-val">3+</div>
-          </div>
+  <!-- ③ STAT: Projects ─────────────────────────────── -->
+  <div class="card">
+    <span class="stat-icon">🚀</span>
+    <div class="stat-card-inner">
+      <div class="stat-num" data-target="10">0</div>
+      <div class="stat-label">Projects built</div>
+    </div>
+  </div>
+
+  <!-- ④ LINGUE PARLATE  2×1 ────────────────────────── -->
+  <div class="card s2c">
+    <div class="cat-head">
+      <span style="font-size:13px;font-weight:600;color:var(--text)">🗣 Lingue parlate</span>
+    </div>
+    <div class="spoken-rows">
+      <div class="sp-row">
+        <div class="sp-top">
+          <span class="sp-name"><span class="sp-flag">🇮🇹</span>Italiano</span>
+          <span class="sp-lvl">Madrelingua · 100%</span>
         </div>
-        <div class="am-card-id">
-          <span class="am-card-id-num">ID #EA-2024-BSC</span>
-          <div class="am-card-nfc" style="position:relative;"></div>
+        <div class="bar-bg"><div class="bar-fill bf-it" data-w="100"></div></div>
+      </div>
+      <div class="sp-row">
+        <div class="sp-top">
+          <span class="sp-name"><span class="sp-flag">🇬🇧</span>English</span>
+          <span class="sp-lvl">Fluent · 90%</span>
+        </div>
+        <div class="bar-bg"><div class="bar-fill bf-en" data-w="90"></div></div>
+      </div>
+      <div class="sp-row">
+        <div class="sp-top">
+          <span class="sp-name"><span class="sp-flag">🇪🇸</span>Español</span>
+          <span class="sp-lvl">Intermedio · 75%</span>
+        </div>
+        <div class="bar-bg"><div class="bar-fill bf-es" data-w="75"></div></div>
+      </div>
+      <div class="sp-row">
+        <div class="sp-top">
+          <span class="sp-name"><span class="sp-flag">🇨🇳</span>中文</span>
+          <span class="sp-lvl">HSK 2 · 55%</span>
+        </div>
+        <div class="bar-bg"><div class="bar-fill bf-zh" data-w="55"></div></div>
+      </div>
+      <div class="sp-row">
+        <div class="sp-top">
+          <span class="sp-name"><span class="sp-flag">🇯🇵</span>日本語</span>
+          <span class="sp-lvl">Beginner · 40%</span>
+        </div>
+        <div class="bar-bg"><div class="bar-fill bf-ja" data-w="40"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ⑤ MOBILE SKILLS  2×1 ────────────────────────── -->
+  <div class="card s2c" data-c="mob">
+    <div class="cat-head">
+      <div class="cat-icon ci-mob">📱</div>
+      <span class="cat-title">Mobile &amp; Cross-platform</span>
+      <span class="cat-n">8</span>
+    </div>
+    <div class="chips">
+      <span class="chip ch-mob">Flutter</span>
+      <span class="chip ch-mob">Dart</span>
+      <span class="chip ch-mob">Swift</span>
+      <span class="chip ch-mob">Kotlin</span>
+      <span class="chip ch-mob">Android</span>
+      <span class="chip ch-mob">iOS</span>
+      <span class="chip ch-mob">Provider</span>
+      <span class="chip ch-mob">MVVM</span>
+    </div>
+  </div>
+
+  <!-- ⑥ WEB SKILLS  2×1 ───────────────────────────── -->
+  <div class="card s2c" data-c="web">
+    <div class="cat-head">
+      <div class="cat-icon ci-web">🌐</div>
+      <span class="cat-title">Web &amp; Frontend</span>
+      <span class="cat-n">8</span>
+    </div>
+    <div class="chips">
+      <span class="chip ch-web">HTML5</span>
+      <span class="chip ch-web">CSS3</span>
+      <span class="chip ch-web">JavaScript</span>
+      <span class="chip ch-web">Three.js</span>
+      <span class="chip ch-web">GSAP</span>
+      <span class="chip ch-web">Node.js</span>
+      <span class="chip ch-web">WebGL</span>
+      <span class="chip ch-web">Canvas API</span>
+    </div>
+  </div>
+
+  <!-- ⑦ ABOUT  3×1 ────────────────────────────────── -->
+  <div class="card s3c">
+    <div class="about-label">About me</div>
+    <div class="about-text">
+      Sono uno studente di <strong>Ingegneria Informatica</strong> in Italia, appassionato di costruire cose che funzionano davvero —
+      dal mobile con <strong>Flutter &amp; Firebase</strong> al web con <strong>Three.js e GSAP</strong>,
+      fino alle esperienze visive in 3D e alle interfacce che si sentono vive.
+      Attualmente lavoro su <strong>Memive</strong>, un'app social audio, e su questo portfolio.
+      Quando non codifico, sto probabilmente studiando una nuova lingua o ascoltando un audiolibro.
+    </div>
+  </div>
+
+  <!-- ⑧ STAT: Technologies ─────────────────────────── -->
+  <div class="card">
+    <span class="stat-icon">🧰</span>
+    <div class="stat-card-inner">
+      <div class="stat-num" data-target="32">0</div>
+      <div class="stat-label">Technologies</div>
+    </div>
+  </div>
+
+  <!-- ⑨ BACKEND  2×1 ──────────────────────────────── -->
+  <div class="card s2c" data-c="bck">
+    <div class="cat-head">
+      <div class="cat-icon ci-bck">⚙️</div>
+      <span class="cat-title">Backend &amp; Database</span>
+      <span class="cat-n">7</span>
+    </div>
+    <div class="chips">
+      <span class="chip ch-bck">Firebase</span>
+      <span class="chip ch-bck">Firestore</span>
+      <span class="chip ch-bck">Auth</span>
+      <span class="chip ch-bck">Storage</span>
+      <span class="chip ch-bck">SQL</span>
+      <span class="chip ch-bck">REST API</span>
+      <span class="chip ch-bck">JSON</span>
+    </div>
+  </div>
+
+  <!-- ⑩ TOOLS  2×1 ────────────────────────────────── -->
+  <div class="card s2c" data-c="tol">
+    <div class="cat-head">
+      <div class="cat-icon ci-tol">🛠</div>
+      <span class="cat-title">Tools &amp; DevOps</span>
+      <span class="cat-n">7</span>
+    </div>
+    <div class="chips">
+      <span class="chip ch-tol">Git</span>
+      <span class="chip ch-tol">GitHub</span>
+      <span class="chip ch-tol">Docker</span>
+      <span class="chip ch-tol">Linux</span>
+      <span class="chip ch-tol">VS Code</span>
+      <span class="chip ch-tol">Unity</span>
+      <span class="chip ch-tol">i18n</span>
+    </div>
+  </div>
+
+  <!-- ⑪ LANGUAGES (programming)  2×1 ──────────────── -->
+  <div class="card s2c" data-c="lng">
+    <div class="cat-head">
+      <div class="cat-icon ci-lng">💻</div>
+      <span class="cat-title">Programming Languages</span>
+      <span class="cat-n">6</span>
+    </div>
+    <div class="chips">
+      <span class="chip ch-lng">Python</span>
+      <span class="chip ch-lng">Java</span>
+      <span class="chip ch-lng">C</span>
+      <span class="chip ch-lng">C#</span>
+      <span class="chip ch-lng">Figma</span>
+      <span class="chip ch-lng">UI/UX</span>
+    </div>
+  </div>
+
+  <!-- ⑫ QUOTE ──────────────────────────────────────── -->
+  <div class="card">
+    <div class="quote-mark">"</div>
+    <div class="quote-txt">Code is design. Great design is invisible.</div>
+    <div class="quote-by">— John Maeda</div>
+  </div>
+
+  <!-- ⑬ STAT: Languages spoken ─────────────────────── -->
+  <div class="card">
+    <span class="stat-icon">🌍</span>
+    <div class="stat-card-inner">
+      <div class="stat-num" data-target="5">0</div>
+      <div class="stat-label">Languages spoken</div>
+    </div>
+  </div>
+
+  <!-- ⑭ TIMELINE  4×1 (taller) ───────────────────── -->
+  <div class="card s4c" style="height:250px;grid-row:span 1;">
+    <div class="tl-card-inner">
+      <div class="tl-head">
+        <span class="tl-head-title">📅 Percorso</span>
+        <span class="tl-hint">⟵ trascina ⟶</span>
+      </div>
+      <div class="tl-track" id="tl">
+        <div class="tl-item">
+          <div class="tl-year"><span class="tl-dot" style="background:#22c55e;box-shadow:0 0 6px #22c55e"></span>2024 – oggi</div>
+          <div class="tl-ttl">Memive</div>
+          <div class="tl-body">App social audio in Flutter · Firebase Storage · Firestore realtime</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year"><span class="tl-dot" style="background:#3b82f6"></span>2024</div>
+          <div class="tl-ttl">Browser Extension</div>
+          <div class="tl-body">Chrome extension con TTS, context menu e clipboard Memive</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year"><span class="tl-dot" style="background:#a855f7"></span>2023</div>
+          <div class="tl-ttl">Portfolio Web</div>
+          <div class="tl-body">edward070707.github.io · Three.js · GSAP · design system custom</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year"><span class="tl-dot" style="background:#22d3ee"></span>2022</div>
+          <div class="tl-ttl">Flutter &amp; Firebase</div>
+          <div class="tl-body">Deep dive nel mobile cross-platform · architettura MVVM · Provider</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year"><span class="tl-dot" style="background:#f97316"></span>2021</div>
+          <div class="tl-ttl">Università</div>
+          <div class="tl-body">Ingegneria Informatica · Java · C · algoritmi · sistemi operativi</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year"><span class="tl-dot" style="background:#f59e0b"></span>2020</div>
+          <div class="tl-ttl">Unity &amp; Game Dev</div>
+          <div class="tl-body">Primi progetti in Unity con C# · inizio della curiosità tecnica</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year"><span class="tl-dot" style="background:#ec4899"></span>2019</div>
+          <div class="tl-ttl">First Line of Code</div>
+          <div class="tl-body">print("Hello, World!") in Python — da lì non mi sono più fermato</div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Bio -->
-  <div class="am-card-bio-wrap">
-    <div class="am-card-bio-eyebrow">// bio.txt</div>
-    <p class="am-card-bio-text am-decode" id="bioDecode">
-      I'm a <strong>Computer Engineering student</strong> at <span class="hl">Università di Brescia</span>,
-      building things at the intersection of <span class="hl-c">code</span>, <span class="hl">design</span>,
-      and <span class="hl-c">user experience</span>.<br><br>
-      I believe software should feel as good as it works.
-      From Flutter mobile apps to custom web experiences, I obsess over
-      the details that most people never notice — <strong>and that's the point</strong>.<br><br>
-      When I'm not writing code, I'm usually learning a new language,
-      exploring design systems, or breaking something on purpose to understand it better.
-    </p>
-    <div class="am-card-bio-links">
-      <a href="mailto:edwardattuati@icloud.com" class="am-card-link primary">Email me</a>
-      <a href="https://it.linkedin.com/in/edward-attuati-41a54823b" target="_blank" class="am-card-link">LinkedIn</a>
-      <a href="https://github.com/edward070707" target="_blank" class="am-card-link">GitHub</a>
-      <a href="cv.html" class="am-card-link">CV</a>
-    </div>
-  </div>
-</section>
+  <!-- ⑮ CONTACT: Email ─────────────────────────────── -->
+  <a class="card" href="index.html#contact">
+    <div class="cc-platform">Email</div>
+    <span class="cc-icon">✉️</span>
+    <div class="cc-handle">Scrivimi</div>
+    <div class="cc-arrow">↗</div>
+  </a>
 
-<div class="am-divider"></div>
+  <!-- ⑯ CONTACT: GitHub ────────────────────────────── -->
+  <a class="card" href="https://github.com/edward070707" target="_blank" rel="noopener">
+    <div class="cc-platform">GitHub</div>
+    <span class="cc-icon">🐙</span>
+    <div class="cc-handle">edward070707</div>
+    <div class="cc-arrow">↗</div>
+  </a>
 
-<!-- ── STATS ───────────────────────────────────────────────────────── -->
-<section class="am-section">
-  <div class="am-sec-label">// metrics</div>
-  <h2 class="am-sec-title">By the numbers</h2>
-  <div class="am-stats-grid">
-    <div class="am-stat-card">
-      <div class="am-stat-icon">🎓</div>
-      <div class="am-stat-num" data-target="3" data-suffix="+">0</div>
-      <div class="am-stat-desc">Years of coding</div>
-    </div>
-    <div class="am-stat-card">
-      <div class="am-stat-icon">📱</div>
-      <div class="am-stat-num" data-target="3" data-suffix="+">0</div>
-      <div class="am-stat-desc">Full projects shipped</div>
-    </div>
-    <div class="am-stat-card">
-      <div class="am-stat-icon">🌍</div>
-      <div class="am-stat-num" data-target="5" data-suffix="">0</div>
-      <div class="am-stat-desc">Languages spoken</div>
-    </div>
-    <div class="am-stat-card">
-      <div class="am-stat-icon">⭐</div>
-      <div class="am-stat-num" data-target="43" data-suffix="">0</div>
-      <div class="am-stat-desc">Dart files in Memive</div>
-    </div>
-    <div class="am-stat-card">
-      <div class="am-stat-icon">☕</div>
-      <div class="am-stat-num" data-target="847" data-suffix="">0</div>
-      <div class="am-stat-desc">Commits on GitHub</div>
-    </div>
-    <div class="am-stat-card">
-      <div class="am-stat-icon">🏗️</div>
-      <div class="am-stat-num" data-target="100" data-suffix="%">0</div>
-      <div class="am-stat-desc">Hand-coded portfolio</div>
-    </div>
-  </div>
-</section>
+  <!-- ⑰ CONTACT: LinkedIn ──────────────────────────── -->
+  <a class="card" href="index.html#contact" target="_blank" rel="noopener">
+    <div class="cc-platform">LinkedIn</div>
+    <span class="cc-icon">💼</span>
+    <div class="cc-handle">Edward Attuati</div>
+    <div class="cc-arrow">↗</div>
+  </a>
 
-<div class="am-divider"></div>
+  <!-- ⑱ CONTACT: Instagram ─────────────────────────── -->
+  <a class="card" href="index.html#contact" target="_blank" rel="noopener">
+    <div class="cc-platform">Instagram</div>
+    <span class="cc-icon">📸</span>
+    <div class="cc-handle">@edward</div>
+    <div class="cc-arrow">↗</div>
+  </a>
 
-<!-- ── SKILL SPHERE ────────────────────────────────────────────────── -->
-<section class="am-section" id="skills">
-  <div class="am-sec-label">// tech_stack</div>
-  <h2 class="am-sec-title">Skills in orbit</h2>
-  <div class="am-sphere-wrap">
-    <div id="skill-sphere"></div>
-  </div>
-</section>
+</div><!-- /bento -->
+</main>
 
-<div class="am-divider"></div>
-
-<!-- ── TIMELINE ────────────────────────────────────────────────────── -->
-<section class="am-section" id="journey">
-  <div class="am-sec-label">// journey.log</div>
-  <h2 class="am-sec-title">How I got here</h2>
-  <div class="am-timeline" id="timeline">
-
-    <div class="am-tl-item" data-delay="0">
-      <div class="am-tl-dot active"></div>
-      <div class="am-tl-period">2024 → Present</div>
-      <div class="am-tl-title">Computer Engineering — Università di Brescia</div>
-      <div class="am-tl-sub">Bachelor's degree. Algorithms, data structures, software engineering, computer architecture. Building the theoretical foundation while shipping real projects on the side.</div>
-      <div class="am-tl-tags">
-        <span class="am-tl-tag">C</span><span class="am-tl-tag">Java</span><span class="am-tl-tag">Python</span><span class="am-tl-tag">Maths</span>
-      </div>
-    </div>
-
-    <div class="am-tl-item" data-delay="100">
-      <div class="am-tl-dot active"></div>
-      <div class="am-tl-period">2024</div>
-      <div class="am-tl-title">Memive — Social Audio Platform</div>
-      <div class="am-tl-sub">Built a full social network from scratch. Flutter + Firebase Auth + Firestore + Storage. 43 Dart files, real mic recording, Firebase deploy. Solo.</div>
-      <div class="am-tl-tags">
-        <span class="am-tl-tag">Flutter</span><span class="am-tl-tag">Firebase</span><span class="am-tl-tag">Dart</span><span class="am-tl-tag">Design</span>
-      </div>
-    </div>
-
-    <div class="am-tl-item" data-delay="200">
-      <div class="am-tl-dot"></div>
-      <div class="am-tl-period">2023 → 2024</div>
-      <div class="am-tl-title">Self-taught Web Development</div>
-      <div class="am-tl-sub">Went deep on HTML, CSS, JavaScript. Built this portfolio from scratch — no frameworks, no templates. DNA canvas, solar system, particle physics, i18n in 5 languages.</div>
-      <div class="am-tl-tags">
-        <span class="am-tl-tag">HTML</span><span class="am-tl-tag">CSS</span><span class="am-tl-tag">JS</span><span class="am-tl-tag">Canvas</span><span class="am-tl-tag">Three.js</span>
-      </div>
-    </div>
-
-    <div class="am-tl-item" data-delay="300">
-      <div class="am-tl-dot"></div>
-      <div class="am-tl-period">2022 → 2023</div>
-      <div class="am-tl-title">Unity Certified — Game Development</div>
-      <div class="am-tl-sub">Certified Unity developer. Built interactive 3D experiences. First contact with real-time rendering, physics simulation, and C# scripting.</div>
-      <div class="am-tl-tags">
-        <span class="am-tl-tag">Unity</span><span class="am-tl-tag">C#</span><span class="am-tl-tag">3D</span>
-      </div>
-    </div>
-
-    <div class="am-tl-item" data-delay="400">
-      <div class="am-tl-dot"></div>
-      <div class="am-tl-period">2019 → 2024</div>
-      <div class="am-tl-title">Scientific High School — Brescia</div>
-      <div class="am-tl-sub">Maths, physics, philosophy. English B2→C1 certification during these years. First lines of code written in a basement at 16.</div>
-      <div class="am-tl-tags">
-        <span class="am-tl-tag">Maths</span><span class="am-tl-tag">Physics</span><span class="am-tl-tag">English C1</span>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<div class="am-divider"></div>
-
-<!-- ── LANGUAGES ───────────────────────────────────────────────────── -->
-<section class="am-section" id="languages">
-  <div class="am-sec-label">// spoken_languages</div>
-  <h2 class="am-sec-title">Languages</h2>
-  <div class="am-langs-grid">
-    <div class="am-lang-item">
-      <div class="am-ring-wrap">
-        <svg width="100" height="100" viewBox="0 0 100 100">
-          <circle class="am-ring-bg" cx="50" cy="50" r="45"/>
-          <circle class="am-ring-fill" cx="50" cy="50" r="45"
-            stroke="url(#g1)" data-pct="100"/>
-          <defs>
-            <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stop-color="#7c3aed"/>
-              <stop offset="100%" stop-color="#22d3ee"/>
-            </linearGradient>
-          </defs>
-        </svg>
-        <div class="am-ring-label">🇮🇹</div>
-      </div>
-      <div class="am-lang-name">Italiano</div>
-      <div class="am-lang-level">Madrelingua</div>
-    </div>
-    <div class="am-lang-item">
-      <div class="am-ring-wrap">
-        <svg width="100" height="100" viewBox="0 0 100 100">
-          <circle class="am-ring-bg" cx="50" cy="50" r="45"/>
-          <circle class="am-ring-fill" cx="50" cy="50" r="45"
-            stroke="url(#g2)" data-pct="90"/>
-          <defs>
-            <linearGradient id="g2" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stop-color="#a855f7"/>
-              <stop offset="100%" stop-color="#22d3ee"/>
-            </linearGradient>
-          </defs>
-        </svg>
-        <div class="am-ring-label">🇬🇧</div>
-      </div>
-      <div class="am-lang-name">English</div>
-      <div class="am-lang-level">C1 — Certified</div>
-    </div>
-    <div class="am-lang-item">
-      <div class="am-ring-wrap">
-        <svg width="100" height="100" viewBox="0 0 100 100">
-          <circle class="am-ring-bg" cx="50" cy="50" r="45"/>
-          <circle class="am-ring-fill" cx="50" cy="50" r="45"
-            stroke="url(#g3)" data-pct="75"/>
-          <defs>
-            <linearGradient id="g3" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stop-color="#ec4899"/>
-              <stop offset="100%" stop-color="#a855f7"/>
-            </linearGradient>
-          </defs>
-        </svg>
-        <div class="am-ring-label">🇪🇸</div>
-      </div>
-      <div class="am-lang-name">Español</div>
-      <div class="am-lang-level">B2 — Fluente</div>
-    </div>
-    <div class="am-lang-item">
-      <div class="am-ring-wrap">
-        <svg width="100" height="100" viewBox="0 0 100 100">
-          <circle class="am-ring-bg" cx="50" cy="50" r="45"/>
-          <circle class="am-ring-fill" cx="50" cy="50" r="45"
-            stroke="url(#g4)" data-pct="55"/>
-          <defs>
-            <linearGradient id="g4" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stop-color="#22d3ee"/>
-              <stop offset="100%" stop-color="#0ea5e9"/>
-            </linearGradient>
-          </defs>
-        </svg>
-        <div class="am-ring-label">🇨🇳</div>
-      </div>
-      <div class="am-lang-name">中文</div>
-      <div class="am-lang-level">Intermedio</div>
-    </div>
-    <div class="am-lang-item">
-      <div class="am-ring-wrap">
-        <svg width="100" height="100" viewBox="0 0 100 100">
-          <circle class="am-ring-bg" cx="50" cy="50" r="45"/>
-          <circle class="am-ring-fill" cx="50" cy="50" r="45"
-            stroke="url(#g5)" data-pct="40"/>
-          <defs>
-            <linearGradient id="g5" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stop-color="#34d399"/>
-              <stop offset="100%" stop-color="#22d3ee"/>
-            </linearGradient>
-          </defs>
-        </svg>
-        <div class="am-ring-label">🇯🇵</div>
-      </div>
-      <div class="am-lang-name">日本語</div>
-      <div class="am-lang-level">Base</div>
-    </div>
-  </div>
-</section>
-
-<div class="am-divider"></div>
-
-<!-- ── CONTACT ─────────────────────────────────────────────────────── -->
-<section class="am-section" id="contact" style="text-align:center;">
-  <div class="am-sec-label" style="justify-content:center;">// get_in_touch</div>
-  <h2 class="am-sec-title" style="margin-bottom:16px;">Let's build something.</h2>
-  <p style="color:var(--muted);font-size:.95rem;margin-bottom:48px;max-width:480px;margin-left:auto;margin-right:auto;line-height:1.7;">
-    Open to new opportunities, collaborations, and interesting conversations.
-    Drop me a line — I reply fast.
-  </p>
-  <div class="am-contact-grid" style="justify-content:center;">
-    <a href="mailto:edwardattuati@icloud.com" class="am-contact-btn primary">✉ edwardattuati@icloud.com</a>
-    <a href="https://it.linkedin.com/in/edward-attuati-41a54823b" target="_blank" class="am-contact-btn">LinkedIn</a>
-    <a href="https://github.com/edward070707" target="_blank" class="am-contact-btn">GitHub</a>
-    <a href="https://www.instagram.com/edwardattuati/" target="_blank" class="am-contact-btn">Instagram</a>
-  </div>
-  <div style="margin-top:64px;">
-    <a href="index.html" style="font-family:var(--mono);font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--low);text-decoration:none;transition:color .2s;" onmouseover="this.style.color='var(--violet2)'" onmouseout="this.style.color='var(--low)'">← Back to portfolio</a>
-  </div>
-</section>
-
-<!-- ══════════════════════════════════════════════════════════════════ -->
 <script>
-gsap.registerPlugin(ScrollTrigger);
-
-// ── CURSOR ──────────────────────────────────────────────────────────
-const dot  = document.getElementById('cursor-dot');
-const ring = document.getElementById('cursor-ring');
-let mx=0,my=0,rx=0,ry=0;
-document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; });
-(function moveCursor(){
-  rx += (mx-rx)*.15; ry += (my-ry)*.15;
-  dot.style.left  = mx+'px'; dot.style.top  = my+'px';
-  ring.style.left = rx+'px'; ring.style.top = ry+'px';
-  requestAnimationFrame(moveCursor);
-})();
-
-// ── THREE.JS PARTICLE NETWORK ────────────────────────────────────────
-(function(){
-  const canvas = document.getElementById('three-canvas');
-  const W=innerWidth, H=innerHeight;
-  const renderer = new THREE.WebGLRenderer({canvas, alpha:true, antialias:true});
-  renderer.setSize(W,H); renderer.setPixelRatio(Math.min(devicePixelRatio,2));
-
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(60, W/H, 0.1, 1000);
-  camera.position.z = 80;
-
-  // Particle geometry
-  const count = 1200;
-  const geo = new THREE.BufferGeometry();
-  const pos = new Float32Array(count*3);
-  for(let i=0;i<count;i++){
-    pos[i*3  ] = (Math.random()-.5)*240;
-    pos[i*3+1] = (Math.random()-.5)*180;
-    pos[i*3+2] = (Math.random()-.5)*120;
-  }
-  geo.setAttribute('position', new THREE.BufferAttribute(pos,3));
-
-  const mat = new THREE.PointsMaterial({
-    size:.7, color:0x7c3aed, transparent:true, opacity:.55, sizeAttenuation:true
+/* ── REVEAL CARDS ─────────────────────────────────── */
+const cards = [...document.querySelectorAll('.card')];
+const revealObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    const card = e.target;
+    const i = cards.indexOf(card);
+    setTimeout(() => card.classList.add('on'), (i % 4) * 70);
+    revealObs.unobserve(card);
   });
-  const points = new THREE.Points(geo,mat);
-  scene.add(points);
+}, { threshold: 0.08 });
+cards.forEach(c => revealObs.observe(c));
 
-  // Subtle mouse parallax
-  let targetX=0, targetY=0;
-  document.addEventListener('mousemove', e=>{
-    targetX = (e.clientX/innerWidth - .5) * 12;
-    targetY = (e.clientY/innerHeight - .5) * 8;
-  });
-
-  let t=0;
-  function animate(){
-    t += .003;
-    requestAnimationFrame(animate);
-    points.rotation.y += .0004;
-    points.rotation.x += .0002;
-    // mouse parallax
-    camera.position.x += (targetX - camera.position.x)*.03;
-    camera.position.y += (-targetY - camera.position.y)*.03;
-    camera.lookAt(scene.position);
-    // pulse opacity
-    mat.opacity = .45 + .1*Math.sin(t);
-    renderer.render(scene,camera);
-  }
-  animate();
-
-  window.addEventListener('resize',()=>{
-    renderer.setSize(innerWidth,innerHeight);
-    camera.aspect=innerWidth/innerHeight; camera.updateProjectionMatrix();
-  });
-})();
-
-// ── HERO ANIMATIONS ─────────────────────────────────────────────────
-const tl = gsap.timeline({defaults:{ease:'power3.out'}});
-tl.to('#heroEyebrow', {opacity:1, y:0, duration:.8, delay:.3})
-  .to('#heroName',    {opacity:1, duration:1},   '-=.4')
-  .to('#heroRole',    {opacity:1, duration:.6},   '-=.2')
-  .to('#scrollCue',   {opacity:1, duration:.8},   '-=.2');
-
-// ── TYPEWRITER ───────────────────────────────────────────────────────
-const roles = [
-  'Computer Engineering Student',
-  'Flutter Developer',
-  'Web Builder',
-  'UI/UX Obsessive',
-  'Multilingual Coder',
-];
-let ri=0, ci=0, deleting=false;
-const typeEl = document.getElementById('typeTarget');
-function type(){
-  const cur = roles[ri];
-  typeEl.textContent = deleting ? cur.slice(0,ci--) : cur.slice(0,ci++);
-  if(!deleting && ci>cur.length){ deleting=true; setTimeout(type,1400); return; }
-  if(deleting && ci<0){ deleting=false; ri=(ri+1)%roles.length; ci=0; setTimeout(type,300); return; }
-  setTimeout(type, deleting?40:80);
+/* ── COUNTER ANIMATION ────────────────────────────── */
+function animCount(el) {
+  const target = parseInt(el.dataset.target);
+  const dur = 1400;
+  const t0 = performance.now();
+  const suffix = target >= 10 ? '+' : '';
+  (function tick(now) {
+    const p = Math.min((now - t0) / dur, 1);
+    const ease = 1 - Math.pow(1 - p, 3);
+    el.textContent = Math.round(ease * target) + (p === 1 ? suffix : '');
+    if (p < 1) requestAnimationFrame(tick);
+  })(t0);
 }
-setTimeout(type, 1200);
-
-// ── HOLOGRAPHIC CARD TILT ────────────────────────────────────────────
-(function(){
-  const wrap  = document.getElementById('cardWrap');
-  const card  = document.getElementById('holoCard');
-  const sheen = document.getElementById('holoSheen');
-
-  wrap.addEventListener('mousemove', e=>{
-    const r = wrap.getBoundingClientRect();
-    const x = (e.clientX - r.left) / r.width  - .5;
-    const y = (e.clientY - r.top)  / r.height - .5;
-    card.style.transform = `rotateY(${x*28}deg) rotateX(${-y*22}deg)`;
-    sheen.style.background = `linear-gradient(
-      ${105 + x*40}deg,
-      transparent 40%,
-      rgba(168,85,247,${.04 + Math.abs(x)*.12}) 50%,
-      rgba(34,211,238,${.03 + Math.abs(y)*.10}) 60%,
-      transparent 70%
-    )`;
+const cntObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    animCount(e.target);
+    cntObs.unobserve(e.target);
   });
-  wrap.addEventListener('mouseleave', ()=>{
-    card.style.transform = 'rotateY(0deg) rotateX(0deg)';
-    sheen.style.background = '';
-  });
-})();
+}, { threshold: 0.5 });
+document.querySelectorAll('.stat-num[data-target]').forEach(el => cntObs.observe(el));
 
-// ── STAT COUNTERS ────────────────────────────────────────────────────
-document.querySelectorAll('.am-stat-num[data-target]').forEach(el=>{
-  const target = +el.dataset.target;
-  const suffix = el.dataset.suffix || '';
-  ScrollTrigger.create({
-    trigger: el, start:'top 85%',
-    onEnter(){
-      let cur=0;
-      const step = target/40;
-      const t = setInterval(()=>{
-        cur = Math.min(cur+step, target);
-        el.textContent = Math.round(cur)+suffix;
-        if(cur>=target) clearInterval(t);
-      }, 30);
-    }, once:true
-  });
-});
-
-// ── SKILL SPHERE ─────────────────────────────────────────────────────
-(function(){
-  const skills = [
-    'Flutter','Dart','Firebase','Firestore',
-    'HTML','CSS','JavaScript','Three.js',
-    'Python','Java','C','C#',
-    'Unity','GSAP','Git','GitHub',
-    'Figma','UI/UX','REST API','SQL',
-    'Node.js','JSON','Swift','Kotlin',
-    'Linux','Docker','MVVM','Provider',
-    'Auth','Canvas','WebGL','i18n',
-  ];
-
-  const container = document.getElementById('skill-sphere');
-  const W = container.offsetWidth || 520;
-  const R = W * 0.44;
-  const tags = [];
-
-  skills.forEach((s,i)=>{
-    const el = document.createElement('div');
-    el.className='skill-tag'; el.textContent=s;
-    container.appendChild(el);
-    tags.push(el);
-  });
-
-  let rotX=0, rotY=0, velX=0, velY=0;
-  let paused=false;
-
-  function setPositions(){
-    const n = tags.length;
-    tags.forEach((el,i)=>{
-      const phi   = Math.acos(1 - 2*(i+.5)/n);
-      const theta = Math.PI*(1+Math.sqrt(5))*i;
-      // 3D coords
-      let x = R * Math.sin(phi)*Math.cos(theta);
-      let y = R * Math.sin(phi)*Math.sin(theta);
-      let z = R * Math.cos(phi);
-
-      // apply rotation (Y axis first)
-      const cosY=Math.cos(rotY), sinY=Math.sin(rotY);
-      const x1 = x*cosY + z*sinY;
-      const z1 = -x*sinY + z*cosY;
-      // then X axis
-      const cosX=Math.cos(rotX), sinX=Math.sin(rotX);
-      const y2 = y*cosX - z1*sinX;
-      const z2 = y*sinX + z1*cosX;
-
-      const scale = (z2+R*1.2)/(R*2.2);
-      const cx = W/2 + x1 - el.offsetWidth/2;
-      const cy = W/2 + y2 - el.offsetHeight/2;
-
-      el.style.cssText = `
-        left:${cx}px; top:${cy}px;
-        opacity:${.3 + scale*.7};
-        transform:scale(${.7+scale*.5});
-        color: ${z2>0 ? 'rgba(240,244,255,.8)':'rgba(240,244,255,.25)'};
-        border-color: ${z2>0?'rgba(168,85,247,.4)':'rgba(255,255,255,.04)'};
-        z-index:${Math.round(z2+100)};
-        font-size:${.52+scale*.16}rem;
-      `;
+/* ── LANGUAGE BARS ────────────────────────────────── */
+const barObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    e.target.querySelectorAll('.bar-fill[data-w]').forEach((f, i) => {
+      setTimeout(() => { f.style.width = f.dataset.w + '%'; }, 150 + i * 80);
     });
-  }
-
-  let autoAngle=0;
-  function loop(){
-    if(!paused){
-      velX *= .95; velY *= .95;
-      rotX += velX; rotY += velY;
-      rotY += .004; // auto-rotate
-    }
-    setPositions();
-    requestAnimationFrame(loop);
-  }
-  loop();
-
-  // drag
-  let dragging=false, lastX=0, lastY=0;
-  container.addEventListener('mousedown', e=>{ dragging=true; lastX=e.clientX; lastY=e.clientY; paused=true; });
-  document.addEventListener('mousemove', e=>{
-    if(!dragging) return;
-    velY += (e.clientX-lastX)*.008;
-    velX += (e.clientY-lastY)*.008;
-    lastX=e.clientX; lastY=e.clientY;
+    barObs.unobserve(e.target);
   });
-  document.addEventListener('mouseup',()=>{ dragging=false; paused=false; });
-})();
+}, { threshold: 0.3 });
+document.querySelectorAll('.spoken-rows').forEach(el => barObs.observe(el));
 
-// ── TIMELINE REVEAL ─────────────────────────────────────────────────
-document.querySelectorAll('.am-tl-item').forEach((el,i)=>{
-  ScrollTrigger.create({
-    trigger:el, start:'top 82%',
-    onEnter(){
-      setTimeout(()=>el.classList.add('visible'), +el.dataset.delay||0);
-    }, once:true
+/* ── TIMELINE DRAG ────────────────────────────────── */
+const tl = document.getElementById('tl');
+if (tl) {
+  let down = false, sx, sl;
+  tl.addEventListener('mousedown', e => { down=true; sx=e.pageX-tl.offsetLeft; sl=tl.scrollLeft; tl.style.cursor='grabbing'; });
+  tl.addEventListener('mouseleave', () => { down=false; tl.style.cursor=''; });
+  tl.addEventListener('mouseup',    () => { down=false; tl.style.cursor=''; });
+  tl.addEventListener('mousemove',  e => {
+    if (!down) return;
+    e.preventDefault();
+    tl.scrollLeft = sl - (e.pageX - tl.offsetLeft - sx) * 1.4;
   });
-});
-
-// ── LANGUAGE RINGS ──────────────────────────────────────────────────
-document.querySelectorAll('.am-ring-fill').forEach(circle=>{
-  const pct = +circle.dataset.pct / 100;
-  const circumference = 2 * Math.PI * 45; // r=45
-  ScrollTrigger.create({
-    trigger: circle, start:'top 85%',
-    onEnter(){
-      circle.style.strokeDashoffset = circumference*(1-pct);
-    }, once:true
-  });
-});
-
-// ── NAV SCROLL ──────────────────────────────────────────────────────
-const nav = document.getElementById('amNav');
-window.addEventListener('scroll',()=>{
-  nav.classList.toggle('scrolled', window.scrollY > 60);
-});
-
-// ── REVEAL ON SCROLL (generic) ──────────────────────────────────────
-gsap.utils.toArray('.am-stat-card,.am-lang-item,.am-card-bio-wrap').forEach((el,i)=>{
-  gsap.from(el, {
-    scrollTrigger:{trigger:el, start:'top 85%', once:true},
-    opacity:0, y:30, duration:.7, delay:i*.06, ease:'power2.out'
-  });
-});
+}
 </script>
 </body>
 </html>
