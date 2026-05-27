@@ -1,557 +1,1211 @@
-<!DOCTYPE HTML>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>Edward Attuati — About Me</title>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-    <link rel="stylesheet" href="assetsAboutMe/css/main.css" />
-    <style>
-        *, *::before, *::after { box-sizing: border-box; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Edward Attuati — About Me</title>
+<meta name="description" content="Edward Attuati — Computer Engineering student, developer, builder. Full profile.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<!-- Three.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<!-- GSAP + ScrollTrigger -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
-        body.aboutme-body {
-            margin: 0;
-            min-height: 100vh;
-            background: #0b0c1a;
-            color: #fff;
-            font-family: 'Arial', sans-serif;
-            overflow-x: hidden;
-        }
+<style>
+/* ── ROOT ──────────────────────────────────────────────────────── */
+:root {
+  --void:    #05050f;
+  --void2:   #0a0a1e;
+  --surface: rgba(255,255,255,0.04);
+  --border:  rgba(255,255,255,0.07);
+  --violet:  #7c3aed;
+  --violet2: #a855f7;
+  --cyan:    #22d3ee;
+  --green:   #34d399;
+  --text:    #f0f4ff;
+  --muted:   rgba(240,244,255,0.50);
+  --low:     rgba(240,244,255,0.22);
+  --sg:      'Space Grotesk', system-ui, sans-serif;
+  --mono:    'Space Mono', monospace;
+}
 
-        /* ── Barra superiore (btn home + selettore lingua) ── */
-        #top-bar {
-            position: fixed;
-            top: 20px;
-            left: 24px;
-            right: 24px;
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--void);
+  color: var(--text);
+  font-family: var(--sg);
+  overflow-x: hidden;
+  cursor: none;
+}
 
-        #home-btn {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 20px;
-            background: rgba(255,255,255,0.06);
-            border: 1px solid rgba(255,255,255,0.18);
-            border-radius: 30px;
-            color: rgba(255,255,255,0.85);
-            text-decoration: none;
-            font-size: 0.85em;
-            letter-spacing: 0.05em;
-            backdrop-filter: blur(10px);
-            transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.2s;
-        }
-        #home-btn:hover {
-            background: rgba(255,255,255,0.14);
-            border-color: rgba(255,255,255,0.5);
-            color: #fff;
-            transform: translateX(-3px);
-        }
+/* ── CUSTOM CURSOR ─────────────────────────────────────────────── */
+#cursor-dot {
+  position: fixed; top:0; left:0; z-index:9999;
+  width:8px; height:8px; border-radius:50%;
+  background: var(--violet2);
+  pointer-events: none;
+  transform: translate(-50%,-50%);
+  transition: width .15s, height .15s, background .2s;
+  mix-blend-mode: screen;
+}
+#cursor-ring {
+  position: fixed; top:0; left:0; z-index:9998;
+  width:36px; height:36px; border-radius:50%;
+  border: 1px solid rgba(168,85,247,.5);
+  pointer-events: none;
+  transform: translate(-50%,-50%);
+  transition: transform .1s linear, width .25s, height .25s, border-color .2s;
+}
+body:has(a:hover) #cursor-dot { width:14px; height:14px; background:var(--cyan); }
+body:has(a:hover) #cursor-ring { width:52px; height:52px; border-color:var(--cyan); }
 
-        /* ── Selettore lingua (stesso stile di index.html) ── */
-        #lang-switcher {
-            position: relative;
-            display: inline-block;
-        }
+/* ── THREE.JS CANVAS ───────────────────────────────────────────── */
+#three-canvas {
+  position: fixed; inset:0; z-index:0;
+  pointer-events: none;
+}
 
-        #lang-current {
-            background: rgba(255,255,255,0.06);
-            border: 1px solid rgba(255,255,255,0.18);
-            border-radius: 30px;
-            cursor: pointer;
-            font-size: 18px;
-            padding: 6px 12px;
-            line-height: 1;
-            transition: border-color 0.2s, background 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            color: rgba(255,255,255,0.8);
-            backdrop-filter: blur(10px);
-        }
-        #lang-current:hover,
-        #lang-switcher:hover #lang-current {
-            border-color: rgba(255,255,255,0.5);
-            background: rgba(255,255,255,0.14);
-        }
-        #lang-current .arrow { font-size: 9px; opacity: 0.6; }
+/* ── NAV ────────────────────────────────────────────────────────── */
+.am-nav {
+  position: fixed; top:0; left:0; right:0; z-index:500;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 40px;
+  background: rgba(5,5,15,0);
+  backdrop-filter: blur(0px);
+  border-bottom: 1px solid transparent;
+  transition: background .4s, backdrop-filter .4s, border-color .4s;
+}
+.am-nav.scrolled {
+  background: rgba(5,5,15,0.88);
+  backdrop-filter: blur(20px);
+  border-color: var(--border);
+}
+.am-nav-back {
+  display: flex; align-items: center; gap:8px;
+  text-decoration: none;
+  font-family: var(--mono);
+  font-size: .65rem; letter-spacing:.14em; text-transform:uppercase;
+  color: var(--muted);
+  transition: color .2s;
+}
+.am-nav-back:hover { color: var(--violet2); }
+.am-nav-back i { font-size:.6rem; }
+.am-nav-logo {
+  font-family: var(--sg); font-weight:700; font-size:.9rem;
+  letter-spacing:.08em;
+  background: linear-gradient(135deg, var(--violet),var(--cyan));
+  -webkit-background-clip: text; background-clip:text;
+  -webkit-text-fill-color: transparent;
+}
+.am-nav-links {
+  display: flex; gap:28px; list-style:none;
+}
+.am-nav-links a {
+  font-family: var(--mono); font-size:.58rem; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--low); text-decoration:none;
+  transition: color .2s;
+}
+.am-nav-links a:hover { color:var(--text); }
 
-        #lang-dropdown {
-            display: none;
-            position: absolute;
-            top: calc(100% + 6px);
-            right: 0;
-            background: rgba(15,15,30,0.97);
-            border: 1px solid rgba(255,255,255,0.15);
-            border-radius: 12px;
-            overflow: hidden;
-            z-index: 200;
-            min-width: 140px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.6);
-        }
-        #lang-switcher:hover #lang-dropdown { display: block; }
+/* ── HERO ────────────────────────────────────────────────────────── */
+.am-hero {
+  position: relative; z-index:1;
+  min-height: 100vh;
+  display: flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  text-align:center;
+  padding: 0 24px;
+  overflow: hidden;
+}
 
-        #lang-dropdown button {
-            display: flex;
-            align-items: center;
-            gap: 9px;
-            width: 100%;
-            background: none;
-            border: none;
-            padding: 9px 14px;
-            cursor: pointer;
-            font-size: 13px;
-            color: rgba(255,255,255,0.8);
-            transition: background 0.15s;
-            white-space: nowrap;
-        }
-        #lang-dropdown button:hover { background: rgba(255,255,255,0.08); }
-        #lang-dropdown button.active { color: #fff; font-weight: bold; }
-        #lang-dropdown button .flag { font-size: 18px; }
+.am-hero-eyebrow {
+  font-family: var(--mono); font-size:.62rem;
+  letter-spacing:.22em; text-transform:uppercase;
+  color: var(--violet2); margin-bottom:24px;
+  opacity:0;
+}
 
-        /* ── Sezione hero ── */
-        .am-hero {
-            text-align: center;
-            padding: 120px 24px 60px;
-            position: relative;
-            z-index: 1;
-        }
+.am-hero-name {
+  font-size: clamp(3.2rem, 10vw, 8rem);
+  font-weight: 700; letter-spacing:-.04em; line-height:1;
+  margin-bottom: 20px;
+  position: relative;
+  opacity:0;
+}
+/* glitch layers */
+.am-hero-name::before,
+.am-hero-name::after {
+  content: attr(data-text);
+  position:absolute; top:0; left:0; right:0;
+  pointer-events:none;
+}
+.am-hero-name::before {
+  background: linear-gradient(135deg, var(--violet2), var(--cyan));
+  -webkit-background-clip:text; background-clip:text;
+  -webkit-text-fill-color:transparent;
+  clip-path: polygon(0 0,100% 0,100% 45%,0 45%);
+  transform: translateX(-3px);
+  animation: glitch1 4s infinite;
+}
+.am-hero-name::after {
+  background: linear-gradient(135deg, var(--cyan), var(--violet2));
+  -webkit-background-clip:text; background-clip:text;
+  -webkit-text-fill-color:transparent;
+  clip-path: polygon(0 55%,100% 55%,100% 100%,0 100%);
+  transform: translateX(3px);
+  animation: glitch2 4s infinite;
+}
+/* base name gradient */
+.am-hero-name span {
+  background: linear-gradient(135deg, var(--text) 0%, var(--violet2) 50%, var(--cyan) 100%);
+  -webkit-background-clip:text; background-clip:text;
+  -webkit-text-fill-color:transparent;
+  display:block;
+}
+@keyframes glitch1 {
+  0%,90%,100% { transform:translateX(-3px); opacity:0; }
+  91% { transform:translateX(-6px) skewX(-2deg); opacity:.7; }
+  92% { transform:translateX(4px); opacity:.5; }
+  93% { transform:translateX(-3px); opacity:.8; }
+  95%,97%,99% { opacity:0; }
+}
+@keyframes glitch2 {
+  0%,90%,100% { transform:translateX(3px); opacity:0; }
+  91% { transform:translateX(6px) skewX(2deg); opacity:.6; }
+  92% { transform:translateX(-4px); opacity:.4; }
+  93% { transform:translateX(3px); opacity:.7; }
+  95%,97%,99% { opacity:0; }
+}
 
-        .am-hero-avatar {
-            width: 110px;
-            height: 110px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid rgba(255,255,255,0.15);
-            box-shadow: 0 0 40px rgba(79,142,247,0.35);
-            margin-bottom: 24px;
-        }
+/* typewriter role */
+.am-hero-role {
+  font-family: var(--mono); font-size:clamp(.85rem,2vw,1.1rem);
+  color: var(--muted); letter-spacing:.08em;
+  margin-bottom: 40px; min-height:1.5em;
+  opacity:0;
+}
+.am-cursor { display:inline-block; width:2px; height:1em; background:var(--violet2); margin-left:2px; animation:blink 1s step-end infinite; vertical-align:text-bottom; }
+@keyframes blink { 50% { opacity:0; } }
 
-        .am-hero h1 {
-            font-size: 2.6em;
-            margin: 0 0 10px;
-            letter-spacing: 0.04em;
-            background: linear-gradient(120deg, #fff 30%, #8ab4f8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
+/* scroll cue */
+.am-scroll-cue {
+  position:absolute; bottom:36px; left:50%;
+  transform:translateX(-50%);
+  display:flex; flex-direction:column; align-items:center; gap:6px;
+  opacity:0;
+}
+.am-scroll-cue-line {
+  width:1px; height:60px;
+  background: linear-gradient(to bottom, var(--violet2), transparent);
+  animation: scrollLine 2s ease-in-out infinite;
+}
+.am-scroll-cue-label {
+  font-family:var(--mono); font-size:.5rem; letter-spacing:.2em;
+  text-transform:uppercase; color:var(--low);
+}
+@keyframes scrollLine {
+  0% { transform:scaleY(0); transform-origin:top; }
+  50% { transform:scaleY(1); transform-origin:top; }
+  51% { transform-origin:bottom; }
+  100% { transform:scaleY(0); transform-origin:bottom; }
+}
 
-        .am-hero p {
-            font-size: 1em;
-            color: rgba(255,255,255,0.5);
-            margin: 0;
-            letter-spacing: 0.08em;
-        }
+/* ── HOLOGRAPHIC ID CARD ─────────────────────────────────────────── */
+.am-card-section {
+  position: relative; z-index:1;
+  padding: 80px 40px 100px;
+  display: flex; align-items:center; justify-content:center; gap:80px;
+  flex-wrap: wrap;
+}
 
-        /* ── Particelle fluttuanti di sfondo ── */
-        #am-particles {
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            z-index: 0;
-            overflow: hidden;
-        }
-        .am-particle {
-            position: absolute;
-            border-radius: 50%;
-            opacity: 0;
-            animation: am-float linear infinite;
-        }
-        @keyframes am-float {
-            0%   { transform: translateY(100vh) scale(0); opacity: 0; }
-            10%  { opacity: .4; }
-            90%  { opacity: .2; }
-            100% { transform: translateY(-10vh) scale(1); opacity: 0; }
-        }
+.am-holo-card-wrap {
+  perspective: 800px;
+  width: 340px; flex-shrink:0;
+}
 
-        /* ── Griglia di card ── */
-        .am-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 28px;
-            justify-content: center;
-            padding: 0 32px 80px;
-            max-width: 1100px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 1;
-        }
+.am-holo-card {
+  width:340px; height:460px;
+  border-radius: 24px;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform .08s linear;
+  cursor: none;
+}
 
-        /* ── Card con effetto tilt 3D ── */
-        .am-card {
-            position: relative;
-            width: 300px;
-            min-height: 280px;
-            border-radius: 22px;
-            background: rgba(255,255,255,0.04);
-            border: 1px solid rgba(255,255,255,0.1);
-            backdrop-filter: blur(14px);
-            transform-style: preserve-3d;
-            transition: box-shadow 0.3s ease;
-            cursor: default;
-            overflow: hidden;
-        }
+/* animated gradient border */
+.am-holo-card::before {
+  content:'';
+  position:absolute; inset:-2px;
+  border-radius:26px;
+  background: conic-gradient(
+    from var(--angle, 0deg),
+    var(--violet), var(--cyan), #ec4899, var(--violet2), var(--cyan), var(--violet)
+  );
+  animation: spinBorder 4s linear infinite;
+  z-index:-1;
+}
+@property --angle { syntax:'<angle>'; inherits:false; initial-value:0deg; }
+@keyframes spinBorder { to { --angle: 360deg; } }
 
-        .am-card-inner {
-            position: relative;
-            z-index: 2;
-            padding: 36px 30px 30px;
-            transform: translateZ(28px);
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
+/* card inner */
+.am-holo-card-inner {
+  position:absolute; inset:2px;
+  border-radius:22px;
+  background: linear-gradient(145deg, #0d0d20, #12112a, #0a0a1a);
+  overflow:hidden;
+  padding:32px 28px;
+  display:flex; flex-direction:column;
+}
 
-        .am-card-icon { font-size: 2.6em; filter: drop-shadow(0 0 14px rgba(255,255,255,0.3)); }
-        .am-card h2  { margin: 0; font-size: 1.15em; color: #fff; letter-spacing: 0.04em; }
-        .am-card p   { margin: 0; font-size: 0.88em; color: rgba(255,255,255,0.55); line-height: 1.7; }
+/* scan line */
+.am-scan-line {
+  position:absolute; left:0; right:0; height:2px;
+  background: linear-gradient(90deg, transparent, rgba(34,211,238,.6), transparent);
+  animation: scanDown 3s ease-in-out infinite;
+  pointer-events:none;
+}
+@keyframes scanDown {
+  0%   { top:-2px; opacity:0; }
+  5%   { opacity:1; }
+  95%  { opacity:1; }
+  100% { top:100%; opacity:0; }
+}
 
-        .am-tags { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 6px; }
-        .am-tag  {
-            padding: 3px 11px; border-radius: 20px; font-size: 0.72em; letter-spacing: 0.06em;
-            border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.65);
-            background: rgba(255,255,255,0.06);
-        }
+/* holographic sheen */
+.am-holo-sheen {
+  position:absolute; inset:0; border-radius:22px;
+  background: linear-gradient(
+    105deg,
+    transparent 40%,
+    rgba(168,85,247,.08) 50%,
+    rgba(34,211,238,.06) 60%,
+    transparent 70%
+  );
+  pointer-events:none;
+  transition: opacity .3s;
+}
 
-        .am-glow {
-            position: absolute; inset: 0; border-radius: 22px;
-            background: radial-gradient(circle at var(--gx,50%) var(--gy,50%), var(--glow-color,rgba(255,255,255,.18)) 0%, transparent 65%);
-            opacity: 0; transition: opacity 0.35s ease; pointer-events: none; z-index: 1;
-        }
-        .am-card:hover .am-glow { opacity: 1; }
-        .am-card:hover { box-shadow: 0 28px 56px rgba(0,0,0,.5), 0 0 36px var(--shadow-color,rgba(255,255,255,.08)); }
+.am-card-chip {
+  width:42px; height:30px; border-radius:5px;
+  background: linear-gradient(135deg, #d4a853, #f5d483, #b8860b);
+  margin-bottom:24px; position:relative;
+  box-shadow: 0 2px 8px rgba(212,168,83,.3);
+}
+.am-card-chip::after {
+  content:''; position:absolute; inset:4px;
+  border-radius:3px;
+  border: 1px solid rgba(0,0,0,.2);
+}
 
-        .am-burst-particle {
-            position: absolute; border-radius: 50%; pointer-events: none;
-            animation: am-burst 0.7s ease-out forwards; z-index: 3;
-        }
-        @keyframes am-burst {
-            0%   { transform: translate(0,0) scale(1); opacity: 1; }
-            100% { transform: translate(var(--tx),var(--ty)) scale(0); opacity: 0; }
-        }
+.am-card-avatar {
+  font-size:3rem; margin-bottom:12px; line-height:1;
+}
 
-        /* ── Barre delle competenze ── */
-        .am-skill { margin-bottom: 14px; }
-        .am-skill-label {
-            display: flex; justify-content: space-between;
-            font-size: 0.82em; color: rgba(255,255,255,0.65); margin-bottom: 5px;
-        }
-        .am-skill-track { height: 5px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden; }
-        .am-skill-bar {
-            height: 100%; border-radius: 3px;
-            background: linear-gradient(90deg, var(--bar-color,#4f8ef7), var(--bar-color2,#a259ff));
-            width: 0%; transition: width 1.2s cubic-bezier(.25,.46,.45,.94);
-        }
-    </style>
+.am-card-name {
+  font-size:1.3rem; font-weight:700; letter-spacing:-.02em;
+  color:var(--text); margin-bottom:4px;
+}
+.am-card-role {
+  font-family:var(--mono); font-size:.62rem; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--cyan); margin-bottom:20px;
+}
+
+.am-card-divider {
+  height:1px; background:var(--border); margin-bottom:20px;
+}
+
+.am-card-stats {
+  display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:auto;
+}
+.am-card-stat-label {
+  font-family:var(--mono); font-size:.48rem; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--low); margin-bottom:3px;
+}
+.am-card-stat-val {
+  font-size:.82rem; font-weight:600; color:var(--text);
+}
+
+.am-card-id {
+  margin-top:auto; padding-top:16px;
+  display:flex; align-items:center; justify-content:space-between;
+}
+.am-card-id-num {
+  font-family:var(--mono); font-size:.52rem; letter-spacing:.14em;
+  color:var(--low);
+}
+.am-card-nfc {
+  width:22px; height:22px; border-radius:50%;
+  border: 1px solid var(--border);
+  display:flex; align-items:center; justify-content:center;
+}
+.am-card-nfc::before,
+.am-card-nfc::after {
+  content:''; position:absolute;
+  border-radius:50%; border:1px solid rgba(34,211,238,.3);
+  animation:nfcPulse 2.5s ease-out infinite;
+}
+.am-card-nfc::before { width:28px;height:28px; }
+.am-card-nfc::after  { width:36px;height:36px; animation-delay:.4s; }
+@keyframes nfcPulse {
+  0%   { transform:scale(.8); opacity:.8; }
+  100% { transform:scale(1.5); opacity:0; }
+}
+
+/* card bio text */
+.am-card-bio-wrap {
+  flex:1; max-width:480px;
+}
+.am-card-bio-eyebrow {
+  font-family:var(--mono); font-size:.6rem; letter-spacing:.18em;
+  text-transform:uppercase; color:var(--violet2); margin-bottom:16px;
+}
+.am-card-bio-text {
+  font-size:1.05rem; line-height:1.8; color:var(--muted);
+  margin-bottom:28px;
+}
+.am-card-bio-text strong { color:var(--text); font-weight:600; }
+.am-card-bio-links {
+  display:flex; flex-wrap:wrap; gap:10px;
+}
+.am-card-link {
+  display:inline-flex; align-items:center; gap:6px;
+  text-decoration:none; font-family:var(--mono); font-size:.62rem;
+  letter-spacing:.08em; text-transform:uppercase;
+  padding:8px 16px; border-radius:6px;
+  border:1px solid var(--border); background:var(--surface);
+  color:var(--muted);
+  transition: color .2s, border-color .2s, background .2s;
+}
+.am-card-link:hover { color:var(--violet2); border-color:rgba(168,85,247,.4); background:rgba(168,85,247,.06); }
+.am-card-link.primary {
+  background:linear-gradient(135deg,var(--violet),var(--violet2));
+  border-color:transparent; color:#fff;
+}
+.am-card-link.primary:hover { opacity:.88; }
+
+/* ── SECTION SHARED ──────────────────────────────────────────────── */
+.am-section {
+  position:relative; z-index:1;
+  padding:100px 40px;
+  max-width:1100px; margin:0 auto;
+}
+.am-sec-label {
+  font-family:var(--mono); font-size:.62rem; letter-spacing:.2em;
+  text-transform:uppercase; color:var(--violet2); margin-bottom:12px;
+  display:flex; align-items:center; gap:10px;
+}
+.am-sec-label::before {
+  content:''; width:24px; height:1px; background:var(--violet2); opacity:.6;
+}
+.am-sec-title {
+  font-size:clamp(2rem,4vw,3rem); font-weight:700; letter-spacing:-.03em;
+  color:var(--text); margin-bottom:56px; line-height:1.1;
+}
+
+/* ── STATS COUNTER ───────────────────────────────────────────────── */
+.am-stats-grid {
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+  gap:20px; margin-top:0;
+}
+.am-stat-card {
+  padding:28px 24px;
+  border:1px solid var(--border); border-radius:16px;
+  background:var(--surface);
+  text-align:center;
+  position:relative; overflow:hidden;
+  transition: border-color .3s, background .3s, transform .3s;
+}
+.am-stat-card::before {
+  content:''; position:absolute; inset:0;
+  background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(124,58,237,.1), transparent);
+  opacity:0; transition:opacity .3s;
+}
+.am-stat-card:hover { border-color:rgba(124,58,237,.35); transform:translateY(-4px); }
+.am-stat-card:hover::before { opacity:1; }
+.am-stat-icon { font-size:1.6rem; margin-bottom:12px; }
+.am-stat-num {
+  font-family:var(--mono); font-size:2.8rem; font-weight:700;
+  background:linear-gradient(135deg,var(--violet2),var(--cyan));
+  -webkit-background-clip:text; background-clip:text;
+  -webkit-text-fill-color:transparent;
+  line-height:1; margin-bottom:6px;
+}
+.am-stat-desc {
+  font-size:.8rem; color:var(--low); letter-spacing:.04em;
+}
+
+/* ── SKILL SPHERE ───────────────────────────────────────────────── */
+.am-sphere-wrap {
+  display:flex; flex-direction:column; align-items:center;
+  gap:48px;
+}
+#skill-sphere {
+  position:relative;
+  width:520px; height:520px;
+  max-width:90vw;
+}
+.skill-tag {
+  position:absolute;
+  font-family:var(--mono); font-size:.62rem; letter-spacing:.08em;
+  text-transform:uppercase;
+  padding:5px 12px; border-radius:4px;
+  border:1px solid rgba(255,255,255,.06);
+  background:rgba(255,255,255,.03);
+  color:var(--low);
+  cursor:default;
+  transition:color .3s, border-color .3s, background .3s;
+  white-space:nowrap;
+  transform-origin:center center;
+  user-select:none;
+}
+.skill-tag:hover {
+  color:var(--text); border-color:rgba(168,85,247,.5);
+  background:rgba(168,85,247,.08);
+}
+
+/* ── LANGUAGES ────────────────────────────────────────────────────── */
+.am-langs-grid {
+  display:flex; flex-wrap:wrap; gap:40px; justify-content:center;
+}
+.am-lang-item {
+  display:flex; flex-direction:column; align-items:center; gap:14px;
+  width:130px;
+}
+.am-ring-wrap {
+  position:relative; width:100px; height:100px;
+}
+.am-ring-wrap svg { transform:rotate(-90deg); }
+.am-ring-bg { fill:none; stroke:rgba(255,255,255,.06); stroke-width:4; }
+.am-ring-fill {
+  fill:none; stroke-width:4; stroke-linecap:round;
+  stroke-dasharray:283; stroke-dashoffset:283;
+  transition:stroke-dashoffset 1.5s cubic-bezier(0.16,1,0.3,1);
+}
+.am-ring-label {
+  position:absolute; top:50%; left:50%;
+  transform:translate(-50%,-50%);
+  font-family:var(--mono); font-size:.85rem; font-weight:700;
+  color:var(--text);
+}
+.am-lang-name {
+  font-size:.88rem; font-weight:600; color:var(--text); text-align:center;
+}
+.am-lang-level {
+  font-family:var(--mono); font-size:.52rem; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--low); text-align:center;
+}
+
+/* ── TIMELINE 3D ────────────────────────────────────────────────────── */
+.am-timeline {
+  position:relative; padding-left:40px;
+}
+.am-timeline::before {
+  content:''; position:absolute; left:0; top:0; bottom:0; width:1px;
+  background:linear-gradient(to bottom, transparent, var(--violet) 15%, rgba(124,58,237,.3) 85%, transparent);
+}
+.am-tl-item {
+  position:relative; margin-bottom:48px;
+  padding-left:32px;
+  opacity:0; transform:translateX(-24px) translateZ(-20px);
+}
+.am-tl-item.visible {
+  opacity:1; transform:translateX(0) translateZ(0);
+  transition:opacity .6s ease, transform .6s ease;
+}
+.am-tl-dot {
+  position:absolute; left:-42px; top:4px;
+  width:12px; height:12px; border-radius:50%;
+  border:2px solid var(--violet);
+  background:var(--void);
+  box-shadow:0 0 12px rgba(124,58,237,.5);
+}
+.am-tl-dot.active { background:var(--violet2); box-shadow:0 0 16px rgba(168,85,247,.8); }
+.am-tl-period {
+  font-family:var(--mono); font-size:.58rem; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--low); margin-bottom:6px;
+}
+.am-tl-title {
+  font-size:1rem; font-weight:700; color:var(--text);
+  margin-bottom:6px; letter-spacing:-.01em;
+}
+.am-tl-sub {
+  font-size:.82rem; color:var(--muted); line-height:1.6;
+}
+.am-tl-tags {
+  display:flex; flex-wrap:wrap; gap:5px; margin-top:10px;
+}
+.am-tl-tag {
+  font-family:var(--mono); font-size:.5rem; letter-spacing:.1em;
+  text-transform:uppercase; padding:2px 8px; border-radius:2px;
+  color:var(--low); border:1px solid rgba(255,255,255,.07);
+}
+
+/* ── DECODE TEXT ─────────────────────────────────────────────────── */
+.am-decode {
+  font-size:1.05rem; line-height:1.85; color:var(--muted);
+  max-width:640px;
+}
+.am-decode strong { color:var(--text); }
+.am-decode .hl { color:var(--violet2); }
+.am-decode .hl-c { color:var(--cyan); }
+
+/* ── CONTACT SECTION ─────────────────────────────────────────────── */
+.am-contact-grid {
+  display:flex; flex-wrap:wrap; gap:14px;
+}
+.am-contact-btn {
+  display:inline-flex; align-items:center; gap:10px;
+  text-decoration:none; font-family:var(--mono); font-size:.68rem;
+  letter-spacing:.1em; text-transform:uppercase;
+  padding:14px 24px; border-radius:10px;
+  border:1px solid var(--border); background:var(--surface);
+  color:var(--muted);
+  transition:color .2s,border-color .2s,background .2s,transform .2s;
+}
+.am-contact-btn:hover {
+  color:var(--text); border-color:rgba(168,85,247,.4);
+  background:rgba(168,85,247,.06); transform:translateY(-3px);
+}
+.am-contact-btn.primary {
+  background:linear-gradient(135deg,var(--violet),var(--violet2));
+  border-color:transparent; color:#fff;
+}
+.am-contact-btn.primary:hover { opacity:.88; transform:translateY(-3px); }
+
+/* ── SECTION DIVIDERS ─────────────────────────────────────────────── */
+.am-divider {
+  height:1px; max-width:1100px; margin:0 auto;
+  background:linear-gradient(90deg,transparent,rgba(124,58,237,.3) 30%,rgba(34,211,238,.2) 70%,transparent);
+  position:relative; z-index:1;
+}
+
+/* ── NOISE OVERLAY ────────────────────────────────────────────────── */
+.am-noise {
+  position:fixed; inset:0; z-index:2; pointer-events:none;
+  opacity:.025;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ── RESPONSIVE ───────────────────────────────────────────────────── */
+@media(max-width:768px){
+  .am-nav { padding:16px 20px; }
+  .am-nav-links { display:none; }
+  .am-card-section { gap:40px; padding:60px 20px 80px; }
+  .am-holo-card-wrap,.am-holo-card { width:300px; }
+  .am-holo-card { height:420px; }
+  .am-section { padding:72px 20px; }
+  #skill-sphere { width:340px; height:340px; }
+}
+@media(max-width:480px){
+  .am-hero-name { font-size:clamp(2.4rem,12vw,3.6rem); }
+}
+</style>
 </head>
-<body class="aboutme-body">
+<body>
 
-    <div id="am-particles"></div>
+<!-- Custom cursor -->
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
 
-    <!-- Barra superiore -->
-    <div id="top-bar">
-        <a id="home-btn" href="https://edwardattuati.com/">
-            <span>←</span> <span data-i18n="home-btn">Back to Home</span>
-        </a>
+<!-- Three.js canvas -->
+<canvas id="three-canvas"></canvas>
 
-        <div id="lang-switcher">
-            <button id="lang-current">
-                <span id="lang-flag">🇬🇧</span>
-                <span class="arrow">▼</span>
-            </button>
-            <div id="lang-dropdown">
-                <button onclick="setLang('en')" data-lang="en" class="active"><span class="flag">🇬🇧</span> English</button>
-                <button onclick="setLang('it')" data-lang="it"><span class="flag">🇮🇹</span> Italiano</button>
-                <button onclick="setLang('es')" data-lang="es"><span class="flag">🇪🇸</span> Español</button>
-                <button onclick="setLang('zh')" data-lang="zh"><span class="flag">🇨🇳</span> 中文</button>
-                <button onclick="setLang('ja')" data-lang="ja"><span class="flag">🇯🇵</span> 日本語</button>
-            </div>
+<!-- Noise overlay -->
+<div class="am-noise"></div>
+
+<!-- ── NAV ────────────────────────────────────────────────────────── -->
+<nav class="am-nav" id="amNav">
+  <a href="index.html" class="am-nav-back">← Portfolio</a>
+  <span class="am-nav-logo">EA</span>
+  <ul class="am-nav-links">
+    <li><a href="#identity">Identity</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#journey">Journey</a></li>
+    <li><a href="#languages">Languages</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- ── HERO ───────────────────────────────────────────────────────── -->
+<section class="am-hero" id="hero">
+  <div class="am-hero-eyebrow" id="heroEyebrow">// identity_file — edward_attuati.json</div>
+
+  <h1 class="am-hero-name" id="heroName" data-text="EDWARD ATTUATI">
+    <span>EDWARD ATTUATI</span>
+  </h1>
+
+  <p class="am-hero-role" id="heroRole">
+    <span id="typeTarget"></span><span class="am-cursor"></span>
+  </p>
+
+  <div class="am-scroll-cue" id="scrollCue">
+    <div class="am-scroll-cue-line"></div>
+    <span class="am-scroll-cue-label">scroll</span>
+  </div>
+</section>
+
+<!-- ── HOLOGRAPHIC CARD + BIO ─────────────────────────────────────── -->
+<section class="am-card-section" id="identity">
+
+  <!-- 3D Tilt Card -->
+  <div class="am-holo-card-wrap" id="cardWrap">
+    <div class="am-holo-card" id="holoCard">
+      <div class="am-holo-card-inner">
+        <div class="am-scan-line"></div>
+        <div class="am-holo-sheen" id="holoSheen"></div>
+        <div class="am-card-chip"></div>
+        <div class="am-card-avatar">🧑‍💻</div>
+        <div class="am-card-name">Edward Attuati</div>
+        <div class="am-card-role">Computer Engineering</div>
+        <div class="am-card-divider"></div>
+        <div class="am-card-stats">
+          <div>
+            <div class="am-card-stat-label">University</div>
+            <div class="am-card-stat-val">UniBS</div>
+          </div>
+          <div>
+            <div class="am-card-stat-label">Year</div>
+            <div class="am-card-stat-val">2024 →</div>
+          </div>
+          <div>
+            <div class="am-card-stat-label">Languages</div>
+            <div class="am-card-stat-val">5</div>
+          </div>
+          <div>
+            <div class="am-card-stat-label">Projects</div>
+            <div class="am-card-stat-val">3+</div>
+          </div>
         </div>
+        <div class="am-card-id">
+          <span class="am-card-id-num">ID #EA-2024-BSC</span>
+          <div class="am-card-nfc" style="position:relative;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bio -->
+  <div class="am-card-bio-wrap">
+    <div class="am-card-bio-eyebrow">// bio.txt</div>
+    <p class="am-card-bio-text am-decode" id="bioDecode">
+      I'm a <strong>Computer Engineering student</strong> at <span class="hl">Università di Brescia</span>,
+      building things at the intersection of <span class="hl-c">code</span>, <span class="hl">design</span>,
+      and <span class="hl-c">user experience</span>.<br><br>
+      I believe software should feel as good as it works.
+      From Flutter mobile apps to custom web experiences, I obsess over
+      the details that most people never notice — <strong>and that's the point</strong>.<br><br>
+      When I'm not writing code, I'm usually learning a new language,
+      exploring design systems, or breaking something on purpose to understand it better.
+    </p>
+    <div class="am-card-bio-links">
+      <a href="mailto:edwardattuati@icloud.com" class="am-card-link primary">Email me</a>
+      <a href="https://it.linkedin.com/in/edward-attuati-41a54823b" target="_blank" class="am-card-link">LinkedIn</a>
+      <a href="https://github.com/edward070707" target="_blank" class="am-card-link">GitHub</a>
+      <a href="cv.html" class="am-card-link">CV</a>
+    </div>
+  </div>
+</section>
+
+<div class="am-divider"></div>
+
+<!-- ── STATS ───────────────────────────────────────────────────────── -->
+<section class="am-section">
+  <div class="am-sec-label">// metrics</div>
+  <h2 class="am-sec-title">By the numbers</h2>
+  <div class="am-stats-grid">
+    <div class="am-stat-card">
+      <div class="am-stat-icon">🎓</div>
+      <div class="am-stat-num" data-target="3" data-suffix="+">0</div>
+      <div class="am-stat-desc">Years of coding</div>
+    </div>
+    <div class="am-stat-card">
+      <div class="am-stat-icon">📱</div>
+      <div class="am-stat-num" data-target="3" data-suffix="+">0</div>
+      <div class="am-stat-desc">Full projects shipped</div>
+    </div>
+    <div class="am-stat-card">
+      <div class="am-stat-icon">🌍</div>
+      <div class="am-stat-num" data-target="5" data-suffix="">0</div>
+      <div class="am-stat-desc">Languages spoken</div>
+    </div>
+    <div class="am-stat-card">
+      <div class="am-stat-icon">⭐</div>
+      <div class="am-stat-num" data-target="43" data-suffix="">0</div>
+      <div class="am-stat-desc">Dart files in Memive</div>
+    </div>
+    <div class="am-stat-card">
+      <div class="am-stat-icon">☕</div>
+      <div class="am-stat-num" data-target="847" data-suffix="">0</div>
+      <div class="am-stat-desc">Commits on GitHub</div>
+    </div>
+    <div class="am-stat-card">
+      <div class="am-stat-icon">🏗️</div>
+      <div class="am-stat-num" data-target="100" data-suffix="%">0</div>
+      <div class="am-stat-desc">Hand-coded portfolio</div>
+    </div>
+  </div>
+</section>
+
+<div class="am-divider"></div>
+
+<!-- ── SKILL SPHERE ────────────────────────────────────────────────── -->
+<section class="am-section" id="skills">
+  <div class="am-sec-label">// tech_stack</div>
+  <h2 class="am-sec-title">Skills in orbit</h2>
+  <div class="am-sphere-wrap">
+    <div id="skill-sphere"></div>
+  </div>
+</section>
+
+<div class="am-divider"></div>
+
+<!-- ── TIMELINE ────────────────────────────────────────────────────── -->
+<section class="am-section" id="journey">
+  <div class="am-sec-label">// journey.log</div>
+  <h2 class="am-sec-title">How I got here</h2>
+  <div class="am-timeline" id="timeline">
+
+    <div class="am-tl-item" data-delay="0">
+      <div class="am-tl-dot active"></div>
+      <div class="am-tl-period">2024 → Present</div>
+      <div class="am-tl-title">Computer Engineering — Università di Brescia</div>
+      <div class="am-tl-sub">Bachelor's degree. Algorithms, data structures, software engineering, computer architecture. Building the theoretical foundation while shipping real projects on the side.</div>
+      <div class="am-tl-tags">
+        <span class="am-tl-tag">C</span><span class="am-tl-tag">Java</span><span class="am-tl-tag">Python</span><span class="am-tl-tag">Maths</span>
+      </div>
     </div>
 
-    <!-- Sezione hero -->
-    <div class="am-hero">
-        <img src="imagesAboutMe/pic01.jpg" alt="Edward Attuati" class="am-hero-avatar"
-             onerror="this.style.display='none'">
-        <h1>Edward Attuati</h1>
-        <p data-i18n="hero-sub">Computer Engineering · Università di Brescia · Bergamo, Italy</p>
+    <div class="am-tl-item" data-delay="100">
+      <div class="am-tl-dot active"></div>
+      <div class="am-tl-period">2024</div>
+      <div class="am-tl-title">Memive — Social Audio Platform</div>
+      <div class="am-tl-sub">Built a full social network from scratch. Flutter + Firebase Auth + Firestore + Storage. 43 Dart files, real mic recording, Firebase deploy. Solo.</div>
+      <div class="am-tl-tags">
+        <span class="am-tl-tag">Flutter</span><span class="am-tl-tag">Firebase</span><span class="am-tl-tag">Dart</span><span class="am-tl-tag">Design</span>
+      </div>
     </div>
 
-    <!-- Card informative -->
-    <div class="am-grid">
-
-        <div class="am-card" data-color="#4f8ef7">
-            <div class="am-card-inner">
-                <div class="am-card-icon">👤</div>
-                <h2 data-i18n="card-about-title">About Me</h2>
-                <p data-i18n="card-about-desc">I am a Computer Engineering student with strong theoretical and practical skills in programming. Proficient in rapid learning, listening, and teamwork — I stand out for precision in executing assigned tasks and for being proactive.</p>
-            </div>
-            <div class="am-glow"></div>
-        </div>
-
-        <div class="am-card" data-color="#a259ff">
-            <div class="am-card-inner">
-                <div class="am-card-icon">⚡</div>
-                <h2 data-i18n="card-skills-title">Skills</h2>
-                <div class="am-skill">
-                    <div class="am-skill-label"><span>HTML / CSS</span><span>90%</span></div>
-                    <div class="am-skill-track"><div class="am-skill-bar" data-w="90" style="--bar-color:#00d4aa;--bar-color2:#4f8ef7"></div></div>
-                </div>
-                <div class="am-skill">
-                    <div class="am-skill-label"><span>JavaScript</span><span>82%</span></div>
-                    <div class="am-skill-track"><div class="am-skill-bar" data-w="82" style="--bar-color:#4f8ef7;--bar-color2:#a259ff"></div></div>
-                </div>
-                <div class="am-skill">
-                    <div class="am-skill-label"><span>Python</span><span>82%</span></div>
-                    <div class="am-skill-track"><div class="am-skill-bar" data-w="82" style="--bar-color:#4f8ef7;--bar-color2:#00d4aa"></div></div>
-                </div>
-                <div class="am-skill">
-                    <div class="am-skill-label"><span>SQL</span><span>78%</span></div>
-                    <div class="am-skill-track"><div class="am-skill-bar" data-w="78" style="--bar-color:#ffaa00;--bar-color2:#ff6b6b"></div></div>
-                </div>
-                <div class="am-skill">
-                    <div class="am-skill-label"><span>C / C++</span><span>72%</span></div>
-                    <div class="am-skill-track"><div class="am-skill-bar" data-w="72" style="--bar-color:#a259ff;--bar-color2:#4f8ef7"></div></div>
-                </div>
-                <div class="am-skill">
-                    <div class="am-skill-label"><span>Java</span><span>65%</span></div>
-                    <div class="am-skill-track"><div class="am-skill-bar" data-w="65" style="--bar-color:#ff6b6b;--bar-color2:#ffa500"></div></div>
-                </div>
-            </div>
-            <div class="am-glow"></div>
-        </div>
-
-        <div class="am-card" data-color="#00d4aa">
-            <div class="am-card-inner">
-                <div class="am-card-icon">🎓</div>
-                <h2 data-i18n="card-edu-title">Education</h2>
-                <p data-i18n-html="card-edu-desc">
-                    <strong style="color:rgba(255,255,255,.85);">Università di Brescia</strong><br>
-                    B.Sc. Computer Engineering — 3rd Year<br><br>
-                    <strong style="color:rgba(255,255,255,.85);">Unity Junior Programmer</strong><br>
-                    Unity Technologies · Credly Certification<br><br>
-                    <strong style="color:rgba(255,255,255,.85);">Liceo Don Milani</strong><br>
-                    Romano di Lombardia — Maturità
-                </p>
-            </div>
-            <div class="am-glow"></div>
-        </div>
-
-        <div class="am-card" data-color="#ff6b6b">
-            <div class="am-card-inner">
-                <div class="am-card-icon">💼</div>
-                <h2 data-i18n="card-work-title">Work Experience</h2>
-                <p data-i18n-html="card-work-desc">
-                    <strong style="color:rgba(255,255,255,.85);">ALLTUB ITALIA — IT Dept.</strong><br>
-                    <span style="display:inline-flex;align-items:center;gap:5px;background:rgba(0,255,128,.12);border:1px solid rgba(0,255,128,.3);border-radius:20px;padding:1px 8px;font-size:11px;color:#00ff88;margin-bottom:6px;">● Current Role</span><br>
-                    Bergamo area · IT infrastructure, systems support and digital processes alongside the company's technology team.<br><br>
-                    <strong style="color:rgba(255,255,255,.85);">Soluzione1 — Ghisalba</strong><br>
-                    IT Internship · 2024 · SQL training, 1st &amp; 2nd level support, collaboration with senior developers.
-                </p>
-            </div>
-            <div class="am-glow"></div>
-        </div>
-
-        <div class="am-card" data-color="#ffaa00">
-            <div class="am-card-inner">
-                <div class="am-card-icon">🌍</div>
-                <h2 data-i18n="card-lang-title">Languages</h2>
-                <div class="am-skill">
-                    <div class="am-skill-label"><span data-i18n="lang-it">🇮🇹 Italian</span><span data-i18n="lang-it-level">Native</span></div>
-                    <div class="am-skill-track"><div class="am-skill-bar" data-w="100" style="--bar-color:#009246;--bar-color2:#ce2b37"></div></div>
-                </div>
-                <div class="am-skill">
-                    <div class="am-skill-label"><span data-i18n="lang-en">🇬🇧 English</span><span data-i18n="lang-en-level">B2</span></div>
-                    <div class="am-skill-track"><div class="am-skill-bar" data-w="70" style="--bar-color:#012169;--bar-color2:#C8102E"></div></div>
-                </div>
-            </div>
-            <div class="am-glow"></div>
-        </div>
-
-        <div class="am-card" data-color="#00aaff">
-            <div class="am-card-inner">
-                <div class="am-card-icon">✨</div>
-                <h2 data-i18n="card-interests-title">Interests</h2>
-                <div class="am-tags">
-                    <span class="am-tag" data-i18n="int-1">Software Dev</span>
-                    <span class="am-tag" data-i18n="int-2">Problem Solving</span>
-                    <span class="am-tag" data-i18n="int-3">Cultures</span>
-                    <span class="am-tag" data-i18n="int-4">Travel</span>
-                    <span class="am-tag" data-i18n="int-5">Music</span>
-                    <span class="am-tag" data-i18n="int-6">Technology</span>
-                    <span class="am-tag" data-i18n="int-7">Gaming</span>
-                    <span class="am-tag" data-i18n="int-8">Open Source</span>
-                </div>
-            </div>
-            <div class="am-glow"></div>
-        </div>
-
+    <div class="am-tl-item" data-delay="200">
+      <div class="am-tl-dot"></div>
+      <div class="am-tl-period">2023 → 2024</div>
+      <div class="am-tl-title">Self-taught Web Development</div>
+      <div class="am-tl-sub">Went deep on HTML, CSS, JavaScript. Built this portfolio from scratch — no frameworks, no templates. DNA canvas, solar system, particle physics, i18n in 5 languages.</div>
+      <div class="am-tl-tags">
+        <span class="am-tl-tag">HTML</span><span class="am-tl-tag">CSS</span><span class="am-tl-tag">JS</span><span class="am-tl-tag">Canvas</span><span class="am-tl-tag">Three.js</span>
+      </div>
     </div>
 
-    <script>
-    /* ── Traduzioni ── */
-    const translations = {
-        en: {
-            'home-btn': 'Back to Home',
-            'hero-sub': 'Computer Engineering · Università di Brescia · Bergamo, Italy',
-            'card-about-title': 'About Me',
-            'card-about-desc': 'I am a Computer Engineering student with strong theoretical and practical skills in programming. Proficient in rapid learning, listening, and teamwork — I stand out for precision in executing assigned tasks and for being proactive.',
-            'card-skills-title': 'Skills',
-            'card-edu-title': 'Education',
-            'card-edu-desc': '<strong style="color:rgba(255,255,255,.85);">Università di Brescia</strong><br>B.Sc. Computer Engineering — 3rd Year<br><br><strong style="color:rgba(255,255,255,.85);">Unity Junior Programmer</strong><br>Unity Technologies · Credly Certification<br><br><strong style="color:rgba(255,255,255,.85);">Liceo Don Milani</strong><br>Romano di Lombardia — Maturità',
-            'card-work-title': 'Work Experience',
-            'card-work-desc': '<strong style="color:rgba(255,255,255,.85);">ALLTUB ITALIA — IT Dept.</strong><br><span style="display:inline-flex;align-items:center;gap:5px;background:rgba(0,255,128,.12);border:1px solid rgba(0,255,128,.3);border-radius:20px;padding:1px 8px;font-size:11px;color:#00ff88;margin-bottom:6px;">● Current Role</span><br>Bergamo area · IT infrastructure, systems support and digital processes alongside the company\'s technology team.<br><br><strong style="color:rgba(255,255,255,.85);">Soluzione1 — Ghisalba</strong><br>IT Internship · 2024 · SQL training, 1st &amp; 2nd level support, collaboration with senior developers.',
-            'card-lang-title': 'Languages',
-            'lang-it': '🇮🇹 Italian', 'lang-it-level': 'Native',
-            'lang-en': '🇬🇧 English', 'lang-en-level': 'B2',
-            'card-interests-title': 'Interests',
-            'int-1':'Software Dev','int-2':'Problem Solving','int-3':'Cultures',
-            'int-4':'Travel','int-5':'Music','int-6':'Technology','int-7':'Gaming','int-8':'Open Source',
-        },
-        it: {
-            'home-btn': 'Torna al sito principale',
-            'hero-sub': 'Ingegneria Informatica · Università di Brescia · Bergamo, Italia',
-            'card-about-title': 'Chi Sono',
-            'card-about-desc': 'Sono uno studente di Ingegneria Informatica con solide competenze teoriche e pratiche nella programmazione. Abile nell\'apprendimento rapido, nell\'ascolto e nel lavoro di squadra — mi distinguo per la precisione nell\'esecuzione e per essere proattivo.',
-            'card-skills-title': 'Competenze',
-            'card-edu-title': 'Formazione',
-            'card-edu-desc': '<strong style="color:rgba(255,255,255,.85);">Università di Brescia</strong><br>Ingegneria Informatica — 3° Anno<br><br><strong style="color:rgba(255,255,255,.85);">Unity Junior Programmer</strong><br>Unity Technologies · Certificazione Credly<br><br><strong style="color:rgba(255,255,255,.85);">Liceo Don Milani</strong><br>Romano di Lombardia — Maturità',
-            'card-work-title': 'Esperienza Lavorativa',
-            'card-work-desc': '<strong style="color:rgba(255,255,255,.85);">ALLTUB ITALIA — Reparto IT</strong><br><span style="display:inline-flex;align-items:center;gap:5px;background:rgba(0,255,128,.12);border:1px solid rgba(0,255,128,.3);border-radius:20px;padding:1px 8px;font-size:11px;color:#00ff88;margin-bottom:6px;">● Ruolo Attuale</span><br>Area Bergamo · Infrastruttura IT, supporto sistemi e processi digitali con il team tecnologico aziendale.<br><br><strong style="color:rgba(255,255,255,.85);">Soluzione1 — Ghisalba</strong><br>Stage IT · 2024 · Formazione SQL, supporto 1° e 2° livello, collaborazione con sviluppatori senior.',
-            'card-lang-title': 'Lingue',
-            'lang-it': '🇮🇹 Italiano', 'lang-it-level': 'Madrelingua',
-            'lang-en': '🇬🇧 Inglese', 'lang-en-level': 'B2',
-            'card-interests-title': 'Interessi',
-            'int-1':'Sviluppo Software','int-2':'Problem Solving','int-3':'Culture',
-            'int-4':'Viaggi','int-5':'Musica','int-6':'Tecnologia','int-7':'Gaming','int-8':'Open Source',
-        },
-        es: {
-            'home-btn': 'Volver al sitio principal',
-            'hero-sub': 'Ingeniería Informática · Università di Brescia · Bérgamo, Italia',
-            'card-about-title': 'Sobre Mí',
-            'card-about-desc': 'Soy estudiante de Ingeniería Informática con sólidas habilidades teóricas y prácticas en programación. Destaco por mi capacidad de aprendizaje rápido, trabajo en equipo y precisión en la ejecución de tareas.',
-            'card-skills-title': 'Habilidades',
-            'card-edu-title': 'Educación',
-            'card-edu-desc': '<strong style="color:rgba(255,255,255,.85);">Università di Brescia</strong><br>Ing. Informática — 3er Año<br><br><strong style="color:rgba(255,255,255,.85);">Unity Junior Programmer</strong><br>Unity Technologies · Certificación Credly<br><br><strong style="color:rgba(255,255,255,.85);">Liceo Don Milani</strong><br>Romano di Lombardia — Maturità',
-            'card-work-title': 'Experiencia Laboral',
-            'card-work-desc': '<strong style="color:rgba(255,255,255,.85);">ALLTUB ITALIA — Dept. IT</strong><br><span style="display:inline-flex;align-items:center;gap:5px;background:rgba(0,255,128,.12);border:1px solid rgba(0,255,128,.3);border-radius:20px;padding:1px 8px;font-size:11px;color:#00ff88;margin-bottom:6px;">● Rol Actual</span><br>Área Bérgamo · Infraestructura IT, soporte de sistemas y procesos digitales con el equipo tecnológico.<br><br><strong style="color:rgba(255,255,255,.85);">Soluzione1 — Ghisalba</strong><br>Prácticas IT · 2024 · Formación SQL, soporte de 1° y 2° nivel, colaboración con desarrolladores senior.',
-            'card-lang-title': 'Idiomas',
-            'lang-it': '🇮🇹 Italiano', 'lang-it-level': 'Nativo',
-            'lang-en': '🇬🇧 Inglés', 'lang-en-level': 'B2',
-            'card-interests-title': 'Intereses',
-            'int-1':'Desarrollo Software','int-2':'Resolución de Problemas','int-3':'Culturas',
-            'int-4':'Viajes','int-5':'Música','int-6':'Tecnología','int-7':'Gaming','int-8':'Open Source',
-        },
-        zh: {
-            'home-btn': '← 返回主页',
-            'hero-sub': '计算机工程专业学生 · 意大利贝尔加莫',
-            'card-about-title': '关于我',
-            'card-about-desc': '我是一名计算机工程专业的学生，具备扎实的编程理论与实践能力。善于快速学习、团队协作，以执行任务的精准度和积极主动的态度著称。',
-            'card-skills-title': '技能',
-            'card-edu-title': '教育经历',
-            'card-edu-desc': '<strong style="color:rgba(255,255,255,.85);">布雷西亚大学</strong><br>计算机工程学士 — 大三在读<br><br><strong style="color:rgba(255,255,255,.85);">Unity初级程序员</strong><br>Unity Technologies · Credly认证<br><br><strong style="color:rgba(255,255,255,.85);">Don Milani 高中</strong><br>Romano di Lombardia — 已毕业',
-            'card-work-title': '工作经历',
-            'card-work-desc': '<strong style="color:rgba(255,255,255,.85);">ALLTUB ITALIA — IT部门</strong><br><span style="display:inline-flex;align-items:center;gap:5px;background:rgba(0,255,128,.12);border:1px solid rgba(0,255,128,.3);border-radius:20px;padding:1px 8px;font-size:11px;color:#00ff88;margin-bottom:6px;">● 现任职位</span><br>贝加莫地区 · 负责内部IT基础设施、系统支持与数字化流程。<br><br><strong style="color:rgba(255,255,255,.85);">Soluzione1 — Ghisalba</strong><br>IT实习 · 2024 · SQL培训、一二线支持、与高级开发人员协作。',
-            'card-lang-title': '语言',
-            'lang-it': '🇮🇹 意大利语', 'lang-it-level': '母语',
-            'lang-en': '🇬🇧 英语', 'lang-en-level': 'B2',
-            'card-interests-title': '兴趣爱好',
-            'int-1':'软件开发','int-2':'解决问题','int-3':'多元文化',
-            'int-4':'旅行','int-5':'音乐','int-6':'科技','int-7':'游戏','int-8':'开源',
-        },
-        ja: {
-            'home-btn': '← ホームへ戻る',
-            'hero-sub': 'コンピューターエンジニアリング専攻 · ベルガモ、イタリア',
-            'card-about-title': '私について',
-            'card-about-desc': '私はコンピューターエンジニアリングを学ぶ学生で、プログラミングの理論と実践において高いスキルを持っています。素早い学習、傾聴、チームワークが得意で、正確さと積極性で周囲と差をつけています。',
-            'card-skills-title': 'スキル',
-            'card-edu-title': '学歴',
-            'card-edu-desc': '<strong style="color:rgba(255,255,255,.85);">ブレシア大学</strong><br>コンピューターエンジニアリング — 3年次在学中<br><br><strong style="color:rgba(255,255,255,.85);">Unity初級プログラマー</strong><br>Unity Technologies · Credly認定資格<br><br><strong style="color:rgba(255,255,255,.85);">Don Milani 高校</strong><br>Romano di Lombardia — 卒業',
-            'card-work-title': '職務経験',
-            'card-work-desc': '<strong style="color:rgba(255,255,255,.85);">ALLTUB ITALIA — IT部門</strong><br><span style="display:inline-flex;align-items:center;gap:5px;background:rgba(0,255,128,.12);border:1px solid rgba(0,255,128,.3);border-radius:20px;padding:1px 8px;font-size:11px;color:#00ff88;margin-bottom:6px;">● 現職</span><br>ベルガモ地域 · IT基盤、システムサポート、デジタルプロセスに携わっています。<br><br><strong style="color:rgba(255,255,255,.85);">Soluzione1 — Ghisalba</strong><br>ITインターンシップ · 2024 · SQLトレーニング、1次・2次サポート、シニア開発者との協働。',
-            'card-lang-title': '言語',
-            'lang-it': '🇮🇹 イタリア語', 'lang-it-level': 'ネイティブ',
-            'lang-en': '🇬🇧 英語', 'lang-en-level': 'B2',
-            'card-interests-title': '趣味・関心',
-            'int-1':'ソフトウェア開発','int-2':'問題解決','int-3':'異文化',
-            'int-4':'旅行','int-5':'音楽','int-6':'テクノロジー','int-7':'ゲーム','int-8':'オープンソース',
-        }
-    };
+    <div class="am-tl-item" data-delay="300">
+      <div class="am-tl-dot"></div>
+      <div class="am-tl-period">2022 → 2023</div>
+      <div class="am-tl-title">Unity Certified — Game Development</div>
+      <div class="am-tl-sub">Certified Unity developer. Built interactive 3D experiences. First contact with real-time rendering, physics simulation, and C# scripting.</div>
+      <div class="am-tl-tags">
+        <span class="am-tl-tag">Unity</span><span class="am-tl-tag">C#</span><span class="am-tl-tag">3D</span>
+      </div>
+    </div>
 
-    const langFlags = { en:'🇬🇧', it:'🇮🇹', es:'🇪🇸', zh:'🇨🇳', ja:'🇯🇵' };
+    <div class="am-tl-item" data-delay="400">
+      <div class="am-tl-dot"></div>
+      <div class="am-tl-period">2019 → 2024</div>
+      <div class="am-tl-title">Scientific High School — Brescia</div>
+      <div class="am-tl-sub">Maths, physics, philosophy. English B2→C1 certification during these years. First lines of code written in a basement at 16.</div>
+      <div class="am-tl-tags">
+        <span class="am-tl-tag">Maths</span><span class="am-tl-tag">Physics</span><span class="am-tl-tag">English C1</span>
+      </div>
+    </div>
 
-    function setLang(lang) {
-        if (!translations[lang]) return;
-        localStorage.setItem('ea-lang', lang);
-        document.querySelectorAll('[data-i18n]').forEach(el => {
-            const v = translations[lang][el.getAttribute('data-i18n')];
-            if (v !== undefined) el.textContent = v;
-        });
-        document.querySelectorAll('[data-i18n-html]').forEach(el => {
-            const v = translations[lang][el.getAttribute('data-i18n-html')];
-            if (v !== undefined) el.innerHTML = v;
-        });
-        document.getElementById('lang-flag').textContent = langFlags[lang];
-        document.querySelectorAll('#lang-dropdown button').forEach(btn =>
-            btn.classList.toggle('active', btn.getAttribute('data-lang') === lang)
-        );
+  </div>
+</section>
+
+<div class="am-divider"></div>
+
+<!-- ── LANGUAGES ───────────────────────────────────────────────────── -->
+<section class="am-section" id="languages">
+  <div class="am-sec-label">// spoken_languages</div>
+  <h2 class="am-sec-title">Languages</h2>
+  <div class="am-langs-grid">
+    <div class="am-lang-item">
+      <div class="am-ring-wrap">
+        <svg width="100" height="100" viewBox="0 0 100 100">
+          <circle class="am-ring-bg" cx="50" cy="50" r="45"/>
+          <circle class="am-ring-fill" cx="50" cy="50" r="45"
+            stroke="url(#g1)" data-pct="100"/>
+          <defs>
+            <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#7c3aed"/>
+              <stop offset="100%" stop-color="#22d3ee"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <div class="am-ring-label">🇮🇹</div>
+      </div>
+      <div class="am-lang-name">Italiano</div>
+      <div class="am-lang-level">Madrelingua</div>
+    </div>
+    <div class="am-lang-item">
+      <div class="am-ring-wrap">
+        <svg width="100" height="100" viewBox="0 0 100 100">
+          <circle class="am-ring-bg" cx="50" cy="50" r="45"/>
+          <circle class="am-ring-fill" cx="50" cy="50" r="45"
+            stroke="url(#g2)" data-pct="90"/>
+          <defs>
+            <linearGradient id="g2" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#a855f7"/>
+              <stop offset="100%" stop-color="#22d3ee"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <div class="am-ring-label">🇬🇧</div>
+      </div>
+      <div class="am-lang-name">English</div>
+      <div class="am-lang-level">C1 — Certified</div>
+    </div>
+    <div class="am-lang-item">
+      <div class="am-ring-wrap">
+        <svg width="100" height="100" viewBox="0 0 100 100">
+          <circle class="am-ring-bg" cx="50" cy="50" r="45"/>
+          <circle class="am-ring-fill" cx="50" cy="50" r="45"
+            stroke="url(#g3)" data-pct="75"/>
+          <defs>
+            <linearGradient id="g3" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#ec4899"/>
+              <stop offset="100%" stop-color="#a855f7"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <div class="am-ring-label">🇪🇸</div>
+      </div>
+      <div class="am-lang-name">Español</div>
+      <div class="am-lang-level">B2 — Fluente</div>
+    </div>
+    <div class="am-lang-item">
+      <div class="am-ring-wrap">
+        <svg width="100" height="100" viewBox="0 0 100 100">
+          <circle class="am-ring-bg" cx="50" cy="50" r="45"/>
+          <circle class="am-ring-fill" cx="50" cy="50" r="45"
+            stroke="url(#g4)" data-pct="55"/>
+          <defs>
+            <linearGradient id="g4" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#22d3ee"/>
+              <stop offset="100%" stop-color="#0ea5e9"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <div class="am-ring-label">🇨🇳</div>
+      </div>
+      <div class="am-lang-name">中文</div>
+      <div class="am-lang-level">Intermedio</div>
+    </div>
+    <div class="am-lang-item">
+      <div class="am-ring-wrap">
+        <svg width="100" height="100" viewBox="0 0 100 100">
+          <circle class="am-ring-bg" cx="50" cy="50" r="45"/>
+          <circle class="am-ring-fill" cx="50" cy="50" r="45"
+            stroke="url(#g5)" data-pct="40"/>
+          <defs>
+            <linearGradient id="g5" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#34d399"/>
+              <stop offset="100%" stop-color="#22d3ee"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <div class="am-ring-label">🇯🇵</div>
+      </div>
+      <div class="am-lang-name">日本語</div>
+      <div class="am-lang-level">Base</div>
+    </div>
+  </div>
+</section>
+
+<div class="am-divider"></div>
+
+<!-- ── CONTACT ─────────────────────────────────────────────────────── -->
+<section class="am-section" id="contact" style="text-align:center;">
+  <div class="am-sec-label" style="justify-content:center;">// get_in_touch</div>
+  <h2 class="am-sec-title" style="margin-bottom:16px;">Let's build something.</h2>
+  <p style="color:var(--muted);font-size:.95rem;margin-bottom:48px;max-width:480px;margin-left:auto;margin-right:auto;line-height:1.7;">
+    Open to new opportunities, collaborations, and interesting conversations.
+    Drop me a line — I reply fast.
+  </p>
+  <div class="am-contact-grid" style="justify-content:center;">
+    <a href="mailto:edwardattuati@icloud.com" class="am-contact-btn primary">✉ edwardattuati@icloud.com</a>
+    <a href="https://it.linkedin.com/in/edward-attuati-41a54823b" target="_blank" class="am-contact-btn">LinkedIn</a>
+    <a href="https://github.com/edward070707" target="_blank" class="am-contact-btn">GitHub</a>
+    <a href="https://www.instagram.com/edwardattuati/" target="_blank" class="am-contact-btn">Instagram</a>
+  </div>
+  <div style="margin-top:64px;">
+    <a href="index.html" style="font-family:var(--mono);font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--low);text-decoration:none;transition:color .2s;" onmouseover="this.style.color='var(--violet2)'" onmouseout="this.style.color='var(--low)'">← Back to portfolio</a>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+// ── CURSOR ──────────────────────────────────────────────────────────
+const dot  = document.getElementById('cursor-dot');
+const ring = document.getElementById('cursor-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; });
+(function moveCursor(){
+  rx += (mx-rx)*.15; ry += (my-ry)*.15;
+  dot.style.left  = mx+'px'; dot.style.top  = my+'px';
+  ring.style.left = rx+'px'; ring.style.top = ry+'px';
+  requestAnimationFrame(moveCursor);
+})();
+
+// ── THREE.JS PARTICLE NETWORK ────────────────────────────────────────
+(function(){
+  const canvas = document.getElementById('three-canvas');
+  const W=innerWidth, H=innerHeight;
+  const renderer = new THREE.WebGLRenderer({canvas, alpha:true, antialias:true});
+  renderer.setSize(W,H); renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(60, W/H, 0.1, 1000);
+  camera.position.z = 80;
+
+  // Particle geometry
+  const count = 1200;
+  const geo = new THREE.BufferGeometry();
+  const pos = new Float32Array(count*3);
+  for(let i=0;i<count;i++){
+    pos[i*3  ] = (Math.random()-.5)*240;
+    pos[i*3+1] = (Math.random()-.5)*180;
+    pos[i*3+2] = (Math.random()-.5)*120;
+  }
+  geo.setAttribute('position', new THREE.BufferAttribute(pos,3));
+
+  const mat = new THREE.PointsMaterial({
+    size:.7, color:0x7c3aed, transparent:true, opacity:.55, sizeAttenuation:true
+  });
+  const points = new THREE.Points(geo,mat);
+  scene.add(points);
+
+  // Subtle mouse parallax
+  let targetX=0, targetY=0;
+  document.addEventListener('mousemove', e=>{
+    targetX = (e.clientX/innerWidth - .5) * 12;
+    targetY = (e.clientY/innerHeight - .5) * 8;
+  });
+
+  let t=0;
+  function animate(){
+    t += .003;
+    requestAnimationFrame(animate);
+    points.rotation.y += .0004;
+    points.rotation.x += .0002;
+    // mouse parallax
+    camera.position.x += (targetX - camera.position.x)*.03;
+    camera.position.y += (-targetY - camera.position.y)*.03;
+    camera.lookAt(scene.position);
+    // pulse opacity
+    mat.opacity = .45 + .1*Math.sin(t);
+    renderer.render(scene,camera);
+  }
+  animate();
+
+  window.addEventListener('resize',()=>{
+    renderer.setSize(innerWidth,innerHeight);
+    camera.aspect=innerWidth/innerHeight; camera.updateProjectionMatrix();
+  });
+})();
+
+// ── HERO ANIMATIONS ─────────────────────────────────────────────────
+const tl = gsap.timeline({defaults:{ease:'power3.out'}});
+tl.to('#heroEyebrow', {opacity:1, y:0, duration:.8, delay:.3})
+  .to('#heroName',    {opacity:1, duration:1},   '-=.4')
+  .to('#heroRole',    {opacity:1, duration:.6},   '-=.2')
+  .to('#scrollCue',   {opacity:1, duration:.8},   '-=.2');
+
+// ── TYPEWRITER ───────────────────────────────────────────────────────
+const roles = [
+  'Computer Engineering Student',
+  'Flutter Developer',
+  'Web Builder',
+  'UI/UX Obsessive',
+  'Multilingual Coder',
+];
+let ri=0, ci=0, deleting=false;
+const typeEl = document.getElementById('typeTarget');
+function type(){
+  const cur = roles[ri];
+  typeEl.textContent = deleting ? cur.slice(0,ci--) : cur.slice(0,ci++);
+  if(!deleting && ci>cur.length){ deleting=true; setTimeout(type,1400); return; }
+  if(deleting && ci<0){ deleting=false; ri=(ri+1)%roles.length; ci=0; setTimeout(type,300); return; }
+  setTimeout(type, deleting?40:80);
+}
+setTimeout(type, 1200);
+
+// ── HOLOGRAPHIC CARD TILT ────────────────────────────────────────────
+(function(){
+  const wrap  = document.getElementById('cardWrap');
+  const card  = document.getElementById('holoCard');
+  const sheen = document.getElementById('holoSheen');
+
+  wrap.addEventListener('mousemove', e=>{
+    const r = wrap.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width  - .5;
+    const y = (e.clientY - r.top)  / r.height - .5;
+    card.style.transform = `rotateY(${x*28}deg) rotateX(${-y*22}deg)`;
+    sheen.style.background = `linear-gradient(
+      ${105 + x*40}deg,
+      transparent 40%,
+      rgba(168,85,247,${.04 + Math.abs(x)*.12}) 50%,
+      rgba(34,211,238,${.03 + Math.abs(y)*.10}) 60%,
+      transparent 70%
+    )`;
+  });
+  wrap.addEventListener('mouseleave', ()=>{
+    card.style.transform = 'rotateY(0deg) rotateX(0deg)';
+    sheen.style.background = '';
+  });
+})();
+
+// ── STAT COUNTERS ────────────────────────────────────────────────────
+document.querySelectorAll('.am-stat-num[data-target]').forEach(el=>{
+  const target = +el.dataset.target;
+  const suffix = el.dataset.suffix || '';
+  ScrollTrigger.create({
+    trigger: el, start:'top 85%',
+    onEnter(){
+      let cur=0;
+      const step = target/40;
+      const t = setInterval(()=>{
+        cur = Math.min(cur+step, target);
+        el.textContent = Math.round(cur)+suffix;
+        if(cur>=target) clearInterval(t);
+      }, 30);
+    }, once:true
+  });
+});
+
+// ── SKILL SPHERE ─────────────────────────────────────────────────────
+(function(){
+  const skills = [
+    'Flutter','Dart','Firebase','Firestore',
+    'HTML','CSS','JavaScript','Three.js',
+    'Python','Java','C','C#',
+    'Unity','GSAP','Git','GitHub',
+    'Figma','UI/UX','REST API','SQL',
+    'Node.js','JSON','Swift','Kotlin',
+    'Linux','Docker','MVVM','Provider',
+    'Auth','Canvas','WebGL','i18n',
+  ];
+
+  const container = document.getElementById('skill-sphere');
+  const W = container.offsetWidth || 520;
+  const R = W * 0.44;
+  const tags = [];
+
+  skills.forEach((s,i)=>{
+    const el = document.createElement('div');
+    el.className='skill-tag'; el.textContent=s;
+    container.appendChild(el);
+    tags.push(el);
+  });
+
+  let rotX=0, rotY=0, velX=0, velY=0;
+  let paused=false;
+
+  function setPositions(){
+    const n = tags.length;
+    tags.forEach((el,i)=>{
+      const phi   = Math.acos(1 - 2*(i+.5)/n);
+      const theta = Math.PI*(1+Math.sqrt(5))*i;
+      // 3D coords
+      let x = R * Math.sin(phi)*Math.cos(theta);
+      let y = R * Math.sin(phi)*Math.sin(theta);
+      let z = R * Math.cos(phi);
+
+      // apply rotation (Y axis first)
+      const cosY=Math.cos(rotY), sinY=Math.sin(rotY);
+      const x1 = x*cosY + z*sinY;
+      const z1 = -x*sinY + z*cosY;
+      // then X axis
+      const cosX=Math.cos(rotX), sinX=Math.sin(rotX);
+      const y2 = y*cosX - z1*sinX;
+      const z2 = y*sinX + z1*cosX;
+
+      const scale = (z2+R*1.2)/(R*2.2);
+      const cx = W/2 + x1 - el.offsetWidth/2;
+      const cy = W/2 + y2 - el.offsetHeight/2;
+
+      el.style.cssText = `
+        left:${cx}px; top:${cy}px;
+        opacity:${.3 + scale*.7};
+        transform:scale(${.7+scale*.5});
+        color: ${z2>0 ? 'rgba(240,244,255,.8)':'rgba(240,244,255,.25)'};
+        border-color: ${z2>0?'rgba(168,85,247,.4)':'rgba(255,255,255,.04)'};
+        z-index:${Math.round(z2+100)};
+        font-size:${.52+scale*.16}rem;
+      `;
+    });
+  }
+
+  let autoAngle=0;
+  function loop(){
+    if(!paused){
+      velX *= .95; velY *= .95;
+      rotX += velX; rotY += velY;
+      rotY += .004; // auto-rotate
     }
+    setPositions();
+    requestAnimationFrame(loop);
+  }
+  loop();
 
-    // Ripristina la lingua salvata (default: inglese)
-    document.addEventListener('DOMContentLoaded', () => {
-        setLang(localStorage.getItem('ea-lang') || 'en');
-    });
+  // drag
+  let dragging=false, lastX=0, lastY=0;
+  container.addEventListener('mousedown', e=>{ dragging=true; lastX=e.clientX; lastY=e.clientY; paused=true; });
+  document.addEventListener('mousemove', e=>{
+    if(!dragging) return;
+    velY += (e.clientX-lastX)*.008;
+    velX += (e.clientY-lastY)*.008;
+    lastX=e.clientX; lastY=e.clientY;
+  });
+  document.addEventListener('mouseup',()=>{ dragging=false; paused=false; });
+})();
 
-    /* ── Particelle fluttuanti ── */
-    (function(){
-        const container = document.getElementById('am-particles');
-        const colors = ['#4f8ef7','#a259ff','#00d4aa','#ff6b6b','#ffaa00'];
-        for(let i = 0; i < 28; i++){
-            const p = document.createElement('div');
-            p.className = 'am-particle';
-            const size = Math.random()*5+2;
-            p.style.cssText = `width:${size}px;height:${size}px;background:${colors[i%colors.length]};left:${Math.random()*100}%;animation-duration:${8+Math.random()*14}s;animation-delay:${Math.random()*10}s;box-shadow:0 0 6px currentColor;`;
-            container.appendChild(p);
-        }
-    })();
+// ── TIMELINE REVEAL ─────────────────────────────────────────────────
+document.querySelectorAll('.am-tl-item').forEach((el,i)=>{
+  ScrollTrigger.create({
+    trigger:el, start:'top 82%',
+    onEnter(){
+      setTimeout(()=>el.classList.add('visible'), +el.dataset.delay||0);
+    }, once:true
+  });
+});
 
-    /* ── Tilt 3D + bagliore + esplosione particelle ── */
-    document.querySelectorAll('.am-card').forEach(card => {
-        const color = card.dataset.color || '#fff';
-        card.style.setProperty('--glow-color', color + '44');
-        card.style.setProperty('--shadow-color', color + '33');
+// ── LANGUAGE RINGS ──────────────────────────────────────────────────
+document.querySelectorAll('.am-ring-fill').forEach(circle=>{
+  const pct = +circle.dataset.pct / 100;
+  const circumference = 2 * Math.PI * 45; // r=45
+  ScrollTrigger.create({
+    trigger: circle, start:'top 85%',
+    onEnter(){
+      circle.style.strokeDashoffset = circumference*(1-pct);
+    }, once:true
+  });
+});
 
-        card.addEventListener('mousemove', e => {
-            const r = card.getBoundingClientRect();
-            const x = e.clientX-r.left, y = e.clientY-r.top;
-            card.style.transform = `perspective(1100px) rotateX(${((y-r.height/2)/r.height)*-13}deg) rotateY(${((x-r.width/2)/r.width)*13}deg) scale3d(1.05,1.05,1.05)`;
-            card.style.setProperty('--gx', `${(x/r.width)*100}%`);
-            card.style.setProperty('--gy', `${(y/r.height)*100}%`);
-        });
-        card.addEventListener('mouseleave', () => {
-            card.style.transform = 'perspective(1100px) rotateX(0) rotateY(0) scale3d(1,1,1)';
-        });
-        card.addEventListener('mouseenter', () => {
-            for(let i=0;i<10;i++){
-                const p = document.createElement('div');
-                p.className = 'am-burst-particle';
-                const size = Math.random()*5+3, angle = Math.random()*360, dist = Math.random()*70+30;
-                p.style.cssText = `width:${size}px;height:${size}px;background:${color};left:${Math.random()*80+10}%;top:${Math.random()*80+10}%;--tx:${Math.cos(angle*Math.PI/180)*dist}px;--ty:${Math.sin(angle*Math.PI/180)*dist}px;animation-delay:${Math.random()*0.1}s;box-shadow:0 0 5px ${color};`;
-                card.appendChild(p);
-                setTimeout(()=>p.remove(),800);
-            }
-        });
-    });
+// ── NAV SCROLL ──────────────────────────────────────────────────────
+const nav = document.getElementById('amNav');
+window.addEventListener('scroll',()=>{
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+});
 
-    /* ── Barre competenze animate allo scroll ── */
-    const obs = new IntersectionObserver(entries => {
-        entries.forEach(e => { if(e.isIntersecting){ e.target.style.width=e.target.dataset.w+'%'; obs.unobserve(e.target); } });
-    }, { threshold: 0.3 });
-    document.querySelectorAll('.am-skill-bar').forEach(b => obs.observe(b));
-    </script>
+// ── REVEAL ON SCROLL (generic) ──────────────────────────────────────
+gsap.utils.toArray('.am-stat-card,.am-lang-item,.am-card-bio-wrap').forEach((el,i)=>{
+  gsap.from(el, {
+    scrollTrigger:{trigger:el, start:'top 85%', once:true},
+    opacity:0, y:30, duration:.7, delay:i*.06, ease:'power2.out'
+  });
+});
+</script>
 </body>
 </html>
