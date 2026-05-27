@@ -2256,6 +2256,137 @@
         .hud-panel-section { border-left: none; border-top: 1px solid rgba(0,255,65,0.15); }
         .hud-loading-bar-wrap { width: 280px; }
     }
+
+    /* ══ VISUAL ENHANCEMENTS ════════════════════════════════════════ */
+
+    /* Themed scrollbar */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--void); }
+    ::-webkit-scrollbar-thumb {
+        background: linear-gradient(to bottom, var(--violet), var(--cyan));
+        border-radius: 2px;
+    }
+    html { scrollbar-width: thin; scrollbar-color: var(--violet) transparent; }
+
+    /* Skill card — deeper glow on hover + animated top accent line */
+    .dim-skill-card {
+        transition: border-color .35s, background .35s, box-shadow .35s, transform .3s;
+    }
+    .dim-skill-card:hover {
+        transform: translateY(-6px);
+        box-shadow:
+            0 0 0 1px rgba(255,255,255,.07),
+            0 28px 70px rgba(0,0,0,.5),
+            0 0 60px rgba(124,58,237,.08);
+    }
+    .dim-skill-card::after {
+        transition: opacity .4s, box-shadow .4s;
+    }
+    .dim-skill-card:hover::after {
+        box-shadow: 0 0 16px rgba(124,58,237,.25) inset;
+    }
+
+    /* Section #one ambient */
+    #one {
+        background:
+            radial-gradient(ellipse 700px 500px at 80% 30%, rgba(34,211,238,.04), transparent 65%),
+            var(--void2) !important;
+    }
+
+    /* Section #two (about) ambient */
+    #two {
+        background:
+            radial-gradient(ellipse 800px 600px at 10% 50%, rgba(124,58,237,.06), transparent 65%),
+            var(--void) !important;
+    }
+
+    /* About quote — text shadow depth */
+    .about-quote {
+        text-shadow: 0 0 60px rgba(124,58,237,.12);
+    }
+
+    /* Stat row — left-slide on hover */
+    .dim-stat {
+        transition: padding-left .25s ease, background .2s ease, border-color .2s ease;
+    }
+    .dim-stat:hover {
+        padding-left: 16px;
+        border-left: 2px solid rgba(124,58,237,.35);
+        background: rgba(124,58,237,.04);
+    }
+    .dim-stat:first-child { border-top: 1px solid var(--border); }
+
+    /* Contact section ambient */
+    #contact {
+        background:
+            radial-gradient(ellipse 800px 500px at 50% 30%, rgba(124,58,237,.07), transparent 65%),
+            var(--void2) !important;
+    }
+
+    /* CTA primary button — glow pulse on idle */
+    .btn-dim-primary {
+        animation: ctaPulse 4s ease-in-out infinite;
+    }
+    @keyframes ctaPulse {
+        0%, 100% { box-shadow: 0 0 28px rgba(124,58,237,.35); }
+        50%        { box-shadow: 0 0 44px rgba(124,58,237,.55), 0 0 80px rgba(124,58,237,.15); }
+    }
+    .btn-dim-primary:hover { animation: none; }
+
+    /* Skills section (#skills DNA) ambient */
+    #skills {
+        background:
+            radial-gradient(ellipse 700px 500px at 50% 50%, rgba(34,211,238,.05), transparent 65%),
+            var(--void) !important;
+    }
+
+    /* GitHub activity ambient */
+    #github-activity {
+        background:
+            radial-gradient(ellipse 600px 400px at 50% 30%, rgba(124,58,237,.05), transparent 65%),
+            var(--void2) !important;
+    }
+
+    /* Sidebar progress fill — neon trail effect */
+    .sb-progress-fill {
+        box-shadow: 0 0 6px var(--violet), 0 0 12px rgba(124,58,237,.3);
+    }
+
+    /* Nav dot active — extra outer glow */
+    .sb-dot.active {
+        box-shadow: 0 0 12px rgba(124,58,237,.7), 0 0 24px rgba(124,58,237,.3);
+    }
+
+    /* Section dividers — more dramatic */
+    #one, #two, #skills, #github-activity, #timeline, #work, #contact {
+        border-top-color: rgba(124,58,237,.18) !important;
+    }
+
+    /* Hero grid overlay — slightly more visible on hover/active */
+    .hero-grid-overlay {
+        background-image:
+            linear-gradient(rgba(124,58,237,.05) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(124,58,237,.05) 1px, transparent 1px);
+    }
+
+    /* Section label — subtle left-line animation on first render */
+    .dim-sec-label {
+        position: relative;
+        padding-left: 4px;
+    }
+
+    /* About quote highlight words — glow animation */
+    .hl-violet {
+        text-shadow: 0 0 20px rgba(124,58,237,.4);
+        transition: text-shadow .3s;
+    }
+    .hl-cyan {
+        text-shadow: 0 0 20px rgba(34,211,238,.4);
+        transition: text-shadow .3s;
+    }
+    .about-dim:hover .hl-violet { text-shadow: 0 0 30px rgba(124,58,237,.65); }
+    .about-dim:hover .hl-cyan   { text-shadow: 0 0 30px rgba(34,211,238,.65); }
+
     </style>
 </head>
 <body class="is-preload">

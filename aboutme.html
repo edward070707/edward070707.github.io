@@ -538,6 +538,220 @@ body:has(a:hover) #cursor-ring { width:52px; height:52px; border-color:var(--cya
   background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
+/* ══ VISUAL ENHANCEMENTS ════════════════════════════════════════════ */
+
+/* Themed scrollbar */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--void); }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, var(--violet), var(--cyan));
+  border-radius: 2px;
+}
+html { scrollbar-width: thin; scrollbar-color: var(--violet) transparent; }
+
+/* Per-section ambient light — each section gets its own atmospheric tint */
+.am-card-section {
+  background:
+    radial-gradient(ellipse 900px 600px at 15% 50%, rgba(124,58,237,.055), transparent 65%),
+    radial-gradient(ellipse 600px 400px at 85% 50%, rgba(34,211,238,.045), transparent 65%);
+}
+section#skills.am-section {
+  background:
+    radial-gradient(ellipse 800px 600px at 50% 30%, rgba(34,211,238,.055), transparent 65%);
+}
+section#journey.am-section {
+  background:
+    radial-gradient(ellipse 700px 500px at 5% 40%, rgba(124,58,237,.07), transparent 65%);
+}
+section#languages.am-section {
+  background:
+    radial-gradient(ellipse 600px 400px at 80% 50%, rgba(168,85,247,.05), transparent 65%),
+    radial-gradient(ellipse 500px 400px at 20% 50%, rgba(34,211,238,.04), transparent 65%);
+}
+section#contact.am-section {
+  background:
+    radial-gradient(ellipse 900px 700px at 50% 40%, rgba(124,58,237,.09), transparent 65%);
+}
+
+/* Hero atmospheric depth layer */
+.am-hero::before {
+  content: '';
+  position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background:
+    radial-gradient(ellipse 700px 500px at 20% 65%, rgba(124,58,237,.08), transparent 65%),
+    radial-gradient(ellipse 500px 400px at 78% 25%, rgba(34,211,238,.06), transparent 65%);
+}
+
+/* Skill sphere — orbital ring atmosphere */
+#skill-sphere::before {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: calc(100% + 64px); height: calc(100% + 64px);
+  border-radius: 50%;
+  border: 1px solid rgba(124,58,237,.1);
+  z-index: -1;
+  pointer-events: none;
+  animation: sphereRingA 14s linear infinite;
+}
+#skill-sphere::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%) rotate(55deg);
+  width: calc(100% + 108px); height: calc(100% + 108px);
+  border-radius: 50%;
+  border: 1px dashed rgba(168,85,247,.06);
+  z-index: -1;
+  pointer-events: none;
+  animation: sphereRingB 22s linear infinite reverse;
+}
+@keyframes sphereRingA { to { transform: translate(-50%,-50%) rotate(360deg); } }
+@keyframes sphereRingB { to { transform: translate(-50%,-50%) rotate(-360deg); } }
+
+/* Sphere glow halo */
+.am-sphere-wrap::before {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 560px; height: 560px;
+  max-width: 95vw;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(124,58,237,.05) 0%, rgba(34,211,238,.02) 50%, transparent 70%);
+  pointer-events: none;
+}
+.am-sphere-wrap { position: relative; }
+
+/* Timeline — animated shimmer light travelling down the vertical line */
+.am-timeline { overflow: visible; }
+.am-timeline::after {
+  content: '';
+  position: absolute;
+  left: 0; width: 1px; height: 120px;
+  background: linear-gradient(to bottom, transparent, rgba(168,85,247,.85), transparent);
+  animation: tlTravel 4.5s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes tlTravel {
+  0%   { top: -120px; opacity: 0; }
+  8%   { opacity: 1; }
+  92%  { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+
+/* Timeline item hover polish */
+.am-tl-item { transition: padding-left .3s ease, opacity .6s ease, transform .6s ease; }
+.am-tl-item.visible:hover { padding-left: 8px; }
+.am-tl-dot { transition: box-shadow .3s ease, transform .3s ease; }
+.am-tl-item.visible:hover .am-tl-dot {
+  box-shadow: 0 0 20px rgba(124,58,237,.85), 0 0 40px rgba(124,58,237,.35);
+  transform: scale(1.3);
+}
+
+/* More dramatic dividers */
+.am-divider {
+  height: 2px;
+  max-width: none;
+  margin: 0;
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(124,58,237,.55) 20%,
+    rgba(34,211,238,.4) 50%,
+    rgba(124,58,237,.55) 80%,
+    transparent
+  );
+  position: relative;
+}
+.am-divider::after {
+  content: '';
+  display: block;
+  height: 1px;
+  margin-top: 3px;
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(168,85,247,.12) 30%,
+    rgba(168,85,247,.12) 70%,
+    transparent
+  );
+}
+
+/* Holographic card — spin faster on hover */
+.am-holo-card:hover::before { animation-duration: 1.4s; }
+
+/* Contact & card link sweep micro-interaction */
+.am-contact-btn { position: relative; overflow: hidden; }
+.am-card-link   { position: relative; overflow: hidden; }
+.am-contact-btn::before,
+.am-card-link::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%; bottom: 0; width: 100%;
+  background: linear-gradient(90deg, transparent, rgba(168,85,247,.08), transparent);
+  transition: left .55s cubic-bezier(.4,0,.2,1);
+}
+.am-contact-btn:hover::before,
+.am-card-link:hover::before { left: 100%; }
+
+/* Nav link — animated underline */
+.am-nav-links a { position: relative; }
+.am-nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -3px; left: 0; right: 0; height: 1px;
+  background: var(--violet2);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .3s ease;
+}
+.am-nav-links a:hover::after { transform: scaleX(1); }
+
+/* Language rings — subtle glow */
+.am-ring-fill { filter: drop-shadow(0 0 3px rgba(168,85,247,.55)); }
+
+/* Stat card — richer hover shadow */
+.am-stat-card:hover {
+  box-shadow:
+    0 0 0 1px rgba(124,58,237,.18),
+    0 24px 60px rgba(0,0,0,.5),
+    0 0 50px rgba(124,58,237,.07);
+}
+
+/* Section title — subtle text shadow for depth */
+.am-sec-title {
+  text-shadow: 0 0 80px rgba(124,58,237,.15);
+}
+
+/* Footer */
+.am-footer {
+  position: relative; z-index: 1;
+  padding: 36px 40px 44px;
+  border-top: 1px solid var(--border);
+  text-align: center;
+  background: radial-gradient(ellipse 600px 300px at 50% 100%, rgba(124,58,237,.06), transparent 70%);
+}
+.am-footer-inner {
+  display: flex; align-items: center; justify-content: center;
+  gap: 20px; flex-wrap: wrap;
+}
+.am-footer-text {
+  font-family: var(--mono); font-size: .52rem; letter-spacing: .16em;
+  text-transform: uppercase; color: var(--low);
+}
+.am-footer-text span { color: var(--violet2); }
+.am-footer-sep {
+  width: 3px; height: 3px; border-radius: 50%;
+  background: rgba(168,85,247,.3);
+  flex-shrink: 0;
+}
+.am-footer-link {
+  font-family: var(--mono); font-size: .52rem; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--violet2); text-decoration: none;
+  transition: color .2s;
+}
+.am-footer-link:hover { color: var(--cyan); }
+
 /* ── RESPONSIVE ───────────────────────────────────────────────────── */
 @media(max-width:768px){
   .am-nav { padding:16px 20px; }
@@ -853,6 +1067,19 @@ body:has(a:hover) #cursor-ring { width:52px; height:52px; border-color:var(--cya
     <a href="index.html" style="font-family:var(--mono);font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--low);text-decoration:none;transition:color .2s;" onmouseover="this.style.color='var(--violet2)'" onmouseout="this.style.color='var(--low)'">← Back to portfolio</a>
   </div>
 </section>
+
+<!-- ── FOOTER ──────────────────────────────────────────────────────── -->
+<footer class="am-footer">
+  <div class="am-footer-inner">
+    <span class="am-footer-text">© 2025 <span>Edward Attuati</span></span>
+    <span class="am-footer-sep"></span>
+    <span class="am-footer-text">Hand-crafted with <span>♥</span> — vanilla HTML/CSS/JS</span>
+    <span class="am-footer-sep"></span>
+    <a href="index.html" class="am-footer-link">← Portfolio</a>
+    <span class="am-footer-sep"></span>
+    <a href="mailto:edwardattuati@icloud.com" class="am-footer-link">edwardattuati@icloud.com</a>
+  </div>
+</footer>
 
 <!-- ══════════════════════════════════════════════════════════════════ -->
 <script>
