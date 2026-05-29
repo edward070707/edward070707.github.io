@@ -112,8 +112,15 @@ nav{
   position:relative;
   height:100vh;
   display:flex;align-items:center;justify-content:center;
-  overflow:hidden;
+  overflow:visible;
 }
+/* wrapper that gives the mini-cards space without needing negative offsets */
+.phone-wrap{
+  position:relative;
+  width:460px;height:560px;
+  flex-shrink:0;
+}
+@media(max-width:860px){.phone-wrap{width:320px;height:480px}}
 @media(max-width:860px){
   .hero-right{height:480px}
 }
@@ -187,9 +194,12 @@ nav{
 
 /* ── PHONE STACK ── */
 .phone-scene{
-  position:relative;
+  position:absolute;
+  left:50%;top:0;
+  transform:translateX(-50%);
   width:280px;height:560px;
 }
+@media(max-width:860px){.phone-scene{width:230px;height:480px}}
 .phone-shadow{
   position:absolute;
   bottom:-30px;left:50%;transform:translateX(-50%);
@@ -280,9 +290,10 @@ nav{
   box-shadow:0 8px 32px rgba(0,0,0,.5);
   animation:cardFloat 6s ease-in-out infinite;
 }
-.mini-card-1{left:-60px;top:80px;animation-delay:0s}
-.mini-card-2{right:-55px;top:200px;animation-delay:2s}
-.mini-card-3{left:-50px;bottom:140px;animation-delay:4s}
+.mini-card-1{left:0;top:60px;animation-delay:0s}
+.mini-card-2{right:0;top:190px;animation-delay:2s}
+.mini-card-3{left:0;bottom:120px;animation-delay:4s}
+@media(max-width:860px){.mini-card{display:none}}
 @keyframes cardFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
 .mc-label{font-size:.55rem;color:var(--green);letter-spacing:.12em;margin-bottom:4px;opacity:.8}
 .mc-val{color:var(--text);font-weight:700;font-size:.72rem}
@@ -476,7 +487,6 @@ pre{padding:22px 20px;overflow-x:auto;font-family:var(--mono);font-size:.75rem;l
 @media(max-width:640px){
   nav{padding:0 20px}
   .hero-left{padding:40px 20px 20px}
-  .mini-card{display:none}
 }
 </style>
 </head>
@@ -549,6 +559,7 @@ pre{padding:22px 20px;overflow-x:auto;font-family:var(--mono);font-size:.75rem;l
   </div>
 
   <div class="hero-right">
+    <div class="phone-wrap">
     <!-- floating mini cards -->
     <div class="mini-card mini-card-1">
       <div class="mc-label">BARCODE</div>
@@ -561,9 +572,9 @@ pre{padding:22px 20px;overflow-x:auto;font-family:var(--mono);font-size:.75rem;l
       <div class="mc-sub">0 server required</div>
     </div>
     <div class="mini-card mini-card-3">
-      <div class="mc-label">NOTIFY</div>
-      <div class="mc-val">Daily 09:00</div>
-      <div class="mc-sub">3 expiring soon</div>
+      <div class="mc-label">PREZZO</div>
+      <div class="mc-val">min €1.29</div>
+      <div class="mc-sub">avg €1.74 · max €2.10</div>
     </div>
 
     <!-- Phone -->
@@ -607,6 +618,7 @@ pre{padding:22px 20px;overflow-x:auto;font-family:var(--mono);font-size:.75rem;l
         </div>
       </div>
     </div>
+    </div><!-- /phone-wrap -->
   </div>
 </div>
 
@@ -845,7 +857,7 @@ pre{padding:22px 20px;overflow-x:auto;font-family:var(--mono);font-size:.75rem;l
     <div class="rm-bar">
       <div class="rm-bar-hdr">
         <span data-i18n="rm-progress">Progress</span>
-        <span data-i18n="rm-count">7 / 13 completed</span>
+        <span data-i18n="rm-count">11 / 15 completed</span>
       </div>
       <div class="rm-track"><div class="rm-fill" id="rm-fill"></div></div>
     </div>
@@ -857,12 +869,14 @@ pre{padding:22px 20px;overflow-x:auto;font-family:var(--mono);font-size:.75rem;l
       <div class="rm-item done reveal rd5"><span class="rm-done">✓</span><span class="rm-text" data-i18n="rm5">Local push notifications (immediate + daily digest)</span><span class="rm-tag tag-done" data-i18n="tag-done">Done</span></div>
       <div class="rm-item done reveal rd6"><span class="rm-done">✓</span><span class="rm-text" data-i18n="rm6">Shopping list with Share Sheet sharing</span><span class="rm-tag tag-done" data-i18n="tag-done">Done</span></div>
       <div class="rm-item done reveal rd7"><span class="rm-done">✓</span><span class="rm-text" data-i18n="rm7">Location filter (Fridge / Pantry / Freezer)</span><span class="rm-tag tag-done" data-i18n="tag-done">Done</span></div>
-      <div class="rm-item todo reveal rd1"><span class="rm-todo">○</span><span class="rm-text" data-i18n="rm8">Testing on physical iOS + Android devices</span><span class="rm-tag tag-wip" data-i18n="tag-wip">In Progress</span></div>
-      <div class="rm-item todo reveal rd2"><span class="rm-todo">○</span><span class="rm-text" data-i18n="rm9">iOS home screen widget with upcoming expiries</span><span class="rm-tag tag-next" data-i18n="tag-next">Next</span></div>
-      <div class="rm-item todo reveal rd3"><span class="rm-todo">○</span><span class="rm-text" data-i18n="rm10">Real-time shopping list sync via Firebase</span><span class="rm-tag tag-next" data-i18n="tag-next">Next</span></div>
-      <div class="rm-item todo reveal rd4"><span class="rm-todo">○</span><span class="rm-text" data-i18n="rm11">Waste statistics: how much food expired per month</span><span class="rm-tag tag-next" data-i18n="tag-next">Next</span></div>
-      <div class="rm-item todo reveal rd5"><span class="rm-todo">○</span><span class="rm-text" data-i18n="rm12">Recipe suggestions based on expiring products</span><span class="rm-tag tag-next" data-i18n="tag-next">Next</span></div>
-      <div class="rm-item todo reveal rd6"><span class="rm-todo">○</span><span class="rm-text" data-i18n="rm13">App Store / Google Play release</span><span class="rm-tag tag-next" data-i18n="tag-next">Next</span></div>
+      <div class="rm-item done reveal rd1"><span class="rm-done">✓</span><span class="rm-text" data-i18n="rm8">Duplicate barcode detection + manual entry</span><span class="rm-tag tag-done" data-i18n="tag-done">Done</span></div>
+      <div class="rm-item done reveal rd2"><span class="rm-done">✓</span><span class="rm-text" data-i18n="rm9">100+ Italian product categories (Open Food Facts)</span><span class="rm-tag tag-done" data-i18n="tag-done">Done</span></div>
+      <div class="rm-item done reveal rd3"><span class="rm-done">✓</span><span class="rm-text" data-i18n="rm10">Add to pantry directly from shopping list</span><span class="rm-tag tag-done" data-i18n="tag-done">Done</span></div>
+      <div class="rm-item done reveal rd4"><span class="rm-done">✓</span><span class="rm-text" data-i18n="rm11">Price history with min / max / average statistics</span><span class="rm-tag tag-done" data-i18n="tag-done">Done</span></div>
+      <div class="rm-item todo reveal rd5"><span class="rm-todo">○</span><span class="rm-text" data-i18n="rm12">iOS home screen widget with upcoming expiries</span><span class="rm-tag tag-next" data-i18n="tag-next">Next</span></div>
+      <div class="rm-item todo reveal rd6"><span class="rm-todo">○</span><span class="rm-text" data-i18n="rm13">Waste statistics: food expired per month</span><span class="rm-tag tag-next" data-i18n="tag-next">Next</span></div>
+      <div class="rm-item todo reveal rd1"><span class="rm-todo">○</span><span class="rm-text" data-i18n="rm14">Recipe suggestions based on expiring products</span><span class="rm-tag tag-next" data-i18n="tag-next">Next</span></div>
+      <div class="rm-item todo reveal rd2"><span class="rm-todo">○</span><span class="rm-text" data-i18n="rm15">App Store release (iOS only)</span><span class="rm-tag tag-next" data-i18n="tag-next">Next</span></div>
     </div>
   </section>
 
@@ -915,14 +929,15 @@ const T = {
     'ch3-q':'Open Food Facts: variable quality of Italian data','ch3-a':'Many Italian products have product_name in English or empty. Solution: fallback cascade — product_name_it → product_name → generic_name_it → generic_name. If all empty, the barcode is shown and the user enters the name manually.',
     'ch4-q':'Notifications: recalculate after every pantry change','ch4-a':'Every add, edit or delete requires recalculating scheduled notifications. Solution: cancelAll() + reschedule inside loadProducts() of the provider, so the cycle is automatic.',
     'ch5-q':'SQLite on Flutter: database path between iOS and Android','ch5-a':'Database path differs between iOS and Android. Solution: use sqflite\'s getDatabasesPath() combined with path.join() to build the correct path on both platforms.',
-    's7-tag':'roadmap','s7-title':'Progress','rm-progress':'Progress','rm-count':'7 / 13 completed',
+    's7-tag':'roadmap','s7-title':'Progress','rm-progress':'Progress','rm-count':'11 / 15 completed',
     'rm1':'Architecture models / services / providers / screens','rm2':'Barcode scanner with mobile_scanner',
     'rm3':'Open Food Facts integration (IT + World endpoint)','rm4':'Local SQLite database with full CRUD',
     'rm5':'Local push notifications (immediate + daily digest)','rm6':'Shopping list with Share Sheet sharing',
-    'rm7':'Location filter (Fridge / Pantry / Freezer)','rm8':'Testing on physical iOS + Android devices',
-    'rm9':'iOS home screen widget with upcoming expiries','rm10':'Real-time shopping list sync via Firebase',
-    'rm11':'Waste statistics: how much food expired per month','rm12':'Recipe suggestions based on expiring products',
-    'rm13':'App Store / Google Play release',
+    'rm7':'Location filter (Fridge / Pantry / Freezer)','rm8':'Duplicate barcode detection + manual entry',
+    'rm9':'100+ Italian product categories (Open Food Facts)','rm10':'Add to pantry directly from shopping list',
+    'rm11':'Price history with min / max / average statistics','rm12':'iOS home screen widget with upcoming expiries',
+    'rm13':'Waste statistics: food expired per month','rm14':'Recipe suggestions based on expiring products',
+    'rm15':'App Store release (iOS only)',
     'tag-done':'Done','tag-wip':'In Progress','tag-next':'Next','back-btn':'Back to projects',
   },
   it: {
@@ -962,14 +977,15 @@ const T = {
     'ch3-q':'Open Food Facts: qualità variabile dei dati italiani','ch3-a':'Molti prodotti italiani hanno product_name in inglese o vuoto. Soluzione: cascade di fallback — product_name_it → product_name → generic_name_it → generic_name. Se tutto è vuoto, si mostra il barcode e l\'utente inserisce il nome manualmente.',
     'ch4-q':'Notifiche: ricalcolo dopo ogni modifica alla dispensa','ch4-a':'Ogni aggiunta, modifica o eliminazione richiede di ricalcolare le notifiche schedulate. Soluzione: cancelAll() + reschedule dentro loadProducts() del provider, così il ciclo è automatico.',
     'ch5-q':'SQLite su Flutter: path del database tra iOS e Android','ch5-a':'Il percorso del database cambia tra iOS e Android. Soluzione: usare getDatabasesPath() di sqflite combinato con path.join() per costruire il percorso corretto su entrambe le piattaforme.',
-    's7-tag':'roadmap','s7-title':'Stato di avanzamento','rm-progress':'Progresso','rm-count':'7 / 13 completati',
+    's7-tag':'roadmap','s7-title':'Stato di avanzamento','rm-progress':'Progresso','rm-count':'11 / 15 completati',
     'rm1':'Architettura models / services / providers / screens','rm2':'Scanner barcode con mobile_scanner',
     'rm3':'Integrazione Open Food Facts (endpoint IT + World)','rm4':'Database SQLite locale con CRUD completo',
     'rm5':'Notifiche push locali (immediate + daily digest)','rm6':'Lista della spesa con condivisione via Share Sheet',
-    'rm7':'Filtro per posizione (Frigo / Dispensa / Freezer)','rm8':'Test su dispositivo fisico iOS + Android',
-    'rm9':'Widget iOS home screen con prossime scadenze','rm10':'Sync real-time lista spesa via Firebase',
-    'rm11':'Statistiche sprechi: quanto cibo è scaduto nel mese','rm12':'Suggerimenti ricette basati sui prodotti in scadenza',
-    'rm13':'Pubblicazione App Store / Google Play',
+    'rm7':'Filtro per posizione (Frigo / Dispensa / Freezer)','rm8':'Rilevamento duplicati + inserimento manuale barcode',
+    'rm9':'100+ categorie italiane (Open Food Facts)','rm10':'Aggiungi alla dispensa dalla lista spesa',
+    'rm11':'Storico prezzi con statistiche min / max / media','rm12':'Widget iOS home screen con prossime scadenze',
+    'rm13':'Statistiche sprechi: quanto cibo è scaduto nel mese','rm14':'Suggerimenti ricette basati sui prodotti in scadenza',
+    'rm15':'Pubblicazione App Store (solo iOS)',
     'tag-done':'Fatto','tag-wip':'In corso','tag-next':'Prossimo','back-btn':'Torna ai progetti',
   },
   es: {
@@ -1009,14 +1025,15 @@ const T = {
     'ch3-q':'Open Food Facts: calidad variable de datos italianos','ch3-a':'Muchos productos italianos tienen product_name en inglés o vacío. Solución: cascada de fallback — product_name_it → product_name → generic_name_it → generic_name.',
     'ch4-q':'Notificaciones: recalcular tras cada cambio en la despensa','ch4-a':'Cada adición, edición o eliminación requiere recalcular las notificaciones. Solución: cancelAll() + reprogramar dentro de loadProducts() del provider.',
     'ch5-q':'SQLite en Flutter: ruta de base de datos entre iOS y Android','ch5-a':'La ruta de la base de datos varía entre iOS y Android. Solución: usar getDatabasesPath() de sqflite combinado con path.join().',
-    's7-tag':'hoja de ruta','s7-title':'Progreso','rm-progress':'Progreso','rm-count':'7 / 13 completados',
+    's7-tag':'hoja de ruta','s7-title':'Progreso','rm-progress':'Progreso','rm-count':'11 / 15 completados',
     'rm1':'Arquitectura models / services / providers / screens','rm2':'Escáner de códigos con mobile_scanner',
     'rm3':'Integración Open Food Facts (IT + World)','rm4':'Base de datos SQLite con CRUD completo',
     'rm5':'Notificaciones push locales','rm6':'Lista de compras con Share Sheet',
-    'rm7':'Filtro por ubicación (Nevera / Despensa / Congelador)','rm8':'Pruebas en dispositivo físico iOS + Android',
-    'rm9':'Widget pantalla inicio iOS','rm10':'Sync en tiempo real vía Firebase',
-    'rm11':'Estadísticas de desperdicio','rm12':'Sugerencias de recetas',
-    'rm13':'Publicación App Store / Google Play',
+    'rm7':'Filtro por ubicación (Nevera / Despensa / Congelador)','rm8':'Detección duplicados + entrada manual código',
+    'rm9':'100+ categorías italianas (Open Food Facts)','rm10':'Agregar a despensa desde lista de compras',
+    'rm11':'Historial de precios con estadísticas min / max / media','rm12':'Widget pantalla inicio iOS',
+    'rm13':'Estadísticas de desperdicio mensual','rm14':'Sugerencias de recetas',
+    'rm15':'Publicación App Store (solo iOS)',
     'tag-done':'Hecho','tag-wip':'En curso','tag-next':'Próximo','back-btn':'Volver a proyectos',
   },
   zh: {
@@ -1056,14 +1073,15 @@ const T = {
     'ch3-q':'Open Food Facts：意大利数据质量参差不齐','ch3-a':'许多意大利产品的 product_name 是英文或为空。解决方案：回退级联 — product_name_it → product_name → generic_name_it → generic_name。',
     'ch4-q':'通知：每次储藏室变更后重新计算','ch4-a':'每次添加、编辑或删除都需要重新计算计划通知。解决方案：在 provider 的 loadProducts() 中 cancelAll() + 重新计划。',
     'ch5-q':'Flutter SQLite：iOS 和 Android 的数据库路径','ch5-a':'数据库路径在 iOS 和 Android 上不同。解决方案：使用 sqflite 的 getDatabasesPath() 结合 path.join() 构建正确路径。',
-    's7-tag':'路线图','s7-title':'进度','rm-progress':'进度','rm-count':'已完成 7 / 13',
+    's7-tag':'路线图','s7-title':'进度','rm-progress':'进度','rm-count':'已完成 11 / 15',
     'rm1':'架构 models / services / providers / screens','rm2':'使用 mobile_scanner 的条形码扫描器',
     'rm3':'Open Food Facts 集成（IT + World 端点）','rm4':'具有完整 CRUD 的本地 SQLite 数据库',
     'rm5':'本地推送通知（即时 + 每日摘要）','rm6':'带 Share Sheet 分享的购物清单',
-    'rm7':'位置过滤器（冰箱 / 储藏室 / 冷冻柜）','rm8':'在实体 iOS + Android 设备上测试',
-    'rm9':'iOS 主屏幕小部件','rm10':'通过 Firebase 实时同步购物清单',
-    'rm11':'浪费统计','rm12':'基于即将过期产品的食谱建议',
-    'rm13':'App Store / Google Play 发布',
+    'rm7':'位置过滤器（冰箱 / 储藏室 / 冷冻柜）','rm8':'重复条码检测 + 手动输入',
+    'rm9':'100+ 意大利产品分类（Open Food Facts）','rm10':'从购物清单直接添加到储藏室',
+    'rm11':'价格历史（最低 / 最高 / 平均统计）','rm12':'iOS 主屏幕小部件',
+    'rm13':'每月食物浪费统计','rm14':'基于即将过期产品的食谱建议',
+    'rm15':'App Store 发布（仅限 iOS）',
     'tag-done':'完成','tag-wip':'进行中','tag-next':'下一步','back-btn':'返回项目列表',
   },
   ja: {
@@ -1103,14 +1121,15 @@ const T = {
     'ch3-q':'Open Food Facts：イタリアデータの品質にばらつき','ch3-a':'多くのイタリア製品はproduct_nameが英語または空。解決策：フォールバックカスケード — product_name_it → product_name → generic_name_it → generic_name。',
     'ch4-q':'通知：パントリー変更ごとに再計算','ch4-a':'追加・編集・削除のたびにスケジュール通知の再計算が必要。解決策：providerのloadProducts()内でcancelAll() + 再スケジュール。',
     'ch5-q':'Flutter SQLite：iOSとAndroidのデータベースパス','ch5-a':'データベースパスはiOSとAndroidで異なる。解決策：sqfliteのgetDatabasesPath()とpath.join()を組み合わせて正しいパスを構築。',
-    's7-tag':'ロードマップ','s7-title':'進捗','rm-progress':'進捗','rm-count':'7 / 13 完了',
+    's7-tag':'ロードマップ','s7-title':'進捗','rm-progress':'進捗','rm-count':'11 / 15 完了',
     'rm1':'アーキテクチャ models / services / providers / screens','rm2':'mobile_scannerによるバーコードスキャナー',
     'rm3':'Open Food Facts統合（IT + Worldエンドポイント）','rm4':'完全CRUDのローカルSQLiteデータベース',
     'rm5':'ローカルプッシュ通知（即時 + 毎日ダイジェスト）','rm6':'Share Sheetでの買い物リスト共有',
-    'rm7':'場所フィルター（冷蔵庫 / パントリー / 冷凍庫）','rm8':'実機iOS + Androidテスト',
-    'rm9':'iOSホーム画面ウィジェット','rm10':'Firebase経由リアルタイム同期',
-    'rm11':'食品廃棄統計','rm12':'期限切れ近い食品のレシピ提案',
-    'rm13':'App Store / Google Playリリース',
+    'rm7':'場所フィルター（冷蔵庫 / パントリー / 冷凍庫）','rm8':'重複バーコード検出 + 手動入力',
+    'rm9':'100以上のイタリア製品カテゴリー（Open Food Facts）','rm10':'買い物リストから直接パントリーに追加',
+    'rm11':'価格履歴（最低 / 最高 / 平均統計）','rm12':'iOSホーム画面ウィジェット',
+    'rm13':'毎月の食品廃棄統計','rm14':'期限切れ近い食品のレシピ提案',
+    'rm15':'App Storeリリース（iOSのみ）',
     'tag-done':'完了','tag-wip':'進行中','tag-next':'次回','back-btn':'プロジェクト一覧へ',
   },
 };
@@ -1229,7 +1248,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const roadmapObs = new IntersectionObserver(entries => {
     entries.forEach(e => {
       if (e.isIntersecting && fillEl) {
-        setTimeout(() => { fillEl.style.width = '54%'; }, 300);
+        setTimeout(() => { fillEl.style.width = '73%'; }, 300);
         roadmapObs.unobserve(e.target);
       }
     });
