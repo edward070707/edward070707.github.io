@@ -721,6 +721,15 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;align-i
 .faq-a.open{max-height:300px}
 .faq-a{font-size:14px;color:var(--text2);line-height:1.8;padding:0 48px 0 0}
 .faq-a.open{padding-bottom:22px}
+/* ── LANG SWITCHER ── */
+.lang-wrap{position:relative;display:flex;align-items:center;margin-left:12px}
+#lang-btn{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:7px;cursor:pointer;padding:6px 10px;display:flex;align-items:center;gap:5px;color:var(--text2);font-family:'Space Mono',monospace;font-size:.62rem;transition:border-color .2s,color .2s;white-space:nowrap}
+#lang-btn:hover{border-color:rgba(0,245,212,0.4);color:var(--text)}
+#lang-dd{display:none;position:absolute;top:calc(100% + 8px);right:0;background:#0a0a1e;border:1px solid rgba(255,255,255,0.08);border-radius:10px;overflow:hidden;z-index:300;min-width:150px;box-shadow:0 16px 40px rgba(0,0,0,.7)}
+.lang-wrap:hover #lang-dd{display:block}
+#lang-dd button{display:flex;align-items:center;gap:8px;width:100%;padding:9px 14px;font-family:'Inter',sans-serif;font-size:.82rem;color:var(--text2);background:none;border:none;cursor:pointer;transition:background .15s,color .15s;text-align:left}
+#lang-dd button:hover{background:rgba(0,245,212,0.08);color:var(--text)}
+#lang-dd button.active{color:var(--cyan);font-weight:600}
 </style>
 </head>
 <body>
@@ -765,7 +774,17 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;align-i
     <a href="#pricing">Prezzi</a>
     <a href="admin.html" style="color:var(--text3);font-size:11px;letter-spacing:.06em;font-family:'Space Mono',monospace;opacity:.5;transition:opacity .2s" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='.5'">Admin</a>
   </div>
-  <a class="nav-cta" href="app/index.html"><span>Apri App ↗</span></a>
+  <a class="nav-cta" href="app/index.html"><span data-i18n="nav-cta">Open App ↗</span></a>
+  <div class="lang-wrap">
+    <button id="lang-btn"><span id="lang-flag">🇬🇧</span>&nbsp;<span id="lang-name">EN</span></button>
+    <div id="lang-dd">
+      <button onclick="setLang('en')" data-lang="en" class="active"><span>🇬🇧</span> English</button>
+      <button onclick="setLang('it')" data-lang="it"><span>🇮🇹</span> Italiano</button>
+      <button onclick="setLang('es')" data-lang="es"><span>🇪🇸</span> Español</button>
+      <button onclick="setLang('zh')" data-lang="zh"><span>🇨🇳</span> 中文</button>
+      <button onclick="setLang('ja')" data-lang="ja"><span>🇯🇵</span> 日本語</button>
+    </div>
+  </div>
 </nav>
 
 <!-- HERO -->
@@ -785,26 +804,26 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;align-i
 
   <div class="hero-eyebrow">
     <span class="hero-eyebrow-dot"></span>
-    Il primo social interamente vocale
+    <span data-i18n="eyebrow">The first fully voice-based social</span>
   </div>
-  <h1 class="hero-title">La tua <em>voce.</em><br>Il tuo mondo.</h1>
-  <p class="hero-sub">Niente foto. Niente testo. Solo la tua voce — autentica, viva, unica. Racconta, canta, ispira. Con Chrono, lascia messaggi al tuo sé futuro.</p>
+  <h1 class="hero-title"><span data-i18n="hero-title-1">Your</span> <em><span data-i18n="hero-title-2">voice.</span></em><br><span data-i18n="hero-title-3">Your world.</span></h1>
+  <p class="hero-sub" data-i18n="hero-sub">No photos. No text. Just your voice — authentic, alive, unique. Tell stories, sing, inspire. With Chrono, leave messages to your future self.</p>
   <div class="hero-btns">
     <a class="btn-primary btn-webapp" href="app/index.html">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
-      Entra nell'App
+      <span data-i18n="btn-enter">Enter the App</span>
     </a>
     <a class="btn-primary" href="#" style="background:linear-gradient(135deg,rgba(67,56,202,0.35),rgba(124,58,237,0.35));border:1px solid rgba(124,58,237,0.4);color:var(--text2);cursor:default" title="Prossimamente su App Store">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
       App Store — Presto
     </a>
-    <a class="btn-ghost" href="#how">Scopri di più</a>
+    <a class="btn-ghost" href="#how" data-i18n="btn-more">Learn more</a>
   </div>
 
   <!-- LIVE COUNTER -->
   <div class="hero-counter fi">
     <div class="hero-counter-dot"></div>
-    <span>🎙 <span id="clip-count">0</span> clip registrate oggi</span>
+    <span>🎙 <span id="clip-count">0</span> <span data-i18n="clips-today">clips recorded today</span></span>
   </div>
 
   <!-- VOICE GRID DEMO -->
@@ -1925,6 +1944,65 @@ if(btn){
     }
   });
 }
+</script>
+
+<script>
+/* ── MEMIVE i18n ── */
+const MEMIVE_T = {
+  en:{
+    'nav-cta':'Open App ↗','eyebrow':'The first fully voice-based social',
+    'hero-title-1':'Your','hero-title-2':'voice.','hero-title-3':'Your world.',
+    'hero-sub':'No photos. No text. Just your voice — authentic, alive, unique. Tell stories, sing, inspire. With Chrono, leave messages to your future self.',
+    'btn-enter':'Enter the App','btn-more':'Learn more','clips-today':'clips recorded today',
+  },
+  it:{
+    'nav-cta':'Apri App ↗','eyebrow':'Il primo social interamente vocale',
+    'hero-title-1':'La tua','hero-title-2':'voce.','hero-title-3':'Il tuo mondo.',
+    'hero-sub':'Niente foto. Niente testo. Solo la tua voce — autentica, viva, unica. Racconta, canta, ispira. Con Chrono, lascia messaggi al tuo sé futuro.',
+    'btn-enter':'Entra nell\'App','btn-more':'Scopri di più','clips-today':'clip registrate oggi',
+  },
+  es:{
+    'nav-cta':'Abrir App ↗','eyebrow':'La primera red social solo de voz',
+    'hero-title-1':'Tu','hero-title-2':'voz.','hero-title-3':'Tu mundo.',
+    'hero-sub':'Sin fotos. Sin texto. Solo tu voz — auténtica, viva, única. Cuenta historias, canta, inspira. Con Chrono, deja mensajes a tu yo futuro.',
+    'btn-enter':'Entrar a la App','btn-more':'Descubre más','clips-today':'clips grabados hoy',
+  },
+  zh:{
+    'nav-cta':'打开应用 ↗','eyebrow':'首个纯语音社交平台',
+    'hero-title-1':'你的','hero-title-2':'声音。','hero-title-3':'你的世界。',
+    'hero-sub':'没有照片。没有文字。只有你的声音——真实、鲜活、独一无二。讲故事、唱歌、激励他人。用 Chrono 给未来的自己留言。',
+    'btn-enter':'进入应用','btn-more':'了解更多','clips-today':'条今日录音',
+  },
+  ja:{
+    'nav-cta':'アプリを開く ↗','eyebrow':'初の音声専用ソーシャル',
+    'hero-title-1':'あなたの','hero-title-2':'声。','hero-title-3':'あなたの世界。',
+    'hero-sub':'写真なし。テキストなし。あなたの声だけ——本物で、生き生きとして、ユニーク。語り、歌い、インスパイアしよう。Chrono で未来の自分へメッセージを残して。',
+    'btn-enter':'アプリに入る','btn-more':'詳細を見る','clips-today':'件の今日の録音',
+  },
+};
+
+const MEMIVE_LANG_META = {en:{flag:'🇬🇧',name:'EN'},it:{flag:'🇮🇹',name:'IT'},es:{flag:'🇪🇸',name:'ES'},zh:{flag:'🇨🇳',name:'ZH'},ja:{flag:'🇯🇵',name:'JA'}};
+
+function setLang(lang) {
+  if (!MEMIVE_T[lang]) return;
+  localStorage.setItem('ea-lang', lang);
+  const d = MEMIVE_T[lang];
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const k = el.getAttribute('data-i18n');
+    if (d[k] !== undefined) el.textContent = d[k];
+  });
+  document.querySelectorAll('#lang-dd button').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
+  const m = MEMIVE_LANG_META[lang];
+  const flagEl = document.getElementById('lang-flag');
+  const nameEl = document.getElementById('lang-name');
+  if (flagEl) flagEl.textContent = m.flag;
+  if (nameEl) nameEl.textContent = m.name;
+  document.documentElement.lang = lang;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  setLang(localStorage.getItem('ea-lang') || 'en');
+});
 </script>
 </body>
 </html>

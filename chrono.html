@@ -550,6 +550,15 @@ footer{
   .sync-arrow{transform:rotate(90deg)}
   footer{flex-direction:column;text-align:center}
 }
+/* ── LANG SWITCHER ── */
+.lang-wrap{position:relative;display:flex;align-items:center;margin-left:12px}
+#lang-btn{background:rgba(255,255,255,0.04);border:1px solid rgba(61,37,16,0.6);border-radius:7px;cursor:pointer;padding:6px 10px;display:flex;align-items:center;gap:5px;color:var(--text2);font-family:'Space Mono',monospace;font-size:.62rem;transition:border-color .2s,color .2s;white-space:nowrap}
+#lang-btn:hover{border-color:rgba(217,119,6,0.5);color:var(--text)}
+#lang-dd{display:none;position:absolute;top:calc(100% + 8px);right:0;background:#160E08;border:1px solid var(--border);border-radius:10px;overflow:hidden;z-index:300;min-width:150px;box-shadow:0 16px 40px rgba(0,0,0,.7)}
+.lang-wrap:hover #lang-dd{display:block}
+#lang-dd button{display:flex;align-items:center;gap:8px;width:100%;padding:9px 14px;font-family:'Inter',sans-serif;font-size:.82rem;color:var(--text2);background:none;border:none;cursor:pointer;transition:background .15s,color .15s;text-align:left}
+#lang-dd button:hover{background:rgba(217,119,6,0.1);color:var(--text)}
+#lang-dd button.active{color:var(--gold);font-weight:600}
 </style>
 </head>
 <body>
@@ -589,14 +598,24 @@ footer{
     <a href="memive.html" style="color:#A855F7">Memive ↗</a>
     <a href="index.html">← Portfolio</a>
   </div>
-  <a href="chrono-app.html" class="nav-cta">Apri l'app →</a>
+  <a href="chrono-app.html" class="nav-cta" data-i18n="nav-cta">Open the app →</a>
+  <div class="lang-wrap">
+    <button id="lang-btn"><span id="lang-flag">🇬🇧</span>&nbsp;<span id="lang-name">EN</span></button>
+    <div id="lang-dd">
+      <button onclick="setLang('en')" data-lang="en" class="active"><span>🇬🇧</span> English</button>
+      <button onclick="setLang('it')" data-lang="it"><span>🇮🇹</span> Italiano</button>
+      <button onclick="setLang('es')" data-lang="es"><span>🇪🇸</span> Español</button>
+      <button onclick="setLang('zh')" data-lang="zh"><span>🇨🇳</span> 中文</button>
+      <button onclick="setLang('ja')" data-lang="ja"><span>🇯🇵</span> 日本語</button>
+    </div>
+  </div>
 </nav>
 
 <!-- HERO -->
 <section class="hero">
   <div class="hero-inner">
     <div class="hero-badge">
-      <span>Disponibile ora su iOS · Android · Web</span>
+      <span data-i18n="hero-badge">Available now on iOS · Android · Web</span>
     </div>
 
     <div class="hero-capsule">
@@ -647,17 +666,17 @@ footer{
       </div>
     </div>
 
-    <h1 class="hero-title">La tua<br><span>Capsula del Tempo</span><br>digitale</h1>
+    <h1 class="hero-title"><span data-i18n="hero-t1">Your</span><br><span><span data-i18n="hero-t2">Time Capsule</span></span><br><span data-i18n="hero-t3">digital</span></h1>
     <p class="hero-subtitle" id="hero-sub-text"><span class="typewriter-cursor"></span></p>
     <div class="hero-ctas">
-      <a href="chrono-app.html" class="btn-primary">Apri l'app →</a>
-      <a href="#how" class="btn-outline">Scopri come funziona</a>
+      <a href="chrono-app.html" class="btn-primary" data-i18n="hero-cta1">Open the app →</a>
+      <a href="#how" class="btn-outline" data-i18n="hero-cta2">Discover how it works</a>
     </div>
     <div class="hero-platforms">
       <span>iOS</span>
       <span>Android</span>
       <span>Web App</span>
-      <span>Account sincronizzato</span>
+      <span data-i18n="hero-sync">Synced account</span>
     </div>
   </div>
   <div class="scroll-hint">
@@ -669,29 +688,29 @@ footer{
 <!-- HOW IT WORKS -->
 <section class="section" id="how">
   <div class="container">
-    <span class="section-label">// COME FUNZIONA</span>
-    <h2 class="section-title">Tre passi.<br>Un ricordo per sempre.</h2>
-    <p class="section-sub">Non serve essere organizzati. Bastano tre minuti per creare qualcosa che ti sorprenderà tra anni.</p>
+    <span class="section-label" data-i18n="s1-label">// HOW IT WORKS</span>
+    <h2 class="section-title" data-i18n="s1-title">Three steps.<br>One memory forever.</h2>
+    <p class="section-sub" data-i18n="s1-sub">You don't need to be organized. Three minutes are enough to create something that will surprise you in years.</p>
     <div class="steps">
       <div class="step reveal">
         <div class="step-num">// STEP_01</div>
         <div class="step-icon">📦</div>
-        <h3 class="step-title">Crea la capsula</h3>
-        <p class="step-desc">Dai un nome alla tua capsula, scegli un'emoji cover e aggiungi note, foto, video o messaggi vocali. Aggiungi previsioni sul futuro e obiettivi da raggiungere.</p>
+        <h3 class="step-title" data-i18n="step1-title">Create the capsule</h3>
+        <p class="step-desc" data-i18n="step1-desc">Name your capsule, choose an emoji cover and add notes, photos, videos or voice messages. Add predictions about the future and goals to achieve.</p>
         <div class="step-connector"></div>
       </div>
       <div class="step reveal">
         <div class="step-num">// STEP_02</div>
         <div class="step-icon">🔒</div>
-        <h3 class="step-title">Sigillala</h3>
-        <p class="step-desc">Scegli la data di apertura: fra 6 mesi, 1 anno, 5 anni o una data personalizzata. Dal momento in cui sigilli, il contenuto è bloccato — solo tu puoi aprirla.</p>
+        <h3 class="step-title" data-i18n="step2-title">Seal it</h3>
+        <p class="step-desc" data-i18n="step2-desc">Choose the opening date: in 6 months, 1 year, 5 years or a custom date. From the moment you seal it, the content is locked — only you can open it.</p>
         <div class="step-connector"></div>
       </div>
       <div class="step reveal">
         <div class="step-num">// STEP_03</div>
         <div class="step-icon">✨</div>
-        <h3 class="step-title">Aprila quando è il momento</h3>
-        <p class="step-desc">Ricevi una notifica quando la capsula si sblocca. Rivivi i ricordi, scopri se le tue previsioni erano giuste e verifica gli obiettivi raggiunti.</p>
+        <h3 class="step-title" data-i18n="step3-title">Open it when the time comes</h3>
+        <p class="step-desc" data-i18n="step3-desc">Receive a notification when the capsule unlocks. Relive the memories, discover if your predictions were right and check the goals you achieved.</p>
       </div>
     </div>
   </div>
@@ -1108,6 +1127,103 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
     const target = document.querySelector(a.getAttribute('href'));
     if(target){ e.preventDefault(); target.scrollIntoView({behavior:'smooth', block:'start'}); }
   });
+});
+</script>
+
+<script>
+/* ── CHRONO i18n ── */
+const CHRONO_T = {
+  en:{
+    'nav-cta':'Open the app →',
+    'hero-badge':'Available now on iOS · Android · Web',
+    'hero-t1':'Your','hero-t2':'Time Capsule','hero-t3':'digital',
+    'hero-cta1':'Open the app →','hero-cta2':'Discover how it works',
+    'hero-sync':'Synced account',
+    's1-label':'// HOW IT WORKS',
+    's1-title':'Three steps.<br>One memory forever.',
+    's1-sub':"You don't need to be organized. Three minutes are enough to create something that will surprise you in years.",
+    'step1-title':'Create the capsule','step1-desc':'Name your capsule, choose an emoji cover and add notes, photos, videos or voice messages. Add predictions about the future and goals to achieve.',
+    'step2-title':'Seal it','step2-desc':'Choose the opening date: in 6 months, 1 year, 5 years or a custom date. From the moment you seal it, the content is locked — only you can open it.',
+    'step3-title':'Open it when the time comes','step3-desc':'Receive a notification when the capsule unlocks. Relive the memories, discover if your predictions were right and check the goals you achieved.',
+  },
+  it:{
+    'nav-cta':"Apri l'app →",
+    'hero-badge':'Disponibile ora su iOS · Android · Web',
+    'hero-t1':'La tua','hero-t2':'Capsula del Tempo','hero-t3':'digitale',
+    'hero-cta1':"Apri l'app →",'hero-cta2':'Scopri come funziona',
+    'hero-sync':'Account sincronizzato',
+    's1-label':'// COME FUNZIONA',
+    's1-title':'Tre passi.<br>Un ricordo per sempre.',
+    's1-sub':'Non serve essere organizzati. Bastano tre minuti per creare qualcosa che ti sorprenderà tra anni.',
+    'step1-title':'Crea la capsula','step1-desc':"Dai un nome alla tua capsula, scegli un'emoji cover e aggiungi note, foto, video o messaggi vocali. Aggiungi previsioni sul futuro e obiettivi da raggiungere.",
+    'step2-title':'Sigillala','step2-desc':'Scegli la data di apertura: fra 6 mesi, 1 anno, 5 anni o una data personalizzata. Dal momento in cui sigilli, il contenuto è bloccato — solo tu puoi aprirla.',
+    'step3-title':'Aprila quando è il momento','step3-desc':'Ricevi una notifica quando la capsula si sblocca. Rivivi i ricordi, scopri se le tue previsioni erano giuste e verifica gli obiettivi raggiunti.',
+  },
+  es:{
+    'nav-cta':'Abrir la app →',
+    'hero-badge':'Disponible ahora en iOS · Android · Web',
+    'hero-t1':'Tu','hero-t2':'Cápsula del Tiempo','hero-t3':'digital',
+    'hero-cta1':'Abrir la app →','hero-cta2':'Descubre cómo funciona',
+    'hero-sync':'Cuenta sincronizada',
+    's1-label':'// CÓMO FUNCIONA',
+    's1-title':'Tres pasos.<br>Un recuerdo para siempre.',
+    's1-sub':'No hace falta ser organizado. Tres minutos son suficientes para crear algo que te sorprenderá en años.',
+    'step1-title':'Crea la cápsula','step1-desc':'Ponle nombre a tu cápsula, elige un emoji de portada y añade notas, fotos, vídeos o mensajes de voz. Añade predicciones sobre el futuro y objetivos.',
+    'step2-title':'Séllala','step2-desc':'Elige la fecha de apertura: en 6 meses, 1 año, 5 años o una fecha personalizada. Desde que la sellas, el contenido está bloqueado — solo tú puedes abrirla.',
+    'step3-title':'Ábrela cuando llegue el momento','step3-desc':'Recibe una notificación cuando la cápsula se desbloquee. Revive los recuerdos, descubre si tus predicciones eran correctas y comprueba los objetivos logrados.',
+  },
+  zh:{
+    'nav-cta':'打开应用 →',
+    'hero-badge':'现已在 iOS · Android · Web 上线',
+    'hero-t1':'你的','hero-t2':'时间胶囊','hero-t3':'数字',
+    'hero-cta1':'打开应用 →','hero-cta2':'了解使用方法',
+    'hero-sync':'已同步账户',
+    's1-label':'// 使用方式',
+    's1-title':'三个步骤。<br>一段永恒的记忆。',
+    's1-sub':'不需要特别有条理。只需三分钟，就能创造出多年后让你惊喜的东西。',
+    'step1-title':'创建胶囊','step1-desc':'为你的胶囊命名，选择一个封面表情，添加笔记、照片、视频或语音消息。添加对未来的预测和目标。',
+    'step2-title':'封存它','step2-desc':'选择开启日期：6个月后、1年、5年或自定义日期。封存后内容即锁定——只有你能打开。',
+    'step3-title':'在时机到来时打开','step3-desc':'胶囊解锁时收到通知。重温记忆，看看你的预测是否正确，检查已实现的目标。',
+  },
+  ja:{
+    'nav-cta':'アプリを開く →',
+    'hero-badge':'iOS · Android · Web で今すぐ利用可能',
+    'hero-t1':'あなたの','hero-t2':'タイムカプセル','hero-t3':'デジタル',
+    'hero-cta1':'アプリを開く →','hero-cta2':'使い方を見る',
+    'hero-sync':'アカウント同期済み',
+    's1-label':'// 使い方',
+    's1-title':'三つのステップ。<br>永遠に残る思い出。',
+    's1-sub':'整理整頓が得意でなくても大丈夫。3分あれば、何年後かに自分を驚かせるものが作れます。',
+    'step1-title':'カプセルを作る','step1-desc':'カプセルに名前をつけ、カバー絵文字を選び、メモ・写真・動画・音声メッセージを追加。未来の予測や達成目標も加えよう。',
+    'step2-title':'封印する','step2-desc':'開封日を選択：6ヶ月後、1年、5年、またはカスタム日付。封印した瞬間からコンテンツはロック——開けられるのはあなただけ。',
+    'step3-title':'時が来たら開ける','step3-desc':'カプセルのロックが解除されたら通知が届く。記憶を振り返り、予測が当たったか確認し、達成した目標をチェック。',
+  },
+};
+
+const CHRONO_LANG_META = {en:{flag:'🇬🇧',name:'EN'},it:{flag:'🇮🇹',name:'IT'},es:{flag:'🇪🇸',name:'ES'},zh:{flag:'🇨🇳',name:'ZH'},ja:{flag:'🇯🇵',name:'JA'}};
+
+function setLang(lang) {
+  if (!CHRONO_T[lang]) return;
+  localStorage.setItem('ea-lang', lang);
+  const d = CHRONO_T[lang];
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const k = el.getAttribute('data-i18n');
+    if (d[k] !== undefined) {
+      if (k.includes('title') && d[k].includes('<br>')) el.innerHTML = d[k];
+      else el.textContent = d[k];
+    }
+  });
+  document.querySelectorAll('#lang-dd button').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
+  const m = CHRONO_LANG_META[lang];
+  const flagEl = document.getElementById('lang-flag');
+  const nameEl = document.getElementById('lang-name');
+  if (flagEl) flagEl.textContent = m.flag;
+  if (nameEl) nameEl.textContent = m.name;
+  document.documentElement.lang = lang;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  setLang(localStorage.getItem('ea-lang') || 'en');
 });
 </script>
 </body>

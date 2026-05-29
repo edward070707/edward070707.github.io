@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Scadoo — Edward Attuati</title>
-<meta name="description" content="Scadoo: app Flutter per la gestione della dispensa, tracciamento scadenze e lista della spesa condivisibile. Case study tecnico.">
+<meta name="description" content="Scadoo: Flutter app for pantry management, expiry tracking, and shareable shopping list. Offline-first. Zero backend.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
@@ -29,64 +29,18 @@
   --mono:'Space Mono',monospace;
 }
 html{scroll-behavior:smooth}
-body{
-  background:var(--bg);
-  color:var(--text);
-  font-family:var(--sg);
-  line-height:1.65;
-  overflow-x:hidden;
-}
+body{background:var(--bg);color:var(--text);font-family:var(--sg);line-height:1.65;overflow-x:hidden}
 
-/* ── ANIMATED BACKGROUND ── */
-.ambient{
-  position:fixed;inset:0;pointer-events:none;z-index:0;
-  overflow:hidden;
-}
-.orb{
-  position:absolute;
-  border-radius:50%;
-  filter:blur(80px);
-  opacity:0;
-  animation:orbPulse 8s ease-in-out infinite;
-}
-.orb-1{
-  width:500px;height:500px;
-  background:radial-gradient(circle,rgba(46,204,113,0.12),transparent 70%);
-  top:-100px;left:-150px;
-  animation-delay:0s;
-}
-.orb-2{
-  width:400px;height:400px;
-  background:radial-gradient(circle,rgba(39,174,96,0.08),transparent 70%);
-  bottom:100px;right:-100px;
-  animation-delay:3s;
-}
-.orb-3{
-  width:300px;height:300px;
-  background:radial-gradient(circle,rgba(46,204,113,0.06),transparent 70%);
-  top:50%;left:50%;
-  animation-delay:6s;
-}
-@keyframes orbPulse{
-  0%,100%{opacity:1;transform:scale(1)}
-  50%{opacity:0.6;transform:scale(1.15)}
-}
-
-.grid-bg{
-  position:fixed;inset:0;pointer-events:none;z-index:0;
-  background-image:
-    linear-gradient(rgba(46,204,113,0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(46,204,113,0.02) 1px, transparent 1px);
-  background-size:52px 52px;
-}
+/* ── CANVAS BG ── */
+#bg-canvas{position:fixed;inset:0;z-index:0;pointer-events:none}
 
 /* ── NAV ── */
 nav{
-  position:fixed;top:0;left:0;right:0;z-index:100;
-  padding:0 40px;height:60px;
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  padding:0 40px;height:64px;
   display:flex;align-items:center;gap:12px;
-  background:rgba(5,5,15,0.8);
-  backdrop-filter:blur(24px);
+  background:rgba(5,5,15,0.7);
+  backdrop-filter:blur(28px);
   border-bottom:1px solid var(--border);
   transition:border-color .3s;
 }
@@ -101,527 +55,439 @@ nav{
 .nav-sep{color:var(--low);font-family:var(--mono);font-size:.72rem}
 .nav-cur{color:var(--green);font-family:var(--mono);font-size:.72rem;font-weight:700}
 .nav-spacer{flex:1}
-.nav-status{
-  display:flex;align-items:center;gap:6px;
-  font-family:var(--mono);font-size:.65rem;color:var(--muted);
-}
-.nav-dot{
-  width:6px;height:6px;border-radius:50%;
-  background:var(--green);
-  animation:dotPulse 2s ease-in-out infinite;
-}
-@keyframes dotPulse{
-  0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(46,204,113,0.4)}
-  50%{opacity:0.7;box-shadow:0 0 0 4px rgba(46,204,113,0)}
-}
+.nav-status{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:.65rem;color:var(--muted)}
+.nav-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:dotPulse 2s ease-in-out infinite}
+@keyframes dotPulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(46,204,113,0.4)}50%{opacity:.7;box-shadow:0 0 0 4px rgba(46,204,113,0)}}
 
-/* ── MAIN ── */
-main{
-  position:relative;z-index:1;
-  max-width:900px;
-  margin:0 auto;
-  padding:100px 40px 120px;
+/* ── LANG SWITCHER ── */
+.lang-wrap{position:relative;display:flex;align-items:center;margin-left:8px}
+#lang-btn{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:7px;cursor:pointer;
+  font-size:15px;padding:5px 8px;
+  display:flex;align-items:center;gap:5px;
+  color:var(--muted);font-family:var(--mono);font-size:.6rem;
+  transition:border-color .2s,color .2s;
+  white-space:nowrap;
 }
+#lang-btn:hover{border-color:rgba(46,204,113,0.4);color:var(--text)}
+#lang-dd{
+  display:none;position:absolute;top:calc(100% + 8px);right:0;
+  background:#0a0a1e;border:1px solid var(--border);
+  border-radius:10px;overflow:hidden;z-index:300;
+  min-width:150px;box-shadow:0 16px 40px rgba(0,0,0,.6);
+}
+.lang-wrap:hover #lang-dd{display:block}
+#lang-dd button{
+  display:flex;align-items:center;gap:8px;
+  width:100%;padding:9px 14px;
+  font-family:var(--sg);font-size:.82rem;
+  color:var(--muted);background:none;border:none;cursor:pointer;
+  transition:background .15s,color .15s;text-align:left;
+}
+#lang-dd button:hover{background:rgba(46,204,113,0.1);color:var(--text)}
+#lang-dd button.active{color:var(--green);font-weight:600}
 
 /* ── HERO ── */
 .hero{
+  position:relative;z-index:1;
+  min-height:100vh;
   display:grid;
-  grid-template-columns:1fr auto;
-  gap:48px;
+  grid-template-columns:1fr 1fr;
   align-items:center;
-  margin-bottom:64px;
-  min-height:380px;
+  gap:0;
+  padding-top:64px;
 }
-@media(max-width:720px){
-  .hero{grid-template-columns:1fr;gap:40px}
-  .phone-wrap{display:none}
-}
+@media(max-width:860px){.hero{grid-template-columns:1fr;min-height:auto;padding-top:100px}}
 
-.proj-label{
-  font-family:var(--mono);font-size:.68rem;letter-spacing:.18em;
-  color:var(--green);text-transform:uppercase;
-  display:block;margin-bottom:16px;
-  opacity:.85;
+.hero-left{
+  padding:80px 60px 80px 80px;
+  display:flex;flex-direction:column;
+  justify-content:center;
 }
-.proj-title{
-  font-size:clamp(2.6rem,6vw,4.2rem);
-  font-weight:700;letter-spacing:-.03em;
-  line-height:1.02;margin-bottom:16px;
-}
-.proj-title span{
-  background:linear-gradient(135deg,#2ECC71 0%,#a8e6cf 40%,#27AE60 60%,#2ECC71 100%);
-  background-size:200% 200%;
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-  animation:gradientShift 5s ease infinite;
-}
-@keyframes gradientShift{
-  0%{background-position:0% 50%}
-  50%{background-position:100% 50%}
-  100%{background-position:0% 50%}
-}
-.proj-sub{
-  font-size:1rem;color:var(--muted);
-  max-width:520px;line-height:1.75;margin-bottom:28px;
-}
-.badges{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:40px}
-.badge{
-  font-family:var(--mono);font-size:.65rem;letter-spacing:.08em;
-  padding:5px 12px;border-radius:6px;font-weight:700;
-  border:1px solid;transition:all .2s;
-}
-.badge-status{
-  color:var(--green);border-color:rgba(46,204,113,0.4);
-  background:rgba(46,204,113,0.08);
-}
-.badge-status::before{content:'● ';font-size:.55rem}
-.badge-tech{color:var(--cyan);border-color:rgba(34,211,238,0.3);background:rgba(34,211,238,0.06)}
-.badge-platform{color:var(--muted);border-color:var(--border);background:var(--surface)}
+@media(max-width:1100px){.hero-left{padding:60px 40px 60px 60px}}
+@media(max-width:860px){.hero-left{padding:40px 24px 20px}}
 
-/* ── TERMINAL CARD ── */
-.terminal{
-  background:#0a0a18;
-  border:1px solid var(--border);
-  border-radius:10px;overflow:hidden;
-  max-width:420px;
-}
-.term-header{
-  display:flex;align-items:center;gap:6px;
-  padding:10px 14px;background:rgba(255,255,255,0.03);
-  border-bottom:1px solid var(--border);
-}
-.term-dot{width:10px;height:10px;border-radius:50%}
-.term-dot-r{background:#ff5f57}
-.term-dot-y{background:#febc2e}
-.term-dot-g{background:#28c840}
-.term-title{
-  margin-left:auto;margin-right:auto;
-  font-family:var(--mono);font-size:.62rem;color:var(--muted);
-}
-.term-body{
-  padding:16px 18px;
-  font-family:var(--mono);font-size:.75rem;
-  line-height:1.9;color:var(--muted);
-}
-.term-line{display:flex;gap:8px;align-items:baseline}
-.term-prompt{color:var(--green);flex-shrink:0}
-.term-cmd{color:var(--text)}
-.term-out{color:var(--muted)}
-.term-ok{color:var(--green)}
-.term-cursor{
-  display:inline-block;
-  width:7px;height:13px;
-  background:var(--green);
-  animation:blink .9s step-end infinite;
-  vertical-align:middle;margin-left:2px;
-}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
-
-/* ── PHONE MOCKUP ── */
-.phone-wrap{
-  display:flex;justify-content:center;align-items:center;
+.hero-right{
   position:relative;
+  height:100vh;
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
 }
-.phone-wrap::before{
+@media(max-width:860px){
+  .hero-right{height:480px}
+}
+
+/* right panel gradient */
+.hero-right::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 80% at 50% 50%,rgba(46,204,113,0.07),transparent 70%);
+  pointer-events:none;
+}
+
+.proj-eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--mono);font-size:.65rem;letter-spacing:.18em;
+  color:var(--green);text-transform:uppercase;margin-bottom:20px;
+  border:1px solid rgba(46,204,113,0.2);border-radius:6px;
+  padding:6px 12px;width:fit-content;
+}
+.eyebrow-dot{width:5px;height:5px;border-radius:50%;background:var(--green);animation:dotPulse 2s infinite}
+
+.hero-title{
+  font-size:clamp(3.2rem,7vw,5.5rem);
+  font-weight:700;letter-spacing:-.04em;
+  line-height:0.98;margin-bottom:20px;
+}
+.hero-title span{
+  background:linear-gradient(135deg,#2ECC71 0%,#a8e6cf 35%,#2ECC71 70%);
+  background-size:200%;-webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;background-clip:text;
+  animation:gradShift 5s ease infinite;
+}
+@keyframes gradShift{0%{background-position:0%}50%{background-position:100%}100%{background-position:0%}}
+
+.hero-sub{font-size:1rem;color:var(--muted);line-height:1.75;margin-bottom:32px;max-width:440px}
+
+.badge-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:36px}
+.badge{
+  font-family:var(--mono);font-size:.62rem;letter-spacing:.07em;
+  padding:5px 12px;border-radius:6px;font-weight:700;border:1px solid;
+}
+.badge-green{color:var(--green);border-color:rgba(46,204,113,0.35);background:rgba(46,204,113,0.07)}
+.badge-green::before{content:'● ';font-size:.5rem}
+.badge-cyan{color:var(--cyan);border-color:rgba(34,211,238,0.25);background:rgba(34,211,238,0.05)}
+.badge-dim{color:var(--muted);border-color:var(--border);background:var(--surface)}
+
+.hero-ctas{display:flex;gap:12px;flex-wrap:wrap}
+.btn-primary{
+  display:inline-flex;align-items:center;gap:8px;
+  background:linear-gradient(135deg,var(--green-dark),var(--green));
+  color:#05050f;padding:12px 24px;border-radius:9px;
+  font-family:var(--sg);font-size:.88rem;font-weight:700;
+  text-decoration:none;border:none;cursor:pointer;
+  transition:all .25s;position:relative;overflow:hidden;
+}
+.btn-primary::before{
   content:'';position:absolute;
-  width:200px;height:200px;
-  background:radial-gradient(circle,rgba(46,204,113,0.15),transparent 70%);
-  border-radius:50%;
-  animation:orbPulse 4s ease-in-out infinite;
+  top:-50%;left:-60%;width:40%;height:200%;
+  background:linear-gradient(to right,transparent,rgba(255,255,255,0.25),transparent);
+  transform:skewX(-20deg);animation:shimmer 2.5s ease infinite;
 }
-.phone-frame{
-  width:210px;height:420px;
-  border-radius:36px;
-  background:#0d0d1c;
-  border:2px solid rgba(255,255,255,0.12);
+@keyframes shimmer{0%{left:-60%}100%{left:160%}}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(46,204,113,0.3)}
+.btn-ghost{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--surface);border:1px solid var(--border);
+  color:var(--muted);padding:12px 24px;border-radius:9px;
+  font-family:var(--sg);font-size:.88rem;font-weight:500;
+  text-decoration:none;transition:all .25s;
+}
+.btn-ghost:hover{border-color:var(--border-hover);color:var(--text)}
+
+/* ── PHONE STACK ── */
+.phone-scene{
+  position:relative;
+  width:280px;height:560px;
+}
+.phone-shadow{
+  position:absolute;
+  bottom:-30px;left:50%;transform:translateX(-50%);
+  width:160px;height:30px;
+  background:rgba(46,204,113,0.2);
+  border-radius:50%;
+  filter:blur(20px);
+  animation:shadowPulse 4s ease-in-out infinite;
+}
+@keyframes shadowPulse{0%,100%{opacity:.6;transform:translateX(-50%) scaleX(1)}50%{opacity:.3;transform:translateX(-50%) scaleX(0.85)}}
+
+.phone-main{
+  position:absolute;
+  inset:0;
+  border-radius:40px;
+  background:#0d0d20;
+  border:2px solid rgba(255,255,255,0.1);
   box-shadow:
     0 0 0 1px rgba(255,255,255,0.04),
-    0 40px 80px rgba(0,0,0,0.6),
-    inset 0 1px 0 rgba(255,255,255,0.08);
-  position:relative;overflow:hidden;
+    0 50px 100px rgba(0,0,0,0.7),
+    inset 0 1px 0 rgba(255,255,255,0.07);
+  overflow:hidden;
   animation:phoneFloat 7s ease-in-out infinite;
+  z-index:2;
 }
-@keyframes phoneFloat{
-  0%,100%{transform:translateY(0) rotate(-1deg)}
-  50%{transform:translateY(-14px) rotate(1deg)}
-}
+@keyframes phoneFloat{0%,100%{transform:translateY(0) rotate(-0.5deg)}50%{transform:translateY(-16px) rotate(0.5deg)}}
+
 .phone-notch{
-  position:absolute;top:10px;left:50%;
-  transform:translateX(-50%);
-  width:60px;height:18px;
-  background:#0d0d1c;border-radius:10px;z-index:5;
+  position:absolute;top:12px;left:50%;transform:translateX(-50%);
+  width:70px;height:20px;background:#0d0d20;border-radius:12px;z-index:5;
 }
 .phone-screen{
   position:absolute;inset:0;
-  background:#F5F7FA;border-radius:34px;
-  overflow:hidden;display:flex;flex-direction:column;
+  background:#F5F7FA;border-radius:38px;overflow:hidden;
+  display:flex;flex-direction:column;
 }
-/* Mock app content */
-.ms-header{
-  padding:30px 12px 10px;
+.ps-header{
+  padding:34px 14px 10px;
   display:flex;justify-content:space-between;align-items:flex-start;
   background:#F5F7FA;
 }
-.ms-title{font-size:15px;font-weight:800;color:#2c3e50;font-family:var(--sg)}
-.ms-sub{font-size:9px;color:#95a5a6;margin-top:1px;font-family:var(--sg)}
-.ms-icon{
-  width:28px;height:28px;border-radius:8px;
+.ps-title{font-size:16px;font-weight:800;color:#1a2332;font-family:var(--sg)}
+.ps-sub{font-size:8.5px;color:#95a5a6;margin-top:1px;font-family:var(--sg)}
+.ps-icon{
+  width:30px;height:30px;border-radius:9px;
   background:rgba(46,204,113,0.12);
-  display:flex;align-items:center;justify-content:center;
-  font-size:14px;
+  display:flex;align-items:center;justify-content:center;font-size:15px;
 }
-.ms-stats{
-  display:flex;gap:6px;padding:6px 12px;
-}
-.ms-stat{
-  flex:1;background:white;border-radius:10px;padding:8px 6px;
-  border:1px solid #ECF0F1;
-}
-.ms-stat-n{font-size:16px;font-weight:800;font-family:var(--sg)}
-.ms-stat-l{font-size:7px;color:#95a5a6;font-family:var(--sg)}
-.ms-stat.g .ms-stat-n{color:#2ECC71}
-.ms-stat.y .ms-stat-n{color:#F39C12}
-.ms-stat.r .ms-stat-n{color:#E74C3C}
-.ms-sec{
-  font-size:9px;font-weight:700;color:#2c3e50;
-  padding:8px 12px 4px;font-family:var(--sg);
-}
-.ms-card{
-  margin:3px 8px;background:white;border-radius:10px;
-  padding:9px 10px;display:flex;align-items:center;
+.ps-stats{display:flex;gap:7px;padding:6px 14px}
+.ps-stat{flex:1;background:white;border-radius:11px;padding:9px 7px;border:1px solid #ECF0F1;text-align:center}
+.ps-stat-n{font-size:17px;font-weight:800;font-family:var(--sg);color:#1a2332}
+.ps-stat-l{font-size:7px;color:#95a5a6;font-family:var(--sg);margin-top:2px}
+.ps-stat.g .ps-stat-n{color:#2ECC71}
+.ps-stat.y .ps-stat-n{color:#F39C12}
+.ps-stat.r .ps-stat-n{color:#E74C3C}
+.ps-sec{font-size:9.5px;font-weight:700;color:#1a2332;padding:9px 14px 5px;font-family:var(--sg)}
+.ps-card{
+  margin:4px 9px;background:white;border-radius:11px;
+  padding:10px 11px;display:flex;align-items:center;
   justify-content:space-between;border:1px solid #ECF0F1;
-  animation:cardSlideIn .5s ease both;
 }
-.ms-card:nth-child(1){animation-delay:.2s}
-.ms-card:nth-child(2){animation-delay:.4s}
-.ms-card:nth-child(3){animation-delay:.6s}
-@keyframes cardSlideIn{
-  from{opacity:0;transform:translateX(-10px)}
-  to{opacity:1;transform:translateX(0)}
+.ps-card-name{font-size:9.5px;font-weight:700;color:#1a2332;font-family:var(--sg)}
+.ps-card-sub{font-size:7.5px;color:#95a5a6;margin-top:1px;font-family:var(--sg)}
+.ps-badge{font-size:7px;font-weight:700;padding:3px 8px;border-radius:5px;font-family:var(--mono);white-space:nowrap}
+.ps-badge-r{background:#fde8e6;color:#E74C3C}
+.ps-badge-y{background:#fef9e6;color:#F39C12}
+.ps-badge-o{background:#fef3e6;color:#E67E22}
+.ps-nav{
+  margin-top:auto;background:white;border-top:1px solid #ECF0F1;
+  padding:9px 18px 14px;display:flex;align-items:center;justify-content:space-around;
 }
-.ms-card-name{font-size:9px;font-weight:700;color:#2c3e50;font-family:var(--sg)}
-.ms-card-sub{font-size:7px;color:#95a5a6;margin-top:1px;font-family:var(--sg)}
-.ms-badge{
-  font-size:6.5px;font-weight:700;padding:3px 7px;border-radius:5px;
-  font-family:var(--mono);white-space:nowrap;
-}
-.ms-badge-r{background:#fde8e6;color:#E74C3C}
-.ms-badge-y{background:#fef9e6;color:#F39C12}
-.ms-badge-o{background:#fef3e6;color:#E67E22}
-.ms-bottom-nav{
-  margin-top:auto;
-  background:white;border-top:1px solid #ECF0F1;
-  padding:8px 16px 12px;
-  display:flex;align-items:center;justify-content:space-around;
-}
-.ms-nav-item{font-size:14px;opacity:.4}
-.ms-nav-item.active{opacity:1}
-.ms-nav-fab{
-  width:32px;height:32px;border-radius:50%;
-  background:#2ECC71;
-  display:flex;align-items:center;justify-content:center;
-  font-size:13px;margin-top:-20px;
-  box-shadow:0 4px 12px rgba(46,204,113,0.4);
+.ps-nav-item{font-size:15px;opacity:.35}
+.ps-nav-item.a{opacity:1}
+.ps-fab{
+  width:34px;height:34px;border-radius:50%;background:#2ECC71;
+  display:flex;align-items:center;justify-content:center;font-size:14px;
+  margin-top:-22px;box-shadow:0 4px 14px rgba(46,204,113,0.45);
 }
 
-/* ── DIVIDER ── */
-.divider{
-  width:100%;height:1px;
-  background:linear-gradient(90deg,transparent,var(--border) 30%,var(--border) 70%,transparent);
-  margin:48px 0;
+/* floating mini card */
+.mini-card{
+  position:absolute;z-index:4;
+  background:rgba(10,10,28,0.88);
+  border:1px solid rgba(46,204,113,0.3);
+  border-radius:12px;padding:11px 14px;
+  font-family:var(--mono);font-size:.65rem;
+  backdrop-filter:blur(10px);
+  box-shadow:0 8px 32px rgba(0,0,0,.5);
+  animation:cardFloat 6s ease-in-out infinite;
 }
+.mini-card-1{left:-60px;top:80px;animation-delay:0s}
+.mini-card-2{right:-55px;top:200px;animation-delay:2s}
+.mini-card-3{left:-50px;bottom:140px;animation-delay:4s}
+@keyframes cardFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.mc-label{font-size:.55rem;color:var(--green);letter-spacing:.12em;margin-bottom:4px;opacity:.8}
+.mc-val{color:var(--text);font-weight:700;font-size:.72rem}
+.mc-sub{color:var(--muted);font-size:.58rem;margin-top:2px}
 
-/* ── METRICS BAR ── */
-.metrics{
-  display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
-  background:var(--border);
-  border:1px solid var(--border);
-  border-radius:14px;overflow:hidden;
-  margin-bottom:56px;
+/* ── METRICS ── */
+.metrics-bar{
+  position:relative;z-index:1;
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:1px;background:var(--border);
+  border-top:1px solid var(--border);border-bottom:1px solid var(--border);
 }
+@media(max-width:600px){.metrics-bar{grid-template-columns:1fr 1fr}}
 .metric{
-  background:var(--bg);
-  padding:20px 24px;text-align:center;
+  background:var(--bg);padding:28px;text-align:center;
   transition:background .2s;
 }
 .metric:hover{background:rgba(46,204,113,0.03)}
 .metric-n{
-  font-size:2.2rem;font-weight:700;
-  color:var(--green);line-height:1;
-  margin-bottom:4px;
-  font-family:var(--mono);
+  font-size:2.5rem;font-weight:700;color:var(--green);
+  line-height:1;margin-bottom:6px;font-family:var(--mono);
 }
-.metric-l{font-size:.72rem;color:var(--muted);font-family:var(--mono);letter-spacing:.06em}
-@media(max-width:600px){
-  .metrics{grid-template-columns:1fr 1fr}
-}
+.metric-l{font-size:.7rem;color:var(--muted);font-family:var(--mono);letter-spacing:.06em}
 
-/* ── QUICK INFO ── */
-.quick-info{
-  display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));
-  gap:12px;margin-bottom:56px;
+/* ── MAIN CONTENT ── */
+main{position:relative;z-index:1;max-width:1000px;margin:0 auto;padding:80px 40px 120px}
+@media(max-width:640px){main{padding:60px 20px 80px}}
+
+/* ── SECTION ── */
+.section{margin-bottom:72px}
+.sec-tag{
+  font-family:var(--mono);font-size:.6rem;letter-spacing:.22em;
+  color:var(--green);opacity:.75;text-transform:uppercase;
+  display:block;margin-bottom:10px;
 }
-.qi-card{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:10px;padding:16px 18px;
-  transition:all .25s;
-  position:relative;overflow:hidden;
+.sec-title{font-size:1.5rem;font-weight:700;color:var(--text);margin-bottom:18px;letter-spacing:-.02em}
+.sec-body{color:var(--muted);line-height:1.85;font-size:.95rem}
+.sec-body p{margin-bottom:14px}
+.sec-body p:last-child{margin-bottom:0}
+
+/* ── FEATURE GRID ── */
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:20px}
+@media(max-width:760px){.feat-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.feat-grid{grid-template-columns:1fr}}
+.feat{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:12px;padding:22px;
+  transition:all .25s;position:relative;overflow:hidden;
+  cursor:default;
 }
-.qi-card::after{
+.feat::before{
   content:'';position:absolute;inset:0;
   background:linear-gradient(135deg,rgba(46,204,113,0.06),transparent);
   opacity:0;transition:opacity .25s;
 }
-.qi-card:hover{border-color:var(--border-hover);transform:translateY(-2px)}
-.qi-card:hover::after{opacity:1}
-.qi-label{
-  font-family:var(--mono);font-size:.58rem;letter-spacing:.15em;
-  color:var(--green);text-transform:uppercase;margin-bottom:6px;opacity:.85;
-}
-.qi-val{font-size:.85rem;color:var(--text);font-weight:500;position:relative;z-index:1}
+.feat:hover{border-color:var(--border-hover);transform:translateY(-3px)}
+.feat:hover::before{opacity:1}
+.feat-icon{font-size:1.6rem;margin-bottom:12px;display:block}
+.feat-name{font-weight:700;font-size:.9rem;margin-bottom:6px;color:var(--text)}
+.feat-desc{font-size:.75rem;color:var(--muted);line-height:1.5}
 
-/* ── SECTIONS ── */
-.section{margin-bottom:60px}
-.sec-tag{
-  font-family:var(--mono);font-size:.62rem;letter-spacing:.2em;
-  color:var(--green);opacity:.75;text-transform:uppercase;
-  display:block;margin-bottom:10px;
-}
-.sec-title{
-  font-size:1.4rem;font-weight:700;color:var(--text);
-  margin-bottom:18px;letter-spacing:-.02em;
-}
-.sec-body{color:var(--muted);line-height:1.85;font-size:.95rem}
-.sec-body p{margin-bottom:12px}
-.sec-body p:last-child{margin-bottom:0}
-
-/* ── FOLDER TREE ── */
+/* ── ARCHITECTURE TREE ── */
 .tree{
-  background:#080814;
-  border:1px solid var(--border);
-  border-radius:10px;
-  padding:20px 24px;
-  font-family:var(--mono);
-  font-size:.77rem;
-  line-height:1.95;
-  color:var(--muted);
-  margin-top:14px;
-  overflow-x:auto;
+  background:#07070f;border:1px solid var(--border);border-radius:12px;
+  padding:22px 26px;font-family:var(--mono);font-size:.76rem;
+  line-height:2;color:var(--muted);margin-top:18px;overflow-x:auto;
 }
 .tree .dir{color:var(--cyan)}
 .tree .file{color:var(--text)}
-.tree .comment{color:#4b5168}
+.tree .comment{color:#3d4263}
 
-/* ── STACK TABLE ── */
-.stack-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;margin-top:14px;
-}
-@media(max-width:600px){.stack-grid{grid-template-columns:1fr}}
+/* ── STACK ── */
+.stack-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}
+@media(max-width:540px){.stack-grid{grid-template-columns:1fr}}
 .stack-row{
   background:var(--surface);border:1px solid var(--border);
-  border-radius:10px;padding:14px 16px;
-  display:flex;align-items:flex-start;gap:14px;
-  transition:all .25s;cursor:default;
-  position:relative;overflow:hidden;
+  border-radius:11px;padding:16px;display:flex;align-items:flex-start;gap:14px;
+  transition:all .25s;position:relative;overflow:hidden;
 }
 .stack-row::before{
-  content:'';position:absolute;left:0;top:0;bottom:0;
-  width:3px;background:var(--green);
-  transform:scaleY(0);transform-origin:bottom;
-  transition:transform .25s;
+  content:'';position:absolute;left:0;top:0;bottom:0;width:3px;
+  background:var(--green);transform:scaleY(0);transform-origin:bottom;transition:transform .25s;
 }
-.stack-row:hover{border-color:var(--border-hover);transform:translateY(-2px);background:var(--surface-2)}
+.stack-row:hover{border-color:var(--border-hover);transform:translateY(-2px)}
 .stack-row:hover::before{transform:scaleY(1)}
-.stack-icon{font-size:1.3rem;flex-shrink:0;margin-top:1px}
-.stack-name{font-weight:700;font-size:.85rem;color:var(--text);margin-bottom:4px}
-.stack-why{font-size:.74rem;color:var(--muted);line-height:1.45}
+.si{font-size:1.3rem;flex-shrink:0;margin-top:1px}
+.sn{font-weight:700;font-size:.86rem;margin-bottom:4px;color:var(--text)}
+.sw{font-size:.73rem;color:var(--muted);line-height:1.45}
 
-/* ── FEATURE LIST ── */
-.feature-list{
-  display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px;
+/* ── CODE ── */
+.code-wrap{background:#07070f;border:1px solid var(--border);border-radius:13px;overflow:hidden;margin-top:18px}
+.code-hdr{
+  display:flex;align-items:center;gap:8px;padding:12px 16px;
+  background:rgba(255,255,255,0.02);border-bottom:1px solid var(--border);
 }
-@media(max-width:600px){.feature-list{grid-template-columns:1fr}}
-.feature-item{
-  display:flex;align-items:flex-start;gap:12px;
-  background:var(--surface);border:1px solid var(--border);
-  border-radius:10px;padding:14px 16px;
-  transition:all .25s;
-}
-.feature-item:hover{border-color:rgba(46,204,113,0.2);background:var(--surface-2)}
-.feature-dot{
-  width:6px;height:6px;border-radius:50%;
-  background:var(--green);margin-top:7px;flex-shrink:0;
-  box-shadow:0 0 6px rgba(46,204,113,0.5);
-}
-.feature-name{font-weight:700;font-size:.86rem;color:var(--text);margin-bottom:4px}
-.feature-desc{font-size:.74rem;color:var(--muted);line-height:1.45}
-
-/* ── CODE BLOCK ── */
-.code-wrap{
-  background:#07070f;
-  border:1px solid var(--border);
-  border-radius:12px;
-  overflow:hidden;margin-top:14px;
-}
-.code-header{
-  display:flex;align-items:center;gap:8px;
-  padding:11px 16px;
-  background:rgba(255,255,255,0.025);
-  border-bottom:1px solid var(--border);
-}
-.mac-dot{width:11px;height:11px;border-radius:50%;flex-shrink:0}
-.mac-r{background:#ff5f57}.mac-y{background:#febc2e}.mac-g{background:#28c840}
-.code-lang{
-  margin-left:8px;
-  font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;
-  color:var(--green);text-transform:uppercase;
-}
-.code-file{
-  margin-left:auto;
-  font-family:var(--mono);font-size:.62rem;color:var(--muted);
-}
-pre{
-  padding:22px 20px;
-  overflow-x:auto;
-  font-family:var(--mono);
-  font-size:.76rem;
-  line-height:1.75;
-  color:#cdd6f4;
-  tab-size:2;
-}
-.kw{color:#cba6f7}
-.fn{color:#89b4fa}
-.st{color:#a6e3a1}
-.cm{color:#4b5168}
-.ty{color:#f38ba8}
-.nm{color:#fab387}
-.op{color:#89dceb}
+.dot{width:11px;height:11px;border-radius:50%;flex-shrink:0}
+.dr{background:#ff5f57}.dy{background:#febc2e}.dg{background:#28c840}
+.code-lang{margin-left:8px;font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;color:var(--green);text-transform:uppercase}
+.code-file{margin-left:auto;font-family:var(--mono);font-size:.6rem;color:var(--muted)}
+pre{padding:22px 20px;overflow-x:auto;font-family:var(--mono);font-size:.75rem;line-height:1.8;color:#cdd6f4;tab-size:2}
+.kw{color:#cba6f7}.fn{color:#89b4fa}.st{color:#a6e3a1}.cm{color:#3d4263}.ty{color:#f38ba8}.nm{color:#fab387}.op{color:#89dceb}
 
 /* ── CHALLENGES ── */
-.challenge-list{margin-top:14px;display:flex;flex-direction:column;gap:10px}
-.challenge{
+.ch-list{display:flex;flex-direction:column;gap:10px;margin-top:18px}
+.ch{
   background:var(--surface);border:1px solid var(--border);
   border-left:3px solid var(--green);
-  border-radius:0 10px 10px 0;
-  padding:18px 20px;
-  transition:all .25s;cursor:pointer;
+  border-radius:0 11px 11px 0;padding:18px 20px;
+  cursor:pointer;transition:all .25s;
 }
-.challenge:hover{background:var(--surface-2);border-left-color:var(--green)}
+.ch:hover{background:var(--surface-2)}
 .ch-q{
   font-weight:700;font-size:.87rem;color:var(--text);
   display:flex;justify-content:space-between;align-items:center;gap:12px;
 }
-.ch-arrow{
-  color:var(--green);font-size:.7rem;transition:transform .25s;flex-shrink:0;
-  font-family:var(--mono);
-}
-.challenge.open .ch-arrow{transform:rotate(180deg)}
-.ch-a{
-  font-size:.8rem;color:var(--muted);line-height:1.65;
-  max-height:0;overflow:hidden;transition:max-height .3s ease, padding-top .3s;
-}
-.challenge.open .ch-a{max-height:200px;padding-top:10px}
-.ch-a code{
-  font-family:var(--mono);font-size:.78em;
-  color:var(--cyan);background:rgba(34,211,238,0.08);
-  padding:1px 5px;border-radius:4px;
-}
+.ch-arrow{color:var(--green);font-size:.68rem;transition:transform .25s;font-family:var(--mono);flex-shrink:0}
+.ch.open .ch-arrow{transform:rotate(180deg)}
+.ch-a{font-size:.8rem;color:var(--muted);line-height:1.65;max-height:0;overflow:hidden;transition:max-height .3s,padding-top .3s}
+.ch.open .ch-a{max-height:200px;padding-top:10px}
+.ch-a code{font-family:var(--mono);font-size:.78em;color:var(--cyan);background:rgba(34,211,238,0.08);padding:1px 5px;border-radius:4px}
 
 /* ── ROADMAP ── */
-.roadmap-progress{
-  margin-top:14px;margin-bottom:20px;
-}
-.rm-progress-label{
-  display:flex;justify-content:space-between;
-  font-family:var(--mono);font-size:.65rem;color:var(--muted);
-  margin-bottom:8px;
-}
-.rm-progress-bar{
-  height:4px;background:rgba(255,255,255,0.06);
-  border-radius:4px;overflow:hidden;
-}
-.rm-progress-fill{
-  height:100%;
-  background:linear-gradient(90deg,var(--green-dark),var(--green));
-  border-radius:4px;
-  width:0%;
-  transition:width 1.2s cubic-bezier(0.25,1,0.5,1);
-}
-.roadmap{display:flex;flex-direction:column;gap:8px}
+.rm-bar{margin-top:18px;margin-bottom:20px}
+.rm-bar-hdr{display:flex;justify-content:space-between;font-family:var(--mono);font-size:.64rem;color:var(--muted);margin-bottom:8px}
+.rm-track{height:4px;background:rgba(255,255,255,0.06);border-radius:4px;overflow:hidden}
+.rm-fill{height:100%;background:linear-gradient(90deg,var(--green-dark),var(--green));border-radius:4px;width:0%;transition:width 1.2s cubic-bezier(.25,1,.5,1)}
+.rm{display:flex;flex-direction:column;gap:8px}
 .rm-item{
-  display:flex;align-items:center;gap:12px;
-  padding:12px 16px;
+  display:flex;align-items:center;gap:12px;padding:12px 16px;
   background:var(--surface);border:1px solid var(--border);
-  border-radius:10px;font-size:.84rem;
-  transition:all .2s;
+  border-radius:10px;font-size:.84rem;transition:all .2s;
 }
 .rm-item:hover{background:var(--surface-2)}
-.rm-done{color:var(--green);flex-shrink:0;font-family:var(--mono)}
-.rm-todo{color:var(--low);flex-shrink:0;font-family:var(--mono)}
+.rm-done{color:var(--green);flex-shrink:0;font-family:var(--mono);font-size:.8rem}
+.rm-todo{color:var(--low);flex-shrink:0;font-family:var(--mono);font-size:.8rem}
 .rm-item.done .rm-text{color:var(--text)}
 .rm-item.todo .rm-text{color:var(--muted)}
-.rm-tag{
-  margin-left:auto;flex-shrink:0;
-  font-family:var(--mono);font-size:.6rem;letter-spacing:.08em;
-  padding:3px 9px;border-radius:5px;font-weight:700;
-}
+.rm-tag{margin-left:auto;flex-shrink:0;font-family:var(--mono);font-size:.59rem;letter-spacing:.07em;padding:3px 9px;border-radius:5px;font-weight:700}
 .tag-done{background:rgba(46,204,113,0.1);color:var(--green);border:1px solid rgba(46,204,113,0.2)}
 .tag-wip{background:rgba(241,196,15,0.1);color:var(--yellow);border:1px solid rgba(241,196,15,0.2)}
 .tag-next{background:rgba(255,255,255,0.03);color:var(--muted);border:1px solid var(--border)}
 
-/* ── BOTTOM BACK ── */
+/* ── DIVIDER ── */
+.divider{width:100%;height:1px;background:linear-gradient(90deg,transparent,var(--border) 30%,var(--border) 70%,transparent);margin:60px 0}
+
+/* ── BACK BTN ── */
 .bottom-back{
   display:inline-flex;align-items:center;gap:8px;
-  color:var(--muted);text-decoration:none;
-  font-family:var(--mono);font-size:.76rem;
-  padding:12px 20px;
-  border:1px solid var(--border);border-radius:8px;
-  background:var(--surface);
-  transition:all .25s;margin-top:56px;
+  color:var(--muted);text-decoration:none;font-family:var(--mono);font-size:.76rem;
+  padding:12px 20px;border:1px solid var(--border);border-radius:8px;background:var(--surface);
+  transition:all .25s;margin-top:60px;
 }
-.bottom-back:hover{color:var(--text);border-color:var(--border-hover);background:var(--surface-2)}
-.bottom-back svg{width:14px;height:14px;flex-shrink:0}
+.bottom-back:hover{color:var(--text);border-color:var(--border-hover)}
 
-/* ── REVEAL ANIMATION ── */
-.reveal{
-  opacity:0;
-  transform:translateY(28px);
-  transition:opacity .65s ease, transform .65s ease;
-}
+/* ── QUICK INFO ── */
+.qi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px;margin-bottom:60px}
+.qi{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;transition:all .25s;position:relative;overflow:hidden}
+.qi::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(46,204,113,0.06),transparent);opacity:0;transition:opacity .25s}
+.qi:hover{border-color:var(--border-hover);transform:translateY(-2px)}
+.qi:hover::after{opacity:1}
+.qi-lbl{font-family:var(--mono);font-size:.56rem;letter-spacing:.14em;color:var(--green);text-transform:uppercase;margin-bottom:5px;opacity:.85}
+.qi-val{font-size:.85rem;color:var(--text);font-weight:500;position:relative;z-index:1}
+
+/* ── REVEAL ── */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .65s ease,transform .65s ease}
 .reveal.visible{opacity:1;transform:translateY(0)}
-.reveal-delay-1{transition-delay:.08s}
-.reveal-delay-2{transition-delay:.16s}
-.reveal-delay-3{transition-delay:.24s}
-.reveal-delay-4{transition-delay:.32s}
-.reveal-delay-5{transition-delay:.40s}
-.reveal-delay-6{transition-delay:.48s}
-.reveal-delay-7{transition-delay:.56s}
-.reveal-delay-8{transition-delay:.64s}
+.rd1{transition-delay:.07s}.rd2{transition-delay:.14s}.rd3{transition-delay:.21s}
+.rd4{transition-delay:.28s}.rd5{transition-delay:.35s}.rd6{transition-delay:.42s}
+.rd7{transition-delay:.49s}.rd8{transition-delay:.56s}
 
-/* ── RESPONSIVE ── */
+/* ── TERMINAL ── */
+.terminal{
+  background:#0a0a18;border:1px solid var(--border);border-radius:11px;overflow:hidden;
+  max-width:420px;margin-top:32px;
+}
+.term-hdr{
+  display:flex;align-items:center;gap:6px;padding:10px 14px;
+  background:rgba(255,255,255,0.025);border-bottom:1px solid var(--border);
+}
+.td{width:10px;height:10px;border-radius:50%}
+.tr{background:#ff5f57}.ty2{background:#febc2e}.tg{background:#28c840}
+.term-ttl{margin-left:auto;margin-right:auto;font-family:var(--mono);font-size:.6rem;color:var(--muted)}
+.term-body{padding:14px 18px;font-family:var(--mono);font-size:.74rem;line-height:2;color:var(--muted)}
+.term-line{display:flex;gap:8px;align-items:baseline}
+.tp{color:var(--green);flex-shrink:0}
+.tc{color:var(--text)}
+.tok{color:var(--green)}
+.tcur{display:inline-block;width:7px;height:12px;background:var(--green);animation:blink .9s step-end infinite;vertical-align:middle;margin-left:2px}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+
 @media(max-width:640px){
-  main{padding:80px 20px 80px}
   nav{padding:0 20px}
-  .metrics{grid-template-columns:1fr 1fr}
+  .hero-left{padding:40px 20px 20px}
+  .mini-card{display:none}
 }
 </style>
 </head>
 <body>
-<div class="ambient">
-  <div class="orb orb-1"></div>
-  <div class="orb orb-2"></div>
-  <div class="orb orb-3"></div>
-</div>
-<div class="grid-bg"></div>
+
+<canvas id="bg-canvas"></canvas>
 
 <!-- NAV -->
 <nav>
   <a href="index.html" class="nav-back">
-    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M10 3L5 8l5 5"/>
-    </svg>
+    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3L5 8l5 5"/></svg>
     edward070707.github.io
   </a>
   <span class="nav-sep">/</span>
@@ -629,403 +495,286 @@ pre{
   <div class="nav-spacer"></div>
   <div class="nav-status">
     <div class="nav-dot"></div>
-    in sviluppo
+    <span data-i18n="status">in development</span>
+  </div>
+  <div class="lang-wrap">
+    <button id="lang-btn"><span id="lang-flag">🇬🇧</span>&nbsp;<span id="lang-name">EN</span></button>
+    <div id="lang-dd">
+      <button onclick="setLang('en')" data-lang="en" class="active"><span>🇬🇧</span> English</button>
+      <button onclick="setLang('it')" data-lang="it"><span>🇮🇹</span> Italiano</button>
+      <button onclick="setLang('es')" data-lang="es"><span>🇪🇸</span> Español</button>
+      <button onclick="setLang('zh')" data-lang="zh"><span>🇨🇳</span> 中文</button>
+      <button onclick="setLang('ja')" data-lang="ja"><span>🇯🇵</span> 日本語</button>
+    </div>
   </div>
 </nav>
 
-<main>
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-left">
+    <div class="proj-eyebrow">
+      <div class="eyebrow-dot"></div>
+      <span data-i18n="eyebrow">personal project · 2025</span>
+    </div>
+    <h1 class="hero-title"><span>Scadoo</span></h1>
+    <p class="hero-sub" data-i18n="hero-sub">
+      Mobile app for intelligent pantry management: barcode scanning, expiry tracking, push notifications, and a shareable shopping list. Offline-first. Zero backend.
+    </p>
+    <div class="badge-row">
+      <span class="badge badge-green" data-i18n="badge-dev">In Development</span>
+      <span class="badge badge-cyan">Flutter · Dart</span>
+      <span class="badge badge-cyan">SQLite</span>
+      <span class="badge badge-cyan">Open Food Facts</span>
+      <span class="badge badge-dim">iOS · Android</span>
+    </div>
 
-  <!-- HERO -->
-  <div class="hero">
-    <div class="hero-text">
-      <span class="proj-label">// progetto personale · 2025</span>
-      <h1 class="proj-title"><span>Scadoo</span></h1>
-      <p class="proj-sub">
-        App mobile per la gestione intelligente della dispensa: scansione barcode,
-        tracciamento scadenze, notifiche push e lista della spesa condivisibile.
-        Offline-first. Zero backend.
-      </p>
-      <div class="badges">
-        <span class="badge badge-status">In Sviluppo</span>
-        <span class="badge badge-tech">Flutter · Dart</span>
-        <span class="badge badge-tech">SQLite</span>
-        <span class="badge badge-tech">Open Food Facts</span>
-        <span class="badge badge-platform">iOS · Android</span>
+    <div class="terminal">
+      <div class="term-hdr">
+        <div class="td tr"></div><div class="td ty2"></div><div class="td tg"></div>
+        <span class="term-ttl">zsh — scadoo</span>
       </div>
-
-      <!-- Terminal -->
-      <div class="terminal">
-        <div class="term-header">
-          <div class="term-dot term-dot-r"></div>
-          <div class="term-dot term-dot-y"></div>
-          <div class="term-dot term-dot-g"></div>
-          <span class="term-title">zsh — scadoo</span>
-        </div>
-        <div class="term-body">
-          <div class="term-line">
-            <span class="term-prompt">$</span>
-            <span class="term-cmd">flutter run --release</span>
-          </div>
-          <div class="term-line">
-            <span class="term-out term-ok">✓</span>
-            <span class="term-out">Building Scadoo (release)...</span>
-          </div>
-          <div class="term-line">
-            <span class="term-out term-ok">✓</span>
-            <span class="term-out">Connected to iPhone 15 Pro</span>
-          </div>
-          <div class="term-line">
-            <span class="term-out term-ok">✓</span>
-            <span class="term-out">Running Scadoo v1.0.0+1</span>
-          </div>
-          <div class="term-line">
-            <span class="term-prompt">_</span>
-            <span class="term-cursor"></span>
-          </div>
-        </div>
+      <div class="term-body">
+        <div class="term-line"><span class="tp">$</span><span class="tc">flutter run --release</span></div>
+        <div class="term-line"><span class="tok">✓</span><span>Building Scadoo (release)...</span></div>
+        <div class="term-line"><span class="tok">✓</span><span>Connected to iPhone 15 Pro</span></div>
+        <div class="term-line"><span class="tok">✓</span><span>Running Scadoo v1.0.0+1</span></div>
+        <div class="term-line"><span class="tp">_</span><span class="tcur"></span></div>
       </div>
     </div>
 
-    <!-- Phone Mockup -->
-    <div class="phone-wrap">
-      <div class="phone-frame">
+    <div class="hero-ctas" style="margin-top:28px">
+      <a href="#features" class="btn-primary" data-i18n="cta-explore">Explore Features</a>
+      <a href="index.html#work" class="btn-ghost" data-i18n="cta-back">← All Projects</a>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <!-- floating mini cards -->
+    <div class="mini-card mini-card-1">
+      <div class="mc-label">BARCODE</div>
+      <div class="mc-val">8001505005592</div>
+      <div class="mc-sub">Open Food Facts ✓</div>
+    </div>
+    <div class="mini-card mini-card-2">
+      <div class="mc-label">OFFLINE</div>
+      <div class="mc-val">SQLite local</div>
+      <div class="mc-sub">0 server required</div>
+    </div>
+    <div class="mini-card mini-card-3">
+      <div class="mc-label">NOTIFY</div>
+      <div class="mc-val">Daily 09:00</div>
+      <div class="mc-sub">3 expiring soon</div>
+    </div>
+
+    <!-- Phone -->
+    <div class="phone-scene">
+      <div class="phone-shadow"></div>
+      <div class="phone-main">
         <div class="phone-notch"></div>
         <div class="phone-screen">
-          <div class="ms-header">
+          <div class="ps-header">
             <div>
-              <div class="ms-title">Ciao! 👋</div>
-              <div class="ms-sub">mercoledì 28 maggio</div>
+              <div class="ps-title">Hey! 👋</div>
+              <div class="ps-sub">Wednesday, May 28</div>
             </div>
-            <div class="ms-icon">🌿</div>
+            <div class="ps-icon">🌿</div>
           </div>
-          <div class="ms-stats">
-            <div class="ms-stat g">
-              <div class="ms-stat-n">12</div>
-              <div class="ms-stat-l">Totale</div>
-            </div>
-            <div class="ms-stat y">
-              <div class="ms-stat-n">3</div>
-              <div class="ms-stat-l">In scadenza</div>
-            </div>
-            <div class="ms-stat r">
-              <div class="ms-stat-n">1</div>
-              <div class="ms-stat-l">Scaduti</div>
-            </div>
+          <div class="ps-stats">
+            <div class="ps-stat g"><div class="ps-stat-n">12</div><div class="ps-stat-l">Total</div></div>
+            <div class="ps-stat y"><div class="ps-stat-n">3</div><div class="ps-stat-l">Expiring</div></div>
+            <div class="ps-stat r"><div class="ps-stat-n">1</div><div class="ps-stat-l">Expired</div></div>
           </div>
-          <div class="ms-sec">In scadenza presto</div>
-          <div class="ms-card">
-            <div>
-              <div class="ms-card-name">Yogurt greco</div>
-              <div class="ms-card-sub">Chobani · Frigo · 2 pz</div>
-            </div>
-            <div class="ms-badge ms-badge-r">Scaduto</div>
+          <div class="ps-sec">Expiring soon</div>
+          <div class="ps-card">
+            <div><div class="ps-card-name">Greek Yogurt</div><div class="ps-card-sub">Chobani · Fridge · 2 pcs</div></div>
+            <div class="ps-badge ps-badge-r">Expired</div>
           </div>
-          <div class="ms-card">
-            <div>
-              <div class="ms-card-name">Latte intero</div>
-              <div class="ms-card-sub">Parmalat · Frigo · 1 pz</div>
-            </div>
-            <div class="ms-badge ms-badge-y">2 giorni</div>
+          <div class="ps-card">
+            <div><div class="ps-card-name">Whole Milk</div><div class="ps-card-sub">Parmalat · Fridge · 1 pc</div></div>
+            <div class="ps-badge ps-badge-y">2 days</div>
           </div>
-          <div class="ms-card">
-            <div>
-              <div class="ms-card-name">Mozzarella</div>
-              <div class="ms-card-sub">Galbani · Frigo · 3 pz</div>
-            </div>
-            <div class="ms-badge ms-badge-o">3 giorni</div>
+          <div class="ps-card">
+            <div><div class="ps-card-name">Mozzarella</div><div class="ps-card-sub">Galbani · Fridge · 3 pcs</div></div>
+            <div class="ps-badge ps-badge-o">3 days</div>
           </div>
-          <div class="ms-bottom-nav">
-            <div class="ms-nav-item active">🏠</div>
-            <div class="ms-nav-item">📦</div>
-            <div class="ms-nav-fab">📷</div>
-            <div class="ms-nav-item">🛒</div>
+          <div class="ps-nav">
+            <div class="ps-nav-item a">🏠</div>
+            <div class="ps-nav-item">📦</div>
+            <div class="ps-fab">📷</div>
+            <div class="ps-nav-item">🛒</div>
+            <div class="ps-nav-item">⚙️</div>
           </div>
         </div>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- METRICS -->
-  <div class="metrics reveal">
-    <div class="metric">
-      <div class="metric-n" data-count="8">0</div>
-      <div class="metric-l">packages</div>
-    </div>
-    <div class="metric">
-      <div class="metric-n" data-count="5">0</div>
-      <div class="metric-l">schermate</div>
-    </div>
-    <div class="metric">
-      <div class="metric-n" data-count="2">0</div>
-      <div class="metric-l">piattaforme</div>
-    </div>
-    <div class="metric">
-      <div class="metric-n" data-count="0">∞</div>
-      <div class="metric-l">server richiesti</div>
-    </div>
+<!-- METRICS BAR -->
+<div class="metrics-bar">
+  <div class="metric">
+    <div class="metric-n" data-count="8">0</div>
+    <div class="metric-l" data-i18n="m1">packages</div>
   </div>
+  <div class="metric">
+    <div class="metric-n" data-count="5">0</div>
+    <div class="metric-l" data-i18n="m2">screens</div>
+  </div>
+  <div class="metric">
+    <div class="metric-n" data-count="2">0</div>
+    <div class="metric-l" data-i18n="m3">platforms</div>
+  </div>
+  <div class="metric">
+    <div class="metric-n">∞</div>
+    <div class="metric-l" data-i18n="m4">servers needed</div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<main>
 
   <!-- QUICK INFO -->
-  <div class="quick-info">
-    <div class="qi-card reveal reveal-delay-1">
-      <div class="qi-label">Piattaforma</div>
-      <div class="qi-val">iOS · Android</div>
-    </div>
-    <div class="qi-card reveal reveal-delay-2">
-      <div class="qi-label">Framework</div>
-      <div class="qi-val">Flutter 3.x / Dart</div>
-    </div>
-    <div class="qi-card reveal reveal-delay-3">
-      <div class="qi-label">Database</div>
-      <div class="qi-val">SQLite (sqflite)</div>
-    </div>
-    <div class="qi-card reveal reveal-delay-4">
-      <div class="qi-label">State Management</div>
-      <div class="qi-val">Provider + ChangeNotifier</div>
-    </div>
-    <div class="qi-card reveal reveal-delay-5">
-      <div class="qi-label">API Prodotti</div>
-      <div class="qi-val">Open Food Facts</div>
-    </div>
-    <div class="qi-card reveal reveal-delay-6">
-      <div class="qi-label">Notifiche</div>
-      <div class="qi-val">flutter_local_notifications</div>
-    </div>
+  <div class="qi-grid">
+    <div class="qi reveal rd1"><div class="qi-lbl" data-i18n="qi1-lbl">Platform</div><div class="qi-val">iOS · Android</div></div>
+    <div class="qi reveal rd2"><div class="qi-lbl" data-i18n="qi2-lbl">Framework</div><div class="qi-val">Flutter 3.x / Dart</div></div>
+    <div class="qi reveal rd3"><div class="qi-lbl" data-i18n="qi3-lbl">Database</div><div class="qi-val">SQLite (sqflite)</div></div>
+    <div class="qi reveal rd4"><div class="qi-lbl" data-i18n="qi4-lbl">State</div><div class="qi-val">Provider + ChangeNotifier</div></div>
+    <div class="qi reveal rd5"><div class="qi-lbl" data-i18n="qi5-lbl">Product API</div><div class="qi-val">Open Food Facts</div></div>
+    <div class="qi reveal rd6"><div class="qi-lbl" data-i18n="qi6-lbl">Notifications</div><div class="qi-val">flutter_local_notifications</div></div>
   </div>
 
-  <div class="divider reveal"></div>
-
-  <!-- 01 – PANORAMICA -->
-  <section class="section reveal">
-    <span class="sec-tag">// 01 — panoramica</span>
-    <h2 class="sec-title">Perché esiste Scadoo</h2>
+  <!-- 01 OVERVIEW -->
+  <section class="section reveal" id="overview">
+    <span class="sec-tag">// 01 — <span data-i18n="s1-tag">overview</span></span>
+    <h2 class="sec-title" data-i18n="s1-title">Why Scadoo exists</h2>
     <div class="sec-body">
-      <p>
-        Il progetto nasce da un problema quotidiano: cibo che scade senza essere visto, liste della spesa
-        dimenticate e nessun modo semplice per tenere traccia di quante confezioni di pasta sono rimaste
-        in dispensa. Le app esistenti o costano un abbonamento o hanno interfacce sovraccariche.
-      </p>
-      <p>
-        L'obiettivo di Scadoo è <strong style="color:var(--text)">fare poche cose, farle bene e farle in fretta</strong>:
-        scansioni un prodotto, l'app recupera nome e marca da Open Food Facts, aggiungi la data di
-        scadenza e il gioco è fatto. Due tap. Tutto offline.
-      </p>
-      <p>
-        La lista della spesa è pensata per uso familiare: un bottone condivide la lista via WhatsApp
-        o iMessage formattata in modo leggibile, pronta per essere usata al supermercato.
-      </p>
+      <p data-i18n="s1-p1">The project was born from a daily problem: food expiring unseen, forgotten shopping lists, and no simple way to track how many boxes of pasta are left in the pantry. Existing apps either charge a subscription or have cluttered interfaces.</p>
+      <p data-i18n="s1-p2">Scadoo's goal is to <strong style="color:var(--text)">do a few things, do them well, and do them fast</strong>: scan a product, the app fetches name and brand from Open Food Facts, add the expiry date and you're done. Two taps. Fully offline.</p>
+      <p data-i18n="s1-p3">The shopping list is designed for family use: one button shares the list via WhatsApp or iMessage, formatted cleanly and ready to use at the supermarket.</p>
     </div>
   </section>
 
-  <!-- 02 – ARCHITETTURA -->
+  <!-- 02 FEATURES -->
+  <section class="section" id="features">
+    <span class="sec-tag reveal">// 02 — <span data-i18n="s2-tag">features</span></span>
+    <h2 class="sec-title reveal" data-i18n="s2-title">What the app does</h2>
+    <div class="feat-grid">
+      <div class="feat reveal rd1">
+        <span class="feat-icon">📷</span>
+        <div class="feat-name" data-i18n="f1-name">Quick Scan</div>
+        <div class="feat-desc" data-i18n="f1-desc">Scan barcode → API lookup → pre-filled form. Product in pantry in 2 taps.</div>
+      </div>
+      <div class="feat reveal rd2">
+        <span class="feat-icon">🌐</span>
+        <div class="feat-name" data-i18n="f2-name">Open Food Facts</div>
+        <div class="feat-desc" data-i18n="f2-desc">Italian endpoint first, then worldwide fallback. Fetches name, brand, category, image.</div>
+      </div>
+      <div class="feat reveal rd3">
+        <span class="feat-icon">⏱️</span>
+        <div class="feat-name" data-i18n="f3-name">Expiry Tracking</div>
+        <div class="feat-desc" data-i18n="f3-desc">Color coding: green (ok) → yellow (7 days) → orange (3 days) → red (expired).</div>
+      </div>
+      <div class="feat reveal rd4">
+        <span class="feat-icon">📦</span>
+        <div class="feat-name" data-i18n="f4-name">Separate Locations</div>
+        <div class="feat-desc" data-i18n="f4-desc">Fridge, Pantry and Freezer — filterable from the inventory screen.</div>
+      </div>
+      <div class="feat reveal rd5">
+        <span class="feat-icon">🔔</span>
+        <div class="feat-name" data-i18n="f5-name">Smart Notifications</div>
+        <div class="feat-desc" data-i18n="f5-desc">Daily digest at 9:00 AM with expiry summary. No server required.</div>
+      </div>
+      <div class="feat reveal rd6">
+        <span class="feat-icon">🛒</span>
+        <div class="feat-name" data-i18n="f6-name">Shopping List</div>
+        <div class="feat-desc" data-i18n="f6-desc">Check, reorder, add manually. Share via Share Sheet in one tap.</div>
+      </div>
+      <div class="feat reveal rd7">
+        <span class="feat-icon">➕</span>
+        <div class="feat-name" data-i18n="f7-name">Quantity Control</div>
+        <div class="feat-desc" data-i18n="f7-desc">+/− directly on the card. Quantity hits 0 → product removed automatically.</div>
+      </div>
+      <div class="feat reveal rd8">
+        <span class="feat-icon">📴</span>
+        <div class="feat-name" data-i18n="f8-name">Offline-first</div>
+        <div class="feat-desc" data-i18n="f8-desc">Everything on local SQLite. Works without connection. API is optional.</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider reveal"></div>
+
+  <!-- 03 ARCHITECTURE -->
   <section class="section reveal">
-    <span class="sec-tag">// 02 — architettura</span>
-    <h2 class="sec-title">Struttura del codice</h2>
+    <span class="sec-tag">// 03 — <span data-i18n="s3-tag">architecture</span></span>
+    <h2 class="sec-title" data-i18n="s3-title">Code structure</h2>
     <div class="sec-body">
-      <p>Il codice è organizzato in layer con responsabilità chiare. Ogni layer dipende solo da quello sotto di sé.</p>
+      <p data-i18n="s3-p">The code is organized in layers with clear responsibilities. Each layer depends only on the one below.</p>
     </div>
     <div class="tree">
 <span class="dir">lib/</span>
 ├── <span class="file">main.dart</span>              <span class="comment">← init, Provider setup, bottom nav</span>
 ├── <span class="dir">theme/</span>
-│   └── <span class="file">app_theme.dart</span>     <span class="comment">← colori, tipografia, helper expiryColor()</span>
-├── <span class="dir">models/</span>                  <span class="comment">← dati puri, nessuna dipendenza Flutter</span>
+│   └── <span class="file">app_theme.dart</span>     <span class="comment">← colors, typography, expiryColor()</span>
+├── <span class="dir">models/</span>                  <span class="comment">← pure data, no Flutter dependency</span>
 │   ├── <span class="file">product.dart</span>        <span class="comment">← daysToExpiry, isExpired, toMap/fromMap</span>
 │   └── <span class="file">shopping_item.dart</span>
-├── <span class="dir">services/</span>               <span class="comment">← I/O, rete, sistema — nessuna UI</span>
+├── <span class="dir">services/</span>               <span class="comment">← I/O, network, system — no UI</span>
 │   ├── <span class="file">database_service.dart</span>   <span class="comment">← SQLite singleton, CRUD</span>
 │   ├── <span class="file">notification_service.dart</span> <span class="comment">← schedule, daily digest</span>
-│   └── <span class="file">openfoodfacts_service.dart</span> <span class="comment">← HTTP + parsing</span>
-├── <span class="dir">providers/</span>              <span class="comment">← stato globale, chiama services, notifica UI</span>
+│   └── <span class="file">openfoodfacts_service.dart</span>
+├── <span class="dir">providers/</span>              <span class="comment">← global state, calls services, notifies UI</span>
 │   ├── <span class="file">inventory_provider.dart</span>
 │   └── <span class="file">shopping_list_provider.dart</span>
-├── <span class="dir">screens/</span>                <span class="comment">← una schermata = un file</span>
-│   ├── <span class="file">home_screen.dart</span>     <span class="comment">← dashboard: stats + in scadenza</span>
-│   ├── <span class="file">inventory_screen.dart</span> <span class="comment">← filtri posizione + ricerca</span>
-│   ├── <span class="file">scanner_screen.dart</span>  <span class="comment">← camera + overlay barcode</span>
-│   ├── <span class="file">add_product_screen.dart</span> <span class="comment">← form prodotto</span>
+├── <span class="dir">screens/</span>                <span class="comment">← one screen = one file</span>
+│   ├── <span class="file">home_screen.dart</span>
+│   ├── <span class="file">inventory_screen.dart</span>
+│   ├── <span class="file">scanner_screen.dart</span>
+│   ├── <span class="file">add_product_screen.dart</span>
 │   └── <span class="file">shopping_list_screen.dart</span>
 └── <span class="dir">widgets/</span>
-    └── <span class="file">product_card.dart</span>    <span class="comment">← card con swipe, quantity control, expiry badge</span>
+    └── <span class="file">product_card.dart</span>    <span class="comment">← swipe, quantity control, expiry badge</span>
     </div>
   </section>
 
-  <!-- 03 – STACK TECNICO -->
+  <!-- 04 STACK -->
   <section class="section">
-    <span class="sec-tag reveal">// 03 — stack tecnico</span>
-    <h2 class="sec-title reveal">Dipendenze e motivazioni</h2>
+    <span class="sec-tag reveal">// 04 — <span data-i18n="s4-tag">tech stack</span></span>
+    <h2 class="sec-title reveal" data-i18n="s4-title">Dependencies & Rationale</h2>
     <div class="stack-grid">
-
-      <div class="stack-row reveal reveal-delay-1">
-        <div class="stack-icon">📷</div>
-        <div>
-          <div class="stack-name">mobile_scanner</div>
-          <div class="stack-why">Scanner barcode più performante su Flutter. Gestisce focus, torcia e overlay custom via CustomPainter.</div>
-        </div>
-      </div>
-
-      <div class="stack-row reveal reveal-delay-2">
-        <div class="stack-icon">🗄️</div>
-        <div>
-          <div class="stack-name">sqflite + path</div>
-          <div class="stack-why">SQLite nativo, funziona offline al 100%. Nessun cloud richiesto. Due tabelle: products e shopping_items.</div>
-        </div>
-      </div>
-
-      <div class="stack-row reveal reveal-delay-3">
-        <div class="stack-icon">🔔</div>
-        <div>
-          <div class="stack-name">flutter_local_notifications</div>
-          <div class="stack-why">Notifiche schedulate localmente, senza server. Daily digest alle 9:00 + notifica immediata all'apertura.</div>
-        </div>
-      </div>
-
-      <div class="stack-row reveal reveal-delay-4">
-        <div class="stack-icon">🌐</div>
-        <div>
-          <div class="stack-name">http</div>
-          <div class="stack-why">Chiamate REST all'API Open Food Facts. Endpoint italiano prima, poi fallback mondiale.</div>
-        </div>
-      </div>
-
-      <div class="stack-row reveal reveal-delay-5">
-        <div class="stack-icon">🧩</div>
-        <div>
-          <div class="stack-name">provider</div>
-          <div class="stack-why">ChangeNotifier per InventoryProvider e ShoppingListProvider. Semplice, leggibile, senza codegen.</div>
-        </div>
-      </div>
-
-      <div class="stack-row reveal reveal-delay-6">
-        <div class="stack-icon">↔️</div>
-        <div>
-          <div class="stack-name">flutter_slidable</div>
-          <div class="stack-why">Swipe-to-delete e swipe-to-edit sulle card prodotto. UX mobile nativa.</div>
-        </div>
-      </div>
-
-      <div class="stack-row reveal reveal-delay-7">
-        <div class="stack-icon">📤</div>
-        <div>
-          <div class="stack-name">share_plus</div>
-          <div class="stack-why">Condivisione lista spesa via sistema operativo (WhatsApp, iMessage, ecc.) senza backend.</div>
-        </div>
-      </div>
-
-      <div class="stack-row reveal reveal-delay-8">
-        <div class="stack-icon">🆔</div>
-        <div>
-          <div class="stack-name">uuid</div>
-          <div class="stack-why">ID univoci per prodotti e articoli della spesa. Evita collisioni nell'inserimento SQLite.</div>
-        </div>
-      </div>
-
+      <div class="stack-row reveal rd1"><div class="si">📷</div><div><div class="sn">mobile_scanner</div><div class="sw" data-i18n="st1">Best-performing barcode scanner for Flutter. Handles focus, torch, and custom overlay via CustomPainter.</div></div></div>
+      <div class="stack-row reveal rd2"><div class="si">🗄️</div><div><div class="sn">sqflite + path</div><div class="sw" data-i18n="st2">Native SQLite, 100% offline. No cloud required. Two tables: products and shopping_items.</div></div></div>
+      <div class="stack-row reveal rd3"><div class="si">🔔</div><div><div class="sn">flutter_local_notifications</div><div class="sw" data-i18n="st3">Locally scheduled notifications without server. Daily digest at 9:00 AM + immediate on open.</div></div></div>
+      <div class="stack-row reveal rd4"><div class="si">🌐</div><div><div class="sn">http</div><div class="sw" data-i18n="st4">REST calls to Open Food Facts API. Italian endpoint first, then worldwide fallback.</div></div></div>
+      <div class="stack-row reveal rd5"><div class="si">🧩</div><div><div class="sn">provider</div><div class="sw" data-i18n="st5">ChangeNotifier for InventoryProvider and ShoppingListProvider. Simple, readable, no codegen.</div></div></div>
+      <div class="stack-row reveal rd6"><div class="si">↔️</div><div><div class="sn">flutter_slidable</div><div class="sw" data-i18n="st6">Swipe-to-delete and swipe-to-edit on product cards. Native mobile UX.</div></div></div>
+      <div class="stack-row reveal rd7"><div class="si">📤</div><div><div class="sn">share_plus</div><div class="sw" data-i18n="st7">Share shopping list via OS share sheet (WhatsApp, iMessage, etc.) without backend.</div></div></div>
+      <div class="stack-row reveal rd8"><div class="si">🆔</div><div><div class="sn">uuid</div><div class="sw" data-i18n="st8">Unique IDs for products and shopping items. Prevents collisions in SQLite.</div></div></div>
     </div>
   </section>
 
-  <!-- 04 – FUNZIONALITÀ -->
-  <section class="section">
-    <span class="sec-tag reveal">// 04 — funzionalità</span>
-    <h2 class="sec-title reveal">Cosa fa l'app</h2>
-    <div class="feature-list">
+  <div class="divider reveal"></div>
 
-      <div class="feature-item reveal reveal-delay-1">
-        <div class="feature-dot"></div>
-        <div>
-          <div class="feature-name">Scansione rapida</div>
-          <div class="feature-desc">Scan barcode → lookup API → form pre-compilato. Il prodotto è in dispensa in 2 tap.</div>
-        </div>
-      </div>
-
-      <div class="feature-item reveal reveal-delay-2">
-        <div class="feature-dot"></div>
-        <div>
-          <div class="feature-name">Lookup Open Food Facts</div>
-          <div class="feature-desc">Endpoint italiano poi mondiale. Recupera nome, marca, categoria e immagine automaticamente.</div>
-        </div>
-      </div>
-
-      <div class="feature-item reveal reveal-delay-3">
-        <div class="feature-dot"></div>
-        <div>
-          <div class="feature-name">Tracciamento scadenze</div>
-          <div class="feature-desc">Color coding: verde (ok) → giallo (7 giorni) → arancio (3 giorni) → rosso (scaduto).</div>
-        </div>
-      </div>
-
-      <div class="feature-item reveal reveal-delay-4">
-        <div class="feature-dot"></div>
-        <div>
-          <div class="feature-name">Posizioni separate</div>
-          <div class="feature-desc">Frigo, Dispensa e Freezer — filtrabili dalla schermata inventario.</div>
-        </div>
-      </div>
-
-      <div class="feature-item reveal reveal-delay-5">
-        <div class="feature-dot"></div>
-        <div>
-          <div class="feature-name">Notifiche push intelligenti</div>
-          <div class="feature-desc">Daily digest alle 9:00 con riepilogo scaduti e in scadenza. Nessun server necessario.</div>
-        </div>
-      </div>
-
-      <div class="feature-item reveal reveal-delay-6">
-        <div class="feature-dot"></div>
-        <div>
-          <div class="feature-name">Lista della spesa</div>
-          <div class="feature-desc">Spunta, riordina, aggiungi manualmente. Condividi via Share Sheet con un tap.</div>
-        </div>
-      </div>
-
-      <div class="feature-item reveal reveal-delay-7">
-        <div class="feature-dot"></div>
-        <div>
-          <div class="feature-name">Controllo quantità</div>
-          <div class="feature-desc">+/− direttamente dalla card. Se la quantità scende a 0 il prodotto viene eliminato.</div>
-        </div>
-      </div>
-
-      <div class="feature-item reveal reveal-delay-8">
-        <div class="feature-dot"></div>
-        <div>
-          <div class="feature-name">Offline-first</div>
-          <div class="feature-desc">Tutto su SQLite locale. L'app funziona senza connessione, l'API è opzionale.</div>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- 05 – CODICE CHIAVE -->
+  <!-- 05 KEY CODE -->
   <section class="section reveal">
-    <span class="sec-tag">// 05 — codice chiave</span>
-    <h2 class="sec-title">Logica di scadenza nel modello</h2>
+    <span class="sec-tag">// 05 — <span data-i18n="s5-tag">key code</span></span>
+    <h2 class="sec-title" data-i18n="s5-title">Expiry logic in the model</h2>
     <div class="sec-body">
-      <p>La logica di scadenza è incapsulata direttamente nel modello, senza dipendenze Flutter. Facile da testare e riusare.</p>
+      <p data-i18n="s5-p">Expiry logic is encapsulated directly in the model, with no Flutter dependencies. Easy to test and reuse.</p>
     </div>
     <div class="code-wrap">
-      <div class="code-header">
-        <div class="mac-dot mac-r"></div>
-        <div class="mac-dot mac-y"></div>
-        <div class="mac-dot mac-g"></div>
+      <div class="code-hdr">
+        <div class="dot dr"></div><div class="dot dy"></div><div class="dot dg"></div>
         <span class="code-lang">Dart</span>
         <span class="code-file">lib/models/product.dart</span>
       </div>
 <pre><span class="kw">class</span> <span class="ty">Product</span> {
-  <span class="cm">// ... altri campi ...</span>
   <span class="kw">final</span> <span class="ty">DateTime</span>? expiryDate;
 
-  <span class="cm">/// Giorni mancanti alla scadenza (negativo = già scaduto)</span>
   <span class="kw">int get</span> <span class="fn">daysToExpiry</span> {
     <span class="kw">if</span> (expiryDate == <span class="kw">null</span>) <span class="kw">return</span> <span class="nm">9999</span>;
-    <span class="kw">final</span> today = <span class="ty">DateTime</span>(
-      <span class="ty">DateTime</span>.now().year,
-      <span class="ty">DateTime</span>.now().month,
-      <span class="ty">DateTime</span>.now().day,
-    );
-    <span class="kw">final</span> expiry = <span class="ty">DateTime</span>(
-      expiryDate!.year, expiryDate!.month, expiryDate!.day,
-    );
+    <span class="kw">final</span> today = <span class="ty">DateTime</span>(<span class="ty">DateTime</span>.now().year, <span class="ty">DateTime</span>.now().month, <span class="ty">DateTime</span>.now().day);
+    <span class="kw">final</span> expiry = <span class="ty">DateTime</span>(expiryDate!.year, expiryDate!.month, expiryDate!.day);
     <span class="kw">return</span> expiry.difference(today).inDays;
   }
 
@@ -1037,24 +786,17 @@ pre{
   </section>
 
   <section class="section reveal">
-    <h2 class="sec-title">Integrazione Open Food Facts</h2>
+    <h2 class="sec-title" data-i18n="s5b-title">Open Food Facts Integration</h2>
     <div class="sec-body">
-      <p>
-        Il servizio prova prima l'endpoint italiano (prodotti locali più completi),
-        poi cade sul mondiale. La risposta viene normalizzata in un oggetto
-        <code style="font-family:var(--mono);font-size:.82em;color:var(--cyan)">OpenFoodFactsResult</code> indipendente dal JSON dell'API.
-      </p>
+      <p data-i18n="s5b-p">The service tries the Italian endpoint first (more complete local products), then falls back to worldwide. The response is normalized into an <code style="font-family:var(--mono);color:var(--cyan);font-size:.82em">OpenFoodFactsResult</code> object independent of the API JSON.</p>
     </div>
     <div class="code-wrap">
-      <div class="code-header">
-        <div class="mac-dot mac-r"></div>
-        <div class="mac-dot mac-y"></div>
-        <div class="mac-dot mac-g"></div>
+      <div class="code-hdr">
+        <div class="dot dr"></div><div class="dot dy"></div><div class="dot dg"></div>
         <span class="code-lang">Dart</span>
         <span class="code-file">lib/services/openfoodfacts_service.dart</span>
       </div>
 <pre><span class="kw">Future</span>&lt;<span class="ty">OpenFoodFactsResult</span>&gt; <span class="fn">fetchProduct</span>(<span class="ty">String</span> barcode) <span class="kw">async</span> {
-  <span class="cm">// Prova prima l'endpoint italiano, poi il mondiale</span>
   <span class="kw">for</span> (<span class="kw">final</span> base <span class="kw">in</span> [
     <span class="st">'https://it.openfoodfacts.org'</span>,
     <span class="st">'https://world.openfoodfacts.org'</span>,
@@ -1063,310 +805,455 @@ pre{
     <span class="kw">if</span> (result.found) <span class="kw">return</span> result;
   }
   <span class="kw">return const</span> <span class="ty">OpenFoodFactsResult</span>(found: <span class="kw">false</span>);
-}
-
-<span class="kw">Future</span>&lt;<span class="ty">OpenFoodFactsResult</span>&gt; <span class="fn">_fetch</span>(<span class="ty">String</span> url) <span class="kw">async</span> {
-  <span class="kw">final</span> res = <span class="kw">await</span> http
-      .<span class="fn">get</span>(<span class="ty">Uri</span>.<span class="fn">parse</span>(url), headers: {<span class="st">'User-Agent'</span>: <span class="st">'Scadoo/1.0'</span>})
-      .<span class="fn">timeout</span>(<span class="kw">const</span> <span class="ty">Duration</span>(seconds: <span class="nm">8</span>));
-  <span class="kw">if</span> (res.statusCode != <span class="nm">200</span>) <span class="kw">return</span> <span class="kw">const</span> <span class="ty">OpenFoodFactsResult</span>(found: <span class="kw">false</span>);
-  <span class="kw">final</span> data = <span class="fn">jsonDecode</span>(res.body);
-  <span class="kw">if</span> (data[<span class="st">'status'</span>] != <span class="nm">1</span>) <span class="kw">return</span> <span class="kw">const</span> <span class="ty">OpenFoodFactsResult</span>(found: <span class="kw">false</span>);
-  <span class="kw">final</span> p = data[<span class="st">'product'</span>];
-  <span class="cm">// Cascade: product_name_it → product_name → generic_name_it → generic_name</span>
-  <span class="kw">final</span> name = p[<span class="st">'product_name_it'</span>] ?? p[<span class="st">'product_name'</span>]
-             ?? p[<span class="st">'generic_name_it'</span>] ?? p[<span class="st">'generic_name'</span>];
-  <span class="kw">return</span> <span class="ty">OpenFoodFactsResult</span>(
-    name:     name,
-    brand:    p[<span class="st">'brands'</span>]?.split(<span class="st">','</span>).first.trim(),
-    imageUrl: p[<span class="st">'image_front_url'</span>],
-    found:    name != <span class="kw">null</span>,
-  );
 }</pre>
     </div>
   </section>
 
+  <!-- 06 CHALLENGES -->
   <section class="section reveal">
-    <h2 class="sec-title">Scanner: dal barcode al form</h2>
-    <div class="sec-body">
-      <p>
-        Il lock <code style="font-family:var(--mono);font-size:.82em;color:var(--cyan)">_processing</code> evita callback multipli
-        dallo stesso frame. Il dialog di loading è mostrato durante la chiamata API prima di navigare al form pre-compilato.
-      </p>
-    </div>
-    <div class="code-wrap">
-      <div class="code-header">
-        <div class="mac-dot mac-r"></div>
-        <div class="mac-dot mac-y"></div>
-        <div class="mac-dot mac-g"></div>
-        <span class="code-lang">Dart</span>
-        <span class="code-file">lib/screens/scanner_screen.dart</span>
+    <span class="sec-tag">// 06 — <span data-i18n="s6-tag">challenges</span></span>
+    <h2 class="sec-title" data-i18n="s6-title">Problems encountered</h2>
+    <div class="sec-body"><p data-i18n="s6-sub">Click each problem to see the solution adopted.</p></div>
+    <div class="ch-list">
+      <div class="ch">
+        <div class="ch-q"><span data-i18n="ch1-q">Accidental double scan from barcode scanner</span><span class="ch-arrow">▼</span></div>
+        <div class="ch-a" data-i18n="ch1-a">The <code>onDetect</code> callback is called multiple times for the same barcode in milliseconds. Solution: boolean flag <code>_processing</code> that blocks subsequent callbacks until navigation completes.</div>
       </div>
-<pre><span class="ty">Future</span>&lt;<span class="kw">void</span>&gt; <span class="fn">_onDetect</span>(<span class="ty">BarcodeCapture</span> capture) <span class="kw">async</span> {
-  <span class="kw">if</span> (_processing) <span class="kw">return</span>;          <span class="cm">// evita doppi scan</span>
-  <span class="kw">final</span> barcode = capture.barcodes.firstOrNull?.rawValue;
-  <span class="kw">if</span> (barcode == <span class="kw">null</span>) <span class="kw">return</span>;
-
-  setState(() =&gt; _processing = <span class="kw">true</span>);
-  <span class="kw">await</span> _controller.<span class="fn">stop</span>();          <span class="cm">// ferma la camera</span>
-
-  <span class="fn">showDialog</span>(<span class="cm">/* loading dialog */</span>);
-
-  <span class="ty">OpenFoodFactsResult</span>? result;
-  <span class="kw">try</span> {
-    result = <span class="kw">await</span> <span class="ty">OpenFoodFactsService</span>.instance.<span class="fn">fetchProduct</span>(barcode);
-  } <span class="kw">catch</span> (_) {
-    result = <span class="kw">const</span> <span class="ty">OpenFoodFactsResult</span>(found: <span class="kw">false</span>);
-  }
-
-  <span class="ty">Navigator</span>.of(context).<span class="fn">pop</span>();      <span class="cm">// chiudi loading</span>
-  <span class="kw">await</span> <span class="ty">Navigator</span>.of(context).<span class="fn">pushReplacement</span>(
-    <span class="ty">MaterialPageRoute</span>(
-      builder: (_) =&gt; <span class="ty">AddProductScreen</span>(
-        barcode:   barcode,
-        apiResult: result,             <span class="cm">// pre-compila il form</span>
-      ),
-    ),
-  );
-}</pre>
+      <div class="ch">
+        <div class="ch-q"><span data-i18n="ch2-q">Expiry day calculation: timezone and midnight</span><span class="ch-arrow">▼</span></div>
+        <div class="ch-a" data-i18n="ch2-a">Using <code>DateTime.now().difference(expiryDate)</code> in hours can give wrong results near midnight. Solution: normalize both dates to <code>DateTime(year, month, day)</code> before calculating the difference in whole days.</div>
+      </div>
+      <div class="ch">
+        <div class="ch-q"><span data-i18n="ch3-q">Open Food Facts: variable quality of Italian data</span><span class="ch-arrow">▼</span></div>
+        <div class="ch-a" data-i18n="ch3-a">Many Italian products have <code>product_name</code> in English or empty. Solution: fallback cascade — <code>product_name_it → product_name → generic_name_it → generic_name</code>. If all empty, the barcode is shown and the user enters the name manually.</div>
+      </div>
+      <div class="ch">
+        <div class="ch-q"><span data-i18n="ch4-q">Notifications: recalculate after every pantry change</span><span class="ch-arrow">▼</span></div>
+        <div class="ch-a" data-i18n="ch4-a">Every add, edit or delete requires recalculating scheduled notifications. Solution: <code>cancelAll()</code> + reschedule inside <code>loadProducts()</code> of the provider, so the cycle is automatic.</div>
+      </div>
+      <div class="ch">
+        <div class="ch-q"><span data-i18n="ch5-q">SQLite on Flutter: database path between iOS and Android</span><span class="ch-arrow">▼</span></div>
+        <div class="ch-a" data-i18n="ch5-a">Database path differs between iOS and Android. Solution: use sqflite's <code>getDatabasesPath()</code> combined with <code>path.join()</code> to build the correct path on both platforms.</div>
+      </div>
     </div>
   </section>
 
-  <!-- 06 – SFIDE TECNICHE -->
+  <!-- 07 ROADMAP -->
   <section class="section reveal">
-    <span class="sec-tag">// 06 — sfide tecniche</span>
-    <h2 class="sec-title">Problemi incontrati</h2>
-    <div class="sec-body">
-      <p>Clicca su ciascun problema per vedere la soluzione adottata.</p>
+    <span class="sec-tag">// 07 — <span data-i18n="s7-tag">roadmap</span></span>
+    <h2 class="sec-title" data-i18n="s7-title">Progress</h2>
+    <div class="rm-bar">
+      <div class="rm-bar-hdr">
+        <span data-i18n="rm-progress">Progress</span>
+        <span data-i18n="rm-count">7 / 13 completed</span>
+      </div>
+      <div class="rm-track"><div class="rm-fill" id="rm-fill"></div></div>
     </div>
-    <div class="challenge-list">
-
-      <div class="challenge">
-        <div class="ch-q">
-          Doppio scan involontario dal barcode scanner
-          <span class="ch-arrow">▼</span>
-        </div>
-        <div class="ch-a">
-          Il callback <code>onDetect</code> viene chiamato più volte per lo stesso barcode in pochi millisecondi.
-          Soluzione: flag booleano <code>_processing</code> che blocca i callback successivi finché la navigazione non è completa.
-        </div>
-      </div>
-
-      <div class="challenge">
-        <div class="ch-q">
-          Calcolo giorni alla scadenza: timezone e mezzanotte
-          <span class="ch-arrow">▼</span>
-        </div>
-        <div class="ch-a">
-          Usare <code>DateTime.now().difference(expiryDate)</code> in ore può dare risultati sbagliati vicino a mezzanotte.
-          Soluzione: normalizzare entrambe le date a <code>DateTime(year, month, day)</code> prima di calcolare la differenza in giorni interi.
-        </div>
-      </div>
-
-      <div class="challenge">
-        <div class="ch-q">
-          Open Food Facts: qualità variabile dei dati italiani
-          <span class="ch-arrow">▼</span>
-        </div>
-        <div class="ch-a">
-          Molti prodotti italiani hanno <code>product_name</code> in inglese o vuoto.
-          Soluzione: cascade di fallback — <code>product_name_it → product_name → generic_name_it → generic_name</code>.
-          Se tutto è vuoto, si mostra il barcode e l'utente inserisce il nome manualmente.
-        </div>
-      </div>
-
-      <div class="challenge">
-        <div class="ch-q">
-          Notifiche: ricalcolo dopo ogni modifica alla dispensa
-          <span class="ch-arrow">▼</span>
-        </div>
-        <div class="ch-a">
-          Ogni aggiunta, modifica o eliminazione richiede di ricalcolare le notifiche schedulate.
-          Soluzione: <code>cancelAll()</code> + reschedule dentro <code>loadProducts()</code> del provider, così il ciclo è automatico.
-        </div>
-      </div>
-
-      <div class="challenge">
-        <div class="ch-q">
-          SQLite su Flutter: path del database tra iOS e Android
-          <span class="ch-arrow">▼</span>
-        </div>
-        <div class="ch-a">
-          Il percorso del database cambia tra iOS e Android.
-          Soluzione: usare <code>getDatabasesPath()</code> di sqflite combinato con <code>path.join()</code>
-          per costruire il percorso corretto su entrambe le piattaforme.
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- 07 – ROADMAP -->
-  <section class="section reveal">
-    <span class="sec-tag">// 07 — roadmap</span>
-    <h2 class="sec-title">Stato di avanzamento</h2>
-
-    <div class="roadmap-progress">
-      <div class="rm-progress-label">
-        <span>Progresso</span>
-        <span>7 / 13 completati</span>
-      </div>
-      <div class="rm-progress-bar">
-        <div class="rm-progress-fill" id="rm-fill"></div>
-      </div>
-    </div>
-
-    <div class="roadmap">
-
-      <div class="rm-item done reveal reveal-delay-1">
-        <span class="rm-done">✓</span>
-        <span class="rm-text">Architettura models / services / providers / screens</span>
-        <span class="rm-tag tag-done">Done</span>
-      </div>
-      <div class="rm-item done reveal reveal-delay-2">
-        <span class="rm-done">✓</span>
-        <span class="rm-text">Scanner barcode con mobile_scanner</span>
-        <span class="rm-tag tag-done">Done</span>
-      </div>
-      <div class="rm-item done reveal reveal-delay-3">
-        <span class="rm-done">✓</span>
-        <span class="rm-text">Integrazione Open Food Facts (endpoint IT + World)</span>
-        <span class="rm-tag tag-done">Done</span>
-      </div>
-      <div class="rm-item done reveal reveal-delay-4">
-        <span class="rm-done">✓</span>
-        <span class="rm-text">Database SQLite locale con CRUD completo</span>
-        <span class="rm-tag tag-done">Done</span>
-      </div>
-      <div class="rm-item done reveal reveal-delay-5">
-        <span class="rm-done">✓</span>
-        <span class="rm-text">Notifiche push locali (immediate + daily digest)</span>
-        <span class="rm-tag tag-done">Done</span>
-      </div>
-      <div class="rm-item done reveal reveal-delay-6">
-        <span class="rm-done">✓</span>
-        <span class="rm-text">Lista della spesa con condivisione via Share Sheet</span>
-        <span class="rm-tag tag-done">Done</span>
-      </div>
-      <div class="rm-item done reveal reveal-delay-7">
-        <span class="rm-done">✓</span>
-        <span class="rm-text">Filtro per posizione (Frigo / Dispensa / Freezer)</span>
-        <span class="rm-tag tag-done">Done</span>
-      </div>
-
-      <div class="rm-item todo reveal reveal-delay-1">
-        <span class="rm-todo">○</span>
-        <span class="rm-text">Test su dispositivo fisico iOS + Android</span>
-        <span class="rm-tag tag-wip">In corso</span>
-      </div>
-      <div class="rm-item todo reveal reveal-delay-2">
-        <span class="rm-todo">○</span>
-        <span class="rm-text">Widget iOS home screen con prossime scadenze</span>
-        <span class="rm-tag tag-next">Next</span>
-      </div>
-      <div class="rm-item todo reveal reveal-delay-3">
-        <span class="rm-todo">○</span>
-        <span class="rm-text">Sync real-time lista spesa via Firebase (condivisione famiglia)</span>
-        <span class="rm-tag tag-next">Next</span>
-      </div>
-      <div class="rm-item todo reveal reveal-delay-4">
-        <span class="rm-todo">○</span>
-        <span class="rm-text">Statistiche sprechi: quanto cibo è scaduto nel mese</span>
-        <span class="rm-tag tag-next">Next</span>
-      </div>
-      <div class="rm-item todo reveal reveal-delay-5">
-        <span class="rm-todo">○</span>
-        <span class="rm-text">Suggerimenti ricette basati sui prodotti in scadenza</span>
-        <span class="rm-tag tag-next">Next</span>
-      </div>
-      <div class="rm-item todo reveal reveal-delay-6">
-        <span class="rm-todo">○</span>
-        <span class="rm-text">Pubblicazione App Store / Google Play</span>
-        <span class="rm-tag tag-next">Next</span>
-      </div>
-
+    <div class="rm">
+      <div class="rm-item done reveal rd1"><span class="rm-done">✓</span><span class="rm-text" data-i18n="rm1">Architecture models / services / providers / screens</span><span class="rm-tag tag-done" data-i18n="tag-done">Done</span></div>
+      <div class="rm-item done reveal rd2"><span class="rm-done">✓</span><span class="rm-text" data-i18n="rm2">Barcode scanner with mobile_scanner</span><span class="rm-tag tag-done" data-i18n="tag-done">Done</span></div>
+      <div class="rm-item done reveal rd3"><span class="rm-done">✓</span><span class="rm-text" data-i18n="rm3">Open Food Facts integration (IT + World endpoint)</span><span class="rm-tag tag-done" data-i18n="tag-done">Done</span></div>
+      <div class="rm-item done reveal rd4"><span class="rm-done">✓</span><span class="rm-text" data-i18n="rm4">Local SQLite database with full CRUD</span><span class="rm-tag tag-done" data-i18n="tag-done">Done</span></div>
+      <div class="rm-item done reveal rd5"><span class="rm-done">✓</span><span class="rm-text" data-i18n="rm5">Local push notifications (immediate + daily digest)</span><span class="rm-tag tag-done" data-i18n="tag-done">Done</span></div>
+      <div class="rm-item done reveal rd6"><span class="rm-done">✓</span><span class="rm-text" data-i18n="rm6">Shopping list with Share Sheet sharing</span><span class="rm-tag tag-done" data-i18n="tag-done">Done</span></div>
+      <div class="rm-item done reveal rd7"><span class="rm-done">✓</span><span class="rm-text" data-i18n="rm7">Location filter (Fridge / Pantry / Freezer)</span><span class="rm-tag tag-done" data-i18n="tag-done">Done</span></div>
+      <div class="rm-item todo reveal rd1"><span class="rm-todo">○</span><span class="rm-text" data-i18n="rm8">Testing on physical iOS + Android devices</span><span class="rm-tag tag-wip" data-i18n="tag-wip">In Progress</span></div>
+      <div class="rm-item todo reveal rd2"><span class="rm-todo">○</span><span class="rm-text" data-i18n="rm9">iOS home screen widget with upcoming expiries</span><span class="rm-tag tag-next" data-i18n="tag-next">Next</span></div>
+      <div class="rm-item todo reveal rd3"><span class="rm-todo">○</span><span class="rm-text" data-i18n="rm10">Real-time shopping list sync via Firebase</span><span class="rm-tag tag-next" data-i18n="tag-next">Next</span></div>
+      <div class="rm-item todo reveal rd4"><span class="rm-todo">○</span><span class="rm-text" data-i18n="rm11">Waste statistics: how much food expired per month</span><span class="rm-tag tag-next" data-i18n="tag-next">Next</span></div>
+      <div class="rm-item todo reveal rd5"><span class="rm-todo">○</span><span class="rm-text" data-i18n="rm12">Recipe suggestions based on expiring products</span><span class="rm-tag tag-next" data-i18n="tag-next">Next</span></div>
+      <div class="rm-item todo reveal rd6"><span class="rm-todo">○</span><span class="rm-text" data-i18n="rm13">App Store / Google Play release</span><span class="rm-tag tag-next" data-i18n="tag-next">Next</span></div>
     </div>
   </section>
 
   <div class="divider reveal"></div>
 
   <a href="index.html#work" class="bottom-back">
-    <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M10 3L5 8l5 5"/>
-    </svg>
-    Torna ai progetti
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3L5 8l5 5"/></svg>
+    <span data-i18n="back-btn">Back to projects</span>
   </a>
 
 </main>
 
 <script>
-// Scroll-triggered reveal
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      e.target.classList.add('visible');
-      observer.unobserve(e.target);
-    }
+/* ── TRANSLATIONS ── */
+const T = {
+  en: {
+    'status':'in development','eyebrow':'personal project · 2025',
+    'hero-sub':'Mobile app for intelligent pantry management: barcode scanning, expiry tracking, push notifications, and a shareable shopping list. Offline-first. Zero backend.',
+    'badge-dev':'In Development','cta-explore':'Explore Features','cta-back':'← All Projects',
+    'm1':'packages','m2':'screens','m3':'platforms','m4':'servers needed',
+    'qi1-lbl':'Platform','qi2-lbl':'Framework','qi3-lbl':'Database','qi4-lbl':'State Mgmt','qi5-lbl':'Product API','qi6-lbl':'Notifications',
+    's1-tag':'overview','s1-title':'Why Scadoo exists',
+    's1-p1':'The project was born from a daily problem: food expiring unseen, forgotten shopping lists, and no simple way to track how many boxes of pasta are left in the pantry. Existing apps either charge a subscription or have cluttered interfaces.',
+    's1-p2':'Scadoo\'s goal is to do a few things, do them well, and do them fast: scan a product, the app fetches name and brand from Open Food Facts, add the expiry date and you\'re done. Two taps. Fully offline.',
+    's1-p3':'The shopping list is designed for family use: one button shares the list via WhatsApp or iMessage, formatted cleanly and ready to use at the supermarket.',
+    's2-tag':'features','s2-title':'What the app does',
+    'f1-name':'Quick Scan','f1-desc':'Scan barcode → API lookup → pre-filled form. Product in pantry in 2 taps.',
+    'f2-name':'Open Food Facts','f2-desc':'Italian endpoint first, then worldwide fallback. Fetches name, brand, category, image.',
+    'f3-name':'Expiry Tracking','f3-desc':'Color coding: green (ok) → yellow (7 days) → orange (3 days) → red (expired).',
+    'f4-name':'Separate Locations','f4-desc':'Fridge, Pantry and Freezer — filterable from the inventory screen.',
+    'f5-name':'Smart Notifications','f5-desc':'Daily digest at 9:00 AM with expiry summary. No server required.',
+    'f6-name':'Shopping List','f6-desc':'Check, reorder, add manually. Share via Share Sheet in one tap.',
+    'f7-name':'Quantity Control','f7-desc':'+/− directly on the card. Quantity hits 0 → product removed automatically.',
+    'f8-name':'Offline-first','f8-desc':'Everything on local SQLite. Works without connection. API is optional.',
+    's3-tag':'architecture','s3-title':'Code structure','s3-p':'The code is organized in layers with clear responsibilities. Each layer depends only on the one below.',
+    's4-tag':'tech stack','s4-title':'Dependencies & Rationale',
+    'st1':'Best-performing barcode scanner for Flutter. Handles focus, torch, and custom overlay via CustomPainter.',
+    'st2':'Native SQLite, 100% offline. No cloud required. Two tables: products and shopping_items.',
+    'st3':'Locally scheduled notifications without server. Daily digest at 9:00 AM + immediate on open.',
+    'st4':'REST calls to Open Food Facts API. Italian endpoint first, then worldwide fallback.',
+    'st5':'ChangeNotifier for InventoryProvider and ShoppingListProvider. Simple, readable, no codegen.',
+    'st6':'Swipe-to-delete and swipe-to-edit on product cards. Native mobile UX.',
+    'st7':'Share shopping list via OS share sheet (WhatsApp, iMessage, etc.) without backend.',
+    'st8':'Unique IDs for products and shopping items. Prevents collisions in SQLite.',
+    's5-tag':'key code','s5-title':'Expiry logic in the model','s5-p':'Expiry logic is encapsulated directly in the model, with no Flutter dependencies. Easy to test and reuse.',
+    's5b-title':'Open Food Facts Integration','s5b-p':'The service tries the Italian endpoint first (more complete local products), then falls back to worldwide.',
+    's6-tag':'challenges','s6-title':'Problems encountered','s6-sub':'Click each problem to see the solution adopted.',
+    'ch1-q':'Accidental double scan from barcode scanner','ch1-a':'The onDetect callback is called multiple times for the same barcode in milliseconds. Solution: boolean flag _processing that blocks subsequent callbacks until navigation completes.',
+    'ch2-q':'Expiry day calculation: timezone and midnight','ch2-a':'Using DateTime.now().difference(expiryDate) in hours can give wrong results near midnight. Solution: normalize both dates to DateTime(year, month, day) before calculating the difference in whole days.',
+    'ch3-q':'Open Food Facts: variable quality of Italian data','ch3-a':'Many Italian products have product_name in English or empty. Solution: fallback cascade — product_name_it → product_name → generic_name_it → generic_name. If all empty, the barcode is shown and the user enters the name manually.',
+    'ch4-q':'Notifications: recalculate after every pantry change','ch4-a':'Every add, edit or delete requires recalculating scheduled notifications. Solution: cancelAll() + reschedule inside loadProducts() of the provider, so the cycle is automatic.',
+    'ch5-q':'SQLite on Flutter: database path between iOS and Android','ch5-a':'Database path differs between iOS and Android. Solution: use sqflite\'s getDatabasesPath() combined with path.join() to build the correct path on both platforms.',
+    's7-tag':'roadmap','s7-title':'Progress','rm-progress':'Progress','rm-count':'7 / 13 completed',
+    'rm1':'Architecture models / services / providers / screens','rm2':'Barcode scanner with mobile_scanner',
+    'rm3':'Open Food Facts integration (IT + World endpoint)','rm4':'Local SQLite database with full CRUD',
+    'rm5':'Local push notifications (immediate + daily digest)','rm6':'Shopping list with Share Sheet sharing',
+    'rm7':'Location filter (Fridge / Pantry / Freezer)','rm8':'Testing on physical iOS + Android devices',
+    'rm9':'iOS home screen widget with upcoming expiries','rm10':'Real-time shopping list sync via Firebase',
+    'rm11':'Waste statistics: how much food expired per month','rm12':'Recipe suggestions based on expiring products',
+    'rm13':'App Store / Google Play release',
+    'tag-done':'Done','tag-wip':'In Progress','tag-next':'Next','back-btn':'Back to projects',
+  },
+  it: {
+    'status':'in sviluppo','eyebrow':'progetto personale · 2025',
+    'hero-sub':'App mobile per la gestione intelligente della dispensa: scansione barcode, tracciamento scadenze, notifiche push e lista della spesa condivisibile. Offline-first. Zero backend.',
+    'badge-dev':'In Sviluppo','cta-explore':'Esplora le funzionalità','cta-back':'← Tutti i progetti',
+    'm1':'packages','m2':'schermate','m3':'piattaforme','m4':'server richiesti',
+    'qi1-lbl':'Piattaforma','qi2-lbl':'Framework','qi3-lbl':'Database','qi4-lbl':'State Mgmt','qi5-lbl':'API Prodotti','qi6-lbl':'Notifiche',
+    's1-tag':'panoramica','s1-title':'Perché esiste Scadoo',
+    's1-p1':'Il progetto nasce da un problema quotidiano: cibo che scade senza essere visto, liste della spesa dimenticate e nessun modo semplice per tenere traccia di quante confezioni di pasta sono rimaste in dispensa. Le app esistenti o costano un abbonamento o hanno interfacce sovraccariche.',
+    's1-p2':'L\'obiettivo di Scadoo è fare poche cose, farle bene e farle in fretta: scansioni un prodotto, l\'app recupera nome e marca da Open Food Facts, aggiungi la data di scadenza e il gioco è fatto. Due tap. Tutto offline.',
+    's1-p3':'La lista della spesa è pensata per uso familiare: un bottone condivide la lista via WhatsApp o iMessage formattata in modo leggibile, pronta per essere usata al supermercato.',
+    's2-tag':'funzionalità','s2-title':'Cosa fa l\'app',
+    'f1-name':'Scansione rapida','f1-desc':'Scan barcode → lookup API → form pre-compilato. Il prodotto è in dispensa in 2 tap.',
+    'f2-name':'Open Food Facts','f2-desc':'Endpoint italiano poi mondiale. Recupera nome, marca, categoria e immagine automaticamente.',
+    'f3-name':'Tracciamento scadenze','f3-desc':'Color coding: verde (ok) → giallo (7 giorni) → arancio (3 giorni) → rosso (scaduto).',
+    'f4-name':'Posizioni separate','f4-desc':'Frigo, Dispensa e Freezer — filtrabili dalla schermata inventario.',
+    'f5-name':'Notifiche intelligenti','f5-desc':'Daily digest alle 9:00 con riepilogo scaduti e in scadenza. Nessun server necessario.',
+    'f6-name':'Lista della spesa','f6-desc':'Spunta, riordina, aggiungi manualmente. Condividi via Share Sheet con un tap.',
+    'f7-name':'Controllo quantità','f7-desc':'+/− direttamente dalla card. Se la quantità scende a 0 il prodotto viene eliminato.',
+    'f8-name':'Offline-first','f8-desc':'Tutto su SQLite locale. L\'app funziona senza connessione, l\'API è opzionale.',
+    's3-tag':'architettura','s3-title':'Struttura del codice','s3-p':'Il codice è organizzato in layer con responsabilità chiare. Ogni layer dipende solo da quello sotto di sé.',
+    's4-tag':'stack tecnico','s4-title':'Dipendenze e motivazioni',
+    'st1':'Scanner barcode più performante su Flutter. Gestisce focus, torcia e overlay custom via CustomPainter.',
+    'st2':'SQLite nativo, funziona offline al 100%. Nessun cloud richiesto. Due tabelle: products e shopping_items.',
+    'st3':'Notifiche schedulate localmente, senza server. Daily digest alle 9:00 + notifica immediata all\'apertura.',
+    'st4':'Chiamate REST all\'API Open Food Facts. Endpoint italiano prima, poi fallback mondiale.',
+    'st5':'ChangeNotifier per InventoryProvider e ShoppingListProvider. Semplice, leggibile, senza codegen.',
+    'st6':'Swipe-to-delete e swipe-to-edit sulle card prodotto. UX mobile nativa.',
+    'st7':'Condivisione lista spesa via sistema operativo (WhatsApp, iMessage, ecc.) senza backend.',
+    'st8':'ID univoci per prodotti e articoli della spesa. Evita collisioni nell\'inserimento SQLite.',
+    's5-tag':'codice chiave','s5-title':'Logica di scadenza nel modello','s5-p':'La logica di scadenza è incapsulata direttamente nel modello, senza dipendenze Flutter. Facile da testare e riusare.',
+    's5b-title':'Integrazione Open Food Facts','s5b-p':'Il servizio prova prima l\'endpoint italiano (prodotti locali più completi), poi cade sul mondiale.',
+    's6-tag':'sfide tecniche','s6-title':'Problemi incontrati','s6-sub':'Clicca su ciascun problema per vedere la soluzione adottata.',
+    'ch1-q':'Doppio scan involontario dal barcode scanner','ch1-a':'Il callback onDetect viene chiamato più volte per lo stesso barcode in pochi millisecondi. Soluzione: flag booleano _processing che blocca i callback successivi finché la navigazione non è completa.',
+    'ch2-q':'Calcolo giorni alla scadenza: timezone e mezzanotte','ch2-a':'Usare DateTime.now().difference(expiryDate) in ore può dare risultati sbagliati vicino a mezzanotte. Soluzione: normalizzare entrambe le date a DateTime(year, month, day) prima di calcolare la differenza in giorni interi.',
+    'ch3-q':'Open Food Facts: qualità variabile dei dati italiani','ch3-a':'Molti prodotti italiani hanno product_name in inglese o vuoto. Soluzione: cascade di fallback — product_name_it → product_name → generic_name_it → generic_name. Se tutto è vuoto, si mostra il barcode e l\'utente inserisce il nome manualmente.',
+    'ch4-q':'Notifiche: ricalcolo dopo ogni modifica alla dispensa','ch4-a':'Ogni aggiunta, modifica o eliminazione richiede di ricalcolare le notifiche schedulate. Soluzione: cancelAll() + reschedule dentro loadProducts() del provider, così il ciclo è automatico.',
+    'ch5-q':'SQLite su Flutter: path del database tra iOS e Android','ch5-a':'Il percorso del database cambia tra iOS e Android. Soluzione: usare getDatabasesPath() di sqflite combinato con path.join() per costruire il percorso corretto su entrambe le piattaforme.',
+    's7-tag':'roadmap','s7-title':'Stato di avanzamento','rm-progress':'Progresso','rm-count':'7 / 13 completati',
+    'rm1':'Architettura models / services / providers / screens','rm2':'Scanner barcode con mobile_scanner',
+    'rm3':'Integrazione Open Food Facts (endpoint IT + World)','rm4':'Database SQLite locale con CRUD completo',
+    'rm5':'Notifiche push locali (immediate + daily digest)','rm6':'Lista della spesa con condivisione via Share Sheet',
+    'rm7':'Filtro per posizione (Frigo / Dispensa / Freezer)','rm8':'Test su dispositivo fisico iOS + Android',
+    'rm9':'Widget iOS home screen con prossime scadenze','rm10':'Sync real-time lista spesa via Firebase',
+    'rm11':'Statistiche sprechi: quanto cibo è scaduto nel mese','rm12':'Suggerimenti ricette basati sui prodotti in scadenza',
+    'rm13':'Pubblicazione App Store / Google Play',
+    'tag-done':'Fatto','tag-wip':'In corso','tag-next':'Prossimo','back-btn':'Torna ai progetti',
+  },
+  es: {
+    'status':'en desarrollo','eyebrow':'proyecto personal · 2025',
+    'hero-sub':'App móvil para la gestión inteligente de la despensa: escáner de códigos de barras, seguimiento de vencimientos, notificaciones push y lista de compras compartible. Sin conexión. Sin servidor.',
+    'badge-dev':'En Desarrollo','cta-explore':'Ver funciones','cta-back':'← Todos los proyectos',
+    'm1':'paquetes','m2':'pantallas','m3':'plataformas','m4':'servidores necesarios',
+    'qi1-lbl':'Plataforma','qi2-lbl':'Framework','qi3-lbl':'Base de datos','qi4-lbl':'Estado','qi5-lbl':'API Productos','qi6-lbl':'Notificaciones',
+    's1-tag':'descripción','s1-title':'Por qué existe Scadoo',
+    's1-p1':'El proyecto nació de un problema cotidiano: comida que vence sin ser vista, listas de compra olvidadas y ninguna forma sencilla de saber cuántos paquetes de pasta quedan en la despensa.',
+    's1-p2':'El objetivo de Scadoo es hacer pocas cosas, hacerlas bien y hacerlas rápido: escaneas un producto, la app obtiene nombre y marca de Open Food Facts, añades la fecha de vencimiento y listo. Dos toques. Todo sin conexión.',
+    's1-p3':'La lista de compras está diseñada para uso familiar: un botón comparte la lista vía WhatsApp o iMessage, formateada limpiamente y lista para usar en el supermercado.',
+    's2-tag':'funciones','s2-title':'Qué hace la app',
+    'f1-name':'Escaneo rápido','f1-desc':'Escanea código → consulta API → formulario pre-llenado. Producto en despensa en 2 toques.',
+    'f2-name':'Open Food Facts','f2-desc':'Endpoint italiano primero, luego mundial. Obtiene nombre, marca, categoría e imagen.',
+    'f3-name':'Seguimiento de vencimientos','f3-desc':'Código de color: verde (ok) → amarillo (7 días) → naranja (3 días) → rojo (vencido).',
+    'f4-name':'Ubicaciones separadas','f4-desc':'Nevera, Despensa y Congelador — filtrables desde la pantalla de inventario.',
+    'f5-name':'Notificaciones inteligentes','f5-desc':'Resumen diario a las 9:00 con vencimientos. No requiere servidor.',
+    'f6-name':'Lista de compras','f6-desc':'Tilda, reordena, añade manualmente. Comparte con un toque.',
+    'f7-name':'Control de cantidad','f7-desc':'+/− directamente en la tarjeta. Llega a 0 → producto eliminado automáticamente.',
+    'f8-name':'Sin conexión primero','f8-desc':'Todo en SQLite local. Funciona sin internet. La API es opcional.',
+    's3-tag':'arquitectura','s3-title':'Estructura del código','s3-p':'El código está organizado en capas con responsabilidades claras. Cada capa depende solo de la inferior.',
+    's4-tag':'stack técnico','s4-title':'Dependencias y justificación',
+    'st1':'Escáner de códigos de barras más eficaz para Flutter. Gestiona foco, linterna y superposición.',
+    'st2':'SQLite nativo, 100% sin conexión. Sin nube requerida. Dos tablas: products y shopping_items.',
+    'st3':'Notificaciones programadas localmente sin servidor. Resumen diario + inmediato al abrir.',
+    'st4':'Llamadas REST a la API Open Food Facts. Endpoint italiano primero, luego mundial.',
+    'st5':'ChangeNotifier para InventoryProvider y ShoppingListProvider. Simple, legible, sin codegen.',
+    'st6':'Deslizar para eliminar y editar en tarjetas de producto. UX móvil nativo.',
+    'st7':'Compartir lista de compras vía share sheet del SO sin backend.',
+    'st8':'IDs únicos para productos y artículos. Evita colisiones en SQLite.',
+    's5-tag':'código clave','s5-title':'Lógica de vencimiento en el modelo','s5-p':'La lógica de vencimiento está encapsulada en el modelo, sin dependencias Flutter. Fácil de probar y reutilizar.',
+    's5b-title':'Integración Open Food Facts','s5b-p':'El servicio prueba el endpoint italiano primero (productos locales más completos), luego cae al mundial.',
+    's6-tag':'desafíos','s6-title':'Problemas encontrados','s6-sub':'Haz clic en cada problema para ver la solución adoptada.',
+    'ch1-q':'Doble escaneo accidental del lector de códigos','ch1-a':'El callback onDetect se llama varias veces para el mismo código en milisegundos. Solución: flag booleano _processing que bloquea callbacks siguientes hasta que la navegación se complete.',
+    'ch2-q':'Cálculo de días al vencimiento: zona horaria y medianoche','ch2-a':'Usar DateTime.now().difference(expiryDate) en horas puede dar resultados incorrectos cerca de medianoche. Solución: normalizar ambas fechas a DateTime(año, mes, día).',
+    'ch3-q':'Open Food Facts: calidad variable de datos italianos','ch3-a':'Muchos productos italianos tienen product_name en inglés o vacío. Solución: cascada de fallback — product_name_it → product_name → generic_name_it → generic_name.',
+    'ch4-q':'Notificaciones: recalcular tras cada cambio en la despensa','ch4-a':'Cada adición, edición o eliminación requiere recalcular las notificaciones. Solución: cancelAll() + reprogramar dentro de loadProducts() del provider.',
+    'ch5-q':'SQLite en Flutter: ruta de base de datos entre iOS y Android','ch5-a':'La ruta de la base de datos varía entre iOS y Android. Solución: usar getDatabasesPath() de sqflite combinado con path.join().',
+    's7-tag':'hoja de ruta','s7-title':'Progreso','rm-progress':'Progreso','rm-count':'7 / 13 completados',
+    'rm1':'Arquitectura models / services / providers / screens','rm2':'Escáner de códigos con mobile_scanner',
+    'rm3':'Integración Open Food Facts (IT + World)','rm4':'Base de datos SQLite con CRUD completo',
+    'rm5':'Notificaciones push locales','rm6':'Lista de compras con Share Sheet',
+    'rm7':'Filtro por ubicación (Nevera / Despensa / Congelador)','rm8':'Pruebas en dispositivo físico iOS + Android',
+    'rm9':'Widget pantalla inicio iOS','rm10':'Sync en tiempo real vía Firebase',
+    'rm11':'Estadísticas de desperdicio','rm12':'Sugerencias de recetas',
+    'rm13':'Publicación App Store / Google Play',
+    'tag-done':'Hecho','tag-wip':'En curso','tag-next':'Próximo','back-btn':'Volver a proyectos',
+  },
+  zh: {
+    'status':'开发中','eyebrow':'个人项目 · 2025',
+    'hero-sub':'智能食品储存管理移动应用：条形码扫描、到期追踪、推送通知和可分享购物清单。离线优先，零后端。',
+    'badge-dev':'开发中','cta-explore':'探索功能','cta-back':'← 所有项目',
+    'm1':'依赖包','m2':'界面','m3':'平台','m4':'所需服务器',
+    'qi1-lbl':'平台','qi2-lbl':'框架','qi3-lbl':'数据库','qi4-lbl':'状态管理','qi5-lbl':'产品API','qi6-lbl':'通知',
+    's1-tag':'概述','s1-title':'Scadoo 为何存在',
+    's1-p1':'这个项目源于一个日常问题：食物悄悄过期、购物清单被遗忘，没有简单的方式追踪储藏室还剩多少意大利面。现有应用要么需要订阅费，要么界面过于复杂。',
+    's1-p2':'Scadoo 的目标是专注做好少数几件事：扫描产品，应用从 Open Food Facts 获取名称和品牌，添加到期日期，完成。两次点击，完全离线。',
+    's1-p3':'购物清单专为家庭使用设计：一键通过 WhatsApp 或 iMessage 分享格式清晰的清单，在超市直接使用。',
+    's2-tag':'功能','s2-title':'应用能做什么',
+    'f1-name':'快速扫描','f1-desc':'扫描条形码 → API 查询 → 预填表单。两次点击将产品加入储藏室。',
+    'f2-name':'Open Food Facts','f2-desc':'先试意大利端点，再回退至全球。自动获取名称、品牌、类别和图片。',
+    'f3-name':'到期追踪','f3-desc':'颜色编码：绿色（正常）→ 黄色（7天）→ 橙色（3天）→ 红色（已过期）。',
+    'f4-name':'分区存储','f4-desc':'冰箱、储藏室和冷冻柜 — 可从库存界面筛选。',
+    'f5-name':'智能通知','f5-desc':'每天9:00发送到期摘要通知。无需服务器。',
+    'f6-name':'购物清单','f6-desc':'勾选、重新排序、手动添加。一键通过分享表单共享。',
+    'f7-name':'数量控制','f7-desc':'直接在卡片上 +/−。数量为0时自动删除产品。',
+    'f8-name':'离线优先','f8-desc':'所有数据存储在本地 SQLite。无网络也可使用，API 为可选。',
+    's3-tag':'架构','s3-title':'代码结构','s3-p':'代码按层组织，各层职责明确。每层仅依赖其下层。',
+    's4-tag':'技术栈','s4-title':'依赖与说明',
+    'st1':'Flutter 中性能最佳的条形码扫描器，通过 CustomPainter 处理对焦、手电筒和自定义覆盖层。',
+    'st2':'原生 SQLite，100% 离线。无需云端。两张表：products 和 shopping_items。',
+    'st3':'本地计划通知，无需服务器。每天9:00摘要通知 + 打开时即时通知。',
+    'st4':'调用 Open Food Facts API。先试意大利端点，再回退至全球。',
+    'st5':'ChangeNotifier 用于 InventoryProvider 和 ShoppingListProvider。简单、可读、无代码生成。',
+    'st6':'产品卡片上的滑动删除和编辑。原生移动UX。',
+    'st7':'通过系统分享表单分享购物清单，无需后端。',
+    'st8':'产品和购物项的唯一ID，防止 SQLite 冲突。',
+    's5-tag':'关键代码','s5-title':'模型中的到期逻辑','s5-p':'到期逻辑直接封装在模型中，无 Flutter 依赖，易于测试和复用。',
+    's5b-title':'Open Food Facts 集成','s5b-p':'服务先尝试意大利端点（本地产品更完整），再回退至全球。',
+    's6-tag':'技术挑战','s6-title':'遇到的问题','s6-sub':'点击每个问题查看采用的解决方案。',
+    'ch1-q':'条形码扫描器的意外双扫','ch1-a':'onDetect 回调在几毫秒内被同一条形码多次触发。解决方案：布尔标志 _processing 阻止后续回调，直到导航完成。',
+    'ch2-q':'到期天数计算：时区和午夜','ch2-a':'以小时计算 DateTime.now().difference(expiryDate) 在午夜附近可能出错。解决方案：将两个日期都规范化为 DateTime(年, 月, 日) 再计算整天差值。',
+    'ch3-q':'Open Food Facts：意大利数据质量参差不齐','ch3-a':'许多意大利产品的 product_name 是英文或为空。解决方案：回退级联 — product_name_it → product_name → generic_name_it → generic_name。',
+    'ch4-q':'通知：每次储藏室变更后重新计算','ch4-a':'每次添加、编辑或删除都需要重新计算计划通知。解决方案：在 provider 的 loadProducts() 中 cancelAll() + 重新计划。',
+    'ch5-q':'Flutter SQLite：iOS 和 Android 的数据库路径','ch5-a':'数据库路径在 iOS 和 Android 上不同。解决方案：使用 sqflite 的 getDatabasesPath() 结合 path.join() 构建正确路径。',
+    's7-tag':'路线图','s7-title':'进度','rm-progress':'进度','rm-count':'已完成 7 / 13',
+    'rm1':'架构 models / services / providers / screens','rm2':'使用 mobile_scanner 的条形码扫描器',
+    'rm3':'Open Food Facts 集成（IT + World 端点）','rm4':'具有完整 CRUD 的本地 SQLite 数据库',
+    'rm5':'本地推送通知（即时 + 每日摘要）','rm6':'带 Share Sheet 分享的购物清单',
+    'rm7':'位置过滤器（冰箱 / 储藏室 / 冷冻柜）','rm8':'在实体 iOS + Android 设备上测试',
+    'rm9':'iOS 主屏幕小部件','rm10':'通过 Firebase 实时同步购物清单',
+    'rm11':'浪费统计','rm12':'基于即将过期产品的食谱建议',
+    'rm13':'App Store / Google Play 发布',
+    'tag-done':'完成','tag-wip':'进行中','tag-next':'下一步','back-btn':'返回项目列表',
+  },
+  ja: {
+    'status':'開発中','eyebrow':'個人プロジェクト · 2025',
+    'hero-sub':'スマート食品管理モバイルアプリ：バーコードスキャン、期限追跡、プッシュ通知、共有可能な買い物リスト。オフラインファースト。バックエンド不要。',
+    'badge-dev':'開発中','cta-explore':'機能を見る','cta-back':'← すべてのプロジェクト',
+    'm1':'パッケージ','m2':'画面','m3':'プラットフォーム','m4':'必要なサーバー',
+    'qi1-lbl':'プラットフォーム','qi2-lbl':'フレームワーク','qi3-lbl':'データベース','qi4-lbl':'状態管理','qi5-lbl':'製品API','qi6-lbl':'通知',
+    's1-tag':'概要','s1-title':'Scadooが存在する理由',
+    's1-p1':'このプロジェクトは日常の問題から生まれました：気づかずに食品が期限切れになる、買い物リストを忘れる、パントリーにパスタが何箱残っているか把握できない。既存のアプリは高額なサブスクリプションか、複雑なインターフェースのどちらかです。',
+    's1-p2':'Scadooの目標はシンプルです：製品をスキャンし、アプリがOpen Food Factsから名前とブランドを取得し、賞味期限を追加して完了。2回のタップ。完全オフライン。',
+    's1-p3':'買い物リストは家族での使用を想定：ボタン一つでWhatsAppやiMessageで整形されたリストを共有、スーパーでそのまま使えます。',
+    's2-tag':'機能','s2-title':'アプリができること',
+    'f1-name':'クイックスキャン','f1-desc':'バーコードスキャン → APIルックアップ → フォーム事前入力。2タップでパントリーに追加。',
+    'f2-name':'Open Food Facts','f2-desc':'イタリア版エンドポイント優先、ワールドワイドへフォールバック。名前・ブランド・カテゴリ・画像を自動取得。',
+    'f3-name':'期限追跡','f3-desc':'カラーコーディング：緑（OK）→ 黄（7日）→ 橙（3日）→ 赤（期限切れ）。',
+    'f4-name':'保管場所別管理','f4-desc':'冷蔵庫・パントリー・冷凍庫 — 在庫画面からフィルタリング可能。',
+    'f5-name':'スマート通知','f5-desc':'毎朝9:00に期限切れサマリーを通知。サーバー不要。',
+    'f6-name':'買い物リスト','f6-desc':'チェック・並び替え・手動追加。1タップでシェアシートで共有。',
+    'f7-name':'数量管理','f7-desc':'カードで直接 +/−。0になると自動削除。',
+    'f8-name':'オフラインファースト','f8-desc':'すべてローカルSQLiteに保存。接続不要。APIはオプション。',
+    's3-tag':'アーキテクチャ','s3-title':'コード構造','s3-p':'コードは明確な責任を持つレイヤーで構成。各レイヤーは直下のみに依存。',
+    's4-tag':'技術スタック','s4-title':'依存関係と理由',
+    'st1':'Flutterでのバーコードスキャンのベストパフォーマー。フォーカス・トーチ・カスタムオーバーレイに対応。',
+    'st2':'ネイティブSQLite、100%オフライン。クラウド不要。2テーブル：productsとshopping_items。',
+    'st3':'サーバーなしのローカルスケジュール通知。毎日9:00ダイジェスト＋起動時即時通知。',
+    'st4':'Open Food Facts APIへのREST呼び出し。イタリア優先、ワールドワイドへフォールバック。',
+    'st5':'InventoryProviderとShoppingListProviderにChangeNotifier。シンプルで読みやすい。',
+    'st6':'製品カードのスワイプ削除と編集。ネイティブモバイルUX。',
+    'st7':'OSのシェアシート経由でバックエンドなしに買い物リストを共有。',
+    'st8':'製品と買い物アイテムの一意ID。SQLiteの衝突を防止。',
+    's5-tag':'主要コード','s5-title':'モデルの期限ロジック','s5-p':'期限ロジックはモデルに直接カプセル化、Flutter依存なし。テストと再利用が容易。',
+    's5b-title':'Open Food Facts統合','s5b-p':'サービスはイタリア版エンドポイントを先に試し（ローカル製品が充実）、次にワールドワイドへフォールバック。',
+    's6-tag':'課題','s6-title':'直面した問題','s6-sub':'各問題をクリックして採用した解決策を確認。',
+    'ch1-q':'バーコードスキャナーの誤った二重スキャン','ch1-a':'onDetectコールバックが同じバーコードで数ミリ秒内に複数回呼ばれる。解決策：ナビゲーション完了まで後続コールバックをブロックするブール型フラグ_processing。',
+    'ch2-q':'期限日数計算：タイムゾーンと深夜','ch2-a':'DateTime.now().difference(expiryDate)を時間で使うと深夜付近で誤結果が出る。解決策：両日付をDateTime(年, 月, 日)に正規化してから日数差を計算。',
+    'ch3-q':'Open Food Facts：イタリアデータの品質にばらつき','ch3-a':'多くのイタリア製品はproduct_nameが英語または空。解決策：フォールバックカスケード — product_name_it → product_name → generic_name_it → generic_name。',
+    'ch4-q':'通知：パントリー変更ごとに再計算','ch4-a':'追加・編集・削除のたびにスケジュール通知の再計算が必要。解決策：providerのloadProducts()内でcancelAll() + 再スケジュール。',
+    'ch5-q':'Flutter SQLite：iOSとAndroidのデータベースパス','ch5-a':'データベースパスはiOSとAndroidで異なる。解決策：sqfliteのgetDatabasesPath()とpath.join()を組み合わせて正しいパスを構築。',
+    's7-tag':'ロードマップ','s7-title':'進捗','rm-progress':'進捗','rm-count':'7 / 13 完了',
+    'rm1':'アーキテクチャ models / services / providers / screens','rm2':'mobile_scannerによるバーコードスキャナー',
+    'rm3':'Open Food Facts統合（IT + Worldエンドポイント）','rm4':'完全CRUDのローカルSQLiteデータベース',
+    'rm5':'ローカルプッシュ通知（即時 + 毎日ダイジェスト）','rm6':'Share Sheetでの買い物リスト共有',
+    'rm7':'場所フィルター（冷蔵庫 / パントリー / 冷凍庫）','rm8':'実機iOS + Androidテスト',
+    'rm9':'iOSホーム画面ウィジェット','rm10':'Firebase経由リアルタイム同期',
+    'rm11':'食品廃棄統計','rm12':'期限切れ近い食品のレシピ提案',
+    'rm13':'App Store / Google Playリリース',
+    'tag-done':'完了','tag-wip':'進行中','tag-next':'次回','back-btn':'プロジェクト一覧へ',
+  },
+};
+
+const LANG_META = {
+  en:{flag:'🇬🇧',name:'EN'},
+  it:{flag:'🇮🇹',name:'IT'},
+  es:{flag:'🇪🇸',name:'ES'},
+  zh:{flag:'🇨🇳',name:'ZH'},
+  ja:{flag:'🇯🇵',name:'JA'},
+};
+
+function setLang(lang) {
+  if (!T[lang]) return;
+  localStorage.setItem('ea-lang', lang);
+  const d = T[lang];
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const k = el.getAttribute('data-i18n');
+    if (d[k] !== undefined) el.textContent = d[k];
   });
-}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-// Animated counters
-function animateCount(el) {
-  const target = parseInt(el.dataset.count);
-  if (isNaN(target)) return;
-  const duration = 1200;
-  const start = performance.now();
-  const update = (now) => {
-    const t = Math.min((now - start) / duration, 1);
-    const ease = 1 - Math.pow(1 - t, 3);
-    el.textContent = Math.round(ease * target);
-    if (t < 1) requestAnimationFrame(update);
-  };
-  requestAnimationFrame(update);
+  document.querySelectorAll('#lang-dd button').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.lang === lang);
+  });
+  const m = LANG_META[lang];
+  document.getElementById('lang-flag').textContent = m.flag;
+  document.getElementById('lang-name').textContent = m.name;
+  document.documentElement.lang = lang;
 }
 
-const metricsObs = new IntersectionObserver((entries) => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      e.target.querySelectorAll('[data-count]').forEach(animateCount);
-      metricsObs.unobserve(e.target);
-    }
-  });
-}, { threshold: 0.3 });
-const metricsEl = document.querySelector('.metrics');
-if (metricsEl) metricsObs.observe(metricsEl);
+/* ── ANIMATED CANVAS BACKGROUND ── */
+const canvas = document.getElementById('bg-canvas');
+const ctx = canvas.getContext('2d');
+let W, H, particles = [];
 
-// Roadmap progress bar
-const fillEl = document.getElementById('rm-fill');
-const roadmapObs = new IntersectionObserver((entries) => {
-  entries.forEach(e => {
-    if (e.isIntersecting && fillEl) {
-      setTimeout(() => { fillEl.style.width = '54%'; }, 300);
-      roadmapObs.unobserve(e.target);
-    }
-  });
-}, { threshold: 0.4 });
-const roadmapSection = fillEl?.closest('.section');
-if (roadmapSection) roadmapObs.observe(roadmapSection);
+function resize() {
+  W = canvas.width = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+}
 
-// Expandable challenges
-document.querySelectorAll('.challenge').forEach(el => {
-  el.addEventListener('click', () => {
-    const isOpen = el.classList.contains('open');
-    document.querySelectorAll('.challenge.open').forEach(c => c.classList.remove('open'));
-    if (!isOpen) el.classList.add('open');
+function createParticles() {
+  particles = Array.from({length: 60}, () => ({
+    x: Math.random() * W, y: Math.random() * H,
+    r: Math.random() * 1.5 + 0.3,
+    vx: (Math.random() - 0.5) * 0.25,
+    vy: (Math.random() - 0.5) * 0.25,
+    a: Math.random() * 0.4 + 0.1,
+  }));
+}
+
+function drawBg() {
+  ctx.clearRect(0, 0, W, H);
+  // grid
+  ctx.strokeStyle = 'rgba(46,204,113,0.025)';
+  ctx.lineWidth = 1;
+  for (let x = 0; x < W; x += 52) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke(); }
+  for (let y = 0; y < H; y += 52) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke(); }
+  // particles
+  particles.forEach(p => {
+    p.x += p.vx; p.y += p.vy;
+    if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
+    if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(46,204,113,${p.a})`;
+    ctx.fill();
   });
+  // orb glow
+  const t = Date.now() / 1000;
+  const grd = ctx.createRadialGradient(W * 0.15 + Math.sin(t*0.4)*60, H * 0.25 + Math.cos(t*0.3)*40, 0, W * 0.15, H * 0.25, 500);
+  grd.addColorStop(0, 'rgba(46,204,113,0.07)');
+  grd.addColorStop(1, 'transparent');
+  ctx.fillStyle = grd;
+  ctx.fillRect(0, 0, W, H);
+  requestAnimationFrame(drawBg);
+}
+
+/* ── INIT ── */
+document.addEventListener('DOMContentLoaded', () => {
+  resize();
+  createParticles();
+  drawBg();
+
+  // Apply saved or default lang
+  setLang(localStorage.getItem('ea-lang') || 'en');
+
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Metric counters
+  const metricsObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.querySelectorAll('[data-count]').forEach(el => {
+          const target = parseInt(el.dataset.count);
+          if (isNaN(target)) return;
+          const start = performance.now();
+          const update = now => {
+            const t = Math.min((now - start) / 1200, 1);
+            el.textContent = Math.round((1 - Math.pow(1 - t, 3)) * target);
+            if (t < 1) requestAnimationFrame(update);
+          };
+          requestAnimationFrame(update);
+        });
+        metricsObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.3 });
+  const mb = document.querySelector('.metrics-bar');
+  if (mb) metricsObs.observe(mb);
+
+  // Roadmap progress bar
+  const fillEl = document.getElementById('rm-fill');
+  const roadmapObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting && fillEl) {
+        setTimeout(() => { fillEl.style.width = '54%'; }, 300);
+        roadmapObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.4 });
+  const rmSection = fillEl?.closest('.section');
+  if (rmSection) roadmapObs.observe(rmSection);
+
+  // Expandable challenges
+  document.querySelectorAll('.ch').forEach(el => {
+    el.addEventListener('click', () => {
+      const was = el.classList.contains('open');
+      document.querySelectorAll('.ch.open').forEach(c => c.classList.remove('open'));
+      if (!was) el.classList.add('open');
+    });
+  });
+
+  // Nav border on scroll
+  window.addEventListener('scroll', () => {
+    document.querySelector('nav').style.borderBottomColor = window.scrollY > 20
+      ? 'rgba(46,204,113,0.15)' : 'var(--border)';
+  }, { passive: true });
 });
 
-// Nav highlight on scroll
-window.addEventListener('scroll', () => {
-  const nav = document.querySelector('nav');
-  nav.style.borderBottomColor = window.scrollY > 20
-    ? 'rgba(46,204,113,0.12)'
-    : 'var(--border)';
-}, { passive: true });
+window.addEventListener('resize', () => { resize(); createParticles(); });
 </script>
 </body>
 </html>
