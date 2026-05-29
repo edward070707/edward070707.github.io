@@ -2859,7 +2859,7 @@
     <div class="solar-system-container" id="solar-system-container">
         <div style="position:relative;width:0;height:0;" id="solar-root">
             <div class="solar-sun" id="solar-sun">Edward</div>
-            <svg id="solar-svg" viewBox="-400 -400 800 800" style="position:absolute;left:-400px;top:-400px;width:800px;height:800px;pointer-events:none;overflow:visible;"></svg>
+            <svg id="solar-svg" viewBox="-450 -230 900 460" style="position:absolute;left:-450px;top:-230px;width:900px;height:460px;pointer-events:none;overflow:visible;"></svg>
         </div>
     </div>
     <div class="solar-detail-panel" id="solar-detail-panel">
@@ -5950,7 +5950,7 @@ function closeTlModal() {
         {
             name: 'Memive',
             color: '#A855F7',
-            orbitR: 130,
+            orbitRx: 140, orbitRy: 72,
             period: 20000,
             desc: 'Il primo social interamente vocale. Niente foto, niente testo: solo la tua voce. Clip fino a 3 min con lifetime scelta. Chrono Premium integrato.',
             tags: ['Flutter', 'Firebase', 'Dart', 'iOS', 'UX Design'],
@@ -5963,7 +5963,7 @@ function closeTlModal() {
         {
             name: 'Chrono',
             color: '#FBBF24',
-            orbitR: 210,
+            orbitRx: 230, orbitRy: 115,
             period: 28000,
             desc: 'Sigilla ricordi, foto e messaggi in una capsula digitale del tempo. Scegli quando aprirla — 1 anno, 5 anni, o una data custom. Sync via Firebase.',
             tags: ['Flutter', 'Firebase', 'iOS', 'Android', 'Web'],
@@ -5976,7 +5976,7 @@ function closeTlModal() {
         {
             name: 'Blackjack',
             color: '#00F5D4',
-            orbitR: 300,
+            orbitRx: 330, orbitRy: 158,
             period: 35000,
             desc: 'Primo progetto — Liceo Don Milani. Un Blackjack giocabile con interfaccia casino, sistema di puntate, animazioni carte e regole classiche del 21.',
             tags: ['HTML', 'CSS', 'JavaScript', 'Game Dev'],
@@ -5989,7 +5989,7 @@ function closeTlModal() {
         {
             name: 'Scadoo',
             color: '#2ECC71',
-            orbitR: 390,
+            orbitRx: 430, orbitRy: 200,
             period: 45000,
             desc: 'App Flutter per gestire dispensa e frigo: barcode scanner, tracciamento scadenze, notifiche push e lista della spesa condivisibile. Database SQLite locale + Open Food Facts API.',
             tags: ['Flutter', 'Dart', 'SQLite', 'Open Food Facts', 'iOS', 'Android'],
@@ -6045,18 +6045,19 @@ function closeTlModal() {
     var solarCont = document.getElementById('solar-system-container');
     if (!solarRoot || !solarSvg || !solarCont) return;
 
-    // Draw orbit tracks in SVG
+    // Draw orbit tracks in SVG (ellipses)
     SOLAR_PROJECTS.forEach(function(proj) {
-        var circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-        circle.setAttribute('cx', 0);
-        circle.setAttribute('cy', 0);
-        circle.setAttribute('r', proj.orbitR);
-        circle.setAttribute('fill', 'none');
-        circle.setAttribute('stroke', proj.color);
-        circle.setAttribute('stroke-width', '0.5');
-        circle.setAttribute('stroke-dasharray', '4 8');
-        circle.setAttribute('opacity', '0.3');
-        solarSvg.appendChild(circle);
+        var ellipse = document.createElementNS('http://www.w3.org/2000/svg', 'ellipse');
+        ellipse.setAttribute('cx', 0);
+        ellipse.setAttribute('cy', 0);
+        ellipse.setAttribute('rx', proj.orbitRx);
+        ellipse.setAttribute('ry', proj.orbitRy);
+        ellipse.setAttribute('fill', 'none');
+        ellipse.setAttribute('stroke', proj.color);
+        ellipse.setAttribute('stroke-width', '0.5');
+        ellipse.setAttribute('stroke-dasharray', '4 8');
+        ellipse.setAttribute('opacity', '0.3');
+        solarSvg.appendChild(ellipse);
     });
 
     var solarPlanetData = [];
@@ -6077,7 +6078,7 @@ function closeTlModal() {
             'background:radial-gradient(circle at 40% 35%,' + proj.color + 'EE,' + proj.color + '55)',
             'box-shadow:0 0 ' + (pSize*0.5) + 'px ' + proj.color + '88',
             'border:1px solid ' + proj.color,
-            'left:' + proj.orbitR + 'px',
+            'left:0',
             'top:0',
             'transform:translate(-50%,-50%)',
         ].join(';');
@@ -6085,7 +6086,7 @@ function closeTlModal() {
             '<div class="solar-planet-label">' + proj.name + '</div>';
         wrapper.appendChild(planet);
 
-        var startAngle = ci * (360 / SOLAR_PROJECTS.length);
+        var startAngle = ci * (Math.PI * 2 / SOLAR_PROJECTS.length);
         var currentAngle = startAngle;
 
         var pInfo = { proj: proj, wrapper: wrapper, planet: planet, angle: currentAngle, expanded: false };
@@ -6093,10 +6094,12 @@ function closeTlModal() {
 
         function animatePlanet() {
             if (solarSelectedIdx === null) {
-                currentAngle = (Date.now() / proj.period * 360 + startAngle) % 360;
+                currentAngle = (Date.now() / proj.period * Math.PI * 2 + startAngle);
             }
-            wrapper.style.transform = 'translate(-50%,-50%) rotate(' + currentAngle + 'deg)';
-            planet.style.transform  = 'translate(-50%,-50%) rotate(' + (-currentAngle) + 'deg)';
+            var px = proj.orbitRx * Math.cos(currentAngle);
+            var py = proj.orbitRy * Math.sin(currentAngle);
+            wrapper.style.transform = 'translate(' + px + 'px,' + py + 'px)';
+            planet.style.transform  = 'translate(-50%,-50%)';
             requestAnimationFrame(animatePlanet);
         }
         animatePlanet();
@@ -6221,14 +6224,16 @@ function closeTlModal() {
         });
     }
 
-    // Responsive scaling: shrink solar system to fit container
-    var maxOrbitR = 390 + 35; // outermost orbit + half planet size
+    // Responsive scaling: shrink solar system to fit container (ellipse: wider than tall)
+    var maxOrbitRx = 430 + 35; // outermost semi-major + half planet
+    var maxOrbitRy = 200 + 35; // outermost semi-minor + half planet
     function scaleSolarSystem() {
         var w = solarCont.offsetWidth;
         var h = solarCont.offsetHeight;
-        var available = Math.min(w, h) * 0.48;
-        var scale = Math.min(1, available / maxOrbitR);
-        solarRoot.style.transform = 'translate(-50%,-50%) scale(' + scale + ')';
+        var scaleX = Math.min(1, (w * 0.46) / maxOrbitRx);
+        var scaleY = Math.min(1, (h * 0.46) / maxOrbitRy);
+        var scale = Math.min(scaleX, scaleY);
+        solarRoot.style.transform = 'scale(' + scale + ')';
     }
     scaleSolarSystem();
     window.addEventListener('resize', scaleSolarSystem);
