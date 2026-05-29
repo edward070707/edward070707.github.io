@@ -1952,7 +1952,7 @@
         align-items: center;
         justify-content: center;
         z-index: 5;
-        min-height: 600px;
+        min-height: 920px;
     }
     .solar-sun {
         position: absolute;
@@ -6220,6 +6220,18 @@ function closeTlModal() {
             if (dp) dp.classList.remove('visible');
         });
     }
+
+    // Responsive scaling: shrink solar system to fit container
+    var maxOrbitR = 390 + 35; // outermost orbit + half planet size
+    function scaleSolarSystem() {
+        var w = solarCont.offsetWidth;
+        var h = solarCont.offsetHeight;
+        var available = Math.min(w, h) * 0.48;
+        var scale = Math.min(1, available / maxOrbitR);
+        solarRoot.style.transform = 'translate(-50%,-50%) scale(' + scale + ')';
+    }
+    scaleSolarSystem();
+    window.addEventListener('resize', scaleSolarSystem);
 })();
 
 </script>
