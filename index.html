@@ -3457,42 +3457,6 @@
     .dim-footer-sitemap-links li a.ext-link { color: var(--low) !important; }
     .dim-footer-sitemap-links li a.ext-link:hover { color: var(--cyan) !important; }
     .dim-footer-sitemap-links li a i { font-size: .5rem; opacity: .5; }
-    /* roadmap button */
-    .dim-footer-roadmap {
-        display: inline-flex;
-        align-items: center;
-        gap: 7px;
-        text-decoration: none !important;
-        font-family: var(--mono);
-        font-size: .6rem;
-        letter-spacing: .14em;
-        text-transform: uppercase;
-        color: var(--muted) !important;
-        border: 1px solid var(--border);
-        border-radius: 4px;
-        padding: 8px 18px;
-        background: var(--surface);
-        transition: color .2s, border-color .2s, background .2s, box-shadow .2s;
-        white-space: nowrap;
-    }
-    .dim-footer-roadmap:hover {
-        color: var(--violet) !important;
-        border-color: rgba(124,58,237,.4) !important;
-        background: rgba(124,58,237,.06);
-        box-shadow: 0 0 18px rgba(124,58,237,.15);
-    }
-    .dim-footer-roadmap-dot {
-        width: 6px; height: 6px;
-        border-radius: 50%;
-        background: var(--cyan);
-        box-shadow: 0 0 8px rgba(34,211,238,.6);
-        animation: footerPulse 2s ease-in-out infinite;
-        flex-shrink: 0;
-    }
-    @keyframes footerPulse {
-        0%,100% { box-shadow: 0 0 5px rgba(34,211,238,.4); }
-        50%     { box-shadow: 0 0 14px rgba(34,211,238,.9); }
-    }
     @media (max-width: 900px) {
         .dim-footer-sitemap { gap: 28px; }
     }
@@ -3546,22 +3510,16 @@
             <div class="dim-footer-sitemap-col">
                 <div class="dim-footer-sitemap-title">Altro</div>
                 <ul class="dim-footer-sitemap-links">
-                    <li><a href="roadmap.html" class="ext-link"><i class="fa-solid fa-arrow-up-right-from-square"></i>Roadmap</a></li>
                     <li><a href="sitemap.html" class="ext-link"><i class="fa-solid fa-arrow-up-right-from-square"></i>Sitemap</a></li>
                     <li><a href="/app/" class="ext-link"><i class="fa-solid fa-arrow-up-right-from-square"></i>Memive</a></li>
                 </ul>
             </div>
         </div>
 
-        <!-- Right: roadmap button + copyright -->
+        <!-- Right: copyright -->
         <div style="display:flex;flex-direction:column;align-items:flex-end;gap:14px;">
-            <a href="roadmap.html" class="dim-footer-roadmap">
-                <span class="dim-footer-roadmap-dot"></span>
-                Public Roadmap
-                <i class="fa-solid fa-arrow-right-long" style="font-size:.55rem;"></i>
-            </a>
             <div class="dim-footer-copy">
-                <p>&copy; 2025 <span>Edward Attuati</span></p>
+                <p>&copy; 2026 <span>Edward Attuati</span></p>
                 <p>Built from scratch &mdash; no frameworks</p>
             </div>
         </div>
