@@ -5,7 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Scadoo — Edward Attuati</title>
 <meta name="description" content="Scadoo: Flutter app for pantry management, expiry tracking, and shareable shopping list. Offline-first. Zero backend.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Scadoo — Edward Attuati">
+<meta property="og:description" content="Flutter app for pantry management, expiry tracking, push notifications and a shareable shopping list. Offline-first. Zero backend.">
+<meta property="og:url" content="https://edward070707.github.io/scadoo.html">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Scadoo — Edward Attuati">
+<meta name="twitter:description" content="Flutter app for pantry management, expiry tracking, and shareable shopping list. Offline-first. Zero backend.">
+<link rel="canonical" href="https://edward070707.github.io/scadoo.html">
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -496,8 +506,8 @@ pre{padding:22px 20px;overflow-x:auto;font-family:var(--mono);font-size:.75rem;l
 
 <!-- NAV -->
 <nav>
-  <a href="index.html" class="nav-back">
-    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3L5 8l5 5"/></svg>
+  <a href="index.html" class="nav-back" aria-label="Back to portfolio">
+    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 3L5 8l5 5"/></svg>
     edward070707.github.io
   </a>
   <span class="nav-sep">/</span>
@@ -508,7 +518,7 @@ pre{padding:22px 20px;overflow-x:auto;font-family:var(--mono);font-size:.75rem;l
     <span data-i18n="status">in development</span>
   </div>
   <div class="lang-wrap">
-    <button id="lang-btn"><span id="lang-flag">🇬🇧</span>&nbsp;<span id="lang-name">EN</span></button>
+    <button id="lang-btn" aria-label="Select language"><span id="lang-flag" aria-hidden="true">🇬🇧</span>&nbsp;<span id="lang-name">EN</span></button>
     <div id="lang-dd">
       <button onclick="setLang('en')" data-lang="en" class="active"><span>🇬🇧</span> English</button>
       <button onclick="setLang('it')" data-lang="it"><span>🇮🇹</span> Italiano</button>

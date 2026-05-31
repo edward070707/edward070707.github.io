@@ -4,6 +4,18 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Memive — La tua voce. Il tuo mondo.</title>
+<meta name="description" content="Memive — il primo social network interamente vocale. Nessuna foto, nessun testo. Solo la tua voce: autentica, viva, unica.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Memive — La tua voce. Il tuo mondo.">
+<meta property="og:description" content="Il primo social network interamente vocale. Registra, condividi e scopri voci autentiche da tutto il mondo.">
+<meta property="og:url" content="https://edward070707.github.io/memive.html">
+<meta property="og:locale" content="it_IT">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Memive — La tua voce. Il tuo mondo.">
+<meta name="twitter:description" content="Il primo social network interamente vocale. Nessuna foto, nessun testo. Solo la tua voce.">
+<link rel="canonical" href="https://edward070707.github.io/memive.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600;700&family=Space+Mono&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -776,7 +788,7 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;align-i
   </div>
   <a class="nav-cta" href="app/index.html"><span data-i18n="nav-cta">Open App ↗</span></a>
   <div class="lang-wrap">
-    <button id="lang-btn"><span id="lang-flag">🇬🇧</span>&nbsp;<span id="lang-name">EN</span></button>
+    <button id="lang-btn" aria-label="Select language"><span id="lang-flag" aria-hidden="true">🇬🇧</span>&nbsp;<span id="lang-name">EN</span></button>
     <div id="lang-dd">
       <button onclick="setLang('en')" data-lang="en" class="active"><span>🇬🇧</span> English</button>
       <button onclick="setLang('it')" data-lang="it"><span>🇮🇹</span> Italiano</button>
@@ -1697,10 +1709,18 @@ window.toggleCard = el => {
 };
 document.querySelector('.vcard.active')?.querySelectorAll('.vbar').forEach(b => b.style.background='#00F5D4');
 
-// ── NAV SCROLL EFFECT ──
+// ── NAV SCROLL + PARALLAX BUBBLES (merged into one listener) ──
+const bubbleIds = ['b1','b2','b3','b4','b5','b6','b7','b8'];
+const bubbleSpeeds = [0.3, -0.25, 0.2, -0.3, 0.28, -0.2, 0.35, -0.15];
+const mainNav = document.getElementById('main-nav');
 window.addEventListener('scroll', () => {
-  document.getElementById('main-nav').classList.toggle('scrolled', scrollY > 60);
-});
+  const y = scrollY;
+  mainNav.classList.toggle('scrolled', y > 60);
+  bubbleIds.forEach((id, i) => {
+    const el = document.getElementById(id);
+    if(el) el.style.transform = `translateY(${y * bubbleSpeeds[i]}px)`;
+  });
+}, {passive: true});
 
 // ── SCROLL FADE IN ──
 const obs = new IntersectionObserver(entries=>{
@@ -1720,17 +1740,6 @@ const stepObs = new IntersectionObserver(entries=>{
   });
 },{threshold:.3});
 document.querySelectorAll('.step-icon-wrap').forEach(el=>stepObs.observe(el));
-
-// ── PARALLAX BUBBLES ON SCROLL ──
-const bubbleIds = ['b1','b2','b3','b4','b5','b6','b7','b8'];
-const bubbleSpeeds = [0.3, -0.25, 0.2, -0.3, 0.28, -0.2, 0.35, -0.15];
-window.addEventListener('scroll', () => {
-  const y = scrollY;
-  bubbleIds.forEach((id, i) => {
-    const el = document.getElementById(id);
-    if(el) el.style.transform = `translateY(${y * bubbleSpeeds[i]}px)`;
-  });
-}, {passive: true});
 
 // ── INIT WAVEFORM BARS ───────────────────────────────────────────────────────
 (function initDemoWaves(){

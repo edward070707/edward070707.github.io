@@ -8,7 +8,18 @@
     <link rel="stylesheet" href="assets/css/main.css"/>
     <noscript><link rel="stylesheet" href="assets/css/noscript.css"/></noscript>
     <meta name="ahrefs-site-verification" content="29088d3383737ed2174455d76734d5fb86ac2de57ad6f096a2146a96756cc6f2">
+    <!-- OG / Twitter meta -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Edward Attuati — Developer & Builder">
+    <meta property="og:description" content="Edward Attuati — Computer Engineering Student, Developer, Builder. Portfolio of Flutter apps, web projects and more.">
+    <meta property="og:url" content="https://edward070707.github.io/">
+    <meta property="og:locale" content="en_US">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Edward Attuati — Developer & Builder">
+    <meta name="twitter:description" content="Computer Engineering Student, Developer, Builder. Portfolio of Flutter apps and web projects.">
+    <link rel="canonical" href="https://edward070707.github.io/">
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 
     <style>
@@ -2422,8 +2433,8 @@
     </div>
 
     <div id="lang-switcher" class="sb-lang">
-        <div id="lang-current">
-            <span id="lang-flag">🇬🇧</span>
+        <div id="lang-current" role="button" aria-label="Select language" tabindex="0">
+            <span id="lang-flag" aria-hidden="true">🇬🇧</span>
         </div>
         <div id="lang-dropdown">
             <button onclick="setLang('en')" data-lang="en" class="active"><span class="flag">🇬🇧</span> English</button>
@@ -2474,7 +2485,7 @@
         <div class="hero-ctas">
             <a href="#work" class="btn-dim-primary" data-i18n="intro-more" onclick="(function(e){var t=document.getElementById('work');if(t){e.preventDefault();e.stopImmediatePropagation();var s=window.pageYOffset,d=t.getBoundingClientRect().top,dur=Math.min(900,Math.max(400,Math.abs(d)*0.4)),st=null;function step(ts){if(!st)st=ts;var p=Math.min((ts-st)/dur,1),q=1-Math.pow(1-p,3);window.scrollTo(0,s+d*q);if(p<1)requestAnimationFrame(step);}requestAnimationFrame(step);}})(event)">Explore my work</a>
             <a href="https://edwardattuati.com/aboutme.html" class="btn-dim-ghost" data-i18n="one-btn">About me</a>
-            <a href="cv.html" class="btn-dim-cv" target="_blank">📄 CV</a>
+            <a href="cv.html" class="btn-dim-cv" target="_blank" rel="noopener noreferrer">📄 CV</a>
         </div>
     </div>
 
@@ -2623,7 +2634,7 @@
             </div>
 
             <a href="https://drive.google.com/file/d/1-E2bqezgbpLPmgdB6b2z4Sz3yz7MCwua/view?usp=share_link"
-               target="_blank" class="dim-cv" data-i18n="two-cv">📄 View My CV</a>
+               target="_blank" rel="noopener noreferrer" class="dim-cv" data-i18n="two-cv">📄 View My CV</a>
         </div>
 
         <div class="dim-stats reveal">
@@ -2710,7 +2721,7 @@
         </div>
 
         <div style="text-align:center;margin-top:28px" class="reveal">
-            <a href="https://github.com/edward070707" target="_blank" class="btn-dim-ghost" style="display:inline-flex;align-items:center;gap:8px;font-size:13px">
+            <a href="https://github.com/edward070707" target="_blank" rel="noopener noreferrer" class="btn-dim-ghost" style="display:inline-flex;align-items:center;gap:8px;font-size:13px">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.38.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.54-1.38-1.33-1.75-1.33-1.75-1.09-.74.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.48 1 .11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02 0 2.04.14 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.82 1.1.82 2.22v3.29c0 .32.22.7.83.58C20.57 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/></svg>
                 Visita il mio GitHub →
             </a>
@@ -3291,10 +3302,10 @@
             <p data-i18n="contact-desc">Feel free to reach out — I'm open to new opportunities and collaborations.</p>
         </header>
         <ul class="icons">
-            <li><a href="https://m.facebook.com/edward.attuati.9" class="icon brands fa-facebook-f" target="_blank"><span class="label">Facebook</span></a></li>
-            <li><a href="https://www.instagram.com/edwardattuati/" class="icon brands fa-instagram" target="_blank"><span class="label">Instagram</span></a></li>
-            <li><a href="https://it.linkedin.com/in/edward-attuati-41a54823b" class="icon brands fa-linkedin-in" target="_blank"><span class="label">LinkedIn</span></a></li>
-            <li><a href="https://github.com/edward070707" class="icon brands fa-github" target="_blank"><span class="label">GitHub</span></a></li>
+            <li><a href="https://m.facebook.com/edward.attuati.9" class="icon brands fa-facebook-f" target="_blank" rel="noopener noreferrer"><span class="label">Facebook</span></a></li>
+            <li><a href="https://www.instagram.com/edwardattuati/" class="icon brands fa-instagram" target="_blank" rel="noopener noreferrer"><span class="label">Instagram</span></a></li>
+            <li><a href="https://it.linkedin.com/in/edward-attuati-41a54823b" class="icon brands fa-linkedin-in" target="_blank" rel="noopener noreferrer"><span class="label">LinkedIn</span></a></li>
+            <li><a href="https://github.com/edward070707" class="icon brands fa-github" target="_blank" rel="noopener noreferrer"><span class="label">GitHub</span></a></li>
         </ul>
         <div>
             <div class="email" onclick="copyToClipboard('edwardattuati@icloud.com');window.location.href='mailto:edwardattuati@icloud.com';">edwardattuati@icloud.com</div>
@@ -3506,10 +3517,10 @@
             <span class="dim-footer-logo">EA</span>
             <span class="dim-footer-tagline">Edward Attuati</span>
             <div style="display:flex;gap:8px;margin-top:10px;">
-                <a href="https://m.facebook.com/edward.attuati.9" target="_blank" aria-label="Facebook" style="display:flex;align-items:center;justify-content:center;width:30px;height:30px;border:1px solid var(--border);border-radius:2px;color:var(--muted);font-size:.75rem;text-decoration:none;background:var(--surface);transition:color .2s,border-color .2s;" onmouseover="this.style.color='var(--violet)';this.style.borderColor='rgba(124,58,237,.4)'" onmouseout="this.style.color='var(--muted)';this.style.borderColor='var(--border)'"><i class="fab fa-facebook-f"></i></a>
-                <a href="https://www.instagram.com/edwardattuati/" target="_blank" aria-label="Instagram" style="display:flex;align-items:center;justify-content:center;width:30px;height:30px;border:1px solid var(--border);border-radius:2px;color:var(--muted);font-size:.75rem;text-decoration:none;background:var(--surface);transition:color .2s,border-color .2s;" onmouseover="this.style.color='var(--violet)';this.style.borderColor='rgba(124,58,237,.4)'" onmouseout="this.style.color='var(--muted)';this.style.borderColor='var(--border)'"><i class="fab fa-instagram"></i></a>
-                <a href="https://it.linkedin.com/in/edward-attuati-41a54823b" target="_blank" aria-label="LinkedIn" style="display:flex;align-items:center;justify-content:center;width:30px;height:30px;border:1px solid var(--border);border-radius:2px;color:var(--muted);font-size:.75rem;text-decoration:none;background:var(--surface);transition:color .2s,border-color .2s;" onmouseover="this.style.color='var(--violet)';this.style.borderColor='rgba(124,58,237,.4)'" onmouseout="this.style.color='var(--muted)';this.style.borderColor='var(--border)'"><i class="fab fa-linkedin-in"></i></a>
-                <a href="https://github.com/edward070707" target="_blank" aria-label="GitHub" style="display:flex;align-items:center;justify-content:center;width:30px;height:30px;border:1px solid var(--border);border-radius:2px;color:var(--muted);font-size:.75rem;text-decoration:none;background:var(--surface);transition:color .2s,border-color .2s;" onmouseover="this.style.color='var(--violet)';this.style.borderColor='rgba(124,58,237,.4)'" onmouseout="this.style.color='var(--muted)';this.style.borderColor='var(--border)'"><i class="fab fa-github"></i></a>
+                <a href="https://m.facebook.com/edward.attuati.9" target="_blank" rel="noopener noreferrer" aria-label="Facebook" style="display:flex;align-items:center;justify-content:center;width:30px;height:30px;border:1px solid var(--border);border-radius:2px;color:var(--muted);font-size:.75rem;text-decoration:none;background:var(--surface);transition:color .2s,border-color .2s;" onmouseover="this.style.color='var(--violet)';this.style.borderColor='rgba(124,58,237,.4)'" onmouseout="this.style.color='var(--muted)';this.style.borderColor='var(--border)'"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://www.instagram.com/edwardattuati/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" style="display:flex;align-items:center;justify-content:center;width:30px;height:30px;border:1px solid var(--border);border-radius:2px;color:var(--muted);font-size:.75rem;text-decoration:none;background:var(--surface);transition:color .2s,border-color .2s;" onmouseover="this.style.color='var(--violet)';this.style.borderColor='rgba(124,58,237,.4)'" onmouseout="this.style.color='var(--muted)';this.style.borderColor='var(--border)'"><i class="fab fa-instagram"></i></a>
+                <a href="https://it.linkedin.com/in/edward-attuati-41a54823b" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" style="display:flex;align-items:center;justify-content:center;width:30px;height:30px;border:1px solid var(--border);border-radius:2px;color:var(--muted);font-size:.75rem;text-decoration:none;background:var(--surface);transition:color .2s,border-color .2s;" onmouseover="this.style.color='var(--violet)';this.style.borderColor='rgba(124,58,237,.4)'" onmouseout="this.style.color='var(--muted)';this.style.borderColor='var(--border)'"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://github.com/edward070707" target="_blank" rel="noopener noreferrer" aria-label="GitHub" style="display:flex;align-items:center;justify-content:center;width:30px;height:30px;border:1px solid var(--border);border-radius:2px;color:var(--muted);font-size:.75rem;text-decoration:none;background:var(--surface);transition:color .2s,border-color .2s;" onmouseover="this.style.color='var(--violet)';this.style.borderColor='rgba(124,58,237,.4)'" onmouseout="this.style.color='var(--muted)';this.style.borderColor='var(--border)'"><i class="fab fa-github"></i></a>
             </div>
         </div>
 
@@ -3624,7 +3635,7 @@
         <ul id="tl-modal-points" style="list-style:none;padding:0;margin:0 0 20px;display:flex;flex-direction:column;gap:8px;"></ul>
         <div id="tl-modal-tags" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px;"></div>
         <div id="tl-modal-link-wrap" style="display:none;">
-            <a id="tl-modal-link" href="#" target="_blank" style="font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;color:var(--cyan);text-decoration:none;border:1px solid rgba(34,211,238,.25);padding:7px 16px;border-radius:4px;display:inline-flex;align-items:center;gap:6px;transition:background .2s,border-color .2s;">🔗 Verify on Credly →</a>
+            <a id="tl-modal-link" href="#" target="_blank" rel="noopener noreferrer" style="font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;color:var(--cyan);text-decoration:none;border:1px solid rgba(34,211,238,.25);padding:7px 16px;border-radius:4px;display:inline-flex;align-items:center;gap:6px;transition:background .2s,border-color .2s;">🔗 Verify on Credly →</a>
         </div>
     </div>
 </div>
@@ -4710,21 +4721,21 @@ document.addEventListener('DOMContentLoaded', () => {
         skills:   `My full tech stack:<br><br><span class="tag">Python</span><span class="tag">C</span><span class="tag">C#</span><span class="tag">Java</span><span class="tag">DotNet</span><br><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">PHP</span><br><span class="tag">SQL</span><span class="tag">MySQL</span><span class="tag">PostgreSQL</span><br><span class="tag">Entity Framework</span><span class="tag">ER Modelling</span><br><span class="tag">XCode</span><span class="tag">Android Studio</span><span class="tag">VS Code</span><br><span class="tag">Linux</span><span class="tag">Networking</span><span class="tag">IT Support</span><br><span class="tag">Office 365</span><span class="tag">Git</span><span class="tag">GitHub Pages</span>`,
         langs:    `I speak <strong>5 languages</strong>:<br>🇮🇹 Italian — native<br>🇬🇧 English — C1 (certified B2, now C1)<br>🇪🇸 Spanish<br>🇨🇳 Mandarin Chinese<br>🇯🇵 Japanese<br><br>Languages and cultures are a deep passion of mine — which is why this site greets you in 38 languages.`,
         projects: `My key projects:<br><br>🌐 <strong>Web Portfolio</strong> — this site, zero frameworks, built from scratch<br>🗄️ <strong>Database project</strong> — ER modelling, normalisation, advanced SQL<br>🧮 <strong>Algorithm studies</strong> — sorting, graphs, dynamic programming<br>🎮 <strong>Unity Junior Programmer</strong> — game dev, certified on Credly<br>💻 <strong>IT Internship</strong> — real-world work at Soluzione1, Ghisalba (BG)`,
-        contact:  `Reach Edward here:<br><br>📧 <a href="mailto:edwardattuati@icloud.com">edwardattuati@icloud.com</a><br>💼 <a href="https://it.linkedin.com/in/edward-attuati-41a54823b" target="_blank">LinkedIn</a><br>🐙 <a href="https://github.com/edward070707" target="_blank">GitHub</a><br>📷 <a href="https://www.instagram.com/edwardattuati/" target="_blank">Instagram</a>`,
-        cv:       `📄 View / download Edward's CV:<br><a href="https://drive.google.com/file/d/1-E2bqezgbpLPmgdB6b2z4Sz3yz7MCwua/view?usp=share_link" target="_blank">Open CV on Google Drive →</a>`,
+        contact:  `Reach Edward here:<br><br>📧 <a href="mailto:edwardattuati@icloud.com">edwardattuati@icloud.com</a><br>💼 <a href="https://it.linkedin.com/in/edward-attuati-41a54823b" target="_blank" rel="noopener noreferrer">LinkedIn</a><br>🐙 <a href="https://github.com/edward070707" target="_blank" rel="noopener noreferrer">GitHub</a><br>📷 <a href="https://www.instagram.com/edwardattuati/" target="_blank" rel="noopener noreferrer">Instagram</a>`,
+        cv:       `📄 View / download Edward's CV:<br><a href="https://drive.google.com/file/d/1-E2bqezgbpLPmgdB6b2z4Sz3yz7MCwua/view?usp=share_link" target="_blank" rel="noopener noreferrer">Open CV on Google Drive →</a>`,
         exp:      `💼 <strong>IT Developer Intern</strong> — Soluzione1, Ghisalba (BG)<br><em>April – June 2024</em><br><br>• SQL training &amp; query development<br>• 1st &amp; 2nd level customer support<br>• Application &amp; system training<br>• Daily collaboration with senior developers<br><br>🏭 <strong>IT Team Member</strong> — ALLTUB ITALIA, Bergamo area<br><em>January 2025 – Present</em><br><br>• Active member of the company IT department<br>• Internal IT infrastructure and systems support<br>• Digital processes and day-to-day tech operations`,
         web:      `Edward builds the web the pure way — <strong>HTML, CSS, JavaScript</strong>, zero frameworks. This portfolio proves it: CSS Houdini <code>@property</code> gradients, 3D orbital atom, lerp parallax, spring-physics drag, 20-click easter egg — all vanilla JS.`,
         db:       `Strong in relational databases:<br>• <strong>ER Modelling</strong> &amp; schema normalisation<br>• Advanced <strong>SQL</strong> queries &amp; optimisation<br>• <strong>MySQL</strong> &amp; <strong>PostgreSQL</strong><br>• <strong>Entity Framework</strong> (C# / DotNet)<br>• Applied at UniBS and during the Soluzione1 internship`,
         interests:`Outside of code, Edward is fascinated by <strong>languages &amp; cultures</strong> (he speaks 5!), design, UX, and problem-solving. He's the kind of person who digs into a problem until it truly makes sense.`,
-        certs:    `📜 <strong>Unity Junior Programmer</strong> — Unity Technologies (Jan–May 2021)<br>Full skill list on <a href="https://www.credly.com" target="_blank">Credly</a><br><br>🇬🇧 <strong>Cambridge English B2</strong> (2017) — now achieved C1 through continuous practice`,
+        certs:    `📜 <strong>Unity Junior Programmer</strong> — Unity Technologies (Jan–May 2021)<br>Full skill list on <a href="https://www.credly.com" target="_blank" rel="noopener noreferrer">Credly</a><br><br>🇬🇧 <strong>Cambridge English B2</strong> (2017) — now achieved C1 through continuous practice`,
         site:     `This portfolio was built entirely from scratch — no templates, no frameworks:<br>• CSS Houdini <code>@property</code> animated gradients<br>• 3D orbital rings with 7 electrons<br>• Mouse parallax with lerp smoothing<br>• Draggable atom with spring physics<br>• Text gravity system<br>• 20-click easter egg<br>• Custom cursor &amp; multilingual (5 languages) 😉`,
         easter:   `Pssst... try clicking the atom on the home page <strong>20 times</strong>. Something special happens. 🤫 Don't tell anyone.`,
         location: `Edward is from <strong>Romano di Lombardia</strong> (Bergamo province), Italy 🇮🇹 — studying at UniBS in Brescia, ~50km from home.`,
         fallback: `I'm not sure about that! Try asking about Edward's <strong>skills</strong>, <strong>projects</strong>, <strong>education</strong>, <strong>experience</strong>, <strong>languages</strong>, or <strong>contact</strong>. 😊`,
         help:     `I can answer questions about:<br><br>• <strong>Bio</strong> &amp; background<br>• <strong>Skills</strong> &amp; tech stack<br>• <strong>Projects</strong> &amp; portfolio<br>• <strong>Education</strong> (UniBS + high school)<br>• <strong>Languages</strong> spoken (5!)<br>• <strong>Work experience</strong> &amp; internship<br>• <strong>Certifications</strong> (Unity, English B2→C1)<br>• <strong>Contact</strong> &amp; CV<br>• 🤫 Secrets`,
-        linkedin: `🔗 <a href="https://it.linkedin.com/in/edward-attuati-41a54823b" target="_blank">Edward on LinkedIn →</a>`,
-        github:   `🐙 <a href="https://github.com/edward070707" target="_blank">Edward on GitHub →</a>`,
-        instagram:`📷 <a href="https://www.instagram.com/edwardattuati/" target="_blank">Edward on Instagram →</a>`,
+        linkedin: `🔗 <a href="https://it.linkedin.com/in/edward-attuati-41a54823b" target="_blank" rel="noopener noreferrer">Edward on LinkedIn →</a>`,
+        github:   `🐙 <a href="https://github.com/edward070707" target="_blank" rel="noopener noreferrer">Edward on GitHub →</a>`,
+        instagram:`📷 <a href="https://www.instagram.com/edwardattuati/" target="_blank" rel="noopener noreferrer">Edward on Instagram →</a>`,
         placeholder:`Ask me anything about Edward...`, status:`online`,
       },
       it: {
@@ -4734,21 +4745,21 @@ document.addEventListener('DOMContentLoaded', () => {
         skills:   `Stack tecnologico completo:<br><br><span class="tag">Python</span><span class="tag">C</span><span class="tag">C#</span><span class="tag">Java</span><span class="tag">DotNet</span><br><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">PHP</span><br><span class="tag">SQL</span><span class="tag">MySQL</span><span class="tag">PostgreSQL</span><br><span class="tag">Entity Framework</span><span class="tag">Modellazione ER</span><br><span class="tag">XCode</span><span class="tag">Android Studio</span><span class="tag">VS Code</span><br><span class="tag">Linux</span><span class="tag">Networking</span><span class="tag">Supporto IT</span><br><span class="tag">Office 365</span><span class="tag">Git</span><span class="tag">GitHub Pages</span>`,
         langs:    `Parlo <strong>5 lingue</strong>:<br>🇮🇹 Italiano — madrelingua<br>🇬🇧 Inglese — C1 (certificato B2, ora C1)<br>🇪🇸 Spagnolo<br>🇨🇳 Cinese mandarino<br>🇯🇵 Giapponese<br><br>Le lingue e le culture sono una mia grande passione — per questo il sito ti saluta in 38 lingue diverse.`,
         projects: `I miei progetti principali:<br><br>🌐 <strong>Portfolio Web</strong> — questo sito, da zero, nessun framework<br>🗄️ <strong>Progetto Database</strong> — modellazione ER, normalizzazione, SQL avanzato<br>🧮 <strong>Algoritmi</strong> — ordinamento, grafi, programmazione dinamica<br>🎮 <strong>Unity Junior Programmer</strong> — sviluppo giochi, certificato su Credly<br>💻 <strong>Stage IT</strong> — lavoro reale da Soluzione1, Ghisalba (BG)`,
-        contact:  `Puoi contattare Edward qui:<br><br>📧 <a href="mailto:edwardattuati@icloud.com">edwardattuati@icloud.com</a><br>💼 <a href="https://it.linkedin.com/in/edward-attuati-41a54823b" target="_blank">LinkedIn</a><br>🐙 <a href="https://github.com/edward070707" target="_blank">GitHub</a><br>📷 <a href="https://www.instagram.com/edwardattuati/" target="_blank">Instagram</a>`,
-        cv:       `📄 Visualizza o scarica il CV di Edward:<br><a href="https://drive.google.com/file/d/1-E2bqezgbpLPmgdB6b2z4Sz3yz7MCwua/view?usp=share_link" target="_blank">Apri CV su Google Drive →</a>`,
+        contact:  `Puoi contattare Edward qui:<br><br>📧 <a href="mailto:edwardattuati@icloud.com">edwardattuati@icloud.com</a><br>💼 <a href="https://it.linkedin.com/in/edward-attuati-41a54823b" target="_blank" rel="noopener noreferrer">LinkedIn</a><br>🐙 <a href="https://github.com/edward070707" target="_blank" rel="noopener noreferrer">GitHub</a><br>📷 <a href="https://www.instagram.com/edwardattuati/" target="_blank" rel="noopener noreferrer">Instagram</a>`,
+        cv:       `📄 Visualizza o scarica il CV di Edward:<br><a href="https://drive.google.com/file/d/1-E2bqezgbpLPmgdB6b2z4Sz3yz7MCwua/view?usp=share_link" target="_blank" rel="noopener noreferrer">Apri CV su Google Drive →</a>`,
         exp:      `💼 <strong>Sviluppatore Tirocinante</strong> — Soluzione1, Ghisalba (BG)<br><em>Aprile – Giugno 2024</em><br><br>• Formazione SQL e sviluppo query<br>• Supporto clienti di 1° e 2° livello<br>• Training su applicazioni e sistemi<br>• Collaborazione quotidiana con sviluppatori senior<br><br>🏭 <strong>Membro Reparto IT</strong> — ALLTUB ITALIA, area Bergamo<br><em>Gennaio 2025 – Presente</em><br><br>• Membro attivo del reparto IT aziendale<br>• Infrastruttura IT interna e supporto sistemi<br>• Processi digitali e operazioni tecnologiche quotidiane`,
         web:      `Edward costruisce siti nel modo più puro — <strong>HTML, CSS, JavaScript</strong>, zero framework. Questo portfolio lo dimostra: gradienti CSS Houdini <code>@property</code>, atomo 3D, parallasse con lerp, fisica drag a molla, easter egg a 20 click — tutto vanilla JS.`,
         db:       `Forte nei database relazionali:<br>• <strong>Modellazione ER</strong> e normalizzazione degli schemi<br>• Query <strong>SQL</strong> avanzate e ottimizzazione<br>• <strong>MySQL</strong> e <strong>PostgreSQL</strong><br>• <strong>Entity Framework</strong> (C# / DotNet)<br>• Applicato nei corsi UniBS e nello stage Soluzione1`,
         interests:`Fuori dal codice, Edward è affascinato da <strong>lingue e culture</strong> (ne parla 5!), design, UX e problem-solving. È il tipo di persona che studia un problema finché non lo capisce davvero.`,
-        certs:    `📜 <strong>Unity Junior Programmer</strong> — Unity Technologies (gen–mag 2021)<br>Lista completa su <a href="https://www.credly.com" target="_blank">Credly</a><br><br>🇬🇧 <strong>Cambridge English B2</strong> (2017) — ora al livello C1 grazie a pratica costante`,
+        certs:    `📜 <strong>Unity Junior Programmer</strong> — Unity Technologies (gen–mag 2021)<br>Lista completa su <a href="https://www.credly.com" target="_blank" rel="noopener noreferrer">Credly</a><br><br>🇬🇧 <strong>Cambridge English B2</strong> (2017) — ora al livello C1 grazie a pratica costante`,
         site:     `Questo portfolio è stato costruito da zero — nessun template, nessun framework:<br>• Gradienti animati CSS Houdini <code>@property</code><br>• Anelli orbitali 3D con 7 elettroni<br>• Parallasse con smoothing lerp<br>• Atomo trascinabile con fisica a molla<br>• Sistema di gravità del testo<br>• Easter egg a 20 click<br>• Cursore personalizzato &amp; multilingua (5 lingue) 😉`,
         easter:   `Ssss... prova a cliccare l'atomo nella home page <strong>20 volte</strong>. Succede qualcosa di speciale. 🤫 Non dirlo a nessuno.`,
         location: `Edward viene da <strong>Romano di Lombardia</strong> (provincia di Bergamo), Italia 🇮🇹 — studia all'Università di Brescia, a circa 50km da casa.`,
         fallback: `Non sono sicuro! Prova a chiedermi delle <strong>competenze</strong>, <strong>progetti</strong>, <strong>università</strong>, <strong>esperienza</strong>, <strong>lingue</strong> o come <strong>contattare</strong> Edward. 😊`,
         help:     `Posso rispondere a domande su:<br><br>• <strong>Bio</strong> e background<br>• <strong>Competenze</strong> e stack tecnologico<br>• <strong>Progetti</strong> e portfolio<br>• <strong>Università</strong> e liceo<br>• <strong>Lingue</strong> parlate (5!)<br>• <strong>Esperienza lavorativa</strong> e stage<br>• <strong>Certificazioni</strong> (Unity, Inglese B2→C1)<br>• <strong>Contatti</strong> e CV<br>• 🤫 Segreti`,
-        linkedin: `🔗 <a href="https://it.linkedin.com/in/edward-attuati-41a54823b" target="_blank">Edward su LinkedIn →</a>`,
-        github:   `🐙 <a href="https://github.com/edward070707" target="_blank">Edward su GitHub →</a>`,
-        instagram:`📷 <a href="https://www.instagram.com/edwardattuati/" target="_blank">Edward su Instagram →</a>`,
+        linkedin: `🔗 <a href="https://it.linkedin.com/in/edward-attuati-41a54823b" target="_blank" rel="noopener noreferrer">Edward su LinkedIn →</a>`,
+        github:   `🐙 <a href="https://github.com/edward070707" target="_blank" rel="noopener noreferrer">Edward su GitHub →</a>`,
+        instagram:`📷 <a href="https://www.instagram.com/edwardattuati/" target="_blank" rel="noopener noreferrer">Edward su Instagram →</a>`,
         placeholder:`Chiedimi qualcosa su Edward...`, status:`online`,
       },
       es: {
@@ -4758,21 +4769,21 @@ document.addEventListener('DOMContentLoaded', () => {
         skills:   `Mi stack tecnológico completo:<br><br><span class="tag">Python</span><span class="tag">C</span><span class="tag">C#</span><span class="tag">Java</span><span class="tag">DotNet</span><br><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">PHP</span><br><span class="tag">SQL</span><span class="tag">MySQL</span><span class="tag">PostgreSQL</span><br><span class="tag">Entity Framework</span><span class="tag">Modelado ER</span><br><span class="tag">XCode</span><span class="tag">Android Studio</span><span class="tag">VS Code</span><br><span class="tag">Linux</span><span class="tag">Networking</span><span class="tag">Soporte IT</span><br><span class="tag">Office 365</span><span class="tag">Git</span><span class="tag">GitHub Pages</span>`,
         langs:    `Hablo <strong>5 idiomas</strong>:<br>🇮🇹 Italiano — nativo<br>🇬🇧 Inglés — C1 (certificado B2, ahora C1)<br>🇪🇸 Español<br>🇨🇳 Chino mandarín<br>🇯🇵 Japonés<br><br>Los idiomas y las culturas son una gran pasión mía — por eso este sitio te saluda en 38 idiomas.`,
         projects: `Mis proyectos principales:<br><br>🌐 <strong>Portfolio Web</strong> — este sitio, sin frameworks, desde cero<br>🗄️ <strong>Proyecto de Base de Datos</strong> — modelado ER, normalización, SQL avanzado<br>🧮 <strong>Algoritmos</strong> — ordenamiento, grafos, programación dinámica<br>🎮 <strong>Unity Junior Programmer</strong> — desarrollo de juegos, certificado en Credly<br>💻 <strong>Prácticas IT</strong> — trabajo real en Soluzione1, Ghisalba (BG)`,
-        contact:  `Puedes contactar a Edward aquí:<br><br>📧 <a href="mailto:edwardattuati@icloud.com">edwardattuati@icloud.com</a><br>💼 <a href="https://it.linkedin.com/in/edward-attuati-41a54823b" target="_blank">LinkedIn</a><br>🐙 <a href="https://github.com/edward070707" target="_blank">GitHub</a><br>📷 <a href="https://www.instagram.com/edwardattuati/" target="_blank">Instagram</a>`,
-        cv:       `📄 Ver o descargar el CV de Edward:<br><a href="https://drive.google.com/file/d/1-E2bqezgbpLPmgdB6b2z4Sz3yz7MCwua/view?usp=share_link" target="_blank">Abrir CV en Google Drive →</a>`,
+        contact:  `Puedes contactar a Edward aquí:<br><br>📧 <a href="mailto:edwardattuati@icloud.com">edwardattuati@icloud.com</a><br>💼 <a href="https://it.linkedin.com/in/edward-attuati-41a54823b" target="_blank" rel="noopener noreferrer">LinkedIn</a><br>🐙 <a href="https://github.com/edward070707" target="_blank" rel="noopener noreferrer">GitHub</a><br>📷 <a href="https://www.instagram.com/edwardattuati/" target="_blank" rel="noopener noreferrer">Instagram</a>`,
+        cv:       `📄 Ver o descargar el CV de Edward:<br><a href="https://drive.google.com/file/d/1-E2bqezgbpLPmgdB6b2z4Sz3yz7MCwua/view?usp=share_link" target="_blank" rel="noopener noreferrer">Abrir CV en Google Drive →</a>`,
         exp:      `💼 <strong>Desarrollador en Prácticas</strong> — Soluzione1, Ghisalba (BG)<br><em>Abril – Junio 2024</em><br><br>• Formación SQL y desarrollo de consultas<br>• Soporte al cliente de 1° y 2° nivel<br>• Training en aplicaciones y sistemas<br>• Colaboración diaria con desarrolladores senior<br><br>🏭 <strong>Miembro del Equipo IT</strong> — ALLTUB ITALIA, área de Bérgamo<br><em>Enero 2025 – Presente</em><br><br>• Miembro activo del departamento IT de la empresa<br>• Infraestructura IT interna y soporte de sistemas<br>• Procesos digitales y operaciones tecnológicas diarias`,
         web:      `Edward construye la web de la manera más pura — <strong>HTML, CSS, JavaScript</strong>, sin frameworks. Este portfolio lo demuestra: gradientes CSS Houdini <code>@property</code>, átomo 3D, parallax lerp, física resorte, easter egg de 20 clics — todo vanilla JS.`,
         db:       `Fuerte en bases de datos relacionales:<br>• <strong>Modelado ER</strong> y normalización de esquemas<br>• Consultas <strong>SQL</strong> avanzadas y optimización<br>• <strong>MySQL</strong> y <strong>PostgreSQL</strong><br>• <strong>Entity Framework</strong> (C# / DotNet)<br>• Aplicado en UniBS y prácticas en Soluzione1`,
         interests:`Fuera del código, Edward se fascina por <strong>idiomas y culturas</strong> (¡habla 5!), diseño, UX y resolución de problemas. Es el tipo que estudia un problema hasta entenderlo de verdad.`,
-        certs:    `📜 <strong>Unity Junior Programmer</strong> — Unity Technologies (ene–may 2021)<br>Lista completa en <a href="https://www.credly.com" target="_blank">Credly</a><br><br>🇬🇧 <strong>Cambridge English B2</strong> (2017) — ahora en nivel C1 gracias a práctica constante`,
+        certs:    `📜 <strong>Unity Junior Programmer</strong> — Unity Technologies (ene–may 2021)<br>Lista completa en <a href="https://www.credly.com" target="_blank" rel="noopener noreferrer">Credly</a><br><br>🇬🇧 <strong>Cambridge English B2</strong> (2017) — ahora en nivel C1 gracias a práctica constante`,
         site:     `Este portfolio fue construido desde cero — sin plantillas, sin frameworks:<br>• Gradientes animados CSS Houdini <code>@property</code><br>• Anillos orbitales 3D con 7 electrones<br>• Parallax con suavizado lerp<br>• Átomo arrastrable con física de resorte<br>• Easter egg de 20 clics<br>• Cursor personalizado &amp; multilingüe (5 idiomas) 😉`,
         easter:   `Psst... intenta hacer clic en el átomo <strong>20 veces</strong>. Pasa algo especial. 🤫 No se lo digas a nadie.`,
         location: `Edward es de <strong>Romano di Lombardia</strong> (provincia de Bérgamo), Italia 🇮🇹 — estudia en la Universidad de Brescia, a ~50km de casa.`,
         fallback: `¡No estoy seguro de eso! Intenta preguntarme sobre <strong>habilidades</strong>, <strong>proyectos</strong>, <strong>educación</strong>, <strong>experiencia</strong>, <strong>idiomas</strong> o cómo <strong>contactar</strong> a Edward. 😊`,
         help:     `Puedo responder sobre:<br><br>• <strong>Bio</strong> y background<br>• <strong>Habilidades</strong> y stack<br>• <strong>Proyectos</strong> y portfolio<br>• <strong>Universidad</strong> e instituto<br>• <strong>Idiomas</strong> (¡5!)<br>• <strong>Experiencia</strong> y prácticas<br>• <strong>Certificaciones</strong> (Unity, Inglés B2→C1)<br>• <strong>Contacto</strong> y CV<br>• 🤫 Secretos`,
-        linkedin: `🔗 <a href="https://it.linkedin.com/in/edward-attuati-41a54823b" target="_blank">Edward en LinkedIn →</a>`,
-        github:   `🐙 <a href="https://github.com/edward070707" target="_blank">Edward en GitHub →</a>`,
-        instagram:`📷 <a href="https://www.instagram.com/edwardattuati/" target="_blank">Edward en Instagram →</a>`,
+        linkedin: `🔗 <a href="https://it.linkedin.com/in/edward-attuati-41a54823b" target="_blank" rel="noopener noreferrer">Edward en LinkedIn →</a>`,
+        github:   `🐙 <a href="https://github.com/edward070707" target="_blank" rel="noopener noreferrer">Edward en GitHub →</a>`,
+        instagram:`📷 <a href="https://www.instagram.com/edwardattuati/" target="_blank" rel="noopener noreferrer">Edward en Instagram →</a>`,
         placeholder:`Pregúntame sobre Edward...`, status:`en línea`,
       },
       zh: {
@@ -4782,21 +4793,21 @@ document.addEventListener('DOMContentLoaded', () => {
         skills:   `我的技术栈：<br><br><span class="tag">Python</span><span class="tag">C</span><span class="tag">C#</span><span class="tag">Java</span><span class="tag">DotNet</span><br><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">PHP</span><br><span class="tag">SQL</span><span class="tag">MySQL</span><span class="tag">PostgreSQL</span><br><span class="tag">Entity Framework</span><span class="tag">ER建模</span><br><span class="tag">XCode</span><span class="tag">Android Studio</span><span class="tag">VS Code</span><br><span class="tag">Linux</span><span class="tag">网络</span><span class="tag">IT支持</span><br><span class="tag">Office 365</span><span class="tag">Git</span><span class="tag">GitHub Pages</span>`,
         langs:    `我会说 <strong>5种语言</strong>：<br>🇮🇹 意大利语 — 母语<br>🇬🇧 英语 — C1级（已认证B2，现已C1）<br>🇪🇸 西班牙语<br>🇨🇳 普通话<br>🇯🇵 日语<br><br>语言和文化是我的热情所在——这也是为什么这个网站用38种语言向你打招呼。`,
         projects: `我的主要项目：<br><br>🌐 <strong>个人作品集</strong> — 本站，从零手写，无框架<br>🗄️ <strong>数据库项目</strong> — ER建模、范式化、高级SQL<br>🧮 <strong>算法研究</strong> — 排序、图、动态规划<br>🎮 <strong>Unity初级程序员</strong> — 游戏开发，Credly认证<br>💻 <strong>IT实习</strong> — 在Soluzione1（Ghisalba）的真实项目`,
-        contact:  `联系 Edward 的方式：<br><br>📧 <a href="mailto:edwardattuati@icloud.com">edwardattuati@icloud.com</a><br>💼 <a href="https://it.linkedin.com/in/edward-attuati-41a54823b" target="_blank">LinkedIn</a><br>🐙 <a href="https://github.com/edward070707" target="_blank">GitHub</a><br>📷 <a href="https://www.instagram.com/edwardattuati/" target="_blank">Instagram</a>`,
-        cv:       `📄 查看或下载 Edward 的简历：<br><a href="https://drive.google.com/file/d/1-E2bqezgbpLPmgdB6b2z4Sz3yz7MCwua/view?usp=share_link" target="_blank">在 Google Drive 上打开简历 →</a>`,
+        contact:  `联系 Edward 的方式：<br><br>📧 <a href="mailto:edwardattuati@icloud.com">edwardattuati@icloud.com</a><br>💼 <a href="https://it.linkedin.com/in/edward-attuati-41a54823b" target="_blank" rel="noopener noreferrer">LinkedIn</a><br>🐙 <a href="https://github.com/edward070707" target="_blank" rel="noopener noreferrer">GitHub</a><br>📷 <a href="https://www.instagram.com/edwardattuati/" target="_blank" rel="noopener noreferrer">Instagram</a>`,
+        cv:       `📄 查看或下载 Edward 的简历：<br><a href="https://drive.google.com/file/d/1-E2bqezgbpLPmgdB6b2z4Sz3yz7MCwua/view?usp=share_link" target="_blank" rel="noopener noreferrer">在 Google Drive 上打开简历 →</a>`,
         exp:      `💼 <strong>IT开发实习生</strong> — Soluzione1，Ghisalba（贝加莫省）<br><em>2024年4月 – 6月</em><br><br>• SQL培训与查询开发<br>• 一线和二线客户支持<br>• 应用系统培训<br>• 与高级开发人员的日常协作<br><br>🏭 <strong>IT团队成员</strong> — ALLTUB ITALIA，贝加莫地区<br><em>2025年1月 – 至今</em><br><br>• 公司IT部门的正式成员<br>• 内部IT基础设施与系统支持<br>• 数字化流程与日常技术运营`,
         web:      `Edward 用最纯粹的方式构建网页——<strong>HTML、CSS、JavaScript</strong>，零框架。这个作品集就是证明：CSS Houdini <code>@property</code>渐变、3D轨道原子、lerp视差、弹簧物理拖拽、20次点击彩蛋——全是原生JS。`,
         db:       `关系数据库的强项：<br>• <strong>ER建模</strong>与模式范式化<br>• 高级 <strong>SQL</strong> 查询与优化<br>• <strong>MySQL</strong> 和 <strong>PostgreSQL</strong><br>• <strong>Entity Framework</strong>（C# / DotNet）<br>• 在UniBS课程和Soluzione1实习中实践应用`,
         interests:`编程之外，Edward 对<strong>语言和文化</strong>（他会说5种语言！）、设计、UX和解决问题充满热情。他是那种会深挖问题直到真正理解为止的人。`,
-        certs:    `📜 <strong>Unity初级程序员</strong> — Unity Technologies（2021年1–5月）<br>完整技能列表在 <a href="https://www.credly.com" target="_blank">Credly</a><br><br>🇬🇧 <strong>剑桥英语B2证书</strong>（2017年）——通过持续练习现已达C1水平`,
+        certs:    `📜 <strong>Unity初级程序员</strong> — Unity Technologies（2021年1–5月）<br>完整技能列表在 <a href="https://www.credly.com" target="_blank" rel="noopener noreferrer">Credly</a><br><br>🇬🇧 <strong>剑桥英语B2证书</strong>（2017年）——通过持续练习现已达C1水平`,
         site:     `本网站由 Edward 完全从零构建——无模板、无框架：<br>• CSS Houdini <code>@property</code>动态渐变<br>• 3D轨道环，含7个电子<br>• lerp平滑视差效果<br>• 弹簧物理可拖动原子<br>• 文字引力系统<br>• 20次点击彩蛋<br>• 自定义光标 &amp; 多语言（5种）😉`,
         easter:   `嘘... 试着在主页上点击原子 <strong>20次</strong>。会有特别的事情发生。🤫 别告诉别人哦。`,
         location: `Edward 来自意大利🇮🇹 <strong>Romano di Lombardia</strong>（贝加莫省）——在距家约50km的布雷西亚大学就读。`,
         fallback: `我不太确定这个！试着问我 Edward 的<strong>技能</strong>、<strong>项目</strong>、<strong>教育</strong>、<strong>工作经历</strong>、<strong>语言</strong>或<strong>联系方式</strong>。😊`,
         help:     `我可以回答关于以下内容的问题：<br><br>• <strong>简介</strong>与背景<br>• <strong>技能</strong>与技术栈<br>• <strong>项目</strong>与作品集<br>• <strong>大学</strong>与高中经历<br>• 掌握的<strong>语言</strong>（5种！）<br>• <strong>工作经历</strong>与实习<br>• <strong>证书</strong>（Unity、英语B2→C1）<br>• <strong>联系方式</strong>与简历<br>• 🤫 秘密`,
-        linkedin: `🔗 <a href="https://it.linkedin.com/in/edward-attuati-41a54823b" target="_blank">Edward 的 LinkedIn →</a>`,
-        github:   `🐙 <a href="https://github.com/edward070707" target="_blank">Edward 的 GitHub →</a>`,
-        instagram:`📷 <a href="https://www.instagram.com/edwardattuati/" target="_blank">Edward 的 Instagram →</a>`,
+        linkedin: `🔗 <a href="https://it.linkedin.com/in/edward-attuati-41a54823b" target="_blank" rel="noopener noreferrer">Edward 的 LinkedIn →</a>`,
+        github:   `🐙 <a href="https://github.com/edward070707" target="_blank" rel="noopener noreferrer">Edward 的 GitHub →</a>`,
+        instagram:`📷 <a href="https://www.instagram.com/edwardattuati/" target="_blank" rel="noopener noreferrer">Edward 的 Instagram →</a>`,
         placeholder:`询问关于 Edward 的任何问题...`, status:`在线`,
       },
       ja: {
@@ -4806,21 +4817,21 @@ document.addEventListener('DOMContentLoaded', () => {
         skills:   `私の技術スタック：<br><br><span class="tag">Python</span><span class="tag">C</span><span class="tag">C#</span><span class="tag">Java</span><span class="tag">DotNet</span><br><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">PHP</span><br><span class="tag">SQL</span><span class="tag">MySQL</span><span class="tag">PostgreSQL</span><br><span class="tag">Entity Framework</span><span class="tag">ERモデリング</span><br><span class="tag">XCode</span><span class="tag">Android Studio</span><span class="tag">VS Code</span><br><span class="tag">Linux</span><span class="tag">ネットワーク</span><span class="tag">ITサポート</span><br><span class="tag">Office 365</span><span class="tag">Git</span><span class="tag">GitHub Pages</span>`,
         langs:    `<strong>5言語</strong>を話します：<br>🇮🇹 イタリア語 — 母語<br>🇬🇧 英語 — C1（B2認定取得、現在C1）<br>🇪🇸 スペイン語<br>🇨🇳 中国語（普通話）<br>🇯🇵 日本語<br><br>言語と文化への情熱から、このポートフォリオは38言語で挨拶します。`,
         projects: `主なプロジェクト：<br><br>🌐 <strong>Webポートフォリオ</strong> — このサイト、フレームワークなし、ゼロから作成<br>🗄️ <strong>データベースプロジェクト</strong> — ERモデリング・正規化・高度なSQL<br>🧮 <strong>アルゴリズム研究</strong> — ソート・グラフ・動的計画法<br>🎮 <strong>Unity Junior Programmer</strong> — ゲーム開発、Credly認定<br>💻 <strong>ITインターンシップ</strong> — Soluzione1（Ghisalba）での実務`,
-        contact:  `Edwardへの連絡先：<br><br>📧 <a href="mailto:edwardattuati@icloud.com">edwardattuati@icloud.com</a><br>💼 <a href="https://it.linkedin.com/in/edward-attuati-41a54823b" target="_blank">LinkedIn</a><br>🐙 <a href="https://github.com/edward070707" target="_blank">GitHub</a><br>📷 <a href="https://www.instagram.com/edwardattuati/" target="_blank">Instagram</a>`,
-        cv:       `📄 EdwardのCVを閲覧・ダウンロード：<br><a href="https://drive.google.com/file/d/1-E2bqezgbpLPmgdB6b2z4Sz3yz7MCwua/view?usp=share_link" target="_blank">Google DriveでCVを開く →</a>`,
+        contact:  `Edwardへの連絡先：<br><br>📧 <a href="mailto:edwardattuati@icloud.com">edwardattuati@icloud.com</a><br>💼 <a href="https://it.linkedin.com/in/edward-attuati-41a54823b" target="_blank" rel="noopener noreferrer">LinkedIn</a><br>🐙 <a href="https://github.com/edward070707" target="_blank" rel="noopener noreferrer">GitHub</a><br>📷 <a href="https://www.instagram.com/edwardattuati/" target="_blank" rel="noopener noreferrer">Instagram</a>`,
+        cv:       `📄 EdwardのCVを閲覧・ダウンロード：<br><a href="https://drive.google.com/file/d/1-E2bqezgbpLPmgdB6b2z4Sz3yz7MCwua/view?usp=share_link" target="_blank" rel="noopener noreferrer">Google DriveでCVを開く →</a>`,
         exp:      `💼 <strong>IT開発インターン</strong> — Soluzione1、Ghisalba（ベルガモ県）<br><em>2024年4月 – 6月</em><br><br>• SQLトレーニングとクエリ開発<br>• 一次・二次顧客サポート<br>• アプリケーション・システムのトレーニング<br>• シニア開発者との日々の協業<br><br>🏭 <strong>ITチームメンバー</strong> — ALLTUB ITALIA、ベルガモ地域<br><em>2025年1月 – 現在</em><br><br>• 社内ITチームの正式メンバー<br>• 内部ITインフラとシステムサポート<br>• デジタルプロセスと日常技術運営`,
         web:      `EdwardはWebを最も純粋な方法で作ります——<strong>HTML・CSS・JavaScript</strong>、フレームワークゼロ。このポートフォリオがその証拠：CSS Houdini <code>@property</code>グラデーション・3D軌道原子・lerpパララックス・スプリング物理ドラッグ・20クリックイースターエッグ——全バニラJS。`,
         db:       `リレーショナルデータベースの強み：<br>• <strong>ERモデリング</strong>とスキーマ正規化<br>• 高度な <strong>SQL</strong> クエリと最適化<br>• <strong>MySQL</strong> と <strong>PostgreSQL</strong><br>• <strong>Entity Framework</strong>（C# / DotNet）<br>• UniBS授業とSoluzione1インターンで実践`,
         interests:`コード以外では、<strong>言語と文化</strong>（5言語話す！）・デザイン・UX・問題解決に情熱を持っています。物事を本当に理解するまで掘り下げるタイプです。`,
-        certs:    `📜 <strong>Unity Junior Programmer</strong> — Unity Technologies（2021年1〜5月）<br>完全なスキルリストは <a href="https://www.credly.com" target="_blank">Credly</a> に掲載<br><br>🇬🇧 <strong>ケンブリッジ英語B2証明書</strong>（2017年）——継続練習でC1レベルに到達`,
+        certs:    `📜 <strong>Unity Junior Programmer</strong> — Unity Technologies（2021年1〜5月）<br>完全なスキルリストは <a href="https://www.credly.com" target="_blank" rel="noopener noreferrer">Credly</a> に掲載<br><br>🇬🇧 <strong>ケンブリッジ英語B2証明書</strong>（2017年）——継続練習でC1レベルに到達`,
         site:     `このポートフォリオはEdwardがゼロから構築——テンプレートなし・フレームワークなし：<br>• CSS Houdini <code>@property</code>アニメーショングラデーション<br>• 7電子付き3D軌道リング<br>• lerpスムージングパララックス<br>• スプリング物理ドラッグ可能な原子<br>• テキスト重力システム<br>• 20クリックイースターエッグ<br>• カスタムカーソル &amp; 多言語（5言語）😉`,
         easter:   `シー... ホームページの原子を<strong>20回</strong>クリックしてみてください。特別なことが起きます。🤫 誰にも言わないでね。`,
         location: `Edwardはイタリア🇮🇹 <strong>Romano di Lombardia</strong>（ベルガモ県）出身——約50km離れたブレシア大学で学んでいます。`,
         fallback: `それについてはわかりません！Edwardの<strong>スキル</strong>・<strong>プロジェクト</strong>・<strong>学歴</strong>・<strong>経験</strong>・<strong>言語</strong>または<strong>連絡先</strong>について質問してみてください。😊`,
         help:     `以下についての質問に答えられます：<br><br>• <strong>プロフィール</strong>と経歴<br>• <strong>スキル</strong>と技術スタック<br>• <strong>プロジェクト</strong>とポートフォリオ<br>• <strong>大学</strong>と高校の学歴<br>• 話す<strong>言語</strong>（5つ！）<br>• <strong>職務経験</strong>とインターン<br>• <strong>資格</strong>（Unity・英語B2→C1）<br>• <strong>連絡先</strong>と履歴書<br>• 🤫 秘密`,
-        linkedin: `🔗 <a href="https://it.linkedin.com/in/edward-attuati-41a54823b" target="_blank">EdwardのLinkedIn →</a>`,
-        github:   `🐙 <a href="https://github.com/edward070707" target="_blank">EdwardのGitHub →</a>`,
-        instagram:`📷 <a href="https://www.instagram.com/edwardattuati/" target="_blank">EdwardのInstagram →</a>`,
+        linkedin: `🔗 <a href="https://it.linkedin.com/in/edward-attuati-41a54823b" target="_blank" rel="noopener noreferrer">EdwardのLinkedIn →</a>`,
+        github:   `🐙 <a href="https://github.com/edward070707" target="_blank" rel="noopener noreferrer">EdwardのGitHub →</a>`,
+        instagram:`📷 <a href="https://www.instagram.com/edwardattuati/" target="_blank" rel="noopener noreferrer">EdwardのInstagram →</a>`,
         placeholder:`Edwardについて何でも聞いてください...`, status:`オンライン`,
       },
     };
