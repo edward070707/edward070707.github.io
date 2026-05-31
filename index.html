@@ -6121,9 +6121,12 @@ function closeTlModal() {
         planet.appendChild(satSystem);
 
         proj.satellites.forEach(function(sat, ssi) {
-            var satR    = 45 + ssi * 12;
+            // Elliptical orbit axes for satellites: rx wider, ry ~45% of rx
+            var satRx = 48 + ssi * 14;
+            var satRy = Math.round(satRx * 0.45);
+
             var satWrap = document.createElement('div');
-            satWrap.style.cssText = 'position:absolute;width:0;height:0;transform-origin:0 0;left:50%;top:50%;';
+            satWrap.style.cssText = 'position:absolute;width:0;height:0;left:50%;top:50%;';
             satSystem.appendChild(satWrap);
 
             var satSize = Math.round(sat.pct * 0.3 + 10);
@@ -6135,24 +6138,37 @@ function closeTlModal() {
                 'background:radial-gradient(circle at 40% 35%,' + proj.color + 'CC,' + proj.color + '44)',
                 'box-shadow:0 0 ' + satSize + 'px ' + proj.color + '66',
                 'border:1px solid ' + proj.color + '88',
-                'left:' + satR + 'px',
+                'left:0',
                 'top:0',
                 'transform:translate(-50%,-50%)',
             ].join(';');
             satEl.textContent = sat.name.slice(0, 4);
             satWrap.appendChild(satEl);
 
-            // Sat orbit track
-            var satTrack = document.createElement('div');
-            satTrack.style.cssText = 'position:absolute;width:' + (satR*2) + 'px;height:' + (satR*2) + 'px;border-radius:50%;border:1px dashed ' + proj.color + '33;left:-' + satR + 'px;top:-' + satR + 'px;pointer-events:none;';
-            satSystem.appendChild(satTrack);
+            // Elliptical orbit track (SVG ellipse)
+            var satSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            satSvg.style.cssText = 'position:absolute;left:-' + satRx + 'px;top:-' + satRy + 'px;width:' + (satRx*2) + 'px;height:' + (satRy*2) + 'px;overflow:visible;pointer-events:none;';
+            var satEllipse = document.createElementNS('http://www.w3.org/2000/svg', 'ellipse');
+            satEllipse.setAttribute('cx', satRx);
+            satEllipse.setAttribute('cy', satRy);
+            satEllipse.setAttribute('rx', satRx);
+            satEllipse.setAttribute('ry', satRy);
+            satEllipse.setAttribute('fill', 'none');
+            satEllipse.setAttribute('stroke', proj.color);
+            satEllipse.setAttribute('stroke-width', '0.8');
+            satEllipse.setAttribute('stroke-dasharray', '3 5');
+            satEllipse.setAttribute('opacity', '0.25');
+            satSvg.appendChild(satEllipse);
+            satSystem.appendChild(satSvg);
 
             var satPeriod = 4000 + ssi * 700;
-            var satStart  = ssi * 90;
+            var satStart  = ssi * (Math.PI / 2);
             function animateSat() {
-                var a = (Date.now() / satPeriod * 360 + satStart) % 360;
-                satWrap.style.transform = 'rotate(' + a + 'deg)';
-                satEl.style.transform   = 'translate(-50%,-50%) rotate(' + (-a) + 'deg)';
+                var a = (Date.now() / satPeriod * Math.PI * 2 + satStart);
+                var sx = satRx * Math.cos(a);
+                var sy = satRy * Math.sin(a);
+                satWrap.style.transform = 'translate(' + sx + 'px,' + sy + 'px)';
+                satEl.style.transform   = 'translate(-50%,-50%)';
                 requestAnimationFrame(animateSat);
             }
             animateSat();
