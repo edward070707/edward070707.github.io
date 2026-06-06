@@ -8,12 +8,12 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="Chrono — La tua Capsula del Tempo">
 <meta property="og:description" content="Sigilla ricordi, foto e messaggi in una capsula del tempo digitale. Aprila fra 1 anno, 5 anni, o quando vuoi.">
-<meta property="og:url" content="https://edward070707.github.io/chrono.html">
+<meta property="og:url" content="https://edwardattuati.com/chrono.html">
 <meta property="og:locale" content="it_IT">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Chrono — La tua Capsula del Tempo">
 <meta name="twitter:description" content="Sigilla ricordi, foto e messaggi in una capsula del tempo digitale. Aprila fra 1 anno, 5 anni, o quando vuoi.">
-<link rel="canonical" href="https://edward070707.github.io/chrono.html">
+<link rel="canonical" href="https://edwardattuati.com/chrono.html">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -1029,10 +1029,11 @@ footer{
       ctx.fill();
       ctx.restore();
     });
-    requestAnimationFrame(draw);
+    if (!document.hidden) requestAnimationFrame(draw);
   }
 
   window.addEventListener('resize', resize);
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) draw(); });
   resize();
   draw();
 })();

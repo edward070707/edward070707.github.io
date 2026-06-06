@@ -8,12 +8,12 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="Memive — La tua voce. Il tuo mondo.">
 <meta property="og:description" content="Il primo social network interamente vocale. Registra, condividi e scopri voci autentiche da tutto il mondo.">
-<meta property="og:url" content="https://edward070707.github.io/memive.html">
+<meta property="og:url" content="https://edwardattuati.com/memive.html">
 <meta property="og:locale" content="it_IT">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Memive — La tua voce. Il tuo mondo.">
 <meta name="twitter:description" content="Il primo social network interamente vocale. Nessuna foto, nessun testo. Solo la tua voce.">
-<link rel="canonical" href="https://edward070707.github.io/memive.html">
+<link rel="canonical" href="https://edwardattuati.com/memive.html">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600;700&family=Space+Mono&display=swap" rel="stylesheet">
@@ -675,6 +675,8 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;align-i
 .chrono-feature-text span{font-size:13px;color:#6B7280}
 .chrono-cta{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;background:linear-gradient(135deg,#D97706,#FBBF24);border-radius:12px;color:#0D0806;font-weight:800;font-size:14px;text-decoration:none;transition:all .3s;box-shadow:0 4px 20px rgba(251,191,36,.3);margin-top:8px}
 .chrono-cta:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(251,191,36,.5)}
+.chrono-vedi-btn{display:inline-flex;align-items:center;padding:14px 24px;border:1px solid rgba(217,119,6,.3);border-radius:12px;color:#FBBF24;font-size:14px;font-weight:600;text-decoration:none;transition:all .3s}
+.chrono-vedi-btn:hover{background:rgba(217,119,6,.1)}
 .chrono-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(217,119,6,.1);border:1px solid rgba(217,119,6,.3);border-radius:20px;padding:4px 12px;font-size:11px;font-weight:700;letter-spacing:.08em;color:#FBBF24;margin-bottom:20px}
 /* Capsule floating cards */
 .chrono-capsules{position:relative;height:420px}
@@ -1157,7 +1159,7 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;align-i
       </div>
       <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px">
         <a class="chrono-cta" href="app/index.html">Accedi a Memive → Chrono</a>
-        <a href="#pricing" style="display:inline-flex;align-items:center;padding:14px 24px;border:1px solid rgba(217,119,6,.3);border-radius:12px;color:#FBBF24;font-size:14px;font-weight:600;text-decoration:none;transition:all .3s" onmouseover="this.style.background='rgba(217,119,6,.1)'" onmouseout="this.style.background='transparent'">Vedi i prezzi</a>
+        <a href="#pricing" class="chrono-vedi-btn">Vedi i prezzi</a>
       </div>
     </div>
     <!-- Right: floating capsules -->
@@ -1636,10 +1638,11 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;align-i
       ctx.fill();
     });
 
-    requestAnimationFrame(draw);
+    if (!document.hidden) requestAnimationFrame(draw);
   }
 
   addEventListener('resize', resize);
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) draw(); });
   resize();
   draw();
 })();

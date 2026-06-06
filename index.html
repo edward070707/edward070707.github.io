@@ -12,12 +12,12 @@
     <meta property="og:type" content="website">
     <meta property="og:title" content="Edward Attuati — Developer & Builder">
     <meta property="og:description" content="Edward Attuati — Computer Engineering Student, Developer, Builder. Portfolio of Flutter apps, web projects and more.">
-    <meta property="og:url" content="https://edward070707.github.io/">
+    <meta property="og:url" content="https://edwardattuati.com/">
     <meta property="og:locale" content="en_US">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Edward Attuati — Developer & Builder">
     <meta name="twitter:description" content="Computer Engineering Student, Developer, Builder. Portfolio of Flutter apps and web projects.">
-    <link rel="canonical" href="https://edward070707.github.io/">
+    <link rel="canonical" href="https://edwardattuati.com/">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -3379,6 +3379,18 @@
         text-transform: uppercase;
         color: var(--low);
     }
+    .dim-footer-social-icon {
+        display:flex;align-items:center;justify-content:center;
+        width:30px;height:30px;
+        border:1px solid var(--border);border-radius:2px;
+        color:var(--muted);font-size:.75rem;
+        text-decoration:none;background:var(--surface);
+        transition:color .2s,border-color .2s;
+    }
+    .dim-footer-social-icon:hover {
+        color:var(--violet);
+        border-color:rgba(124,58,237,.4);
+    }
     /* centro: link social */
     .dim-footer-socials {
         display: flex;
@@ -3481,10 +3493,10 @@
             <span class="dim-footer-logo">EA</span>
             <span class="dim-footer-tagline">Edward Attuati</span>
             <div style="display:flex;gap:8px;margin-top:10px;">
-                <a href="https://m.facebook.com/edward.attuati.9" target="_blank" rel="noopener noreferrer" aria-label="Facebook" style="display:flex;align-items:center;justify-content:center;width:30px;height:30px;border:1px solid var(--border);border-radius:2px;color:var(--muted);font-size:.75rem;text-decoration:none;background:var(--surface);transition:color .2s,border-color .2s;" onmouseover="this.style.color='var(--violet)';this.style.borderColor='rgba(124,58,237,.4)'" onmouseout="this.style.color='var(--muted)';this.style.borderColor='var(--border)'"><i class="fab fa-facebook-f"></i></a>
-                <a href="https://www.instagram.com/edwardattuati/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" style="display:flex;align-items:center;justify-content:center;width:30px;height:30px;border:1px solid var(--border);border-radius:2px;color:var(--muted);font-size:.75rem;text-decoration:none;background:var(--surface);transition:color .2s,border-color .2s;" onmouseover="this.style.color='var(--violet)';this.style.borderColor='rgba(124,58,237,.4)'" onmouseout="this.style.color='var(--muted)';this.style.borderColor='var(--border)'"><i class="fab fa-instagram"></i></a>
-                <a href="https://it.linkedin.com/in/edward-attuati-41a54823b" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" style="display:flex;align-items:center;justify-content:center;width:30px;height:30px;border:1px solid var(--border);border-radius:2px;color:var(--muted);font-size:.75rem;text-decoration:none;background:var(--surface);transition:color .2s,border-color .2s;" onmouseover="this.style.color='var(--violet)';this.style.borderColor='rgba(124,58,237,.4)'" onmouseout="this.style.color='var(--muted)';this.style.borderColor='var(--border)'"><i class="fab fa-linkedin-in"></i></a>
-                <a href="https://github.com/edward070707" target="_blank" rel="noopener noreferrer" aria-label="GitHub" style="display:flex;align-items:center;justify-content:center;width:30px;height:30px;border:1px solid var(--border);border-radius:2px;color:var(--muted);font-size:.75rem;text-decoration:none;background:var(--surface);transition:color .2s,border-color .2s;" onmouseover="this.style.color='var(--violet)';this.style.borderColor='rgba(124,58,237,.4)'" onmouseout="this.style.color='var(--muted)';this.style.borderColor='var(--border)'"><i class="fab fa-github"></i></a>
+                <a href="https://m.facebook.com/edward.attuati.9" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="dim-footer-social-icon"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://www.instagram.com/edwardattuati/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="dim-footer-social-icon"><i class="fab fa-instagram"></i></a>
+                <a href="https://it.linkedin.com/in/edward-attuati-41a54823b" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="dim-footer-social-icon"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://github.com/edward070707" target="_blank" rel="noopener noreferrer" aria-label="GitHub" class="dim-footer-social-icon"><i class="fab fa-github"></i></a>
             </div>
         </div>
 
