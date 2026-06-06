@@ -8,12 +8,12 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="Scadoo — Edward Attuati">
 <meta property="og:description" content="Flutter app for pantry management, expiry tracking, push notifications and a shareable shopping list. Offline-first. Zero backend.">
-<meta property="og:url" content="https://edward070707.github.io/scadoo.html">
+<meta property="og:url" content="https://edwardattuati.com/scadoo.html">
 <meta property="og:locale" content="en_US">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Scadoo — Edward Attuati">
 <meta name="twitter:description" content="Flutter app for pantry management, expiry tracking, and shareable shopping list. Offline-first. Zero backend.">
-<link rel="canonical" href="https://edward070707.github.io/scadoo.html">
+<link rel="canonical" href="https://edwardattuati.com/scadoo.html">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -536,7 +536,28 @@ pre{padding:22px 20px;overflow-x:auto;font-family:var(--mono);font-size:.75rem;l
       <div class="eyebrow-dot"></div>
       <span data-i18n="eyebrow">personal project · 2025</span>
     </div>
-    <h1 class="hero-title"><span>Scadoo</span></h1>
+    <!-- App icon + wordmark -->
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:20px;">
+      <svg viewBox="0 0 200 220" width="52" height="57" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+          <radialGradient id="sg-bg" cx="42%" cy="32%" r="75%">
+            <stop offset="0%" stop-color="#152319"/><stop offset="100%" stop-color="#060e08"/>
+          </radialGradient>
+          <linearGradient id="sg-drop" x1="20%" y1="0%" x2="80%" y2="100%">
+            <stop offset="0%" stop-color="#00ffb3"/><stop offset="35%" stop-color="#00e896"/>
+            <stop offset="70%" stop-color="#00c47a"/><stop offset="100%" stop-color="#008f56"/>
+          </linearGradient>
+          <radialGradient id="sg-spec" cx="35%" cy="28%" r="40%">
+            <stop offset="0%" stop-color="#fff" stop-opacity=".38"/><stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <rect width="200" height="220" rx="44" fill="url(#sg-bg)"/>
+        <path d="M100 22 C100 22 158 76 158 116 C158 152 132 176 100 176 C68 176 42 152 42 116 C42 76 100 22 100 22Z" fill="url(#sg-drop)"/>
+        <path d="M100 22 C100 22 158 76 158 116 C158 152 132 176 100 176 C68 176 42 152 42 116 C42 76 100 22 100 22Z" fill="url(#sg-spec)"/>
+        <text x="100" y="162" font-family="'Helvetica Neue',Arial Black,sans-serif" font-weight="900" font-size="82" fill="#042210" text-anchor="middle" dominant-baseline="auto" opacity=".92">S</text>
+      </svg>
+      <h1 class="hero-title" style="margin:0"><span>Scadoo</span></h1>
+    </div>
     <p class="hero-sub" data-i18n="hero-sub">
       Mobile app for intelligent pantry management: barcode scanning, expiry tracking, push notifications, and a shareable shopping list. Offline-first. Zero backend.
     </p>
@@ -1213,7 +1234,7 @@ function drawBg() {
   grd.addColorStop(1, 'transparent');
   ctx.fillStyle = grd;
   ctx.fillRect(0, 0, W, H);
-  requestAnimationFrame(drawBg);
+  if (!document.hidden) requestAnimationFrame(drawBg);
 }
 
 /* ── INIT ── */
@@ -1221,6 +1242,9 @@ document.addEventListener('DOMContentLoaded', () => {
   resize();
   createParticles();
   drawBg();
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) drawBg();
+  });
 
   // Apply saved or default lang
   setLang(localStorage.getItem('ea-lang') || 'en');
