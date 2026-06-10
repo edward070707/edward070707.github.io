@@ -1521,6 +1521,34 @@
     }
 
     /* ═══════════════════════════════════════════════
+       PULSANTE VISION — bordo gradiente animato,
+       link al concept della nuova homepage
+    ═══════════════════════════════════════════════ */
+    .hero-ctas-vision { margin-top: 14px; }
+    .btn-dim-vision {
+        font-family: var(--sg); font-size: .82rem; font-weight: 600;
+        letter-spacing: .06em;
+        text-decoration: none !important;
+        padding: 12px 28px;
+        display: inline-block;
+        border-radius: 2px;
+        cursor: pointer;
+        color: var(--text) !important;
+        position: relative;
+        background: linear-gradient(var(--void), var(--void)) padding-box,
+                    linear-gradient(110deg, #7c3aed, #22d3ee, #e879f9, #7c3aed) border-box;
+        background-size: 100% 100%, 300% 100%;
+        border: 1px solid transparent;
+        animation: visionBorder 4s linear infinite;
+        transition: box-shadow .25s, transform .25s;
+    }
+    @keyframes visionBorder { to { background-position: 0 0, 300% 0; } }
+    .btn-dim-vision:hover {
+        box-shadow: 0 0 28px rgba(124,58,237,0.5), 0 0 14px rgba(34,211,238,0.3);
+        transform: translateY(-2px);
+    }
+
+    /* ═══════════════════════════════════════════════
        SEZIONE SKILLS — radar chart + tab cards
     ═══════════════════════════════════════════════ */
     #skills {
@@ -2486,6 +2514,9 @@
             <a href="#work" class="btn-dim-primary" data-i18n="intro-more" onclick="(function(e){var t=document.getElementById('work');if(t){e.preventDefault();e.stopImmediatePropagation();var s=window.pageYOffset,d=t.getBoundingClientRect().top,dur=Math.min(900,Math.max(400,Math.abs(d)*0.4)),st=null;function step(ts){if(!st)st=ts;var p=Math.min((ts-st)/dur,1),q=1-Math.pow(1-p,3);window.scrollTo(0,s+d*q);if(p<1)requestAnimationFrame(step);}requestAnimationFrame(step);}})(event)">Explore my work</a>
             <a href="https://edwardattuati.com/aboutme.html" class="btn-dim-ghost" data-i18n="one-btn">About me</a>
             <a href="cv.html" class="btn-dim-cv" target="_blank" rel="noopener noreferrer">📄 CV</a>
+        </div>
+        <div class="hero-ctas hero-ctas-vision">
+            <a href="vision.html" class="btn-dim-vision">✨ New Homepage Concept</a>
         </div>
     </div>
 
