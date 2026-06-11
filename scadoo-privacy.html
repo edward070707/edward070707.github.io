@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy — Scadoo</title>
+  <style>
+    :root {
+      --bg: #121212;
+      --surface: #1e1e1e;
+      --card: #252525;
+      --accent: #4CAF50;
+      --text: #e0e0e0;
+      --text-secondary: #9e9e9e;
+      --border: #2e2e2e;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      padding: 24px 16px 48px;
+    }
+    .container { max-width: 720px; margin: 0 auto; }
+    header { text-align: center; padding: 32px 0 40px; }
+    header .logo {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--accent);
+      letter-spacing: -0.5px;
+    }
+    header p {
+      color: var(--text-secondary);
+      margin-top: 6px;
+      font-size: 0.9rem;
+    }
+    h1 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+    h2 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin: 32px 0 10px;
+      padding-left: 12px;
+      border-left: 3px solid var(--accent);
+    }
+    h3 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 18px 0 6px;
+    }
+    p { margin-bottom: 12px; color: var(--text); font-size: 0.95rem; }
+    ul { padding-left: 20px; margin-bottom: 12px; }
+    ul li { margin-bottom: 6px; font-size: 0.95rem; color: var(--text); }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 8px;
+    }
+    .badge {
+      display: inline-block;
+      background: #1b3a1f;
+      color: var(--accent);
+      border-radius: 6px;
+      padding: 2px 10px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+    .english-section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      margin-top: 40px;
+    }
+    .english-section h2 {
+      border-color: #888;
+      color: #ccc;
+      font-size: 1rem;
+    }
+    .english-section p, .english-section li {
+      color: var(--text-secondary);
+      font-size: 0.88rem;
+    }
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      color: var(--text-secondary);
+      font-size: 0.8rem;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    hr { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="logo">Scadoo</div>
+    <p>Informativa sulla Privacy</p>
+  </header>
+
+  <div class="card">
+    <span class="badge">Efficace dal 31 maggio 2025</span>
+    <h1>Informativa sulla Privacy</h1>
+    <p>Questa informativa descrive come Scadoo raccoglie, utilizza e protegge i tuoi dati. La tua privacy è una priorità: Scadoo è progettata per funzionare principalmente offline, con il minimo indispensabile di dati.</p>
+  </div>
+
+  <h2>1. Chi siamo</h2>
+  <p><strong>Sviluppatore:</strong> Edward Attuati<br>
+  <strong>Contatto:</strong> <a href="mailto:edward.attuati@gmail.com">edward.attuati@gmail.com</a><br>
+  <strong>App:</strong> Scadoo — gestione dispensa, frigo e lista della spesa</p>
+
+  <h2>2. Dati archiviati localmente</h2>
+  <p>Di default, Scadoo archivia tutti i tuoi dati <strong>esclusivamente sul tuo dispositivo</strong> tramite un database SQLite locale. Questi dati includono:</p>
+  <ul>
+    <li>Nomi dei prodotti alimentari</li>
+    <li>Date di scadenza</li>
+    <li>Quantità e note sui prodotti</li>
+    <li>Preferenze e impostazioni dell'app</li>
+  </ul>
+  <p>Questi dati non vengono mai trasmessi a server esterni quando usi Scadoo senza la funzione "Frigo Condiviso". Se disinstalli l'app, tutti i dati vengono eliminati automaticamente dal dispositivo.</p>
+
+  <h2>3. Frigo Condiviso (funzione opzionale)</h2>
+  <p>Se scegli di attivare la funzione <strong>Frigo Condiviso</strong>, i dati della dispensa vengono sincronizzati in tempo reale tramite <strong>Firebase Firestore</strong> (Google Cloud) per permettere la condivisione con altri membri del nucleo familiare.</p>
+  <ul>
+    <li>I dati sincronizzati sono: prodotti, date di scadenza, quantità e il nome visualizzato che hai scelto (può essere un soprannome, non è necessario il nome reale).</li>
+    <li>Firebase Firestore è un servizio di Google LLC, soggetto alla <a href="https://policies.google.com/privacy" target="_blank">Privacy Policy di Google</a>.</li>
+    <li>I dati sono memorizzati su server Google all'interno dell'Unione Europea (ove disponibile) o negli Stati Uniti.</li>
+    <li>Puoi disattivare il Frigo Condiviso in qualsiasi momento; i dati rimangono locali sul dispositivo.</li>
+  </ul>
+  <p>Scadoo non raccoglie email, password o dati di pagamento. L'autenticazione per il Frigo Condiviso avviene tramite un codice di accesso anonimo generato localmente, senza richiedere la creazione di un account nominale.</p>
+
+  <h2>4. Fotocamera e scansione barcode</h2>
+  <p>Scadoo richiede l'accesso alla fotocamera esclusivamente per <strong>scansionare i codici a barre</strong> dei prodotti alimentari. Le immagini catturate non vengono mai salvate, archiviate o trasmesse. La fotocamera è attiva solo durante la scansione e viene rilasciata immediatamente dopo.</p>
+
+  <h2>5. Open Food Facts API</h2>
+  <p>Per recuperare automaticamente nome e informazioni di un prodotto dopo la scansione, Scadoo invia una richiesta HTTP all'API pubblica di <strong>Open Food Facts</strong> (<a href="https://api.openfoodfacts.org" target="_blank">api.openfoodfacts.org</a>), trasmettendo <em>solo il codice a barre</em> del prodotto scansionato.</p>
+  <ul>
+    <li>Non vengono inviati dati personali, identificativi del dispositivo o informazioni sull'utente.</li>
+    <li>Open Food Facts è un progetto open source senza fini di lucro. La sua privacy policy è disponibile su <a href="https://world.openfoodfacts.org/privacy" target="_blank">openfoodfacts.org/privacy</a>.</li>
+  </ul>
+
+  <h2>6. Notifiche locali</h2>
+  <p>Scadoo usa <strong>notifiche locali</strong> (tramite la libreria flutter_local_notifications) per avvisarti quando un prodotto sta per scadere. Le notifiche sono generate e gestite interamente sul tuo dispositivo:</p>
+  <ul>
+    <li>Non vengono utilizzati server push esterni.</li>
+    <li>Nessun dato viene trasmesso a terzi per inviare notifiche.</li>
+    <li>Puoi disattivare le notifiche in qualsiasi momento dalle impostazioni del tuo dispositivo.</li>
+  </ul>
+
+  <h2>7. Cosa NON facciamo</h2>
+  <ul>
+    <li>Non raccogliamo email, nome reale, numero di telefono o dati di pagamento.</li>
+    <li>Non vendiamo, affittiamo o condividiamo dati a terzi per scopi commerciali.</li>
+    <li>Non usiamo strumenti di analytics o tracking pubblicitario (nessun Google Analytics, Facebook SDK o simili).</li>
+    <li>Non creiamo profili pubblicitari basati sul tuo comportamento nell'app.</li>
+  </ul>
+
+  <h2>8. Sicurezza</h2>
+  <p>I dati locali sono protetti dal sistema operativo iOS/Android. I dati sincronizzati su Firebase Firestore sono trasmessi tramite connessioni crittografate (TLS) e protetti dalle regole di sicurezza di Firestore. Nonostante i nostri sforzi, nessun sistema è infallibile: ti invitiamo a mantenere aggiornato il sistema operativo del tuo dispositivo.</p>
+
+  <h2>9. Minori</h2>
+  <p>Scadoo non è destinata a bambini di età inferiore ai 13 anni e non raccoglie consapevolmente dati da minori. Se sei un genitore e ritieni che tuo figlio abbia fornito dati personali, contattaci per richiederne la cancellazione.</p>
+
+  <h2>10. I tuoi diritti</h2>
+  <p>Hai il diritto di:</p>
+  <ul>
+    <li><strong>Accedere</strong> ai tuoi dati: tutti i dati locali sono visibili direttamente nell'app.</li>
+    <li><strong>Cancellare</strong> i tuoi dati: puoi eliminare singoli prodotti dall'app oppure disinstallare l'app per rimuovere tutti i dati locali. Per i dati su Firebase (Frigo Condiviso), contattaci e procederemo alla cancellazione entro 30 giorni.</li>
+    <li><strong>Portabilità</strong>: puoi esportare i tuoi dati tramite la funzione di condivisione lista presente nell'app.</li>
+  </ul>
+  <p>Per qualsiasi richiesta relativa ai tuoi dati, scrivi a: <a href="mailto:edward.attuati@gmail.com">edward.attuati@gmail.com</a></p>
+
+  <h2>11. Modifiche a questa informativa</h2>
+  <p>Potremmo aggiornare questa informativa in seguito a nuove funzionalità o requisiti normativi. La data di efficacia in cima al documento verrà aggiornata. Ti consigliamo di consultare periodicamente questa pagina.</p>
+
+  <h2>12. Contatto</h2>
+  <p>Per domande, segnalazioni o richieste relative alla privacy:<br>
+  <strong>Edward Attuati</strong> — <a href="mailto:edward.attuati@gmail.com">edward.attuati@gmail.com</a></p>
+
+  <hr>
+
+  <!-- English Summary -->
+  <div class="english-section">
+    <h2>English Summary</h2>
+    <p><strong>Effective date:</strong> May 31, 2025 &nbsp;|&nbsp; <strong>Developer:</strong> Edward Attuati &nbsp;|&nbsp; <strong>Contact:</strong> edward.attuati@gmail.com</p>
+
+    <h3>What data we collect</h3>
+    <ul>
+      <li><strong>Locally only (default):</strong> product names, expiry dates, quantities — stored in SQLite on your device. Never transmitted.</li>
+      <li><strong>Shared Fridge (optional):</strong> product data + a display name you choose (nickname accepted) synced via Firebase Firestore (Google Cloud) for real-time household sharing.</li>
+    </ul>
+
+    <h3>Third-party services</h3>
+    <ul>
+      <li><strong>Firebase Firestore (Google LLC):</strong> used only when Shared Fridge is enabled. Subject to Google's Privacy Policy.</li>
+      <li><strong>Open Food Facts API:</strong> receives only the barcode string to return product info. No personal data sent.</li>
+      <li><strong>Local notifications:</strong> generated entirely on-device via flutter_local_notifications. No push servers involved.</li>
+    </ul>
+
+    <h3>What we do NOT do</h3>
+    <ul>
+      <li>Do not collect emails, real names, passwords, or payment data.</li>
+      <li>Do not sell or share data with advertisers.</li>
+      <li>Do not use analytics or ad-tracking SDKs.</li>
+    </ul>
+
+    <h3>Your rights</h3>
+    <p>You can delete all local data by uninstalling the app. For Firebase data (Shared Fridge), email us and we will delete it within 30 days. Contact: <a href="mailto:edward.attuati@gmail.com">edward.attuati@gmail.com</a></p>
+  </div>
+
+  <footer>
+    <p>Scadoo &copy; 2025 Edward Attuati &nbsp;&middot;&nbsp; <a href="mailto:edward.attuati@gmail.com">edward.attuati@gmail.com</a></p>
+  </footer>
+
+</div>
+</body>
+</html>
