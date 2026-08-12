@@ -165,18 +165,26 @@ html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:'In
   from{opacity:0;transform:translateY(30px) scale(.93) rotate(-2.5deg)}
   to{opacity:1;transform:none}}
 
-/* superficie del foglio: linee di testo disegnate in CSS */
-.paper-face{position:absolute;inset:0;border-radius:3px;
+/* superficie del foglio: nome reale + linee di testo disegnate in CSS */
+.paper-stage{container-type:inline-size}
+.paper-face{position:absolute;inset:0;border-radius:3px;overflow:hidden;
   background-color:#FDFDFB;
   background-image:
     linear-gradient(90deg,#7C3AED,#EC4899),
-    linear-gradient(#20233A,#20233A),
-    linear-gradient(#AEB6C8,#AEB6C8),
     repeating-linear-gradient(#E3E7EF 0 2px,transparent 2px 11px),
     repeating-linear-gradient(#E3E7EF 0 2px,transparent 2px 11px);
   background-repeat:no-repeat;
-  background-position:0 0, 12% 15%, 12% 22%, 12% 36%, 12% 68%;
-  background-size:100% 7px, 44% 14px, 31% 7px, 76% 22%, 58% 17%}
+  background-position:0 0, 12% 45%, 12% 73%;
+  background-size:100% 7px, 76% 19%, 58% 14%}
+.pf-name{position:absolute;left:12%;top:12%;
+  font-family:'Playfair Display',serif;font-weight:700;color:#1B1E31;
+  font-size:16px;font-size:9cqw;line-height:1.05;letter-spacing:-.02em;
+  white-space:nowrap}
+.pf-role{position:absolute;left:12%;top:23%;
+  font-family:'Inter',sans-serif;font-weight:500;color:#8A93A6;
+  font-size:7px;font-size:3.6cqw;letter-spacing:.02em;white-space:nowrap}
+.pf-rule{position:absolute;left:12%;top:31%;width:26%;height:2px;
+  background:linear-gradient(90deg,#7C3AED,#EC4899);border-radius:2px}
 
 /* schegge */
 .shard{position:absolute;inset:0;will-change:transform,opacity;
@@ -215,7 +223,11 @@ html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:'In
     <p>Edward Attuati — CV</p>
   </div>
   <div class="paper-stage">
-    <div class="paper"><div class="paper-face"></div></div>
+    <div class="paper"><div class="paper-face">
+      <div class="pf-name">Edward Attuati</div>
+      <div class="pf-role">Mobile &amp; Web Developer</div>
+      <div class="pf-rule"></div>
+    </div></div>
   </div>
   <div class="intro-skip">tocca per saltare</div>
 </div>
@@ -437,6 +449,10 @@ html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:'In
 
   // Divide il foglio in una griglia di triangoli e li lancia verso l'esterno.
   const COLS = 5, ROWS = 6;
+  // Ogni scheggia replica il contenuto del foglio (nome, ruolo): il clip-path
+  // ne ritaglia la porzione giusta, cosi' anche il testo si frantuma.
+  const faceInner = intro.querySelector('.paper-face').innerHTML;
+
   function shatter(){
     const frag = document.createDocumentFragment();
     for(let j=0; j<ROWS; j++){
@@ -451,6 +467,7 @@ html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:'In
         for(const pts of tris){
           const s = document.createElement('div');
           s.className = 'shard paper-face';
+          s.innerHTML = faceInner;
           s.style.clipPath = 'polygon(' + pts.join(',') + ')';
           const dx=(cx-50)/50, dy=(cy-50)/50;      // direzione dal centro
           const spread = 170 + Math.random()*230;
