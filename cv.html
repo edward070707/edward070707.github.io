@@ -126,7 +126,72 @@ html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:'In
 .lang-level{font-size:11px;color:var(--text3);font-family:'Space Mono',monospace}
 
 /* Print */
+/* ══════════════════════════════════════════════════════════════
+   INTRO — il foglio si sgretola e svela il messaggio
+   ══════════════════════════════════════════════════════════════ */
+#cv-intro{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;
+  background:var(--bg);overflow:hidden;cursor:pointer}
+#cv-intro.done{animation:introOut .75s ease forwards;pointer-events:none}
+@keyframes introOut{to{opacity:0;visibility:hidden}}
+
+#cv-intro .intro-aurora{position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 55% 45% at 28% 22%,rgba(124,58,237,.22),transparent),
+    radial-gradient(ellipse 50% 45% at 78% 78%,rgba(236,72,153,.15),transparent)}
+
+/* messaggio nascosto dietro al foglio */
+.intro-msg{position:absolute;z-index:1;text-align:center;padding:0 24px;
+  opacity:0;transform:scale(.86)}
+.intro-msg.show{animation:msgIn 1.1s cubic-bezier(.2,.8,.25,1) forwards}
+@keyframes msgIn{to{opacity:1;transform:scale(1)}}
+.intro-msg h2{font-family:'Playfair Display',serif;font-weight:700;
+  font-size:clamp(30px,7.5vw,66px);line-height:1.04;letter-spacing:-.02em;
+  background:linear-gradient(135deg,#A78BFA,#EC4899);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.intro-msg p{margin-top:16px;font-family:'Space Mono',monospace;
+  font-size:clamp(10px,2.5vw,13px);letter-spacing:.24em;
+  text-transform:uppercase;color:var(--text2)}
+.intro-skip{position:absolute;bottom:26px;left:0;right:0;text-align:center;
+  font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.18em;
+  color:var(--text3);opacity:0;animation:skipIn .6s ease 1.2s forwards}
+@keyframes skipIn{to{opacity:1}}
+
+/* il foglio */
+.paper-stage{position:relative;z-index:2;width:min(320px,62vw);aspect-ratio:1/1.414}
+.paper{position:absolute;inset:0;border-radius:3px;
+  box-shadow:0 34px 80px rgba(0,0,0,.65);
+  animation:paperIn .9s cubic-bezier(.2,.8,.25,1) both}
+@keyframes paperIn{
+  from{opacity:0;transform:translateY(30px) scale(.93) rotate(-2.5deg)}
+  to{opacity:1;transform:none}}
+
+/* superficie del foglio: linee di testo disegnate in CSS */
+.paper-face{position:absolute;inset:0;border-radius:3px;
+  background-color:#FDFDFB;
+  background-image:
+    linear-gradient(90deg,#7C3AED,#EC4899),
+    linear-gradient(#20233A,#20233A),
+    linear-gradient(#AEB6C8,#AEB6C8),
+    repeating-linear-gradient(#E3E7EF 0 2px,transparent 2px 11px),
+    repeating-linear-gradient(#E3E7EF 0 2px,transparent 2px 11px);
+  background-repeat:no-repeat;
+  background-position:0 0, 12% 15%, 12% 22%, 12% 36%, 12% 68%;
+  background-size:100% 7px, 44% 14px, 31% 7px, 76% 22%, 58% 17%}
+
+/* schegge */
+.shard{position:absolute;inset:0;will-change:transform,opacity;
+  animation:shardFly var(--dur) cubic-bezier(.32,.12,.5,1) var(--dl) both}
+@keyframes shardFly{
+  0%{transform:none;opacity:1}
+  12%{transform:translate(calc(var(--tx)*.05),calc(var(--ty)*.05)) rotate(calc(var(--rot)*.07))}
+  100%{transform:translate(var(--tx),var(--ty)) rotate(var(--rot)) scale(.55);opacity:0}}
+
+@media (prefers-reduced-motion:reduce){
+  #cv-intro{display:none}
+}
+
 @media print{
+  #cv-intro{display:none!important}
   .aurora,.topbar{display:none!important}
   body{background:#fff!important;color:#111!important}
   .wrap{padding:24px!important}
@@ -141,6 +206,21 @@ html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:'In
 </style>
 </head>
 <body>
+
+<!-- ── INTRO: foglio che si sgretola ──────────────────────────────────────── -->
+<div id="cv-intro" aria-hidden="true">
+  <div class="intro-aurora"></div>
+  <div class="intro-msg">
+    <h2>Cambiamo<br>le regole.</h2>
+    <p>Edward Attuati — CV</p>
+  </div>
+  <div class="paper-stage">
+    <div class="paper"><div class="paper-face"></div></div>
+  </div>
+  <div class="intro-skip">tocca per saltare</div>
+</div>
+<noscript><style>#cv-intro{display:none}</style></noscript>
+
 <div class="aurora"></div>
 
 <div class="topbar">
@@ -325,5 +405,77 @@ html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:'In
   </div>
 
 </div>
+
+<script>
+/* ── INTRO: il foglio si frantuma e svela il messaggio ───────────────────── */
+(function(){
+  const intro = document.getElementById('cv-intro');
+  if(!intro) return;
+
+  const stage = intro.querySelector('.paper-stage');
+  const paper = intro.querySelector('.paper');
+  const msg   = intro.querySelector('.intro-msg');
+  let done = false;
+
+  function finish(){
+    if(done) return;
+    done = true;
+    intro.classList.add('done');
+    document.body.style.overflow = '';
+    setTimeout(function(){ intro.remove(); }, 800);
+  }
+
+  // Chi preferisce meno animazioni salta tutto: il CV resta accessibile.
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    intro.remove();
+    return;
+  }
+
+  document.body.style.overflow = 'hidden';
+  intro.addEventListener('click', finish);
+  window.addEventListener('keydown', finish, {once:true});
+
+  // Divide il foglio in una griglia di triangoli e li lancia verso l'esterno.
+  const COLS = 5, ROWS = 6;
+  function shatter(){
+    const frag = document.createDocumentFragment();
+    for(let j=0; j<ROWS; j++){
+      for(let i=0; i<COLS; i++){
+        const x0=i/COLS*100, x1=(i+1)/COLS*100;
+        const y0=j/ROWS*100, y1=(j+1)/ROWS*100;
+        const cx=(x0+x1)/2, cy=(y0+y1)/2;
+        const tris = [
+          [x0+'% '+y0+'%', x1+'% '+y0+'%', x0+'% '+y1+'%'],
+          [x1+'% '+y0+'%', x1+'% '+y1+'%', x0+'% '+y1+'%']
+        ];
+        for(const pts of tris){
+          const s = document.createElement('div');
+          s.className = 'shard paper-face';
+          s.style.clipPath = 'polygon(' + pts.join(',') + ')';
+          const dx=(cx-50)/50, dy=(cy-50)/50;      // direzione dal centro
+          const spread = 170 + Math.random()*230;
+          s.style.setProperty('--tx', Math.round(dx*spread + (Math.random()-.5)*70) + 'px');
+          s.style.setProperty('--ty', Math.round(dy*spread*.85 + 70 + Math.random()*130) + 'px');
+          s.style.setProperty('--rot', Math.round((Math.random()-.5)*150) + 'deg');
+          s.style.setProperty('--dur', (1.1 + Math.random()*.6).toFixed(2) + 's');
+          s.style.setProperty('--dl',  (Math.abs(dy)*.07 + Math.random()*.15).toFixed(2) + 's');
+          frag.appendChild(s);
+        }
+      }
+    }
+    stage.appendChild(frag);
+    paper.style.visibility = 'hidden';
+  }
+
+  setTimeout(function(){
+    if(done) return;
+    shatter();
+    msg.classList.add('show');
+  }, 1900);
+
+  setTimeout(finish, 4300);
+})();
+</script>
+
 </body>
 </html>
