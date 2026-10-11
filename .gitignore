@@ -10,3 +10,6 @@
 # Log e temporanei
 *.log
 *.tmp
+
+# Catture di revisione del design (pesanti, solo locali)
+.impeccable/review/

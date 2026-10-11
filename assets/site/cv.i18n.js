@@ -1,0 +1,98 @@
+/* Testi propri del CV. Si aggiungono a quelli di "Chi sono" (about.i18n.js),
+   da cui il CV riprende percorso, lingue e competenze. */
+(function () {
+  const cv = {
+    it: {
+      'cv-intro': 'Cambiamo<br>le regole.', 'cv-skip': 'tocca per saltare', 'cv-about': 'Chi sono', 'cv-print': 'Stampa o PDF',
+      'cv-role': 'Mobile e Web Developer · Flutter · Firebase',
+      'cv-profile-title': 'Profilo',
+      'cv-profile': "Studente di Ingegneria Informatica all'Università di Brescia e sviluppatore mobile e web. Progetto e costruisco app complete con <strong>Flutter</strong> e <strong>Firebase</strong>, dall'interfaccia al backend. Oggi lavoro nel reparto IT di ALLTUB ITALIA e porto avanti <strong>Memive</strong>, un social network interamente vocale.",
+      'cv-exp': 'Esperienza', 'cv-proj': 'Progetti', 'cv-edu': 'Formazione', 'cv-skills': 'Competenze',
+      'cv-p-memive-sub': 'Social network vocale · web app online',
+      'cv-p-memive': 'Ideazione, design e sviluppo completo: app Flutter, backend Firebase con Firestore e Cloud Functions, sito e web app.',
+      'cv-p-chrono-sub': 'Capsule del tempo · iOS, Android, Web',
+      'cv-p-chrono': 'App per sigillare ricordi, foto e messaggi vocali da aprire in futuro, con sincronizzazione Firebase. Integrata in Memive come funzione premium.',
+      'cv-p-scadoo-sub': 'Gestione dispensa · iOS, Android',
+      'cv-p-scadoo': 'Scanner di codici a barre con Open Food Facts, scadenze con notifiche e lista della spesa condivisibile. Funziona offline con SQLite.',
+      'cv-p-bj-sub': 'Il primo progetto · liceo',
+      'cv-p-bj': 'Gioco di blackjack completo in HTML, CSS e JavaScript, con puntate e animazioni delle carte.',
+      'cv-uni': 'Ingegneria Informatica', 'cv-uni-place': 'Università di Brescia', 'cv-cert': 'Certificazione · Credly',
+      'cv-school': 'Liceo scientifico Don Milani',
+      'cv-privacy': 'Autorizzo il trattamento dei dati personali ai sensi del Regolamento UE 2016/679 (GDPR).'
+    },
+    en: {
+      'cv-intro': "Let's change<br>the rules.", 'cv-skip': 'tap to skip', 'cv-about': 'About', 'cv-print': 'Print or PDF',
+      'cv-role': 'Mobile and Web Developer · Flutter · Firebase',
+      'cv-profile-title': 'Profile',
+      'cv-profile': 'Computer Engineering student at the University of Brescia and mobile and web developer. I design and build complete apps with <strong>Flutter</strong> and <strong>Firebase</strong>, from the interface to the backend. I currently work in the IT department of ALLTUB ITALIA and I am building <strong>Memive</strong>, a voice-only social network.',
+      'cv-exp': 'Experience', 'cv-proj': 'Projects', 'cv-edu': 'Education', 'cv-skills': 'Skills',
+      'cv-p-memive-sub': 'Voice social network · web app live',
+      'cv-p-memive': 'Concept, design and full development: Flutter app, Firebase backend with Firestore and Cloud Functions, website and web app.',
+      'cv-p-chrono-sub': 'Time capsules · iOS, Android, Web',
+      'cv-p-chrono': 'An app to seal memories, photos and voice messages to open in the future, synced with Firebase. Built into Memive as a premium feature.',
+      'cv-p-scadoo-sub': 'Pantry manager · iOS, Android',
+      'cv-p-scadoo': 'Barcode scanner with Open Food Facts, expiry dates with notifications and a shareable shopping list. Works offline with SQLite.',
+      'cv-p-bj-sub': 'My first project · high school',
+      'cv-p-bj': 'A complete blackjack game in HTML, CSS and JavaScript, with betting and card animations.',
+      'cv-uni': 'Computer Engineering', 'cv-uni-place': 'University of Brescia', 'cv-cert': 'Certification · Credly',
+      'cv-school': 'Liceo Don Milani, scientific high school',
+      'cv-privacy': 'I authorise the processing of my personal data under EU Regulation 2016/679 (GDPR).'
+    },
+    es: {
+      'cv-intro': 'Cambiemos<br>las reglas.', 'cv-skip': 'toca para saltar', 'cv-about': 'Sobre mí', 'cv-print': 'Imprimir o PDF',
+      'cv-role': 'Desarrollador móvil y web · Flutter · Firebase',
+      'cv-profile-title': 'Perfil',
+      'cv-profile': 'Estudiante de Ingeniería Informática en la Universidad de Brescia y desarrollador móvil y web. Diseño y construyo apps completas con <strong>Flutter</strong> y <strong>Firebase</strong>, de la interfaz al backend. Hoy trabajo en el departamento de IT de ALLTUB ITALIA y desarrollo <strong>Memive</strong>, una red social completamente de voz.',
+      'cv-exp': 'Experiencia', 'cv-proj': 'Proyectos', 'cv-edu': 'Formación', 'cv-skills': 'Habilidades',
+      'cv-p-memive-sub': 'Red social de voz · web app en línea',
+      'cv-p-memive': 'Idea, diseño y desarrollo completo: app Flutter, backend Firebase con Firestore y Cloud Functions, web y web app.',
+      'cv-p-chrono-sub': 'Cápsulas del tiempo · iOS, Android, Web',
+      'cv-p-chrono': 'App para sellar recuerdos, fotos y mensajes de voz que se abren en el futuro, sincronizada con Firebase. Integrada en Memive como función premium.',
+      'cv-p-scadoo-sub': 'Gestión de despensa · iOS, Android',
+      'cv-p-scadoo': 'Escáner de códigos de barras con Open Food Facts, caducidades con notificaciones y lista de la compra compartible. Funciona sin conexión con SQLite.',
+      'cv-p-bj-sub': 'Mi primer proyecto · instituto',
+      'cv-p-bj': 'Un juego de blackjack completo en HTML, CSS y JavaScript, con apuestas y animaciones de cartas.',
+      'cv-uni': 'Ingeniería Informática', 'cv-uni-place': 'Universidad de Brescia', 'cv-cert': 'Certificación · Credly',
+      'cv-school': 'Liceo científico Don Milani',
+      'cv-privacy': 'Autorizo el tratamiento de mis datos personales según el Reglamento UE 2016/679 (RGPD).'
+    },
+    zh: {
+      'cv-intro': '改变<br>规则。', 'cv-skip': '点击跳过', 'cv-about': '关于我', 'cv-print': '打印或 PDF',
+      'cv-role': '移动与网页开发者 · Flutter · Firebase',
+      'cv-profile-title': '个人简介',
+      'cv-profile': '布雷西亚大学计算机工程专业学生，移动与网页开发者。我用 <strong>Flutter</strong> 和 <strong>Firebase</strong> 设计并开发完整的应用，从界面到后端。目前在 ALLTUB ITALIA 的 IT 部门工作，同时在开发纯语音社交网络 <strong>Memive</strong>。',
+      'cv-exp': '工作经历', 'cv-proj': '项目', 'cv-edu': '教育背景', 'cv-skills': '技能',
+      'cv-p-memive-sub': '语音社交网络 · 网页版已上线',
+      'cv-p-memive': '从构思、设计到完整开发：Flutter 应用、基于 Firestore 和 Cloud Functions 的 Firebase 后端、网站与网页版应用。',
+      'cv-p-chrono-sub': '时间胶囊 · iOS、Android、Web',
+      'cv-p-chrono': '把回忆、照片和语音封存起来、在未来开启的应用，通过 Firebase 同步。已作为高级功能集成到 Memive。',
+      'cv-p-scadoo-sub': '食品储藏管理 · iOS、Android',
+      'cv-p-scadoo': '结合 Open Food Facts 的条码扫描、带提醒的保质期管理和可分享的购物清单。使用 SQLite 离线运行。',
+      'cv-p-bj-sub': '第一个项目 · 高中',
+      'cv-p-bj': '用 HTML、CSS 和 JavaScript 写成的完整二十一点游戏，带下注和纸牌动画。',
+      'cv-uni': '计算机工程', 'cv-uni-place': '布雷西亚大学', 'cv-cert': '证书 · Credly',
+      'cv-school': 'Don Milani 理科高中',
+      'cv-privacy': '本人同意根据欧盟第 2016/679 号条例（GDPR）处理个人数据。'
+    },
+    ja: {
+      'cv-intro': 'ルールを<br>変えよう。', 'cv-skip': 'タップでスキップ', 'cv-about': 'わたしについて', 'cv-print': '印刷・PDF',
+      'cv-role': 'モバイル・Web デベロッパー · Flutter · Firebase',
+      'cv-profile-title': 'プロフィール',
+      'cv-profile': 'ブレシア大学で情報工学を学ぶ学生で、モバイルと Web の開発者です。<strong>Flutter</strong> と <strong>Firebase</strong> で、画面からバックエンドまでアプリ全体を設計・開発しています。現在は ALLTUB ITALIA の IT 部門で働きながら、音声だけの SNS <strong>Memive</strong> を開発しています。',
+      'cv-exp': '職歴', 'cv-proj': 'プロジェクト', 'cv-edu': '学歴', 'cv-skills': 'スキル',
+      'cv-p-memive-sub': '音声 SNS · Web アプリ公開中',
+      'cv-p-memive': '企画・デザイン・開発のすべてを担当：Flutter アプリ、Firestore と Cloud Functions による Firebase バックエンド、Web サイトと Web アプリ。',
+      'cv-p-chrono-sub': 'タイムカプセル · iOS、Android、Web',
+      'cv-p-chrono': '思い出、写真、音声メッセージを封印し、未来に開けるアプリ。Firebase で同期。Memive にプレミアム機能として統合。',
+      'cv-p-scadoo-sub': '食品ストック管理 · iOS、Android',
+      'cv-p-scadoo': 'Open Food Facts 連携のバーコードスキャン、通知付きの賞味期限管理、共有できる買い物リスト。SQLite でオフライン動作。',
+      'cv-p-bj-sub': '最初のプロジェクト · 高校',
+      'cv-p-bj': 'HTML、CSS、JavaScript で作ったブラックジャック。ベットとカードのアニメーション付き。',
+      'cv-uni': '情報工学', 'cv-uni-place': 'ブレシア大学', 'cv-cert': '認定 · Credly',
+      'cv-school': 'ドン・ミラーニ高校（理系）',
+      'cv-privacy': 'EU 規則 2016/679（GDPR）に基づく個人データの取り扱いに同意します。'
+    }
+  };
+  const all = window.EA_I18N = window.EA_I18N || {};
+  Object.keys(cv).forEach(l => { all[l] = Object.assign(all[l] || {}, cv[l]); });
+})();

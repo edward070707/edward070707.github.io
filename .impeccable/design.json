@@ -1,0 +1,646 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-11T13:38:35+00:00",
+  "title": "Design System: Edward Attuati",
+  "extensions": {
+    "colorMeta": {
+      "forest": {
+        "role": "primary",
+        "displayName": "Canal Forest Ink",
+        "canonical": "oklch(25.9% 0.018 117)",
+        "tonalRamp": [
+          "#0b0c05",
+          "#23251b",
+          "#3f4137",
+          "#5d5f55",
+          "#7f8178",
+          "#a4a69d",
+          "#caccc3",
+          "#eeefe8"
+        ]
+      },
+      "forest-0": {
+        "role": "neutral",
+        "displayName": "Night Forest",
+        "canonical": "oklch(19.6% 0.012 123)",
+        "tonalRamp": [
+          "#0a0c07",
+          "#23251f",
+          "#3f413a",
+          "#5c5f58",
+          "#7f817b",
+          "#a3a5a0",
+          "#c9cbc6",
+          "#edefea"
+        ]
+      },
+      "sun": {
+        "role": "secondary",
+        "displayName": "Sun on Water",
+        "canonical": "oklch(82.9% 0.076 83)",
+        "tonalRamp": [
+          "#140800",
+          "#302103",
+          "#4e3d1b",
+          "#6e5b35",
+          "#937d52",
+          "#baa171",
+          "#e3c792",
+          "#ffebb9"
+        ]
+      },
+      "sun-ink": {
+        "role": "tertiary",
+        "displayName": "Burnished Gold Ink",
+        "canonical": "oklch(48.9% 0.088 80)",
+        "tonalRamp": [
+          "#190500",
+          "#361e00",
+          "#563a00",
+          "#775719",
+          "#9a7b44",
+          "#bea06e",
+          "#e2c697",
+          "#ffebbf"
+        ]
+      },
+      "sun-ink-reading": {
+        "role": "tertiary",
+        "displayName": "Deep Burnished Gold",
+        "canonical": "oklch(39.8% 0.073 79)",
+        "tonalRamp": [
+          "#180600",
+          "#351f00",
+          "#543b07",
+          "#73592d",
+          "#957c53",
+          "#b9a17b",
+          "#dec7a3",
+          "#ffecca"
+        ]
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Sand Paper",
+        "canonical": "oklch(94.8% 0.016 95)",
+        "tonalRamp": [
+          "#0c0b07",
+          "#25241f",
+          "#41403a",
+          "#5f5e56",
+          "#828078",
+          "#a7a59b",
+          "#cdcbc0",
+          "#f2efe3"
+        ]
+      },
+      "paper-2": {
+        "role": "neutral",
+        "displayName": "Darker Sand",
+        "canonical": "oklch(91.5% 0.022 95)",
+        "tonalRamp": [
+          "#0d0b06",
+          "#26241d",
+          "#424037",
+          "#605e54",
+          "#838075",
+          "#a8a597",
+          "#cecbbc",
+          "#f3efdf"
+        ]
+      },
+      "ink-2": {
+        "role": "neutral",
+        "displayName": "Moss Grey Ink",
+        "canonical": "oklch(42.9% 0.021 114)",
+        "tonalRamp": [
+          "#0b0c05",
+          "#24251b",
+          "#3f4135",
+          "#5d5f52",
+          "#808275",
+          "#a4a69a",
+          "#caccc0",
+          "#eef0e5"
+        ]
+      },
+      "ink-2-reading": {
+        "role": "neutral",
+        "displayName": "Deep Moss Ink",
+        "canonical": "oklch(34.7% 0.019 116)",
+        "tonalRamp": [
+          "#0b0c05",
+          "#23251b",
+          "#3f4136",
+          "#5d5f54",
+          "#7f8277",
+          "#a4a69c",
+          "#caccc2",
+          "#eef0e7"
+        ]
+      },
+      "cream": {
+        "role": "neutral",
+        "displayName": "Cream",
+        "canonical": "oklch(97.3% 0.019 91)",
+        "tonalRamp": [
+          "#0d0b07",
+          "#26241e",
+          "#424039",
+          "#605d55",
+          "#838076",
+          "#a8a499",
+          "#cfcabe",
+          "#f3eee1"
+        ]
+      },
+      "live-green": {
+        "role": "status",
+        "displayName": "Live Green",
+        "canonical": "oklch(35.2% 0.068 130)",
+        "tonalRamp": [
+          "#040f00",
+          "#192a03",
+          "#34471e",
+          "#52653e",
+          "#758863",
+          "#9aac89",
+          "#c0d1b1",
+          "#e5f5d6"
+        ]
+      },
+      "live-dot": {
+        "role": "status",
+        "displayName": "Live Dot",
+        "canonical": "oklch(48.9% 0.102 129)",
+        "tonalRamp": [
+          "#021000",
+          "#162b00",
+          "#304904",
+          "#4c6824",
+          "#6f8b4c",
+          "#94b074",
+          "#bad59d",
+          "#dff9c4"
+        ]
+      },
+      "sage-mist": {
+        "role": "status",
+        "displayName": "Sage Mist",
+        "canonical": "oklch(90.7% 0.027 116)",
+        "tonalRamp": [
+          "#0b0c06",
+          "#23251c",
+          "#3f4136",
+          "#5d5f52",
+          "#7f8273",
+          "#a3a796",
+          "#c9cdba",
+          "#edf1dd"
+        ]
+      },
+      "chrono-amber": {
+        "role": "tertiary",
+        "displayName": "Chrono Amber",
+        "canonical": "oklch(50.9% 0.103 71)",
+        "tonalRamp": [
+          "#1e0200",
+          "#3d1900",
+          "#5e3500",
+          "#815207",
+          "#a57639",
+          "#c89b65",
+          "#edc28f",
+          "#ffe7b8"
+        ]
+      },
+      "chrono-mist": {
+        "role": "tertiary",
+        "displayName": "Chrono Mist",
+        "canonical": "oklch(91.0% 0.049 88)",
+        "tonalRamp": [
+          "#100a01",
+          "#2a2313",
+          "#473f2b",
+          "#665d46",
+          "#8a7f65",
+          "#b0a386",
+          "#d7c9a8",
+          "#fcedcb"
+        ]
+      },
+      "scadoo-sage": {
+        "role": "tertiary",
+        "displayName": "Scadoo Sage",
+        "canonical": "oklch(43.2% 0.094 130)",
+        "tonalRamp": [
+          "#021000",
+          "#162b00",
+          "#30490b",
+          "#4d682c",
+          "#708a53",
+          "#95af7b",
+          "#bcd4a3",
+          "#e1f8ca"
+        ]
+      },
+      "memive-mist": {
+        "role": "tertiary",
+        "displayName": "Memive Mist",
+        "canonical": "oklch(90.5% 0.035 89)",
+        "tonalRamp": [
+          "#0e0b03",
+          "#282418",
+          "#453f31",
+          "#645d4d",
+          "#87806d",
+          "#aca48f",
+          "#d3cab2",
+          "#f8eed5"
+        ]
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Hairline",
+        "canonical": "rgba(35, 37, 27, .14)"
+      },
+      "glass-clear": {
+        "role": "material",
+        "displayName": "Clear Glass",
+        "canonical": "rgba(255, 252, 240, .22)"
+      },
+      "glass-clear-hover": {
+        "role": "material",
+        "displayName": "Clear Glass, hover",
+        "canonical": "rgba(255, 252, 240, .36)"
+      },
+      "glass-panel": {
+        "role": "material",
+        "displayName": "Panel Glass",
+        "canonical": "rgba(250, 247, 234, .30)"
+      },
+      "glass-reading": {
+        "role": "material",
+        "displayName": "Reading Glass",
+        "canonical": "rgba(248, 241, 222, .72)"
+      },
+      "glass-smoke": {
+        "role": "material",
+        "displayName": "Smoke Glass",
+        "canonical": "rgba(28, 30, 22, .84)"
+      },
+      "glass-smoke-hover": {
+        "role": "material",
+        "displayName": "Smoke Glass, hover",
+        "canonical": "rgba(20, 22, 16, .92)"
+      },
+      "glass-opal": {
+        "role": "material",
+        "displayName": "Opal Glass",
+        "canonical": "rgba(255, 255, 255, .55)"
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "The name in the home hero; product names use clamp(3.4rem, 8vw, 6rem)."
+      },
+      "headline-page": {
+        "displayName": "Page Headline",
+        "purpose": "Page titles on About, Sitemap and Scadoo privacy."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section headings, paired with a lede in the section head."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Timeline entries; project and row titles use the same serif at 1.7-3.9rem."
+      },
+      "accent-italic": {
+        "displayName": "Accent Italic",
+        "purpose": "Set in Instrument Serif italic (font-style: italic). The cycling greeting, product taglines, skill-group heads, CV section heads, italic emphasis inside serif headlines."
+      },
+      "title-sans": {
+        "displayName": "Sans Title",
+        "purpose": "Step titles and feature-point titles."
+      },
+      "lede": {
+        "displayName": "Lede",
+        "purpose": "Paragraph after a headline, max 60ch."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Reading text, 46-68ch per component."
+      },
+      "button": {
+        "displayName": "Button",
+        "purpose": "All glass pill buttons."
+      },
+      "nav": {
+        "displayName": "Nav",
+        "purpose": "Navigation pill items and language menu."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Chips, live badges, now markers, scroll cue. Never uppercase."
+      }
+    },
+    "shadows": [
+      {
+        "name": "glass-rest",
+        "value": "inset 0 1px 0 rgba(255, 255, 255, .75), inset 0 -1px 1px rgba(255, 255, 255, .22), inset 0 0 0 1px rgba(255, 255, 255, .20), 0 18px 40px -18px rgba(14, 16, 10, .55), 0 2px 6px rgba(14, 16, 10, .12)",
+        "purpose": "Every glass panel, button and chip over the photo: lit top edge, hairline rim, cast shadow."
+      },
+      {
+        "name": "opal-on-paper",
+        "value": "inset 0 1px 0 #fff, inset 0 0 0 1px rgba(35, 37, 27, .10), 0 10px 24px -14px rgba(35, 37, 27, .45)",
+        "purpose": "Glass buttons on paper sheets."
+      },
+      {
+        "name": "sheet-lift",
+        "value": "0 -30px 60px -30px rgba(14, 16, 10, .45)",
+        "purpose": "Paper sheet casting upward over the photo window."
+      },
+      {
+        "name": "shot-frame",
+        "value": "inset 0 1px 0 rgba(255, 255, 255, .95), inset 0 0 0 1px rgba(255, 255, 255, .4), 0 30px 60px -28px rgba(14, 16, 10, .6), 0 4px 12px rgba(14, 16, 10, .12)",
+        "purpose": "Glass phone frame around real app screenshots over the photo."
+      },
+      {
+        "name": "shot-frame-on-paper",
+        "value": "inset 0 1px 0 #fff, inset 0 0 0 1px rgba(35, 37, 27, .1), 0 30px 60px -30px rgba(35, 37, 27, .55), 0 3px 10px rgba(35, 37, 27, .1)",
+        "purpose": "Phone frame inside a sheet."
+      },
+      {
+        "name": "document",
+        "value": "0 40px 90px -30px rgba(0, 0, 0, .7), 0 2px 0 rgba(255, 255, 255, .4) inset",
+        "purpose": "The CV document on its desk."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease",
+        "value": "cubic-bezier(.32, .72, 0, 1)",
+        "purpose": "Soft spring: transforms, hover, state, entrances."
+      },
+      {
+        "name": "ease-out",
+        "value": "cubic-bezier(.16, 1, .3, 1)",
+        "purpose": "Fades, reveal opacity and blur, ground photo entrance."
+      },
+      {
+        "name": "press-squash",
+        "value": "transform: scale(.955, .93) over .18s",
+        "purpose": "Glass button press."
+      },
+      {
+        "name": "hover-lift",
+        "value": "transform: translateY(-1px) scale(1.015) over .5s ease",
+        "purpose": "Glass button hover."
+      },
+      {
+        "name": "reveal",
+        "value": "from opacity 0, translateY(26px), blur(8px); opacity/filter .9s ease-out, transform 1.1s ease; stagger via --d",
+        "purpose": "Sections rising out of a soft blur."
+      },
+      {
+        "name": "panel-in",
+        "value": "from opacity 0, translateY(30px) scale(.97) blur(10px); 1.2s ease",
+        "purpose": "Hero and product hero panels."
+      },
+      {
+        "name": "ground-in",
+        "value": "from opacity 0, scale(1.12); 1.6s ease-out",
+        "purpose": "Photograph entrance."
+      },
+      {
+        "name": "nav-in",
+        "value": "from translate(-50%, -24px) scale(.96); 1s .2s ease",
+        "purpose": "Nav pill entrance; tab bar rises from 30px with a .3s delay."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "animation and transition durations .01ms; reveals shown immediately",
+        "purpose": "prefers-reduced-motion: reduce."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "phone-narrow",
+        "value": "520px"
+      },
+      {
+        "name": "cards-single",
+        "value": "760px"
+      },
+      {
+        "name": "tabbar",
+        "value": "820px"
+      },
+      {
+        "name": "collapse",
+        "value": "960px"
+      }
+    ],
+    "glass": {
+      "blur": {
+        "default": "14px",
+        "panel": "22px",
+        "nav": "18px",
+        "chip": "10px",
+        "reading-panels": "24-26px",
+        "bubble": "3px",
+        "droplet": "1.5px"
+      },
+      "backdropFilter": "blur(var(--blur)) saturate(175%) brightness(1.04)",
+      "specular": "radial-gradient(120% 60% at 18% 0%, rgba(255, 255, 255, .42), transparent 55%), radial-gradient(80% 50% at 100% 100%, rgba(255, 240, 200, .14), transparent 60%); mix-blend-mode: soft-light",
+      "rim": "1px masked border, linear-gradient(140deg, rgba(255, 255, 255, .85), rgba(255, 255, 255, .08) 38%, rgba(255, 255, 255, 0) 60%, rgba(255, 255, 255, .35))",
+      "readingVeil": "linear-gradient(160deg, rgba(255, 253, 247, .55), rgba(255, 250, 236, .1) 50%, rgba(238, 222, 184, .32))",
+      "refraction": {
+        "engine": "SVG feImage displacement map + feDisplacementMap + feGaussianBlur(blur/2) + feColorMatrix saturate 1.7, applied as backdrop-filter: url(#id); Chromium only (html.lg-refract)",
+        "defaults": {
+          "--lg-scale": 38,
+          "--lg-band": 22
+        },
+        "heroPanels": {
+          "--lg-scale": 24,
+          "--lg-band": 28
+        },
+        "atomBubble": {
+          "--lg-scale": 70,
+          "--lg-band": 80
+        },
+        "droplet": {
+          "--lg-scale": -46,
+          "--lg-band": 22
+        },
+        "excluded": ".sheet .gbtn, .on-paper .gbtn"
+      },
+      "ground": {
+        "photos": [
+          "canale-tramonto (index, chrono, sitemap, scadoo-privacy)",
+          "bambu-kyoto (aboutme, scadoo)",
+          "new-york-notte (memive, cv)"
+        ],
+        "vignette": "radial-gradient(120% 90% at 55% 45%, transparent 55%, rgba(20, 22, 16, .35) 100%)",
+        "focus": "--focus, default 55% 40%",
+        "scale": 1.04
+      }
+    }
+  },
+  "components": [
+    {
+      "name": "Smoke Glass Button",
+      "kind": "button",
+      "refersTo": "button-smoke",
+      "description": "Primary action over the photo: smoked glass, cream text, gold-tinted icon well. One per action group.",
+      "html": "<div class=\"ds-ground\"><a class=\"ds-btn-smoke\" href=\"#\">Contattami<span class=\"ds-ico\"><svg viewBox=\"0 0 24 24\" width=\"16\" height=\"16\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7 17L17 7M9 7h8v8\"/></svg></span></a></div>",
+      "css": ".ds-ground{background:linear-gradient(135deg,#3f3c2c 0%,#7a5a1c 38%,#dfc38e 62%,#4b4c42 100%);padding:28px;border-radius:16px;} .ds-btn-smoke{position:relative;isolation:isolate;-webkit-backdrop-filter:blur(14px) saturate(175%) brightness(1.04);backdrop-filter:blur(14px) saturate(175%) brightness(1.04);box-shadow:inset 0 1px 0 rgba(255,255,255,.75),inset 0 -1px 1px rgba(255,255,255,.22),inset 0 0 0 1px rgba(255,255,255,.20),0 18px 40px -18px rgba(14,16,10,.55),0 2px 6px rgba(14,16,10,.12);display:inline-flex;align-items:center;gap:10px;min-height:48px;padding:0 22px;border:0;border-radius:999px;font:600 1rem/1 'Hanken Grotesk','Avenir Next','Segoe UI',system-ui,sans-serif;letter-spacing:.005em;text-decoration:none;cursor:pointer;transition:transform .5s cubic-bezier(.32,.72,0,1),background-color .3s;background:rgba(28,30,22,.84);color:#fbf6e8;} .ds-btn-smoke .ds-ico{display:grid;place-items:center;width:30px;height:30px;margin-right:-10px;border-radius:50%;transition:transform .5s cubic-bezier(.32,.72,0,1);background:rgba(223,195,142,.28);} .ds-btn-smoke:hover{background:rgba(20,22,16,.92);transform:translateY(-1px) scale(1.015);} .ds-btn-smoke:hover .ds-ico{transform:translate(2px,-2px) scale(1.06);} .ds-btn-smoke:active{transform:scale(.955,.93);transition-duration:.18s;} .ds-btn-smoke:focus-visible{outline:2px solid #dfc38e;outline-offset:3px;}"
+    },
+    {
+      "name": "Clear Glass Button",
+      "kind": "button",
+      "refersTo": "button-glass",
+      "description": "Secondary action over the photo: clear warm glass, forest text.",
+      "html": "<div class=\"ds-ground\"><a class=\"ds-btn-glass\" href=\"#\">Vedi i progetti<span class=\"ds-ico\"><svg viewBox=\"0 0 24 24\" width=\"16\" height=\"16\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 5v14M6 13l6 6 6-6\"/></svg></span></a></div>",
+      "css": ".ds-ground{background:linear-gradient(135deg,#3f3c2c 0%,#7a5a1c 38%,#dfc38e 62%,#4b4c42 100%);padding:28px;border-radius:16px;} .ds-btn-glass{position:relative;isolation:isolate;-webkit-backdrop-filter:blur(14px) saturate(175%) brightness(1.04);backdrop-filter:blur(14px) saturate(175%) brightness(1.04);box-shadow:inset 0 1px 0 rgba(255,255,255,.75),inset 0 -1px 1px rgba(255,255,255,.22),inset 0 0 0 1px rgba(255,255,255,.20),0 18px 40px -18px rgba(14,16,10,.55),0 2px 6px rgba(14,16,10,.12);display:inline-flex;align-items:center;gap:10px;min-height:48px;padding:0 22px;border:0;border-radius:999px;font:600 1rem/1 'Hanken Grotesk','Avenir Next','Segoe UI',system-ui,sans-serif;letter-spacing:.005em;text-decoration:none;cursor:pointer;transition:transform .5s cubic-bezier(.32,.72,0,1),background-color .3s;background:rgba(255,252,240,.22);color:#23251b;} .ds-btn-glass .ds-ico{display:grid;place-items:center;width:30px;height:30px;margin-right:-10px;border-radius:50%;transition:transform .5s cubic-bezier(.32,.72,0,1);background:rgba(255,255,255,.28);} .ds-btn-glass:hover{background:rgba(255,252,240,.36);transform:translateY(-1px) scale(1.015);} .ds-btn-glass:hover .ds-ico{transform:translate(2px,-2px) scale(1.06);} .ds-btn-glass:active{transform:scale(.955,.93);transition-duration:.18s;} .ds-btn-glass:focus-visible{outline:2px solid #dfc38e;outline-offset:3px;}"
+    },
+    {
+      "name": "Opal Button on Paper",
+      "kind": "button",
+      "refersTo": "button-opal",
+      "description": "Glass button on a paper sheet: opal tint, no refraction; the dark variant becomes solid forest.",
+      "html": "<div class=\"ds-paper\"><a class=\"ds-btn-opal\" href=\"#\">Scopri il progetto</a> <a class=\"ds-btn-opal ds-dark\" href=\"#\">Apri la web app</a></div>",
+      "css": ".ds-paper{background:#f1eee2;padding:28px;border-radius:16px;display:flex;flex-wrap:wrap;gap:10px;} .ds-btn-opal{display:inline-flex;align-items:center;gap:10px;min-height:48px;padding:0 22px;border:0;border-radius:999px;font:600 1rem/1 'Hanken Grotesk','Avenir Next','Segoe UI',system-ui,sans-serif;letter-spacing:.005em;text-decoration:none;cursor:pointer;transition:transform .5s cubic-bezier(.32,.72,0,1),background-color .3s;background:rgba(255,255,255,.55);color:#23251b;box-shadow:inset 0 1px 0 #fff,inset 0 0 0 1px rgba(35,37,27,.10),0 10px 24px -14px rgba(35,37,27,.45);} .ds-btn-opal.ds-dark{background:#23251b;color:#fbf6e8;} .ds-btn-opal:hover{transform:translateY(-1px) scale(1.015);} .ds-btn-opal:active{transform:scale(.955,.93);transition-duration:.18s;} .ds-btn-opal:focus-visible{outline:2px solid #7a5a1c;outline-offset:3px;}"
+    },
+    {
+      "name": "Glass Chip",
+      "kind": "chip",
+      "refersTo": "chip-glass",
+      "description": "Small glass pill for state and cues; smoke variant with cream text on the hero.",
+      "html": "<div class=\"ds-ground\"><span class=\"ds-chip\">Stato: stabile</span> <span class=\"ds-chip ds-smoke\">Scorri</span></div>",
+      "css": ".ds-ground{background:linear-gradient(135deg,#3f3c2c 0%,#7a5a1c 38%,#dfc38e 62%,#4b4c42 100%);padding:28px;border-radius:16px;display:flex;gap:8px;} .ds-chip{position:relative;isolation:isolate;-webkit-backdrop-filter:blur(10px) saturate(175%) brightness(1.04);backdrop-filter:blur(10px) saturate(175%) brightness(1.04);box-shadow:inset 0 1px 0 rgba(255,255,255,.75),inset 0 -1px 1px rgba(255,255,255,.22),inset 0 0 0 1px rgba(255,255,255,.20),0 18px 40px -18px rgba(14,16,10,.55),0 2px 6px rgba(14,16,10,.12);display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;background:rgba(255,252,240,.18);color:#23251b;font:500 .8125rem/1.2 'Hanken Grotesk',system-ui,sans-serif;} .ds-chip.ds-smoke{background:rgba(28,30,22,.6);color:#fbf6e8;font-weight:600;}"
+    },
+    {
+      "name": "Navigation Pill",
+      "kind": "nav",
+      "refersTo": "nav-pill",
+      "description": "Fixed glass pill centred at the top: serif EA mark, section links, separator, CV, language.",
+      "html": "<div class=\"ds-ground\"><nav class=\"ds-nav\"><a class=\"ds-mark\" href=\"#\">EA</a><a href=\"#\" aria-current=\"true\">Progetti</a><a href=\"#\">Chi sono</a><a href=\"#\">Percorso</a><a href=\"#\">Contatti</a><span class=\"ds-sep\"></span><a href=\"#\">CV</a></nav></div>",
+      "css": ".ds-ground{background:linear-gradient(135deg,#3f3c2c 0%,#7a5a1c 38%,#dfc38e 62%,#4b4c42 100%);padding:28px;border-radius:16px;} .ds-nav{position:relative;isolation:isolate;-webkit-backdrop-filter:blur(18px) saturate(175%) brightness(1.04);backdrop-filter:blur(18px) saturate(175%) brightness(1.04);box-shadow:inset 0 1px 0 rgba(255,255,255,.75),inset 0 -1px 1px rgba(255,255,255,.22),inset 0 0 0 1px rgba(255,255,255,.20),0 18px 40px -18px rgba(14,16,10,.55),0 2px 6px rgba(14,16,10,.12);display:inline-flex;align-items:center;gap:4px;height:56px;padding:6px;border-radius:999px;background:rgba(250,247,234,.30);} .ds-nav a{display:inline-flex;align-items:center;height:100%;padding:0 16px;border-radius:999px;font:600 .9375rem/1 'Hanken Grotesk',system-ui,sans-serif;color:#23251b;text-decoration:none;white-space:nowrap;transition:background .3s cubic-bezier(.32,.72,0,1);} .ds-nav a:hover{background:rgba(255,255,255,.28);} .ds-nav a[aria-current=\"true\"]{background:rgba(255,255,255,.5);} .ds-nav a:focus-visible{outline:2px solid #dfc38e;outline-offset:3px;} .ds-nav .ds-mark{font:400 1.35rem/1 'Instrument Serif',Georgia,serif;letter-spacing:.02em;padding:0 14px 0 12px;} .ds-sep{width:1px;height:22px;background:rgba(35,37,27,.16);margin:0 4px;}"
+    },
+    {
+      "name": "Reading Glass Panel",
+      "kind": "card",
+      "refersTo": "panel-reading",
+      "description": "Glass panel that carries text over the photo: reading tint, honey veil, darkened secondary ink and gold.",
+      "html": "<div class=\"ds-ground\"><div class=\"ds-panel\"><span class=\"ds-greet\">Ciao, sono</span><h2 class=\"ds-name\">Edward Attuati</h2><p>Studente di Ingegneria Informatica a Brescia. Progetto e pubblico app complete, da cima a fondo.</p></div></div>",
+      "css": ".ds-ground{background:linear-gradient(135deg,#3f3c2c 0%,#7a5a1c 38%,#dfc38e 62%,#4b4c42 100%);padding:28px;border-radius:16px;} .ds-panel{position:relative;isolation:isolate;-webkit-backdrop-filter:blur(24px) saturate(175%) brightness(1.04);backdrop-filter:blur(24px) saturate(175%) brightness(1.04);box-shadow:inset 0 1px 0 rgba(255,255,255,.75),inset 0 -1px 1px rgba(255,255,255,.22),inset 0 0 0 1px rgba(255,255,255,.20),0 18px 40px -18px rgba(14,16,10,.55),0 2px 6px rgba(14,16,10,.12);border-radius:30px;padding:clamp(30px,3.6vw,54px);max-width:560px;color:#23251b;background-color:rgba(248,241,222,.72);background-image:linear-gradient(160deg,rgba(255,253,247,.55),rgba(255,250,236,.1) 50%,rgba(238,222,184,.32));} .ds-greet{display:block;font:italic 400 clamp(1.45rem,2.2vw,1.95rem)/1.1 'Instrument Serif',Georgia,serif;color:#5c4210;} .ds-name{margin:4px 0 0;font:400 clamp(2.6rem,5vw,4rem)/.9 'Instrument Serif',Georgia,serif;letter-spacing:-.025em;} .ds-panel p{margin:16px 0 0;font:400 1.0625rem/1.65 'Hanken Grotesk',system-ui,sans-serif;color:#393b30;max-width:46ch;}"
+    },
+    {
+      "name": "Paper Sheet with Timeline",
+      "kind": "custom",
+      "refersTo": "sheet",
+      "description": "Sand-paper sheet with 34px top corners sliding over the photo; ruled timeline row inside.",
+      "html": "<div class=\"ds-ground ds-tall\"><section class=\"ds-sheet\"><h2 class=\"ds-h\">Percorso</h2><ul class=\"ds-tl\"><li><div><div class=\"ds-when\">gen 2025 – oggi</div><div class=\"ds-now\">Adesso</div></div><div><h3>ALLTUB ITALIA — Reparto IT</h3><p>Area Bergamo · Italia</p></div></li></ul></section></div>",
+      "css": ".ds-ground{background:linear-gradient(135deg,#3f3c2c 0%,#7a5a1c 38%,#dfc38e 62%,#4b4c42 100%);padding:28px;border-radius:16px;} .ds-tall{padding:40px 0 0;} .ds-sheet{background:#f1eee2;color:#23251b;border-radius:34px 34px 0 0;padding:40px 28px;box-shadow:0 -30px 60px -30px rgba(14,16,10,.45);} .ds-h{margin:0 0 20px;font:400 clamp(2.25rem,4.6vw,3.75rem)/1.02 'Instrument Serif',Georgia,serif;letter-spacing:-.02em;} .ds-tl{list-style:none;margin:0;padding:0;} .ds-tl li{display:grid;grid-template-columns:180px minmax(0,1fr);gap:12px 32px;padding:28px 0;border-top:1px solid rgba(35,37,27,.14);border-bottom:1px solid rgba(35,37,27,.14);} .ds-when{font:600 .9375rem/1.4 'Hanken Grotesk',system-ui,sans-serif;color:#7a5a1c;font-variant-numeric:tabular-nums;} .ds-now{display:inline-flex;align-items:center;gap:7px;margin-top:8px;font:600 .8125rem/1 'Hanken Grotesk',system-ui,sans-serif;color:#2f4219;} .ds-now::before{content:'';width:7px;height:7px;border-radius:50%;background:#4e6b26;} .ds-tl h3{margin:0;font:400 clamp(1.6rem,2.4vw,2.1rem)/1.1 'Instrument Serif',Georgia,serif;letter-spacing:-.01em;} .ds-tl p{margin:6px 0 0;color:#4f5144;font:500 .9375rem/1.4 'Hanken Grotesk',system-ui,sans-serif;}"
+    },
+    {
+      "name": "Tags and Live Badge",
+      "kind": "chip",
+      "refersTo": "tag",
+      "description": "On paper: darker-sand tag pills and the sage live badge. No glass on paper.",
+      "html": "<div class=\"ds-paper\"><span class=\"ds-live\">Online</span><ul class=\"ds-tags\"><li>Flutter</li><li>Firebase</li><li>iOS · Android · Web</li></ul></div>",
+      "css": ".ds-paper{background:#f1eee2;padding:24px;border-radius:16px;} .ds-live{display:inline-flex;align-items:center;gap:8px;padding:6px 12px 6px 10px;border-radius:999px;background:#dfe3cf;color:#2f4219;font:600 .8125rem/1 'Hanken Grotesk',system-ui,sans-serif;} .ds-live::before{content:'';width:8px;height:8px;border-radius:50%;background:#4e6b26;} .ds-tags{display:flex;flex-wrap:wrap;gap:6px;margin:18px 0 0;padding:0;list-style:none;} .ds-tags li{padding:5px 11px;border-radius:999px;background:#e7e3d3;color:#4f5144;font:500 .8125rem/1.2 'Hanken Grotesk',system-ui,sans-serif;}"
+    },
+    {
+      "name": "Waitlist Input",
+      "kind": "input",
+      "refersTo": "input-pill",
+      "description": "Pill input on reading glass (Memive waitlist), paired with a smoke button.",
+      "html": "<div class=\"ds-paper\"><input class=\"ds-input\" type=\"email\" placeholder=\"La tua email\" aria-label=\"Email\"></div>",
+      "css": ".ds-paper{background:#f1eee2;padding:24px;border-radius:16px;} .ds-input{min-height:48px;width:100%;max-width:360px;padding:0 20px;border-radius:999px;border:1px solid rgba(35,37,27,.2);background:rgba(255,253,245,.75);color:#23251b;font:500 1rem/1 'Hanken Grotesk',system-ui,sans-serif;} .ds-input:focus{outline:2px solid #23251b;outline-offset:2px;}"
+    },
+    {
+      "name": "Phone Shot in Glass",
+      "kind": "custom",
+      "refersTo": "shot-frame",
+      "description": "Real app screenshot in a 40px translucent glass frame, tilted 2 degrees.",
+      "html": "<div class=\"ds-ground\"><figure class=\"ds-shot\"><div class=\"ds-screen\"></div></figure></div>",
+      "css": ".ds-ground{background:linear-gradient(135deg,#3f3c2c 0%,#7a5a1c 38%,#dfc38e 62%,#4b4c42 100%);padding:28px;border-radius:16px;display:grid;place-items:center;} .ds-shot{width:170px;margin:0;padding:8px;border-radius:40px;transform:rotate(2deg);background:linear-gradient(160deg,rgba(255,255,255,.78),rgba(255,255,255,.22) 45%,rgba(255,255,255,.5));-webkit-backdrop-filter:blur(18px) saturate(160%);backdrop-filter:blur(18px) saturate(160%);box-shadow:inset 0 1px 0 rgba(255,255,255,.95),inset 0 0 0 1px rgba(255,255,255,.4),0 30px 60px -28px rgba(14,16,10,.6),0 4px 12px rgba(14,16,10,.12);} .ds-screen{aspect-ratio:390/844;border-radius:32px;background:#141610;}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Vetro su luce calda",
+    "overview": "Every page stands on one of Edward's own photographs, full bleed and fixed behind everything: the canal at golden hour, Kyoto bamboo, New York at night. Over that ground floats real liquid glass: a translucent, warm-tinted material with live backdrop blur and saturation, a specular sheen, a light rim brighter at the top left, and, on Chromium, true edge refraction from SVG displacement maps. Glass carries the controls and the short, urgent things (nav, hero, buttons, chips, the atom bubble, dialogs). When reading gets dense, warm sand-paper sheets slide up over the photo with large rounded top corners, and the page alternates between looking through the glass at the photograph and reading on paper.\n\nThe world is calm, human and tactile. Its palette is sampled from the canal photo, not picked from a UI kit: dark mossy forest ink, sand paper, and gold from sunlight on water. Type pairs a high-contrast editorial serif (Instrument Serif, always weight 400) for names, headings and numerals with a warm grotesk (Hanken Grotesk) for everything that has to work. Motion is a soft spring: glass squashes when pressed, sections rise out of a blur, the cursor is a drop of glass that bends the photograph under it.\n\nIt explicitly refuses the category default for developer portfolios (dark neon with glow and mono labels) and its opposite (a white Swiss card grid), and it replaces the site's former violet, cyan and pink palette with a more human one.",
+    "keyCharacteristics": [
+      "Owner photography as the ground on every page, fixed behind content, with a soft radial vignette.",
+      "One glass material in four tints: clear, panel, reading, smoke; opal when it sits on paper.",
+      "Paper sheets (34px top corners, 34px overlap) for dense reading, alternating with windows onto the photo.",
+      "Instrument Serif at weight 400 only; Hanken Grotesk for body and UI; no uppercase tracking labels.",
+      "Every control is a pill; spring easing `cubic-bezier(.32, .72, 0, 1)` throughout.",
+      "Product pages keep the world and swap a single accent."
+    ],
+    "rules": [
+      {
+        "name": "The Sampled Palette Rule",
+        "body": "Every hue comes from the ground photography's warm golds and mossy darks. No saturated blues, violets, cyans or pinks; the one cool tone in the build is the chrono-app's sky grey.",
+        "section": "colors"
+      },
+      {
+        "name": "The Readable Gold Rule",
+        "body": "Sun gold (sun) appears only on dark surfaces or over the photo. On paper, gold text is always sun-ink (5.46:1 on paper), and inside reading glass it is sun-ink-reading.",
+        "section": "colors"
+      },
+      {
+        "name": "The One Accent Per Product Rule",
+        "body": "A product page changes `--accent` and `--accent-soft` and nothing else. Layout, glass, type and neutrals stay identical across Memive, Chrono and Scadoo.",
+        "section": "colors"
+      },
+      {
+        "name": "The Serif Speaks, Sans Works Rule",
+        "body": "Instrument Serif is used only at weight 400, for names, headings, numerals and italic accents. Hierarchy in serif comes from size and italics, never from bolding it. Hanken Grotesk carries body, buttons, navigation and labels.",
+        "section": "typography"
+      },
+      {
+        "name": "The No Kicker Rule",
+        "body": "Headings stand on their own: no uppercase, tracked eyebrow labels above them. The build has no `text-transform: uppercase` anywhere in the shared system.",
+        "section": "typography"
+      },
+      {
+        "name": "The Lens Not Card Rule",
+        "body": "Glass is always translucent, with blur, saturation, rim light and a cast shadow. A glass surface is never an opaque fill with a drop shadow.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Reading Glass Rule",
+        "body": "Any glass panel that carries paragraphs over the photo (hero, about, contact, product heroes, panels) switches to the reading tint (`glass-reading`) with a white-to-honey veil (`linear-gradient(160deg, rgba(255,253,247,.55), rgba(255,250,236,.1) 50%, rgba(238,222,184,.32))`), and darkens its secondary ink and gold to `ink-2-reading` and `sun-ink-reading`, so text stays legible where dark forest sits behind it.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Opal On Paper Rule",
+        "body": "Glass on paper has nothing to refract, so it becomes opal: a white `.55` tint, a crisp white top edge, a forest hairline, no refraction filter. A dark button on paper becomes solid forest.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do stand every page on an owner photograph in the fixed ground layer, with its radial vignette, and choose its focal point with `--focus`.",
+      "Do use the glass material for controls and short content over the photo, and switch to the reading tint as soon as a panel carries paragraphs.",
+      "Do move dense reading onto paper sheets that overlap the window by `34px`.",
+      "Do keep one smoke-glass primary button per action group, with the trailing arrow icon in its circular well.",
+      "Do use sun-ink (or the product accent) for gold and accent text on paper, and sun only on dark or over the photo.",
+      "Do show only real app screenshots, in the glass phone frame, each with a provenance sidecar beside the raster.",
+      "Do drive motion with the spring curve and honour `prefers-reduced-motion`."
+    ],
+    "donts": [
+      "Don't build a dark neon developer portfolio with glows and mono labels, or a white Swiss card grid; both are the defaults this world refuses.",
+      "Don't bring back the violet, cyan and pink palette, or any saturated hue the photography does not contain.",
+      "Don't bold Instrument Serif, or set uppercase tracked eyebrows above headings.",
+      "Don't put sun gold text or cream text on paper.",
+      "Don't apply clear glass or refraction on paper; it has nothing to bend there and becomes opal.",
+      "Don't use emoji or icon fonts; icons are inline SVG line drawings in `currentColor`.",
+      "Don't use monospace outside real code."
+    ]
+  }
+}

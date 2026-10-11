@@ -1,0 +1,35 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Vetro su luce calda</title>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Instrument+Serif&display=swap" rel="stylesheet">
+<style>
+*{margin:0;box-sizing:border-box}
+body{width:1440px;height:900px;overflow:hidden;font-family:'Hanken Grotesk',sans-serif;color:#fff;position:relative;
+ background:linear-gradient(180deg,#F3C792 0%,#EBA86E 38%,#D98957 55%,#B66E4A 62%,#8E6A52 100%)}
+.sun{position:absolute;left:880px;top:300px;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,#FFF2D2 0%,#FFD99A 35%,rgba(255,200,130,0) 70%)}
+svg.hills{position:absolute;left:0;bottom:0;width:1440px;height:430px}
+nav{position:absolute;top:34px;left:50%;transform:translateX(-50%);display:flex;gap:6px;padding:8px;border-radius:999px;
+ background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.45);backdrop-filter:blur(20px) saturate(180%);box-shadow:inset 0 1px 0 rgba(255,255,255,.7),0 10px 30px rgba(80,40,20,.18)}
+nav span{padding:10px 22px;border-radius:999px;font-size:22px;font-weight:600}
+nav span.on{background:rgba(255,255,255,.35)}
+.panel{position:absolute;left:96px;top:190px;width:700px;padding:52px 56px;border-radius:40px;
+ background:linear-gradient(150deg,rgba(255,255,255,.30),rgba(255,255,255,.08));border:1px solid rgba(255,255,255,.55);
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.85),inset 0 -24px 40px rgba(255,180,120,.12),0 40px 80px -30px rgba(70,30,10,.45);
+ backdrop-filter:blur(26px) saturate(190%)}
+.eyebrow{display:inline-block;padding:8px 18px;border-radius:999px;background:rgba(255,255,255,.22);font-size:22px;font-weight:600}
+h1{margin-top:22px;font-family:'Instrument Serif',serif;font-weight:400;font-size:118px;line-height:.95;letter-spacing:-.01em;color:#2F2A26}
+.sub{margin-top:20px;font-size:28px;color:#3A322C}
+.btns{margin-top:34px;display:flex;gap:16px}
+.g{padding:18px 34px;border-radius:999px;font-size:24px;font-weight:700;border:1px solid rgba(255,255,255,.7);
+ background:rgba(255,255,255,.28);box-shadow:inset 0 1px 0 #fff,0 12px 24px -10px rgba(70,30,10,.35);color:#2F2A26}
+.g.p{background:rgba(47,42,38,.82);color:#FFF5E8;border-color:rgba(255,255,255,.25)}
+.bubble{position:absolute;right:170px;top:170px;width:300px;height:300px;border-radius:50%;
+ background:radial-gradient(circle at 30% 28%,rgba(255,255,255,.85) 0 6%,rgba(255,255,255,.25) 18%,rgba(255,255,255,.06) 55%,rgba(255,255,255,.22) 100%);
+ border:1px solid rgba(255,255,255,.6);box-shadow:inset 0 -20px 40px rgba(255,170,110,.25),0 30px 60px -20px rgba(70,30,10,.35);backdrop-filter:blur(6px)}
+.bubble svg{position:absolute;inset:40px}
+</style></head><body>
+<div class="sun"></div>
+<svg class="hills" viewBox="0 0 1440 430" preserveAspectRatio="none"><path d="M0 180 C220 90 420 150 620 110 C820 70 1020 160 1220 120 C1330 100 1400 110 1440 120 V430 H0Z" fill="#9C7A5A"/><path d="M0 250 C260 190 520 260 760 220 C1000 180 1200 250 1440 210 V430 H0Z" fill="#7A8B6F"/><path d="M0 330 C300 290 640 340 940 310 C1180 286 1320 320 1440 300 V430 H0Z" fill="#5E6B52"/></svg>
+<nav><span class="on">Home</span><span>Progetti</span><span>Percorso</span><span>Contatti</span></nav>
+<div class="panel"><span class="eyebrow">Mobile &amp; Web Developer</span><h1>Edward Attuati</h1><div class="sub">Costruisco app complete, dall'idea all'App Store.</div>
+<div class="btns"><div class="g p">Contattami ↗</div><div class="g">Vedi i progetti</div></div></div>
+<div class="bubble"><svg viewBox="0 0 220 220"><g fill="none" stroke="rgba(255,255,255,.85)" stroke-width="5"><ellipse cx="110" cy="110" rx="96" ry="34"/><ellipse cx="110" cy="110" rx="96" ry="34" transform="rotate(60 110 110)"/><ellipse cx="110" cy="110" rx="96" ry="34" transform="rotate(-60 110 110)"/></g><circle cx="110" cy="110" r="14" fill="#FFF2D8"/></svg></div>
+</body></html>

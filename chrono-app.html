@@ -3,26 +3,30 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Chrono App</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600;700&family=Space+Mono&display=swap" rel="stylesheet">
+<title>Chrono — web app</title>
+<meta name="theme-color" content="#141610">
+<link rel="icon" href="/assets/site/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/fonts/fonts.css">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#080816;--surface:#10102a;--card:#16163a;--border:#252550;
-  --gold:#E8B84B;--gold-light:#F5D073;--gold-dim:rgba(232,184,75,.12);
-  --purple:#7C5CFC;--purple-dim:rgba(124,92,252,.12);
-  --green:#4CAF88;--red:#FC5C5C;--text:#fff;--text2:#8892A4;--text3:#4A5568;
+  --bg:#141610;--surface:#1b1d15;--card:#23251b;--border:#3a3b2e;
+  --gold:#dfc38e;--gold-light:#ecd7a8;--gold-dim:rgba(223,195,142,.12);
+  --purple:#b4bec8;--purple-dim:rgba(180,190,200,.12);
+  --green:#9dbb6a;--red:#e07a5f;--text:#fff;--text2:#bcb8a3;--text3:#85836f;
 }
 html,body{height:100%;overflow:hidden}
-body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;display:flex;flex-direction:column}
+html{font-synthesis:none}
+body{background:var(--bg);color:var(--text);font-family:'Hanken Grotesk',system-ui,sans-serif;display:flex;flex-direction:column}
 
 /* ── MEMIVE BANNER ── */
-#memive-banner{position:fixed;top:0;left:0;right:0;z-index:999;background:linear-gradient(90deg,#A855F7,#EC4899);padding:9px 20px;display:flex;align-items:center;justify-content:center;gap:12px;font-family:'Inter',sans-serif;font-size:13px;font-weight:600;color:#fff;text-decoration:none;cursor:pointer;transition:opacity .2s}
+#memive-banner{position:fixed;top:0;left:0;right:0;z-index:999;background:#23251b;color:#f3eedc;border-bottom:1px solid rgba(223,195,142,.25);padding:9px 20px;display:flex;align-items:center;justify-content:center;gap:12px;font-family:'Hanken Grotesk',system-ui,sans-serif;font-size:13px;font-weight:600;color:#fff;text-decoration:none;cursor:pointer;transition:opacity .2s}
 #memive-banner:hover{opacity:.9}
 #memive-banner svg{flex-shrink:0}
 #memive-banner .mb-text{opacity:.85;font-weight:400}
 #memive-banner .mb-cta{background:rgba(255,255,255,.2);border-radius:20px;padding:3px 12px;margin-left:8px;font-size:12px}
 body.with-banner{padding-top:36px}
+@media(max-width:560px){#memive-banner .mb-text{display:none}#memive-banner{gap:8px;padding:9px 14px}}
 
 /* STARS */
 #stars{position:fixed;inset:0;pointer-events:none;z-index:0}
@@ -33,45 +37,45 @@ body.with-banner{padding-top:36px}
 
 /* ── AUTH VIEW ── */
 #v-auth{align-items:center;justify-content:center;padding:24px}
-.auth-box{width:100%;max-width:420px;background:rgba(16,16,42,.8);backdrop-filter:blur(20px);border:1px solid var(--border);border-radius:24px;padding:40px 36px}
+.auth-box{width:100%;max-width:420px;background:rgba(27,29,21,.8);backdrop-filter:blur(20px);border:1px solid var(--border);border-radius:24px;padding:40px 36px}
 .auth-logo{text-align:center;margin-bottom:32px}
-.auth-logo-icon{width:72px;height:72px;border-radius:50%;background:var(--gold-dim);border:1px solid rgba(232,184,75,.3);display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 14px}
-.auth-logo-title{font-family:'Playfair Display',serif;font-size:28px;font-weight:700}
+.auth-logo-icon{width:72px;height:72px;border-radius:50%;background:var(--gold-dim);border:1px solid rgba(223,195,142,.3);display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 14px}
+.auth-logo-title{font-family:'Instrument Serif',Georgia,serif;font-size:28px;font-weight:700}
 .auth-logo-sub{font-size:13px;color:var(--text2);margin-top:4px}
 .auth-tabs{display:flex;background:var(--surface);border-radius:12px;padding:4px;margin-bottom:28px;gap:4px}
-.auth-tab{flex:1;padding:9px;border:none;background:transparent;color:var(--text2);font-size:14px;font-weight:500;border-radius:9px;cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif}
+.auth-tab{flex:1;padding:9px;border:none;background:transparent;color:var(--text2);font-size:14px;font-weight:500;border-radius:9px;cursor:pointer;transition:all .2s;font-family:'Hanken Grotesk',system-ui,sans-serif}
 .auth-tab.active{background:var(--card);color:var(--text);font-weight:600}
 .field{margin-bottom:18px}
 .field label{display:block;font-size:12px;font-weight:600;color:var(--text2);letter-spacing:.04em;margin-bottom:7px}
-.field input{width:100%;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:13px 16px;font-size:15px;color:var(--text);font-family:'Inter',sans-serif;outline:none;transition:border-color .2s}
+.field input{width:100%;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:13px 16px;font-size:15px;color:var(--text);font-family:'Hanken Grotesk',system-ui,sans-serif;outline:none;transition:border-color .2s}
 .field input:focus{border-color:var(--gold)}
 .field input::placeholder{color:var(--text3)}
-.btn-gold{width:100%;padding:14px;background:var(--gold);color:#000;border:none;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s;margin-top:6px}
+.btn-gold{width:100%;padding:14px;background:var(--gold);color:#000;border:none;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Hanken Grotesk',system-ui,sans-serif;transition:all .2s;margin-top:6px}
 .btn-gold:hover{background:var(--gold-light);transform:translateY(-1px)}
 .btn-gold:disabled{opacity:.5;cursor:not-allowed;transform:none}
 .auth-divider{display:flex;align-items:center;gap:12px;margin:20px 0}
 .auth-divider span{font-size:12px;color:var(--text3)}
 .auth-divider::before,.auth-divider::after{content:'';flex:1;height:1px;background:var(--border)}
-.btn-outline-auth{width:100%;padding:13px;background:transparent;border:1px solid var(--border);border-radius:12px;font-size:14px;font-weight:600;color:var(--text);cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:10px}
+.btn-outline-auth{width:100%;padding:13px;background:transparent;border:1px solid var(--border);border-radius:12px;font-size:14px;font-weight:600;color:var(--text);cursor:pointer;font-family:'Hanken Grotesk',system-ui,sans-serif;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:10px}
 .btn-outline-auth:hover{border-color:rgba(255,255,255,.3)}
-.auth-error{background:rgba(252,92,92,.1);border:1px solid rgba(252,92,92,.3);border-radius:10px;padding:12px 14px;font-size:13px;color:var(--red);margin-bottom:16px;display:none}
+.auth-error{background:rgba(224,122,95,.1);border:1px solid rgba(224,122,95,.3);border-radius:10px;padding:12px 14px;font-size:13px;color:var(--red);margin-bottom:16px;display:none}
 .auth-error.show{display:block}
 
 /* ── APP SHELL ── */
 #v-app{flex-direction:column;overflow:hidden}
-.app-nav{background:rgba(16,16,42,.9);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:0 24px;height:56px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;position:relative;z-index:10}
-.app-nav-logo{display:flex;align-items:center;gap:8px;font-family:'Playfair Display',serif;font-size:18px;font-weight:700}
+.app-nav{background:rgba(27,29,21,.9);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:0 24px;height:56px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;position:relative;z-index:10}
+.app-nav-logo{display:flex;align-items:center;gap:8px;font-family:'Instrument Serif',Georgia,serif;font-size:18px;font-weight:700}
 .app-nav-logo span{font-size:20px}
 .app-nav-right{display:flex;align-items:center;gap:16px}
 .app-nav-user{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text2)}
-.avatar{width:32px;height:32px;border-radius:50%;background:var(--gold-dim);border:1px solid rgba(232,184,75,.3);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
-.btn-logout{background:transparent;border:1px solid var(--border);border-radius:8px;padding:5px 12px;color:var(--text2);font-size:12px;cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s}
+.avatar{width:32px;height:32px;border-radius:50%;background:var(--gold-dim);border:1px solid rgba(223,195,142,.3);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.btn-logout{background:transparent;border:1px solid var(--border);border-radius:8px;padding:5px 12px;color:var(--text2);font-size:12px;cursor:pointer;font-family:'Hanken Grotesk',system-ui,sans-serif;transition:all .2s}
 .btn-logout:hover{border-color:var(--red);color:var(--red)}
 .app-body{flex:1;overflow:hidden;display:flex;flex-direction:column;position:relative;z-index:1}
 
 /* TABS */
 .app-tabs{display:flex;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0}
-.app-tab{flex:1;padding:13px 8px;border:none;background:transparent;color:var(--text2);font-size:13px;font-weight:500;cursor:pointer;font-family:'Inter',sans-serif;border-bottom:2px solid transparent;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:6px}
+.app-tab{flex:1;padding:13px 8px;border:none;background:transparent;color:var(--text2);font-size:13px;font-weight:500;cursor:pointer;font-family:'Hanken Grotesk',system-ui,sans-serif;border-bottom:2px solid transparent;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:6px}
 .app-tab.active{color:var(--gold);border-color:var(--gold);font-weight:600}
 .app-tab:hover:not(.active){color:var(--text)}
 .tab-pane{display:none;flex:1;overflow-y:auto;padding:24px}
@@ -80,18 +84,18 @@ body.with-banner{padding-top:36px}
 /* CAPSULE CARD */
 .cap-card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:18px;display:flex;align-items:center;gap:14px;margin-bottom:12px;cursor:pointer;transition:all .25s}
 .cap-card:hover{transform:translateY(-2px);border-color:rgba(255,255,255,.12)}
-.cap-card.unlocked{border-color:rgba(76,175,136,.35)}
-.cap-card.soon{border-color:rgba(232,184,75,.45)}
+.cap-card.unlocked{border-color:rgba(157,187,106,.35)}
+.cap-card.soon{border-color:rgba(223,195,142,.45)}
 .cap-emoji-box{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0}
 .cap-emoji-box.locked{background:var(--purple-dim)}
-.cap-emoji-box.unlocked{background:rgba(76,175,136,.12)}
+.cap-emoji-box.unlocked{background:rgba(157,187,106,.12)}
 .cap-emoji-box.soon{background:var(--gold-dim)}
 .cap-info{flex:1;min-width:0}
 .cap-title{font-size:15px;font-weight:700;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .cap-sub{font-size:12px;color:var(--text2)}
 .cap-badge{font-size:11px;font-weight:700;padding:3px 9px;border-radius:6px;white-space:nowrap}
 .cap-badge.locked{background:var(--purple-dim);color:var(--purple)}
-.cap-badge.unlocked{background:rgba(76,175,136,.15);color:var(--green)}
+.cap-badge.unlocked{background:rgba(157,187,106,.15);color:var(--green)}
 .cap-badge.soon{background:var(--gold-dim);color:var(--gold)}
 .empty-state{text-align:center;padding:60px 20px;color:var(--text2)}
 .empty-state .es-icon{font-size:52px;margin-bottom:16px}
@@ -99,8 +103,8 @@ body.with-banner{padding-top:36px}
 .empty-state p{font-size:14px;line-height:1.6}
 
 /* FAB */
-.fab{position:fixed;bottom:28px;right:28px;background:var(--gold);color:#000;border:none;border-radius:16px;padding:14px 22px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;display:flex;align-items:center;gap:8px;box-shadow:0 8px 32px rgba(232,184,75,.3);transition:all .25s;z-index:50}
-.fab:hover{background:var(--gold-light);transform:translateY(-3px);box-shadow:0 12px 40px rgba(232,184,75,.4)}
+.fab{position:fixed;bottom:28px;right:28px;background:var(--gold);color:#000;border:none;border-radius:16px;padding:14px 22px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Hanken Grotesk',system-ui,sans-serif;display:flex;align-items:center;gap:8px;box-shadow:0 8px 32px rgba(223,195,142,.3);transition:all .25s;z-index:50}
+.fab:hover{background:var(--gold-light);transform:translateY(-3px);box-shadow:0 12px 40px rgba(223,195,142,.4)}
 
 /* MODAL */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);z-index:200;display:flex;align-items:center;justify-content:center;padding:16px;opacity:0;pointer-events:none;transition:opacity .25s}
@@ -108,7 +112,7 @@ body.with-banner{padding-top:36px}
 .modal{background:var(--surface);border:1px solid var(--border);border-radius:24px;width:100%;max-width:560px;max-height:90vh;overflow-y:auto;padding:32px;transform:translateY(20px);transition:transform .3s;box-shadow:0 40px 80px rgba(0,0,0,.5)}
 .modal-overlay.open .modal{transform:none}
 .modal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
-.modal-title{font-family:'Playfair Display',serif;font-size:22px;font-weight:700}
+.modal-title{font-family:'Instrument Serif',Georgia,serif;font-size:22px;font-weight:700}
 .modal-close{background:var(--card);border:1px solid var(--border);border-radius:8px;width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text2);font-size:16px;transition:all .2s}
 .modal-close:hover{color:var(--text);border-color:rgba(255,255,255,.2)}
 
@@ -118,12 +122,12 @@ body.with-banner{padding-top:36px}
 .step-dot.done{background:var(--gold)}
 .step-pane{display:none}
 .step-pane.active{display:block}
-.step-title-sm{font-size:14px;font-weight:600;color:var(--text2);margin-bottom:18px;font-family:'Space Mono',monospace;letter-spacing:.04em}
+.step-title-sm{font-size:14px;font-weight:600;color:var(--text2);margin-bottom:18px;font-family:'Hanken Grotesk',system-ui,sans-serif;letter-spacing:.04em}
 
 /* FORM FIELDS */
 .mfield{margin-bottom:16px}
 .mfield label{display:block;font-size:12px;font-weight:600;color:var(--text2);margin-bottom:7px;letter-spacing:.04em}
-.mfield input,.mfield textarea,.mfield select{width:100%;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 14px;font-size:14px;color:var(--text);font-family:'Inter',sans-serif;outline:none;transition:border-color .2s;resize:none}
+.mfield input,.mfield textarea,.mfield select{width:100%;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 14px;font-size:14px;color:var(--text);font-family:'Hanken Grotesk',system-ui,sans-serif;outline:none;transition:border-color .2s;resize:none}
 .mfield input:focus,.mfield textarea:focus{border-color:var(--gold)}
 .mfield textarea{min-height:120px;line-height:1.6}
 .mfield input::placeholder,.mfield textarea::placeholder{color:var(--text3)}
@@ -131,27 +135,27 @@ body.with-banner{padding-top:36px}
 .ep-btn{width:40px;height:40px;border:1px solid var(--border);border-radius:10px;background:var(--card);cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;transition:all .15s}
 .ep-btn:hover,.ep-btn.sel{background:var(--gold-dim);border-color:var(--gold)}
 .date-presets{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-.dp-btn{padding:8px 14px;border:1px solid var(--border);border-radius:8px;background:var(--card);color:var(--text2);font-size:13px;cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s}
+.dp-btn{padding:8px 14px;border:1px solid var(--border);border-radius:8px;background:var(--card);color:var(--text2);font-size:13px;cursor:pointer;font-family:'Hanken Grotesk',system-ui,sans-serif;transition:all .2s}
 .dp-btn:hover,.dp-btn.sel{border-color:var(--gold);color:var(--gold);background:var(--gold-dim)}
 .add-row{display:flex;gap:8px;margin-bottom:8px}
-.add-row input{flex:1;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 12px;font-size:13px;color:var(--text);font-family:'Inter',sans-serif;outline:none}
+.add-row input{flex:1;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 12px;font-size:13px;color:var(--text);font-family:'Hanken Grotesk',system-ui,sans-serif;outline:none}
 .add-row input:focus{border-color:var(--gold)}
-.add-btn{background:var(--gold-dim);border:1px solid rgba(232,184,75,.3);border-radius:10px;width:38px;height:38px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--gold);font-size:18px;flex-shrink:0;transition:all .2s}
-.add-btn:hover{background:rgba(232,184,75,.2)}
+.add-btn{background:var(--gold-dim);border:1px solid rgba(223,195,142,.3);border-radius:10px;width:38px;height:38px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--gold);font-size:18px;flex-shrink:0;transition:all .2s}
+.add-btn:hover{background:rgba(223,195,142,.2)}
 .chip{display:inline-flex;align-items:center;gap:6px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:12px;margin:3px 4px 3px 0}
 .chip-del{background:none;border:none;color:var(--text3);cursor:pointer;font-size:14px;padding:0;line-height:1;transition:color .2s}
 .chip-del:hover{color:var(--red)}
-.review-box{background:var(--card);border:1px solid rgba(232,184,75,.25);border-radius:16px;padding:22px;text-align:center}
+.review-box{background:var(--card);border:1px solid rgba(223,195,142,.25);border-radius:16px;padding:22px;text-align:center}
 .review-emoji{font-size:44px;margin-bottom:10px}
-.review-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;margin-bottom:16px}
+.review-title{font-family:'Instrument Serif',Georgia,serif;font-size:20px;font-weight:700;margin-bottom:16px}
 .review-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px}
 .review-row:last-child{border:none}
 .review-row span:first-child{color:var(--text2)}
 .review-row span:last-child{font-weight:600}
 .modal-footer{display:flex;gap:10px;margin-top:24px}
-.btn-sm-out{flex:1;padding:12px;background:transparent;border:1px solid var(--border);border-radius:10px;color:var(--text2);font-size:14px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s}
+.btn-sm-out{flex:1;padding:12px;background:transparent;border:1px solid var(--border);border-radius:10px;color:var(--text2);font-size:14px;font-weight:600;cursor:pointer;font-family:'Hanken Grotesk',system-ui,sans-serif;transition:all .2s}
 .btn-sm-out:hover{border-color:rgba(255,255,255,.2);color:var(--text)}
-.btn-sm-gold{flex:2;padding:12px;background:var(--gold);color:#000;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s}
+.btn-sm-gold{flex:2;padding:12px;background:var(--gold);color:#000;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Hanken Grotesk',system-ui,sans-serif;transition:all .2s}
 .btn-sm-gold:hover{background:var(--gold-light)}
 .btn-sm-gold:disabled{opacity:.5;cursor:not-allowed}
 
@@ -160,15 +164,15 @@ body.with-banner{padding-top:36px}
 .det-emoji{font-size:52px;margin-bottom:10px}
 .det-badge{display:inline-block;padding:4px 14px;border-radius:12px;font-size:12px;font-weight:700;margin-bottom:14px}
 .det-badge.locked{background:var(--purple-dim);color:var(--purple)}
-.det-badge.unlocked{background:rgba(76,175,136,.12);color:var(--green)}
+.det-badge.unlocked{background:rgba(157,187,106,.12);color:var(--green)}
 .det-badge.soon{background:var(--gold-dim);color:var(--gold)}
-.det-title{font-family:'Playfair Display',serif;font-size:24px;font-weight:700;margin-bottom:4px}
+.det-title{font-family:'Instrument Serif',Georgia,serif;font-size:24px;font-weight:700;margin-bottom:4px}
 .det-sub{font-size:12px;color:var(--text3)}
 .countdown{display:flex;gap:10px;justify-content:center;margin:20px 0}
 .cd-unit{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:10px 14px;text-align:center;min-width:64px}
-.cd-num{font-family:'Space Mono',monospace;font-size:26px;font-weight:700;color:var(--gold)}
+.cd-num{font-family:'Hanken Grotesk',system-ui,sans-serif;font-size:26px;font-weight:700;color:var(--gold)}
 .cd-lbl{font-size:10px;color:var(--text3);margin-top:2px}
-.cd-sep{font-family:'Space Mono',monospace;font-size:26px;color:var(--gold);display:flex;align-items:center;padding-bottom:18px}
+.cd-sep{font-family:'Hanken Grotesk',system-ui,sans-serif;font-size:26px;color:var(--gold);display:flex;align-items:center;padding-bottom:18px}
 .section-hdr{font-size:14px;font-weight:700;margin:20px 0 10px;display:flex;align-items:center;gap:6px}
 .content-item{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:8px}
 .content-item-lbl{font-size:10px;color:var(--text3);margin-bottom:8px;display:flex;align-items:center;gap:5px}
@@ -177,8 +181,8 @@ body.with-banner{padding-top:36px}
 .pred-text{flex:1;font-size:13px}
 .pred-btns{display:flex;gap:6px}
 .pred-btn{width:28px;height:28px;border-radius:6px;border:1px solid var(--border);background:transparent;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;transition:all .2s}
-.pred-btn.correct{background:rgba(76,175,136,.15);border-color:var(--green)}
-.pred-btn.wrong{background:rgba(252,92,92,.1);border-color:var(--red)}
+.pred-btn.correct{background:rgba(157,187,106,.15);border-color:var(--green)}
+.pred-btn.wrong{background:rgba(224,122,95,.1);border-color:var(--red)}
 .goal-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border)}
 .goal-row:last-child{border:none}
 
@@ -187,7 +191,7 @@ body.with-banner{padding-top:36px}
 .profile-header{text-align:center;padding:16px 0 8px}
 .stat-row{display:flex;gap:12px}
 .stat-box{flex:1;background:var(--surface);border-radius:12px;padding:14px;text-align:center}
-.stat-num{font-size:24px;font-weight:700;font-family:'Playfair Display',serif;color:var(--gold)}
+.stat-num{font-size:24px;font-weight:700;font-family:'Instrument Serif',Georgia,serif;color:var(--gold)}
 .stat-lbl{font-size:11px;color:var(--text3);margin-top:3px}
 .ach-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)}
 .ach-row:last-child{border:none}
@@ -198,7 +202,7 @@ body.with-banner{padding-top:36px}
 .ach-check{font-size:16px}
 
 /* FIREBASE NOTICE */
-.firebase-notice{background:rgba(232,184,75,.06);border:1px solid rgba(232,184,75,.2);border-radius:12px;padding:14px 16px;font-size:12px;color:var(--text2);line-height:1.6;margin-bottom:16px}
+.firebase-notice{background:rgba(223,195,142,.06);border:1px solid rgba(223,195,142,.2);border-radius:12px;padding:14px 16px;font-size:12px;color:var(--text2);line-height:1.6;margin-bottom:16px}
 .firebase-notice strong{color:var(--gold)}
 
 /* TOAST */
@@ -206,29 +210,29 @@ body.with-banner{padding-top:36px}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
 /* MEMORY FEED */
-.memory-card{display:flex;align-items:center;gap:10px;background:rgba(232,184,75,.05);border:1px solid rgba(232,184,75,.18);border-radius:12px;padding:12px 14px;margin-bottom:8px;cursor:default}
+.memory-card{display:flex;align-items:center;gap:10px;background:rgba(223,195,142,.05);border:1px solid rgba(223,195,142,.18);border-radius:12px;padding:12px 14px;margin-bottom:8px;cursor:default}
 .memory-years{font-size:10px;font-weight:700;color:var(--gold);background:var(--gold-dim);padding:3px 8px;border-radius:20px;white-space:nowrap}
 .memory-cap-emoji{font-size:20px}
 .memory-cap-title{font-size:14px;font-weight:600;flex:1}
 
 /* CHECK-IN BANNER */
-#checkin-banner{background:rgba(232,184,75,.06);border:1px solid rgba(232,184,75,.3);border-radius:14px;padding:14px 16px;margin-bottom:16px;display:none}
+#checkin-banner{background:rgba(223,195,142,.06);border:1px solid rgba(223,195,142,.3);border-radius:14px;padding:14px 16px;margin-bottom:16px;display:none}
 .checkin-inner{display:flex;align-items:center;justify-content:space-between;gap:12px}
 .checkin-title{font-size:14px;font-weight:700;color:var(--gold);margin-bottom:3px}
 .checkin-sub{font-size:12px;color:var(--text2);line-height:1.4}
 
 /* MEMORY PEEK */
-.peek-container{position:relative;background:var(--card);border:1px solid rgba(232,184,75,.2);border-radius:12px;padding:16px;margin:16px 0;overflow:hidden;min-height:70px}
+.peek-container{position:relative;background:var(--card);border:1px solid rgba(223,195,142,.2);border-radius:12px;padding:16px;margin:16px 0;overflow:hidden;min-height:70px}
 .peek-text{font-size:13px;line-height:1.65;color:var(--text);filter:blur(5px);user-select:none;pointer-events:none;max-height:80px;overflow:hidden}
-.peek-overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(11,11,28,.25);backdrop-filter:blur(1px);gap:4px}
+.peek-overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(20,22,16,.25);backdrop-filter:blur(1px);gap:4px}
 .peek-label{font-size:13px;font-weight:700;color:var(--gold)}
 .peek-hint{font-size:11px;color:var(--text2)}
 
 /* LETTER PROMPTS */
 .prompt-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px;margin-bottom:8px}
 .prompt-q{font-size:13px;font-weight:600;color:var(--gold);margin-bottom:8px}
-.prompt-ta{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px 10px;color:var(--text);font-size:13px;font-family:'Inter',sans-serif;resize:vertical;box-sizing:border-box;min-height:56px}
-.prompt-ta:focus{outline:none;border-color:rgba(232,184,75,.4)}
+.prompt-ta{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px 10px;color:var(--text);font-size:13px;font-family:'Hanken Grotesk',system-ui,sans-serif;resize:vertical;box-sizing:border-box;min-height:56px}
+.prompt-ta:focus{outline:none;border-color:rgba(223,195,142,.4)}
 
 /* SHARED TOGGLE */
 .toggle-row{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--card);border:1px solid var(--border);border-radius:10px;font-size:13px}
@@ -236,7 +240,7 @@ body.with-banner{padding-top:36px}
 .toggle.on{background:var(--gold);border-color:var(--gold)}
 .toggle-thumb{position:absolute;top:2px;left:2px;width:18px;height:18px;background:#fff;border-radius:50%;transition:left .25s;box-shadow:0 1px 3px rgba(0,0,0,.3)}
 .toggle.on .toggle-thumb{left:19px}
-.shared-badge{font-size:10px;background:rgba(232,184,75,.12);color:var(--gold);border:1px solid rgba(232,184,75,.25);border-radius:20px;padding:2px 8px;font-weight:600;margin-left:6px;vertical-align:middle}
+.shared-badge{font-size:10px;background:rgba(223,195,142,.12);color:var(--gold);border:1px solid rgba(223,195,142,.25);border-radius:20px;padding:2px 8px;font-weight:600;margin-left:6px;vertical-align:middle}
 
 @media(max-width:600px){
   .auth-box{padding:28px 22px}
@@ -245,7 +249,15 @@ body.with-banner{padding-top:36px}
   .cd-num{font-size:20px}
   .cd-unit{min-width:50px;padding:8px 10px}
 }
+.ic{width:1.15em;height:1.15em;flex:none;vertical-align:-.2em;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.empty-state .es-icon .ic{width:48px;height:48px;stroke-width:1.4;color:var(--gold)}
+.ach-emoji .ic{width:24px;height:24px;color:var(--gold)}
 </style>
+<script>
+/* icone a tratto, le stesse del sito */
+window.ICONS = {"home": "<path d=\"M4 11l8-6.5 8 6.5V20a1 1 0 0 1-1 1h-4.5v-6h-5v6H5a1 1 0 0 1-1-1z\"/>", "box": "<path d=\"M3 7.5L12 3l9 4.5v9L12 21l-9-4.5z\"/><path d=\"M3 7.5l9 4.5 9-4.5M12 12v9\"/>", "user": "<circle cx=\"12\" cy=\"8\" r=\"4\"/><path d=\"M4 21a8 8 0 0 1 16 0\"/>", "lock": "<rect x=\"5\" y=\"11\" width=\"14\" height=\"10\" rx=\"2\"/><path d=\"M8 11V8a4 4 0 0 1 8 0v3\"/>", "spark": "<path d=\"M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5L18 18M6 18l2.5-2.5M15.5 8.5L18 6\"/>", "clock": "<circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M12 7v5l3 2\"/>", "photo": "<rect x=\"3\" y=\"6\" width=\"18\" height=\"14\" rx=\"3\"/><circle cx=\"12\" cy=\"13\" r=\"4\"/><path d=\"M8 6l1.5-2.5h5L16 6\"/>", "cal": "<rect x=\"3\" y=\"5\" width=\"18\" height=\"16\" rx=\"2\"/><path d=\"M3 10h18M8 3v4M16 3v4\"/>", "trophy": "<path d=\"M8 4h8v5a4 4 0 0 1-8 0zM8 6H5a3 3 0 0 0 3 4M16 6h3a3 3 0 0 1-3 4M12 13v4M8 21h8M10 17h4\"/>", "users": "<circle cx=\"9\" cy=\"8\" r=\"3.5\"/><path d=\"M2.5 20a6.5 6.5 0 0 1 13 0M16 4.5a3.5 3.5 0 0 1 0 7M18 14a6 6 0 0 1 3.5 6\"/>", "note": "<path d=\"M5 3h10l4 4v14H5zM15 3v4h4M8 12h8M8 16h6\"/>", "crystal": "<circle cx=\"12\" cy=\"10\" r=\"6\"/><path d=\"M7 20h10M9 16.5L8 20M15 16.5l1 3.5\"/>", "target": "<circle cx=\"12\" cy=\"12\" r=\"9\"/><circle cx=\"12\" cy=\"12\" r=\"5\"/><circle cx=\"12\" cy=\"12\" r=\"1\"/>", "warn": "<path d=\"M12 3l9.5 17h-19zM12 10v4M12 17v.01\"/>", "check": "<path d=\"M5 12.5l4.5 4.5L19 7\"/>"};
+window.ic = n => '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true">' + (ICONS[n] || '') + '</svg>';
+</script>
 </head>
 <body>
 
@@ -255,18 +267,18 @@ body.with-banner{padding-top:36px}
 <!-- APP VIEW -->
 <div id="v-app" class="view active">
   <div class="app-nav">
-    <div class="app-nav-logo"><svg width="20" height="20" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M75 19A38 38 0 1 0 75 81" stroke="#E8B84B" stroke-width="12" stroke-linecap="round"/><polygon points="18,22 62,22 40,50" fill="#E8B84B"/><polygon points="18,78 62,78 40,50" fill="#7C5CFC"/><line x1="10" y1="22" x2="68" y2="22" stroke="#E8B84B" stroke-width="3" stroke-linecap="round"/><line x1="10" y1="78" x2="68" y2="78" stroke="#7C5CFC" stroke-width="3" stroke-linecap="round"/><circle cx="40" cy="50" r="4" fill="#fff"/></svg> Chrono</div>
+    <div class="app-nav-logo"><svg width="20" height="20" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M75 19A38 38 0 1 0 75 81" stroke="#dfc38e" stroke-width="12" stroke-linecap="round"/><polygon points="18,22 62,22 40,50" fill="#dfc38e"/><polygon points="18,78 62,78 40,50" fill="#b4bec8"/><line x1="10" y1="22" x2="68" y2="22" stroke="#dfc38e" stroke-width="3" stroke-linecap="round"/><line x1="10" y1="78" x2="68" y2="78" stroke="#b4bec8" stroke-width="3" stroke-linecap="round"/><circle cx="40" cy="50" r="4" fill="#fff"/></svg> Chrono</div>
     <div class="app-nav-right">
-      <a href="memive.html" style="display:flex;align-items:center;gap:6px;background:linear-gradient(135deg,rgba(99,102,241,0.15),rgba(168,85,247,0.15));border:1px solid rgba(168,85,247,0.35);border-radius:20px;padding:6px 14px;font-size:12px;font-weight:600;color:#A855F7;text-decoration:none;letter-spacing:.03em;transition:all .2s" onmouseover="this.style.background='linear-gradient(135deg,rgba(99,102,241,0.3),rgba(168,85,247,0.3))'" onmouseout="this.style.background='linear-gradient(135deg,rgba(99,102,241,0.15),rgba(168,85,247,0.15))'">
-        <svg width="14" height="14" viewBox="0 0 90 90" fill="none"><path d="M14 65 L14 30 Q14 22 22 22 Q28 22 30 30 L45 55 L60 30 Q62 22 68 22 Q76 22 76 30 L76 65" stroke="#A855F7" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="45" cy="76" r="6" fill="#A855F7"/></svg>
+      <a href="memive.html" style="display:flex;align-items:center;gap:6px;background:rgba(223,195,142,.1);border:1px solid rgba(223,195,142,.3);border-radius:20px;padding:6px 14px;font-size:12px;font-weight:600;color:#dfc38e;text-decoration:none;letter-spacing:.03em;transition:all .2s" onmouseover="this.style.background='rgba(223,195,142,.2)'" onmouseout="this.style.background='rgba(223,195,142,.1)'">
+        <svg width="14" height="14" viewBox="0 0 90 90" fill="none"><path d="M14 65 L14 30 Q14 22 22 22 Q28 22 30 30 L45 55 L60 30 Q62 22 68 22 Q76 22 76 30 L76 65" stroke="#dfc38e" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="45" cy="76" r="6" fill="#dfc38e"/></svg>
         Parte di Memive
       </a>
     </div>
   </div>
   <div class="app-tabs">
-    <button class="app-tab active" onclick="openAppTab('home',this)">🏠 Home</button>
-    <button class="app-tab" onclick="openAppTab('capsules',this)">📦 Capsule</button>
-    <button class="app-tab" onclick="openAppTab('profile',this)">👤 Profilo</button>
+    <button class="app-tab active" onclick="openAppTab('home',this)"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11l8-6.5 8 6.5V20a1 1 0 0 1-1 1h-4.5v-6h-5v6H5a1 1 0 0 1-1-1z"/></svg> Home</button>
+    <button class="app-tab" onclick="openAppTab('capsules',this)"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7.5L12 3l9 4.5v9L12 21l-9-4.5z"/><path d="M3 7.5l9 4.5 9-4.5M12 12v9"/></svg> Capsule</button>
+    <button class="app-tab" onclick="openAppTab('profile',this)"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg> Profilo</button>
   </div>
   <div class="app-body">
     <!-- HOME TAB -->
@@ -275,29 +287,29 @@ body.with-banner{padding-top:36px}
       <div id="checkin-banner">
         <div class="checkin-inner">
           <div>
-            <div class="checkin-title" id="checkin-title">🎂 Anniversario!</div>
+            <div class="checkin-title" id="checkin-title">Anniversario!</div>
             <div class="checkin-sub" id="checkin-sub">Una capsula compie anni oggi.</div>
           </div>
-          <span style="font-size:24px">🎉</span>
+          <span style="display:inline-flex;color:var(--gold)"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5L18 18M6 18l2.5-2.5M15.5 8.5L18 6"/></svg></span>
         </div>
       </div>
       <!-- MEMORY FEED -->
       <div id="memory-feed-section" style="display:none;margin-bottom:24px">
-        <div style="font-size:15px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:7px">📸 In questo giorno</div>
+        <div style="font-size:15px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:7px"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="14" rx="3"/><circle cx="12" cy="13" r="4"/><path d="M8 6l1.5-2.5h5L16 6"/></svg> In questo giorno</div>
         <div id="memory-feed-list"></div>
       </div>
       <div id="home-soon-section" style="display:none;margin-bottom:24px">
-        <div style="font-size:15px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:7px">🔥 Si aprono presto</div>
+        <div style="font-size:15px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:7px"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg> Si aprono presto</div>
         <div id="home-soon-list"></div>
       </div>
-      <div style="font-size:15px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:7px">🔒 Sigillate</div>
+      <div style="font-size:15px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:7px"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg> Sigillate</div>
       <div id="home-locked-list"></div>
       <div id="home-unlocked-section" style="display:none;margin-top:24px">
-        <div style="font-size:15px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:7px">✨ Già aperte</div>
+        <div style="font-size:15px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:7px"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5L18 18M6 18l2.5-2.5M15.5 8.5L18 6"/></svg> Già aperte</div>
         <div id="home-unlocked-list"></div>
       </div>
       <div id="home-empty" class="empty-state" style="display:none">
-        <div class="es-icon">📦</div>
+        <div class="es-icon"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7.5L12 3l9 4.5v9L12 21l-9-4.5z"/><path d="M3 7.5l9 4.5 9-4.5M12 12v9"/></svg></div>
         <h3>Nessuna capsula ancora</h3>
         <p>Crea la tua prima capsula del tempo.<br>Sarà il regalo perfetto per il tuo sé futuro.</p>
       </div>
@@ -306,7 +318,7 @@ body.with-banner{padding-top:36px}
     <div id="tab-capsules" class="tab-pane">
       <div id="all-caps-list"></div>
       <div id="all-empty" class="empty-state" style="display:none">
-        <div class="es-icon">📦</div>
+        <div class="es-icon"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7.5L12 3l9 4.5v9L12 21l-9-4.5z"/><path d="M3 7.5l9 4.5 9-4.5M12 12v9"/></svg></div>
         <h3>Nessuna capsula</h3>
         <p>Premi + per creare la tua prima capsula</p>
       </div>
@@ -316,7 +328,7 @@ body.with-banner{padding-top:36px}
       <div class="profile-section">
         <div class="profile-header">
           <div style="font-size:52px;margin-bottom:8px" id="prof-emoji">🧑</div>
-          <div style="font-size:20px;font-weight:700;font-family:'Playfair Display',serif" id="prof-name">Utente</div>
+          <div style="font-size:20px;font-weight:700;font-family:'Instrument Serif',Georgia,serif" id="prof-name">Utente</div>
           <div style="font-size:12px;color:var(--text3);margin-top:4px" id="prof-email"></div>
         </div>
         <div class="stat-row" style="margin-top:20px">
@@ -326,7 +338,7 @@ body.with-banner{padding-top:36px}
         </div>
       </div>
       <div class="profile-section">
-        <div style="font-size:15px;font-weight:700;margin-bottom:14px">🏆 Traguardi</div>
+        <div style="font-size:15px;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:7px"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4h8v5a4 4 0 0 1-8 0zM8 6H5a3 3 0 0 0 3 4M16 6h3a3 3 0 0 1-3 4M12 13v4M8 21h8M10 17h4"/></svg> Traguardi</div>
         <div id="achievements-list"></div>
       </div>
     </div>
@@ -351,7 +363,7 @@ body.with-banner{padding-top:36px}
       <div class="mfield"><label>Titolo *</label><input id="c-title" type="text" placeholder="Es. Il mio 2025"></div>
       <div class="mfield"><label>Descrizione</label><textarea id="c-desc" placeholder="Una breve descrizione..."></textarea></div>
       <div class="mfield">
-        <label>👥 Capsula condivisa</label>
+        <label><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.5a3.5 3.5 0 0 1 0 7M18 14a6 6 0 0 1 3.5 6"/></svg> Capsula condivisa</label>
         <div class="toggle-row">
           <span style="color:var(--text2);font-size:13px">Condividi con amici o familiari</span>
           <div class="toggle" id="shared-toggle" onclick="toggleShared()"><div class="toggle-thumb"></div></div>
@@ -367,22 +379,22 @@ body.with-banner{padding-top:36px}
       <div class="mfield"><label>O scegli una data</label>
         <input id="c-date" type="date">
       </div>
-      <div id="date-preview" style="background:var(--gold-dim);border:1px solid rgba(232,184,75,.25);border-radius:12px;padding:14px;margin-top:8px;font-size:14px;color:var(--gold);display:none"></div>
+      <div id="date-preview" style="background:var(--gold-dim);border:1px solid rgba(223,195,142,.25);border-radius:12px;padding:14px;margin-top:8px;font-size:14px;color:var(--gold);display:none"></div>
     </div>
     <!-- Step 3: Contenuto -->
     <div class="step-pane" id="sp-3">
       <div class="step-title-sm">// STEP 03 — CONTENUTO</div>
-      <div class="mfield"><label>📝 Messaggio al tuo sé futuro</label>
+      <div class="mfield"><label><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3h10l4 4v14H5zM15 3v4h4M8 12h8M8 16h6"/></svg> Messaggio al tuo sé futuro</label>
         <textarea id="c-note" placeholder="Ciao me futuro...&#10;Come stai? Cosa stai facendo?&#10;Spero che..."></textarea>
       </div>
-      <button type="button" onclick="showLetterPrompts()" style="background:var(--gold-dim);border:1px solid rgba(232,184,75,.3);border-radius:10px;padding:10px 16px;color:var(--gold);font-size:13px;font-weight:600;cursor:pointer;width:100%;font-family:'Inter',sans-serif;margin-bottom:4px">✨ Usa i prompt guidati</button>
+      <button type="button" onclick="showLetterPrompts()" style="background:var(--gold-dim);border:1px solid rgba(223,195,142,.3);border-radius:10px;padding:10px 16px;color:var(--gold);font-size:13px;font-weight:600;cursor:pointer;width:100%;font-family:'Hanken Grotesk',system-ui,sans-serif;margin-bottom:4px">Usa i prompt guidati</button>
       <div id="letter-prompts-container" style="display:none"></div>
     </div>
     <!-- Step 4: Previsioni -->
     <div class="step-pane" id="sp-4">
       <div class="step-title-sm">// STEP 04 — PREVISIONI & OBIETTIVI</div>
       <div class="mfield">
-        <label>🔮 Previsioni sul futuro</label>
+        <label><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="10" r="6"/><path d="M7 20h10M9 16.5L8 20M15 16.5l1 3.5"/></svg> Previsioni sul futuro</label>
         <div class="add-row">
           <input id="pred-input" type="text" placeholder="Es: Avrò cambiato lavoro">
           <button class="add-btn" onclick="addPred()">+</button>
@@ -390,7 +402,7 @@ body.with-banner{padding-top:36px}
         <div id="pred-list"></div>
       </div>
       <div class="mfield">
-        <label>🎯 Obiettivi</label>
+        <label><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></svg> Obiettivi</label>
         <div class="add-row">
           <input id="goal-input" type="text" placeholder="Es: Correre una maratona">
           <button class="add-btn" onclick="addGoal()">+</button>
@@ -402,8 +414,8 @@ body.with-banner{padding-top:36px}
     <div class="step-pane" id="sp-5">
       <div class="step-title-sm">// STEP 05 — REVISIONE</div>
       <div class="review-box" id="review-box"></div>
-      <div style="background:rgba(232,184,75,.06);border:1px solid rgba(232,184,75,.18);border-radius:10px;padding:12px;margin-top:14px;font-size:12px;color:var(--text2);line-height:1.5">
-        ⚠️ Una volta sigillata, non potrai modificare il contenuto fino alla data di apertura.
+      <div style="background:rgba(223,195,142,.06);border:1px solid rgba(223,195,142,.18);border-radius:10px;padding:12px;margin-top:14px;font-size:12px;color:var(--text2);line-height:1.5">
+        Una volta sigillata, non potrai modificare il contenuto fino alla data di apertura.
       </div>
     </div>
     <div class="modal-footer">
@@ -657,10 +669,10 @@ function capsuleCardHTML(c) {
   const sub = st==='unlocked' ? `Aperta il ${fmtDate(c.unlockAt)}` :
               days > 365 ? `Si apre tra ${Math.floor(days/365)} anni` :
               days > 0 ? `Si apre tra ${days} giorni` : 'Si apre presto!';
-  const sharedBadge = c.isShared ? `<span class="shared-badge">👥 Condivisa</span>` : '';
-  const badge = st==='unlocked' ? `<span class="cap-badge unlocked">✨ Aperta</span>` :
-                st==='soon' ? `<span class="cap-badge soon">🔥 Presto!</span>` :
-                `<span class="cap-badge locked">🔒 Sigillata</span>`;
+  const sharedBadge = c.isShared ? `<span class="shared-badge">${ic('users')} Condivisa</span>` : '';
+  const badge = st==='unlocked' ? `<span class="cap-badge unlocked">${ic('spark')} Aperta</span>` :
+                st==='soon' ? `<span class="cap-badge soon">${ic('clock')} Presto</span>` :
+                `<span class="cap-badge locked">${ic('lock')} Sigillata</span>`;
   return `<div class="cap-card ${st}" data-id="${c.id}">
     <div class="cap-emoji-box ${st}">${c.emoji}</div>
     <div class="cap-info">
@@ -682,7 +694,7 @@ window.openDetail = (id) => {
 
   let html = `<div class="det-header">
     <div class="det-emoji">${c.emoji}</div>
-    <div class="det-badge ${st}">${st==='unlocked'?'✨ Aperta':st==='soon'?'🔥 Si apre presto':'🔒 Sigillata'}</div>
+    <div class="det-badge ${st}">${st==='unlocked'?ic('spark')+' Aperta':st==='soon'?ic('clock')+' Si apre presto':ic('lock')+' Sigillata'}</div>
     <div class="det-title">${esc(c.title)}</div>
     <div class="det-sub">Sigillata il ${fmtDate(c.createdAt)}</div>
   </div>`;
@@ -697,27 +709,27 @@ window.openDetail = (id) => {
     </div>
     <div style="font-size:13px;color:var(--text2);text-align:center;margin-bottom:16px">Si apre il ${fmtDate(c.unlockAt)}</div>`;
     if (c.note) {
-      html += `<div class="section-hdr">📝 Un assaggio del messaggio</div>
+      html += `<div class="section-hdr">${ic('note')} Un assaggio del messaggio</div>
         <div class="peek-container">
           <div class="peek-text">${esc(c.note).replace(/\n/g,'<br>')}</div>
           <div class="peek-overlay">
-            <div class="peek-label">🔒 Sigillata</div>
+            <div class="peek-label">${ic('lock')} Sigillata</div>
             <div class="peek-hint">Si svelerà il ${fmtDate(c.unlockAt)}</div>
           </div>
         </div>`;
     }
-    if (c.preds?.length) html += `<div class="section-hdr">🔮 ${c.preds.length} previsioni sigillate</div><div style="font-size:13px;color:var(--text3);padding:10px;background:var(--card);border-radius:10px;">Potrai vederle quando la capsula si apre.</div>`;
-    if (c.goals?.length) html += `<div class="section-hdr">🎯 ${c.goals.length} obiettivi</div><div style="font-size:13px;color:var(--text3);padding:10px;background:var(--card);border-radius:10px;">Potrai vederli quando la capsula si apre.</div>`;
+    if (c.preds?.length) html += `<div class="section-hdr">${ic('crystal')} ${c.preds.length} previsioni sigillate</div><div style="font-size:13px;color:var(--text3);padding:10px;background:var(--card);border-radius:10px;">Potrai vederle quando la capsula si apre.</div>`;
+    if (c.goals?.length) html += `<div class="section-hdr">${ic('target')} ${c.goals.length} obiettivi</div><div style="font-size:13px;color:var(--text3);padding:10px;background:var(--card);border-radius:10px;">Potrai vederli quando la capsula si apre.</div>`;
   } else {
     if (c.note) {
-      html += `<div class="section-hdr">📝 Il tuo messaggio</div>
+      html += `<div class="section-hdr">${ic('note')} Il tuo messaggio</div>
         <div class="content-item">
-          <div class="content-item-lbl">📝 Nota</div>
+          <div class="content-item-lbl">${ic('note')} Nota</div>
           <div class="content-item-text">${esc(c.note).replace(/\n/g,'<br>')}</div>
         </div>`;
     }
     if (c.preds?.length) {
-      html += `<div class="section-hdr">🔮 Le tue previsioni</div>`;
+      html += `<div class="section-hdr">${ic('crystal')} Le tue previsioni</div>`;
       c.preds.forEach(p => {
         html += `<div class="pred-row">
           <div class="pred-text">${esc(p.text)}</div>
@@ -729,7 +741,7 @@ window.openDetail = (id) => {
       });
     }
     if (c.goals?.length) {
-      html += `<div class="section-hdr">🎯 I tuoi obiettivi</div>`;
+      html += `<div class="section-hdr">${ic('target')} I tuoi obiettivi</div>`;
       c.goals.forEach(g => { html += `<div class="goal-row"><span style="color:var(--green)">✓</span><span style="font-size:13px;margin-left:8px">${esc(g)}</span></div>`; });
     }
   }
@@ -803,7 +815,7 @@ function updateDatePreview() {
   const el = document.getElementById('date-preview');
   if (!form.unlockAt) { el.style.display='none'; return; }
   const days = Math.ceil((form.unlockAt-new Date())/86400000);
-  el.textContent = `📅 Si apre il ${fmtDate(form.unlockAt)} — tra ${days} giorni`;
+  el.textContent = `Si apre il ${fmtDate(form.unlockAt)} — tra ${days} giorni`;
   el.style.display='block';
 }
 
@@ -827,12 +839,12 @@ document.getElementById('goal-input').addEventListener('keydown', e => { if(e.ke
 
 function renderPreds() {
   document.getElementById('pred-list').innerHTML = form.preds.map(p =>
-    `<div class="chip">🔮 ${esc(p.text)}<button class="chip-del" onclick="removePred('${p.id}')">×</button></div>`
+    `<div class="chip">${ic('crystal')} ${esc(p.text)}<button class="chip-del" onclick="removePred('${p.id}')">×</button></div>`
   ).join('');
 }
 function renderGoals() {
   document.getElementById('goal-list').innerHTML = form.goals.map((g,i) =>
-    `<div class="chip">🎯 ${esc(g)}<button class="chip-del" onclick="removeGoal(${i})">×</button></div>`
+    `<div class="chip">${ic('target')} ${esc(g)}<button class="chip-del" onclick="removeGoal(${i})">×</button></div>`
   ).join('');
 }
 window.removePred = id => { form.preds=form.preds.filter(p=>p.id!==id); renderPreds(); };
@@ -847,7 +859,7 @@ function renderStep() {
   ).join('');
   document.getElementById('modal-back-btn').style.display = createStep===1?'none':'block';
   const nextBtn = document.getElementById('modal-next-btn');
-  nextBtn.textContent = createStep===TOTAL_STEPS ? '🔒 Sigilla la capsula' : 'Continua →';
+  nextBtn.textContent = createStep===TOTAL_STEPS ? 'Sigilla la capsula' : 'Continua →';
   const titles = ['Nuova capsula','Quando aprirla?','Aggiungi contenuto','Previsioni & obiettivi','Pronto a sigillare?'];
   document.getElementById('modal-step-title').textContent = titles[createStep-1];
   if (createStep===TOTAL_STEPS) buildReview();
@@ -859,17 +871,17 @@ function buildReview() {
   document.getElementById('review-box').innerHTML = `
     <div class="review-emoji">${form.emoji}</div>
     <div class="review-title">${esc(form.title||'Senza titolo')}</div>
-    <div class="review-row"><span>📅 Si apre il</span><span>${fmtDate(form.unlockAt)}</span></div>
-    <div class="review-row"><span>📝 Contenuti</span><span>${items} elemento</span></div>
-    <div class="review-row"><span>🔮 Previsioni</span><span>${form.preds.length}</span></div>
-    <div class="review-row"><span>🎯 Obiettivi</span><span>${form.goals.length}</span></div>
+    <div class="review-row"><span>${ic('cal')} Si apre il</span><span>${fmtDate(form.unlockAt)}</span></div>
+    <div class="review-row"><span>${ic('note')} Contenuti</span><span>${items} elemento</span></div>
+    <div class="review-row"><span>${ic('crystal')} Previsioni</span><span>${form.preds.length}</span></div>
+    <div class="review-row"><span>${ic('target')} Obiettivi</span><span>${form.goals.length}</span></div>
   `;
 }
 
 window.stepNext = async () => {
   if (createStep===1) {
     form.title = document.getElementById('c-title').value.trim();
-    if (!form.title) { showToast('⚠️ Aggiungi un titolo!'); return; }
+    if (!form.title) { showToast('Aggiungi un titolo'); return; }
   }
   if (createStep===3) form.note = document.getElementById('c-note').value.trim();
   if (createStep===TOTAL_STEPS) { await sealCapsule(); return; }
@@ -892,7 +904,7 @@ async function sealCapsule() {
   await saveCapsuleToFirebase(cap);
   closeModal('create-modal');
   renderAll();
-  showToast('🎉 Capsula sigillata! Si aprirà il ' + fmtDate(cap.unlockAt));
+  showToast('Capsula sigillata. Si aprirà il ' + fmtDate(cap.unlockAt));
   document.getElementById('modal-next-btn').disabled = false;
 }
 
@@ -901,20 +913,20 @@ function renderAchievements() {
   const locked = capsules.filter(c=>getStatus(c)==='locked').length;
   const unlocked = capsules.filter(c=>getStatus(c)==='unlocked').length;
   const achs = [
-    {e:'🌱',t:'Prima capsula',d:'Hai creato la tua prima capsula', ok: capsules.length>=1},
-    {e:'🔮',t:'Profeta',d:'Hai fatto almeno 3 previsioni', ok: capsules.some(c=>(c.preds||[]).length>=3)},
-    {e:'🎯',t:'Ambiziosi',d:'Hai impostato almeno 3 obiettivi', ok: capsules.some(c=>(c.goals||[]).length>=3)},
-    {e:'✨',t:'Primo ricordo',d:'Hai aperto la tua prima capsula', ok: unlocked>=1},
-    {e:'🚀',t:'Visionario',d:'Una capsula per più di 5 anni', ok: capsules.some(c=>{ const diff=(new Date(c.unlockAt)-new Date(c.createdAt))/(86400000*365); return diff>=5; })},
+    {e:'box',t:'Prima capsula',d:'Hai creato la tua prima capsula', ok: capsules.length>=1},
+    {e:'crystal',t:'Profeta',d:'Hai fatto almeno 3 previsioni', ok: capsules.some(c=>(c.preds||[]).length>=3)},
+    {e:'target',t:'Ambiziosi',d:'Hai impostato almeno 3 obiettivi', ok: capsules.some(c=>(c.goals||[]).length>=3)},
+    {e:'spark',t:'Primo ricordo',d:'Hai aperto la tua prima capsula', ok: unlocked>=1},
+    {e:'cal',t:'Visionario',d:'Una capsula per più di 5 anni', ok: capsules.some(c=>{ const diff=(new Date(c.unlockAt)-new Date(c.createdAt))/(86400000*365); return diff>=5; })},
   ];
   document.getElementById('achievements-list').innerHTML = achs.map(a=>`
     <div class="ach-row" style="${!a.ok?'opacity:.45':''}">
-      <div class="ach-emoji">${a.e}</div>
+      <div class="ach-emoji">${ic(a.e)}</div>
       <div class="ach-info">
         <div class="ach-title">${a.t}</div>
         <div class="ach-sub">${a.d}</div>
       </div>
-      <div class="ach-check">${a.ok?'✅':'🔒'}</div>
+      <div class="ach-check">${a.ok?ic('check'):ic('lock')}</div>
     </div>
   `).join('');
 }
@@ -991,8 +1003,8 @@ function renderCheckinBanner() {
   const diff = Math.ceil((ann - now) / 86400000);
   const yearsOld = now.getFullYear() - created.getFullYear() + (ann < now ? 1 : 0);
   document.getElementById('checkin-title').textContent =
-    diff === 0 ? `🎂 "${esc(c.title)}" compie ${yearsOld} ${yearsOld===1?'anno':'anni'} oggi!`
-               : `🎂 "${esc(c.title)}" compie ${yearsOld} ${yearsOld===1?'anno':'anni'} tra ${diff} ${diff===1?'giorno':'giorni'}`;
+    diff === 0 ? `"${c.title}" compie ${yearsOld} ${yearsOld===1?'anno':'anni'} oggi`
+               : `"${c.title}" compie ${yearsOld} ${yearsOld===1?'anno':'anni'} tra ${diff} ${diff===1?'giorno':'giorni'}`;
   document.getElementById('checkin-sub').textContent = diff === 0
     ? 'Una capsula speciale nata in questo giorno!'
     : `Creata il ${fmtDate(c.createdAt)}`;
@@ -1017,7 +1029,7 @@ window.showLetterPrompts = () => {
       <div class="prompt-q">${p.q}</div>
       <textarea class="prompt-ta" id="prompt-${i}" placeholder="${p.ph}" rows="2"></textarea>
     </div>`).join('') +
-    `<button type="button" onclick="applyPrompts()" style="background:var(--gold);color:#000;border:none;border-radius:10px;padding:10px 16px;font-size:13px;font-weight:700;cursor:pointer;width:100%;font-family:'Inter',sans-serif;margin-top:4px">Aggiungi al messaggio →</button>`;
+    `<button type="button" onclick="applyPrompts()" style="background:var(--gold);color:#000;border:none;border-radius:10px;padding:10px 16px;font-size:13px;font-weight:700;cursor:pointer;width:100%;font-family:'Hanken Grotesk',system-ui,sans-serif;margin-top:4px">Aggiungi al messaggio →</button>`;
   container.style.display = 'block';
 };
 
@@ -1031,7 +1043,7 @@ window.applyPrompts = () => {
   const joined = parts.join('\n\n');
   document.getElementById('c-note').value = current ? `${current}\n\n${joined}` : joined;
   document.getElementById('letter-prompts-container').style.display = 'none';
-  showToast('✅ Prompt aggiunti al messaggio!');
+  showToast('Prompt aggiunti al messaggio');
 };
 
 // ── SHARED TOGGLE ──

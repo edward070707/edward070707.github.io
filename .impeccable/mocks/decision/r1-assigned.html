@@ -1,0 +1,40 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Pietra e Vetro</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@500;600&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;box-sizing:border-box}
+body{width:1440px;height:900px;overflow:hidden;background:#F3EEE5;color:#2B2622;font-family:'Hanken Grotesk',sans-serif;position:relative}
+nav{position:absolute;top:40px;left:80px;right:80px;display:flex;justify-content:space-between;align-items:center;font-size:22px;font-weight:500}
+nav .ea{font-family:'Cormorant SC';font-size:30px;font-weight:600;letter-spacing:.2em}
+nav .links span{margin-left:34px;opacity:.75}
+.slab{position:absolute;left:80px;right:80px;top:120px;height:470px;border-radius:6px;overflow:hidden;
+ background:linear-gradient(180deg,#F4EDE0 0%,#EEE6D6 45%,#E3D8C3 100%);
+ box-shadow:0 1px 0 #fff inset,0 30px 60px -30px rgba(60,45,30,.35),0 2px 0 #D6C9B1}
+.slab svg.veins{position:absolute;inset:0;width:100%;height:100%;opacity:.32;mix-blend-mode:multiply}
+.name{position:absolute;left:90px;top:56px;font-family:'Cormorant SC',serif;font-weight:600;font-size:124px;line-height:1;letter-spacing:.1em;color:#D4C6AC;
+ text-shadow:0 -2px 1px rgba(70,52,30,.55),0 2px 1px rgba(255,255,255,.9)}
+.role{position:absolute;left:96px;top:318px;font-family:'Cormorant SC',serif;font-size:30px;letter-spacing:.28em;color:#C9BA9E;
+ text-shadow:0 -1px 1px rgba(70,52,30,.5),0 1px 0 rgba(255,255,255,.9)}
+.sphere{position:absolute;right:110px;top:70px;width:330px;height:330px;filter:drop-shadow(0 18px 18px rgba(60,40,20,.28))}
+.plaques{position:absolute;left:96px;top:380px;display:flex;gap:22px}
+.glass{position:relative;padding:18px 40px;border-radius:16px;font-size:24px;font-weight:600;color:#2B2622;
+ background:linear-gradient(160deg,rgba(255,255,255,.55),rgba(255,255,255,.12));
+ border:1px solid rgba(255,255,255,.85);
+ box-shadow:inset 0 1px 0 #fff,inset 0 -10px 18px rgba(140,107,62,.10),0 14px 26px -12px rgba(60,40,20,.35);
+ backdrop-filter:blur(10px) saturate(140%)}
+.glass i{position:absolute;width:9px;height:9px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#E7CF9A,#8C6B3E)}
+.glass i:nth-child(1){top:7px;left:7px}.glass i:nth-child(2){top:7px;right:7px}.glass i:nth-child(3){bottom:7px;left:7px}.glass i:nth-child(4){bottom:7px;right:7px}
+.list{position:absolute;left:80px;right:80px;top:640px;display:grid;grid-template-columns:repeat(5,1fr);gap:24px;border-top:1px solid #CDBFA6;padding-top:26px}
+.list b{display:block;font-family:'Cormorant SC';font-size:40px;font-weight:600;color:#8C6B3E}
+.list span{font-size:22px;font-weight:500}
+</style></head><body>
+<nav><div class="ea">E · A</div><div class="links"><span>Percorso</span><span>Progetti</span><span>Contatti</span></div></nav>
+<div class="slab">
+<svg class="veins" viewBox="0 0 1280 470" preserveAspectRatio="none"><defs><filter id="v"><feTurbulence type="fractalNoise" baseFrequency="0.0025 0.012" numOctaves="5" seed="7"/><feColorMatrix values="0 0 0 0 0.62  0 0 0 0 0.52  0 0 0 0 0.38  0 0 0 -2.2 1.35"/></filter></defs><rect width="1280" height="470" filter="url(#v)"/></svg>
+<div class="name">EDWARD<br>ATTUATI</div>
+<div class="role">MOBILE &amp; WEB DEVELOPER · BRESCIA</div>
+<svg class="sphere" viewBox="0 0 330 330"><defs><linearGradient id="b" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#E5C98F"/><stop offset=".5" stop-color="#9C7643"/><stop offset="1" stop-color="#5A4223"/></linearGradient></defs>
+<g fill="none" stroke="url(#b)" stroke-width="10"><circle cx="165" cy="165" r="140"/><ellipse cx="165" cy="165" rx="140" ry="46"/><ellipse cx="165" cy="165" rx="140" ry="46" transform="rotate(62 165 165)"/><ellipse cx="165" cy="165" rx="140" ry="46" transform="rotate(-62 165 165)"/></g><circle cx="165" cy="165" r="24" fill="url(#b)"/><circle cx="158" cy="158" r="7" fill="#F4E2B8" opacity=".8"/></svg>
+<div class="plaques"><div class="glass"><i></i><i></i><i></i><i></i>Contattami</div><div class="glass"><i></i><i></i><i></i><i></i>Vedi i progetti</div></div>
+</div>
+<div class="list"><div><b>2015</b><span>Liceo Don Milani</span></div><div><b>2020</b><span>Università di Brescia</span></div><div><b>2021</b><span>Unity Junior Programmer</span></div><div><b>2024</b><span>Soluzione1</span></div><div><b>2025</b><span>ALLTUB ITALIA</span></div></div>
+</body></html>

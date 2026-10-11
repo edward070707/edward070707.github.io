@@ -1,703 +1,260 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Edward Attuati — About Me</title>
-<meta name="description" content="Edward Attuati — Computer Engineering student, developer, builder. Full profile.">
-<meta property="og:type" content="profile">
-<meta property="og:title" content="Edward Attuati — About Me">
-<meta property="og:description" content="Computer Engineering student at Università di Brescia. Flutter developer, web builder, multilingual coder. Full profile and bio.">
-<meta property="og:url" content="https://edwardattuati.com/aboutme.html">
-<meta property="og:locale" content="en_US">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Edward Attuati — About Me">
-<meta name="twitter:description" content="Computer Engineering student, Flutter developer, web builder, multilingual coder.">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Chi sono — Edward Attuati</title>
+<meta name="description" content="Edward Attuati: studente di Ingegneria Informatica all'Università di Brescia, sviluppatore Flutter e web, cinque lingue parlate. Percorso, lingue e strumenti.">
 <link rel="canonical" href="https://edwardattuati.com/aboutme.html">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-
+<meta name="theme-color" content="#23251b">
+<link rel="icon" href="/assets/site/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="profile">
+<meta property="og:url" content="https://edwardattuati.com/aboutme.html">
+<meta property="og:title" content="Chi sono — Edward Attuati">
+<meta property="og:description" content="Ingegneria Informatica a Brescia, app Flutter e web, cinque lingue.">
+<meta property="og:image" content="https://edwardattuati.com/assets/photos/bambu-kyoto-1600.webp">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" as="image" href="/assets/photos/bambu-kyoto-1600.webp"
+      imagesrcset="/assets/photos/bambu-kyoto-960.webp 960w, /assets/photos/bambu-kyoto-1600.webp 1600w" imagesizes="100vw" fetchpriority="high">
+<link rel="preload" href="/assets/fonts/InstrumentSerif-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/HankenGrotesk-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/fonts/fonts.css">
+<link rel="stylesheet" href="/assets/site/site.css">
 <style>
-/* ════════════════════════════════════════════════════════════════
-   ABOUT ME — dark premium. Same DNA as the portfolio, zero noise.
-   No frameworks, no WebGL. CSS aurora + glass + type.
-   ════════════════════════════════════════════════════════════════ */
-:root {
-  --void:    #05050f;
-  --void2:   #0a0a1e;
-  --surface: rgba(255,255,255,0.04);
-  --surface2:rgba(255,255,255,0.065);
-  --border:  rgba(255,255,255,0.08);
-  --border2: rgba(255,255,255,0.14);
-  --violet:  #7c3aed;
-  --violet2: #a855f7;
-  --blue:    #0ea5e9;
-  --cyan:    #22d3ee;
-  --text:    #f0f4ff;
-  --muted:   rgba(240,244,255,0.52);
-  --low:     rgba(240,244,255,0.26);
-  --sg:      'Space Grotesk', system-ui, sans-serif;
-  --mono:    'Space Mono', monospace;
-}
+/* ── apertura sul bambù ──────────────────────────────────────────── */
+.intro { min-height: 92svh; display: grid; align-items: end; padding: 130px clamp(20px, 5.5vw, 84px) 120px; }
+.intro-panel { --tint: rgba(247, 244, 230, .62); --blur: 24px; --lg-scale: 24; --lg-band: 28; max-width: 720px; padding: clamp(30px, 3.6vw, 54px); color: var(--forest); }
+.js .intro-panel { animation: rise 1.2s .3s var(--ease) both; }
+@keyframes rise { from { opacity: 0; transform: translateY(30px) scale(.97); filter: blur(10px); } }
+.intro-panel h1 { margin: 0; }
+.intro-panel h1 em { font-style: italic; color: var(--sun-ink); }
+.intro-panel .lede { margin-top: 22px; color: var(--ink-2); }
+.intro-panel .lede strong { color: var(--forest); font-weight: 600; }
+.intro-cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
 
-*,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
-html { scroll-behavior:smooth; }
-body {
-  background: var(--void);
-  color: var(--text);
-  font-family: var(--sg);
-  line-height: 1.65;
-  overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
-}
+/* ── bio ──────────────────────────────────────────────────────────── */
+.bio { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, .75fr); gap: 48px 72px; align-items: start; }
+.bio-text p { margin: 0 0 20px; font-size: clamp(1.125rem, 1.5vw, 1.3rem); line-height: 1.6; max-width: 58ch; }
+.bio-text p:first-child { font: 400 clamp(1.7rem, 2.8vw, 2.4rem)/1.2 var(--serif); letter-spacing: -.01em; }
+.bio-text strong { font-weight: 600; }
+.facts { margin: 0; display: grid; gap: 0; border-top: 1px solid var(--line); }
+.facts div { display: flex; justify-content: space-between; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+.facts dt { color: var(--ink-2); font-size: .9375rem; }
+.facts dd { margin: 0; font-weight: 600; text-align: right; }
+.facts .open { color: #2f4219; }
+.nums { margin: var(--space-9) 0 0; padding-top: var(--space-6); border-top: 1px solid var(--line); max-width: 46ch; font: 400 clamp(1.5rem, 2.4vw, 2rem)/1.35 var(--serif); }
+.nums b { font-weight: 400; color: var(--sun-ink); }
 
-/* ── AURORA BACKDROP — fixed, GPU-cheap, breathes slowly ─────── */
-.aurora {
-  position:fixed; inset:-20%; z-index:0; pointer-events:none;
-  filter: blur(90px) saturate(1.2);
-  opacity:.5;
-}
-.aurora i { position:absolute; border-radius:50%; }
-.aurora i:nth-child(1) {
-  width:46vw; height:46vw; left:-8vw; top:-10vh;
-  background:radial-gradient(circle, rgba(124,58,237,.5), transparent 65%);
-  animation: drift1 26s ease-in-out infinite alternate;
-}
-.aurora i:nth-child(2) {
-  width:38vw; height:38vw; right:-6vw; top:28vh;
-  background:radial-gradient(circle, rgba(34,211,238,.32), transparent 65%);
-  animation: drift2 32s ease-in-out infinite alternate;
-}
-.aurora i:nth-child(3) {
-  width:40vw; height:40vw; left:24vw; bottom:-18vh;
-  background:radial-gradient(circle, rgba(14,165,233,.26), transparent 65%);
-  animation: drift1 38s ease-in-out infinite alternate-reverse;
-}
-@keyframes drift1 { to { transform: translate(6vw, 4vh) scale(1.12); } }
-@keyframes drift2 { to { transform: translate(-5vw, -5vh) scale(.92); } }
+/* ── lingue (sul bambù) ───────────────────────────────────────────── */
+.langs-panel { --tint: rgba(247, 244, 230, .64); --blur: 26px; color: var(--forest); padding: clamp(32px, 5vw, 64px); }
+.langs-panel .lede { color: var(--ink-2); }
+.langs { list-style: none; margin: var(--space-7) 0 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 28px; }
+.langs li { display: grid; gap: 6px; align-content: start; }
+.langs .hi { font: italic 400 clamp(1.7rem, 2.6vw, 2.3rem)/1.1 var(--serif); color: var(--sun-ink); }
+.langs .hi:lang(zh), .langs .hi:lang(ja) { font-family: var(--sans); font-style: normal; font-weight: 500; font-size: clamp(1.35rem, 2vw, 1.75rem); }
+.langs .nm { font-weight: 700; }
+.langs .lv { color: var(--ink-2); font-size: .9375rem; }
+.meter { height: 4px; margin-top: 8px; border-radius: 4px; background: rgba(35, 37, 27, .12); overflow: hidden; }
+.meter i { display: block; height: 100%; width: var(--v); border-radius: inherit; background: var(--forest); }
+.js .meter i { transform-origin: left; transform: scaleX(0); transition: transform 1.4s var(--ease) .3s; }
+.js [data-reveal].in .meter i { transform: none; }
 
-/* fine grain so the gradients never band */
-body::after {
-  content:''; position:fixed; inset:0; z-index:1; pointer-events:none;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
-}
+/* ── strumenti ────────────────────────────────────────────────────── */
+.stack { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px 48px; }
+.stack h3 { margin: 0 0 6px; font: italic 400 1.6rem/1.1 var(--serif); color: var(--sun-ink); }
+.stack .tags { margin-top: 10px; }
 
-::selection { background:var(--violet); color:#fff; }
-
-/* ── NAV ─────────────────────────────────────────────────────── */
-.nav {
-  position:fixed; top:0; left:0; right:0; z-index:100;
-  display:flex; align-items:center; justify-content:space-between;
-  padding:18px 40px;
-  transition: background .35s, border-color .35s, backdrop-filter .35s;
-  border-bottom:1px solid transparent;
+@media (max-width: 960px) {
+  .bio { grid-template-columns: 1fr; }
+  .langs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .stack { grid-template-columns: 1fr; gap: 28px; }
 }
-.nav.scrolled {
-  background: rgba(5,5,15,.82);
-  backdrop-filter: blur(18px);
-  border-color: var(--border);
-}
-.nav-back {
-  font-family:var(--mono); font-size:.62rem; letter-spacing:.16em;
-  text-transform:uppercase; color:var(--muted); text-decoration:none;
-  transition:color .2s;
-}
-.nav-back:hover { color:var(--cyan); }
-.nav-mark {
-  font-weight:700; font-size:.92rem; letter-spacing:.06em;
-  background:linear-gradient(135deg, var(--violet2), var(--cyan));
-  -webkit-background-clip:text; background-clip:text;
-  -webkit-text-fill-color:transparent;
-}
-.nav-links { display:flex; gap:26px; list-style:none; }
-.nav-links a {
-  font-family:var(--mono); font-size:.58rem; letter-spacing:.16em;
-  text-transform:uppercase; color:var(--low); text-decoration:none;
-  transition:color .2s;
-}
-.nav-links a:hover { color:var(--text); }
-@media (max-width:720px){ .nav-links{ display:none; } .nav{ padding:16px 24px; } }
-
-/* ── HERO ────────────────────────────────────────────────────── */
-.hero {
-  position:relative; z-index:2;
-  min-height:100svh;
-  display:flex; flex-direction:column; justify-content:center;
-  padding: 120px 7vw 80px;
-  max-width:1280px; margin:0 auto;
-}
-.hero-tag {
-  display:inline-flex; align-items:center; gap:10px;
-  font-family:var(--mono); font-size:.62rem; letter-spacing:.3em;
-  text-transform:uppercase; color:var(--muted);
-  opacity:0; animation: rise .8s .1s cubic-bezier(.2,.7,.2,1) forwards;
-}
-.hero-tag::before {
-  content:''; width:34px; height:1px;
-  background:linear-gradient(90deg, var(--violet2), var(--cyan));
-}
-.hero h1 {
-  margin:22px 0 10px;
-  font-size:clamp(3rem, 9vw, 7.2rem);
-  font-weight:700; line-height:1.02; letter-spacing:-.03em;
-  opacity:0; animation: rise .9s .22s cubic-bezier(.2,.7,.2,1) forwards;
-}
-.hero h1 .grad {
-  background:linear-gradient(120deg, var(--violet2) 0%, var(--cyan) 55%, var(--blue) 100%);
-  background-size:200% 100%;
-  -webkit-background-clip:text; background-clip:text;
-  -webkit-text-fill-color:transparent;
-  animation: sheen 7s ease-in-out infinite;
-}
-@keyframes sheen { 0%,100%{background-position:0% 0} 50%{background-position:100% 0} }
-.hero-role {
-  font-family:var(--mono); font-size:clamp(.78rem,1.7vw,.95rem);
-  color:var(--muted); letter-spacing:.05em; max-width:600px; line-height:1.9;
-  opacity:0; animation: rise .9s .36s cubic-bezier(.2,.7,.2,1) forwards;
-}
-.hero-role b { color:var(--text); font-weight:600; }
-.hero-cta {
-  display:flex; flex-wrap:wrap; gap:14px; margin-top:38px;
-  opacity:0; animation: rise .9s .5s cubic-bezier(.2,.7,.2,1) forwards;
-}
-@keyframes rise { from{opacity:0; transform:translateY(26px)} to{opacity:1; transform:none} }
-
-.btn {
-  display:inline-flex; align-items:center; gap:9px;
-  font-family:var(--mono); font-size:.64rem; letter-spacing:.18em;
-  text-transform:uppercase; text-decoration:none;
-  padding:14px 26px; border-radius:999px;
-  border:1px solid var(--border2); color:var(--text);
-  background:var(--surface);
-  backdrop-filter: blur(8px);
-  transition: border-color .25s, background .25s, transform .2s, box-shadow .25s;
-}
-.btn:hover {
-  border-color:var(--cyan);
-  transform:translateY(-2px);
-  box-shadow:0 8px 30px rgba(34,211,238,.15);
-}
-.btn.primary {
-  background:linear-gradient(135deg, var(--violet), var(--blue));
-  border-color:transparent;
-}
-.btn.primary:hover { box-shadow:0 10px 38px rgba(124,58,237,.4); }
-
-.hero-scroll {
-  position:absolute; bottom:30px; left:7vw;
-  font-family:var(--mono); font-size:.55rem; letter-spacing:.3em;
-  text-transform:uppercase; color:var(--low);
-  display:flex; align-items:center; gap:12px;
-}
-.hero-scroll::after {
-  content:''; width:1px; height:36px;
-  background:linear-gradient(180deg, var(--cyan), transparent);
-  animation: drip 1.9s ease-in-out infinite;
-}
-@keyframes drip { 0%,100%{transform:scaleY(.25);transform-origin:top} 50%{transform:scaleY(1);transform-origin:top} }
-
-/* ── SECTION CHROME ──────────────────────────────────────────── */
-.sec { position:relative; z-index:2; padding:96px 7vw; max-width:1280px; margin:0 auto; }
-.sec-label {
-  font-family:var(--mono); font-size:.6rem; letter-spacing:.3em;
-  text-transform:uppercase; color:var(--cyan);
-  display:flex; align-items:center; gap:12px;
-}
-.sec-label::after { content:''; flex:0 0 44px; height:1px; background:var(--border2); }
-.sec h2 {
-  font-size:clamp(1.9rem,4.6vw,3.2rem); font-weight:700;
-  letter-spacing:-.025em; margin:14px 0 48px; line-height:1.1;
-}
-.sec h2 em {
-  font-style:normal;
-  background:linear-gradient(120deg, var(--violet2), var(--cyan));
-  -webkit-background-clip:text; background-clip:text;
-  -webkit-text-fill-color:transparent;
-}
-
-/* reveal on scroll */
-.rv { opacity:0; transform:translateY(30px); transition:opacity .75s ease, transform .75s cubic-bezier(.2,.7,.2,1); }
-.rv.in { opacity:1; transform:none; }
-.rv.d1 { transition-delay:.08s; } .rv.d2 { transition-delay:.16s; }
-.rv.d3 { transition-delay:.24s; } .rv.d4 { transition-delay:.32s; }
-
-/* glass card primitive */
-.glass {
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:20px;
-  backdrop-filter: blur(12px);
-  transition: border-color .3s, transform .3s, box-shadow .3s, background .3s;
-}
-.glass:hover {
-  border-color:var(--border2);
-  background:var(--surface2);
-  transform:translateY(-3px);
-  box-shadow:0 18px 50px rgba(0,0,0,.35);
-}
-
-/* ── BIO ─────────────────────────────────────────────────────── */
-.bio-grid {
-  display:grid; grid-template-columns: 1.25fr .75fr; gap:28px;
-  align-items:start;
-}
-@media (max-width:880px){ .bio-grid{ grid-template-columns:1fr; } }
-.bio-text { padding:36px; }
-.bio-text p {
-  color:var(--muted); font-size:1.04rem; line-height:1.9; margin-bottom:18px;
-}
-.bio-text p:last-child { margin-bottom:0; }
-.bio-text b { color:var(--text); font-weight:600; }
-.bio-text .hl {
-  background:linear-gradient(120deg, var(--violet2), var(--cyan));
-  -webkit-background-clip:text; background-clip:text;
-  -webkit-text-fill-color:transparent; font-weight:600;
-}
-.id-card { padding:30px; }
-.id-row {
-  display:flex; justify-content:space-between; align-items:baseline;
-  padding:13px 0; border-bottom:1px solid var(--border);
-}
-.id-row:last-child { border-bottom:none; }
-.id-row label {
-  font-family:var(--mono); font-size:.56rem; letter-spacing:.2em;
-  text-transform:uppercase; color:var(--low);
-}
-.id-row span { font-size:.95rem; font-weight:500; text-align:right; }
-.id-row .accent { color:var(--cyan); }
-
-/* ── NUMBERS ─────────────────────────────────────────────────── */
-.stats {
-  display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-  gap:18px;
-}
-.stat { padding:30px 26px; text-align:left; position:relative; overflow:hidden; }
-.stat::before {
-  content:''; position:absolute; top:0; left:26px; right:26px; height:1px;
-  background:linear-gradient(90deg, var(--violet2), transparent);
-  opacity:0; transition:opacity .3s;
-}
-.stat:hover::before { opacity:1; }
-.stat-val {
-  font-size:clamp(2.2rem,4.5vw,3rem); font-weight:700; line-height:1;
-  letter-spacing:-.03em; font-variant-numeric:tabular-nums;
-}
-.stat-val i {
-  font-style:normal;
-  background:linear-gradient(120deg, var(--violet2), var(--cyan));
-  -webkit-background-clip:text; background-clip:text;
-  -webkit-text-fill-color:transparent;
-}
-.stat-label {
-  font-family:var(--mono); font-size:.58rem; letter-spacing:.16em;
-  text-transform:uppercase; color:var(--muted); margin-top:12px;
-}
-
-/* ── SKILLS ──────────────────────────────────────────────────── */
-.skill-groups { display:grid; gap:18px; }
-.skill-group { padding:26px 28px; }
-.skill-group h3 {
-  font-family:var(--mono); font-size:.6rem; letter-spacing:.24em;
-  text-transform:uppercase; color:var(--cyan); margin-bottom:18px;
-}
-.chips { display:flex; flex-wrap:wrap; gap:10px; }
-.chip {
-  font-family:var(--mono); font-size:.66rem; letter-spacing:.08em;
-  padding:9px 16px; border-radius:999px;
-  border:1px solid var(--border); color:var(--muted);
-  background:rgba(255,255,255,.02);
-  transition:all .22s; cursor:default;
-}
-.chip:hover {
-  color:var(--text); border-color:var(--violet2);
-  background:rgba(124,58,237,.12);
-  transform:translateY(-2px);
-  box-shadow:0 6px 20px rgba(124,58,237,.2);
-}
-.chip.hot { border-color:rgba(34,211,238,.4); color:var(--cyan); }
-.chip.hot:hover { border-color:var(--cyan); background:rgba(34,211,238,.1); box-shadow:0 6px 20px rgba(34,211,238,.22); }
-
-/* ── JOURNEY ─────────────────────────────────────────────────── */
-.timeline { position:relative; padding-left:36px; }
-.timeline::before {
-  content:''; position:absolute; left:9px; top:8px; bottom:8px; width:1px;
-  background:linear-gradient(180deg, var(--violet2), var(--cyan), transparent);
-}
-.tl-item { position:relative; padding-bottom:46px; }
-.tl-item:last-child { padding-bottom:0; }
-.tl-item::before {
-  content:''; position:absolute; left:-32px; top:8px;
-  width:11px; height:11px; border-radius:50%;
-  background:var(--void); border:2px solid var(--violet2);
-  box-shadow:0 0 0 4px rgba(124,58,237,.15);
-}
-.tl-item.now::before {
-  background:var(--cyan); border-color:var(--cyan);
-  box-shadow:0 0 0 5px rgba(34,211,238,.18), 0 0 18px rgba(34,211,238,.5);
-}
-.tl-card { padding:26px 30px; }
-.tl-date {
-  font-family:var(--mono); font-size:.58rem; letter-spacing:.22em;
-  text-transform:uppercase; color:var(--cyan);
-}
-.tl-card h3 { font-size:1.25rem; font-weight:600; margin:10px 0 8px; letter-spacing:-.01em; }
-.tl-card p { color:var(--muted); font-size:.95rem; line-height:1.8; max-width:680px; }
-.tl-tags { display:flex; flex-wrap:wrap; gap:8px; margin-top:16px; }
-.tl-tags span {
-  font-family:var(--mono); font-size:.54rem; letter-spacing:.14em;
-  text-transform:uppercase; color:var(--low);
-  border:1px solid var(--border); border-radius:999px; padding:4px 11px;
-}
-
-/* ── LANGUAGES ───────────────────────────────────────────────── */
-.langs {
-  display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:18px;
-}
-.lang { padding:26px; }
-.lang-top { display:flex; align-items:center; gap:12px; margin-bottom:16px; }
-.lang-flag { font-size:1.6rem; line-height:1; }
-.lang-name { font-weight:600; font-size:1.05rem; }
-.lang-level {
-  font-family:var(--mono); font-size:.56rem; letter-spacing:.16em;
-  text-transform:uppercase; color:var(--muted); display:block; margin-top:2px;
-}
-.lang-bar {
-  height:4px; border-radius:4px; background:rgba(255,255,255,.07);
-  overflow:hidden;
-}
-.lang-bar i {
-  display:block; height:100%; width:0;
-  border-radius:4px;
-  background:linear-gradient(90deg, var(--violet2), var(--cyan));
-  transition:width 1.2s cubic-bezier(.2,.7,.2,1);
-}
-.lang.in .lang-bar i { width:var(--lvl); }
-
-/* ── CONTACT ─────────────────────────────────────────────────── */
-.contact-box {
-  padding:clamp(36px,6vw,70px);
-  text-align:center;
-  background:
-    radial-gradient(ellipse at 50% -20%, rgba(124,58,237,.18), transparent 60%),
-    var(--surface);
-}
-.contact-box h2 {
-  font-size:clamp(2rem,5.5vw,3.6rem); margin-bottom:14px;
-}
-.contact-box p {
-  color:var(--muted); max-width:480px; margin:0 auto 34px; font-size:1rem;
-}
-.contact-links { display:flex; flex-wrap:wrap; gap:14px; justify-content:center; }
-
-/* ── FOOTER ──────────────────────────────────────────────────── */
-footer {
-  position:relative; z-index:2;
-  border-top:1px solid var(--border);
-  padding:30px 7vw;
-  display:flex; flex-wrap:wrap; gap:16px; align-items:center; justify-content:space-between;
-  max-width:1280px; margin:0 auto;
-}
-footer p { font-family:var(--mono); font-size:.58rem; letter-spacing:.14em; color:var(--low); }
-footer a { color:var(--muted); text-decoration:none; transition:color .2s; }
-footer a:hover { color:var(--cyan); }
-
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation:none !important; transition:none !important; }
-  .rv, .hero-tag, .hero h1, .hero-role, .hero-cta { opacity:1 !important; transform:none !important; }
-  .lang .lang-bar i { width:var(--lvl) !important; }
+@media (max-width: 820px) {
+  .intro { padding: 100px 16px 110px; min-height: 86svh; }
 }
 </style>
 </head>
 <body>
+<a class="skip" href="#main" data-i18n="skip">Vai al contenuto</a>
 
-<div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
+<div class="ground" aria-hidden="true">
+  <img src="/assets/photos/bambu-kyoto-1600.webp"
+       srcset="/assets/photos/bambu-kyoto-960.webp 960w, /assets/photos/bambu-kyoto-1600.webp 1600w"
+       sizes="100vw" alt="" fetchpriority="high" decoding="async">
+</div>
 
-<nav class="nav" id="nav">
-  <a class="nav-back" href="index.html">← Portfolio</a>
-  <span class="nav-mark">EA</span>
-  <ul class="nav-links">
-    <li><a href="#bio">Bio</a></li>
-    <li><a href="#numbers">Numbers</a></li>
-    <li><a href="#skills">Skills</a></li>
-    <li><a href="#journey">Journey</a></li>
-    <li><a href="#languages">Languages</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
+<nav class="nav glass" aria-label="Navigazione principale">
+  <a class="nav-mark" href="/" data-i18n-aria="home-aria" aria-label="Edward Attuati, torna alla home">EA</a>
+  <a class="nav-link" href="#bio" data-i18n="nav-bio">Bio</a>
+  <a class="nav-link" href="#lingue" data-i18n="nav-langs">Lingue</a>
+  <a class="nav-link" href="#percorso" data-i18n="nav-path">Percorso</a>
+  <a class="nav-link" href="#contatti" data-i18n="nav-contact">Contatti</a>
+  <span class="nav-sep" aria-hidden="true"></span>
+  <a href="/cv.html" data-i18n="nav-cv">CV</a>
+  <div class="lang">
+    <button class="nav-item lang-btn" type="button" aria-haspopup="true" aria-expanded="false" data-i18n-aria="lang-label" aria-label="Lingua">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.8 3.8 5.8 3.8 9s-1.2 6.2-3.8 9c-2.6-2.8-3.8-5.8-3.8-9S9.4 5.8 12 3z"/></svg>
+      <span data-lang-code>IT</span>
+    </button>
+    <div class="lang-menu glass" role="menu">
+      <button type="button" role="menuitemradio" data-lang="it" aria-pressed="true">Italiano <small>IT</small></button>
+      <button type="button" role="menuitemradio" data-lang="en" aria-pressed="false">English <small>EN</small></button>
+      <button type="button" role="menuitemradio" data-lang="es" aria-pressed="false">Español <small>ES</small></button>
+      <button type="button" role="menuitemradio" data-lang="zh" aria-pressed="false">中文 <small>ZH</small></button>
+      <button type="button" role="menuitemradio" data-lang="ja" aria-pressed="false">日本語 <small>JA</small></button>
+    </div>
+  </div>
 </nav>
 
-<!-- ═══ HERO ═══ -->
-<header class="hero">
-  <span class="hero-tag">About me — Edward Attuati</span>
-  <h1>Building software<br>that <span class="grad">feels right.</span></h1>
-  <p class="hero-role">
-    Computer Engineering · <b>Università di Brescia</b><br>
-    Flutter developer, web builder, <b>five languages spoken</b>.<br>
-    Proactive and precise — I dig into problems until they make sense.
-  </p>
-  <div class="hero-cta">
-    <a class="btn primary" href="#contact">Get in touch</a>
-    <a class="btn" href="cv.html">View CV</a>
+<nav class="tabbar glass" aria-label="Sezioni">
+  <a href="/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11l8-6.5 8 6.5V20a1 1 0 0 1-1 1h-4.5v-6h-5v6H5a1 1 0 0 1-1-1z"/></svg><span>Home</span></a>
+  <a href="#bio"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span data-i18n="nav-bio">Bio</span></a>
+  <a href="#lingue"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h9M8.5 3v2M11 5c-1 4-3.5 7-7 9M6.5 9c1.2 2 3 3.6 5 4.5"/><path d="M13 21l4-9 4 9M14.5 18h5"/></svg><span data-i18n="nav-langs">Lingue</span></a>
+  <a href="#percorso"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="18" r="2"/><circle cx="18" cy="6" r="2"/><path d="M8 18h6a4 4 0 0 0 0-8h-4a4 4 0 0 1 0-8h6"/></svg><span data-i18n="nav-path">Percorso</span></a>
+  <a href="#contatti"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M4 7l8 6 8-6"/></svg><span data-i18n="nav-contact">Contatti</span></a>
+</nav>
+
+<main id="main">
+
+  <section class="intro window" aria-labelledby="intro-title">
+    <div class="intro-panel glass">
+      <h1 class="h-display" id="intro-title" data-i18n-html="intro-title">Costruisco software che <em>funziona</em> e si sente giusto.</h1>
+      <p class="lede" data-i18n-html="intro-lede">Studio Ingegneria Informatica all'<strong>Università di Brescia</strong>. Sviluppo app con Flutter e siti scritti a mano, e parlo cinque lingue.</p>
+      <div class="intro-cta">
+        <a class="gbtn dark" href="#contatti"><span data-i18n="cta-contact">Contattami</span><span class="gbtn-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17L17 7M9 7h8v8"/></svg></span></a>
+        <a class="gbtn" href="/cv.html"><span data-i18n="cta-cv">Leggi il CV</span><span class="gbtn-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17L17 7M9 7h8v8"/></svg></span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ BIO ══════════ -->
+  <section class="sheet" id="bio" aria-labelledby="bio-title">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="h-section" id="bio-title" data-i18n="bio-title" data-reveal>Chi sono</h2>
+      </div>
+      <div class="bio">
+        <div class="bio-text" data-reveal>
+          <p data-i18n-html="bio-1">Sono <strong>Edward</strong>, vengo dalla provincia di <strong>Bergamo</strong> e studio Ingegneria Informatica a Brescia.</p>
+          <p data-i18n-html="bio-2">Sono proattivo e preciso: quando un problema non mi torna, ci scavo dentro finché non lo capisco. Credo che il software debba funzionare bene e anche <strong>sentirsi bene</strong> da usare, per questo curo i dettagli che quasi nessuno nota.</p>
+          <p data-i18n-html="bio-3">Fuori dal codice mi appassionano <strong>le lingue e le culture</strong>. È il motivo per cui ne parlo cinque, e per cui la home di questo sito ti saluta in 38 modi diversi.</p>
+        </div>
+        <dl class="facts" data-reveal style="--d:.1s">
+          <div><dt data-i18n="f-name">Nome</dt><dd>Edward Attuati</dd></div>
+          <div><dt data-i18n="f-base">Base</dt><dd data-i18n="f-base-v">Bergamo, Italia</dd></div>
+          <div><dt data-i18n="f-degree">Corso</dt><dd data-i18n="f-degree-v">Ingegneria Informatica</dd></div>
+          <div><dt data-i18n="f-uni">Università</dt><dd>UniBS</dd></div>
+          <div><dt data-i18n="f-langs">Lingue</dt><dd>IT · EN · ES · 中文 · 日本語</dd></div>
+          <div><dt data-i18n="f-status">Stato</dt><dd class="open" data-i18n="f-status-v">Aperto a opportunità</dd></div>
+        </dl>
+      </div>
+      <p class="nums" data-reveal data-i18n-html="n-line">In numeri: <b>quattro</b> progetti personali portati dall'idea al codice, <b>cinque</b> lingue parlate, <b>38</b> modi diversi di salutarti sulla home.</p>
+    </div>
+  </section>
+
+  <!-- ══════════ LINGUE (sul bambù) ══════════ -->
+  <section class="window" id="lingue" aria-labelledby="langs-title">
+    <div class="wrap">
+      <div class="langs-panel glass" data-reveal>
+        <h2 class="h-section" id="langs-title" data-i18n="langs-title">Cinque modi per dire ciao</h2>
+        <p class="lede" data-i18n="langs-lede">Le lingue sono il mio modo di capire le persone prima ancora del loro lavoro.</p>
+        <ul class="langs">
+          <li><span class="hi" lang="it">Ciao</span><span class="nm">Italiano</span><span class="lv" data-i18n="lv-native">Madrelingua</span><span class="meter" aria-hidden="true"><i style="--v:100%"></i></span></li>
+          <li><span class="hi" lang="en">Hello</span><span class="nm">English</span><span class="lv" data-i18n="lv-b2c">B2, certificato</span><span class="meter" aria-hidden="true"><i style="--v:75%"></i></span></li>
+          <li><span class="hi" lang="es">Hola</span><span class="nm">Español</span><span class="lv" data-i18n="lv-b2">B2, fluente</span><span class="meter" aria-hidden="true"><i style="--v:72%"></i></span></li>
+          <li><span class="hi" lang="zh">你好</span><span class="nm">中文</span><span class="lv" data-i18n="lv-mid">Intermedio</span><span class="meter" aria-hidden="true"><i style="--v:48%"></i></span></li>
+          <li><span class="hi" lang="ja">こんにちは</span><span class="nm">日本語</span><span class="lv" data-i18n="lv-base">Base</span><span class="meter" aria-hidden="true"><i style="--v:24%"></i></span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ PERCORSO + STRUMENTI ══════════ -->
+  <section class="sheet" id="percorso" aria-labelledby="path-title">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="h-section" id="path-title" data-i18n="path-title" data-reveal>Come ci sono arrivato</h2>
+        <p class="lede" data-i18n="path-lede" data-reveal style="--d:.1s">Lavoro e studio, dal più recente.</p>
+      </div>
+      <ol class="tl">
+        <li data-reveal>
+          <div><div class="tl-when" data-from="2025-01">gen 2025 – oggi</div><div class="tl-now" data-i18n="now">Adesso</div></div>
+          <div><h3 data-i18n="t5-title">ALLTUB ITALIA — Reparto IT</h3><p class="tl-place" data-i18n="t5-place">Area di Bergamo · Italia</p>
+            <p class="tl-desc" data-i18n="t5-desc">Faccio parte del team IT di ALLTUB ITALIA, gruppo industriale dell'area di Bergamo. Mi occupo di infrastruttura interna, supporto ai sistemi e processi digitali insieme al reparto tecnologico.</p>
+            <ul class="tags"><li data-i18n="t5-tag">Ruolo attuale</li><li>IT</li><li data-i18n="t-systems">Sistemi</li><li data-i18n="t-infra">Infrastruttura</li></ul></div>
+        </li>
+        <li data-reveal>
+          <div><div class="tl-when" data-from="2024-04" data-to="2024-06">apr – giu 2024</div></div>
+          <div><h3 data-i18n="t4-title">Soluzione1 — Stage IT</h3><p class="tl-place" data-i18n="t4-place">Ghisalba, Bergamo · Italia</p>
+            <p class="tl-desc" data-i18n="t4-desc">Stage da sviluppatore in un'azienda IT: formazione SQL, supporto di primo e secondo livello, formazione sugli applicativi e lavoro quotidiano con sviluppatori senior.</p>
+            <ul class="tags"><li data-i18n="t4-tag">Stage</li><li>SQL</li><li>.NET</li><li data-i18n="t-support">Supporto IT</li></ul></div>
+        </li>
+        <li data-reveal>
+          <div><div class="tl-when" data-from="2021-01" data-to="2021-05">gen – mag 2021</div></div>
+          <div><h3 data-i18n="t3-title">Unity Junior Programmer</h3><p class="tl-place" data-i18n="t3-place">Unity Technologies · Credly</p>
+            <p class="tl-desc" data-i18n="t3-desc">Percorso certificato Unity Junior Programmer: sviluppo di giochi, rendering in tempo reale, fisica e scripting in C#.</p>
+            <ul class="tags"><li data-i18n="t3-tag">Certificato</li><li>Unity</li><li>C#</li><li>3D</li></ul></div>
+        </li>
+        <li data-reveal>
+          <div><div class="tl-when" data-from="2020">2020 – oggi</div><div class="tl-now" data-i18n="now">Adesso</div></div>
+          <div><h3 data-i18n="t2-title">Ingegneria Informatica — Università di Brescia</h3><p class="tl-place" data-i18n="t2-place">Brescia · Laurea triennale</p>
+            <p class="tl-desc" data-i18n="t2-desc">Algoritmi, strutture dati, sistemi operativi, basi di dati e ingegneria del software. La teoria, mentre in parallelo costruisco progetti veri.</p>
+            <ul class="tags"><li>C</li><li>Java</li><li>Python</li></ul></div>
+        </li>
+        <li data-reveal>
+          <div><div class="tl-when" data-from="2015" data-to="2020">2015 – 2020</div></div>
+          <div><h3 data-i18n="t1-title">Liceo Don Milani</h3><p class="tl-place" data-i18n="t1-place">Romano di Lombardia, Bergamo</p>
+            <p class="tl-desc" data-i18n="t1-desc">Liceo scientifico con un forte accento su logica, matematica e lingue. Maturità nel 2020, certificazione di inglese B2 e le prime righe di codice.</p>
+            <ul class="tags"><li data-i18n="t1-tag">Maturità</li><li data-i18n="t-math">Matematica</li><li data-i18n="t-phys">Fisica</li><li data-i18n="t-eng">Inglese B2</li></ul></div>
+        </li>
+      </ol>
+
+      <div class="sec-head" style="margin-top:var(--space-10)">
+        <h2 class="h-section" id="stack-title" data-i18n="stack-title" data-reveal>Con cosa lavoro</h2>
+        <p class="lede" data-i18n="stack-lede" data-reveal style="--d:.1s">Gli strumenti che uso davvero nei miei progetti e allo studio.</p>
+      </div>
+      <div class="stack">
+        <div data-reveal><h3 data-i18n="s-mobile">Mobile e backend</h3><ul class="tags"><li>Flutter</li><li>Dart</li><li>Firebase</li><li>Firestore</li><li>SQLite</li><li>REST API</li></ul></div>
+        <div data-reveal style="--d:.08s"><h3>Web</h3><ul class="tags"><li>JavaScript</li><li>HTML</li><li>CSS</li><li>Three.js</li><li>GSAP</li><li>UI / UX</li></ul></div>
+        <div data-reveal style="--d:.16s"><h3 data-i18n="s-eng">Ingegneria e strumenti</h3><ul class="tags"><li>C</li><li>Java</li><li>Python</li><li>SQL</li><li>C# / Unity</li><li>Git</li></ul></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ CONTATTI ══════════ -->
+  <section class="window" id="contatti" aria-labelledby="contact-title">
+    <div class="narrow">
+      <div class="contact-panel glass" data-reveal>
+        <h2 class="h-section" id="contact-title" data-i18n="contact-title">Costruiamo qualcosa</h2>
+        <p class="lede" data-i18n="contact-desc">Aperto a opportunità, collaborazioni e conversazioni interessanti. Rispondo in fretta.</p>
+        <a class="mail" href="mailto:edwardattuati@icloud.com">edwardattuati@icloud.com</a>
+        <div class="row">
+          <a class="gbtn dark" href="mailto:edwardattuati@icloud.com"><span data-i18n="email-write">Scrivimi</span><span class="gbtn-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17L17 7M9 7h8v8"/></svg></span></a>
+          <button class="gbtn" type="button" data-copy-mail><span data-i18n="email-copy">Copia email</span><span class="gbtn-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2.5"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg></span></button>
+        </div>
+        <div class="socials">
+          <a class="gbtn" href="https://it.linkedin.com/in/edward-attuati-41a54823b" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M8 10v7M8 7v.01M12 17v-4a2.5 2.5 0 0 1 5 0v4M12 10v7"/></svg>LinkedIn</a>
+          <a class="gbtn" href="https://github.com/edward070707" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 19c-4 1.3-4-2-6-2.5M15 21v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1-.3-3.4 1.3a11.6 11.6 0 0 0-6 0C6.8 2.8 5.8 3.1 5.8 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4.4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg>GitHub</a>
+          <a class="gbtn" href="https://www.instagram.com/edwardattuati/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5v.01"/></svg>Instagram</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <span>© <span data-year>2026</span> Edward Attuati · <span data-i18n="foot-photo">Foto di Edward Attuati</span></span>
+    <nav aria-label="Altre pagine">
+      <a href="/" data-i18n="foot-home">Home</a>
+      <a href="/cv.html" data-i18n="nav-cv">CV</a>
+      <a href="/sitemap.html" data-i18n="foot-sitemap">Mappa del sito</a>
+    </nav>
   </div>
-  <span class="hero-scroll">Scroll</span>
-</header>
-
-<!-- ═══ BIO ═══ -->
-<section class="sec" id="bio">
-  <span class="sec-label rv">01 · Bio</span>
-  <h2 class="rv">Who I <em>am</em></h2>
-
-  <div class="bio-grid">
-    <div class="glass bio-text rv d1">
-      <p>I'm <b>Edward</b>, an Italian guy from <b>Bergamo</b> studying Computer
-         Engineering at Università di Brescia. Proactive and precise — I dig into
-         problems until they make sense.</p>
-      <p>I believe software should <span class="hl">feel as good as it works</span>.
-         From Flutter mobile apps to custom web experiences, I obsess over the
-         details that most people never notice — <b>and that's the point</b>.</p>
-      <p>Outside of code, I'm obsessed with <b>languages and cultures</b>.
-         That's why I speak five of them — and why this portfolio exists
-         in 38 different greetings.</p>
-    </div>
-
-    <div class="glass id-card rv d2">
-      <div class="id-row"><label>Name</label><span>Edward Attuati</span></div>
-      <div class="id-row"><label>Based in</label><span>Bergamo, Italia</span></div>
-      <div class="id-row"><label>Degree</label><span>Computer Engineering</span></div>
-      <div class="id-row"><label>University</label><span class="accent">UniBS</span></div>
-      <div class="id-row"><label>Since</label><span>2020 →</span></div>
-      <div class="id-row"><label>Languages</label><span class="accent">5</span></div>
-      <div class="id-row"><label>Status</label><span>Open to opportunities</span></div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══ NUMBERS ═══ -->
-<section class="sec" id="numbers">
-  <span class="sec-label rv">02 · Metrics</span>
-  <h2 class="rv">By the <em>numbers</em></h2>
-
-  <div class="stats">
-    <div class="glass stat rv d1"><div class="stat-val" data-count="5">0</div><div class="stat-label">Years of coding</div></div>
-    <div class="glass stat rv d2"><div class="stat-val"><i data-count="3">0</i>+</div><div class="stat-label">Full projects shipped</div></div>
-    <div class="glass stat rv d3"><div class="stat-val" data-count="5">0</div><div class="stat-label">Languages spoken</div></div>
-    <div class="glass stat rv d4"><div class="stat-val"><i data-count="38">0</i></div><div class="stat-label">Greetings on the portfolio</div></div>
-    <div class="glass stat rv d4"><div class="stat-val" data-count="1">0</div><div class="stat-label">Hand-coded portfolio</div></div>
-  </div>
-</section>
-
-<!-- ═══ SKILLS ═══ -->
-<section class="sec" id="skills">
-  <span class="sec-label rv">03 · Stack</span>
-  <h2 class="rv">What I <em>work with</em></h2>
-
-  <div class="skill-groups">
-    <div class="glass skill-group rv d1">
-      <h3>Mobile & Backend</h3>
-      <div class="chips">
-        <span class="chip hot">Flutter</span>
-        <span class="chip hot">Dart</span>
-        <span class="chip">Firebase</span>
-        <span class="chip">Firestore</span>
-        <span class="chip">SQLite</span>
-        <span class="chip">REST API</span>
-      </div>
-    </div>
-    <div class="glass skill-group rv d2">
-      <h3>Web</h3>
-      <div class="chips">
-        <span class="chip hot">JavaScript</span>
-        <span class="chip">HTML / CSS</span>
-        <span class="chip">Three.js</span>
-        <span class="chip">GSAP</span>
-        <span class="chip">UI / UX</span>
-      </div>
-    </div>
-    <div class="glass skill-group rv d3">
-      <h3>Engineering & Tools</h3>
-      <div class="chips">
-        <span class="chip">C</span>
-        <span class="chip">Java</span>
-        <span class="chip">Python</span>
-        <span class="chip">SQL</span>
-        <span class="chip">C# / Unity</span>
-        <span class="chip">Git</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══ JOURNEY ═══ -->
-<section class="sec" id="journey">
-  <span class="sec-label rv">04 · Journey</span>
-  <h2 class="rv">How I <em>got here</em></h2>
-
-  <div class="timeline">
-    <div class="tl-item now rv">
-      <div class="glass tl-card">
-        <span class="tl-date">Jan 2025 → Present</span>
-        <h3>ALLTUB ITALIA — IT Department</h3>
-        <p>Active member of the IT team at ALLTUB ITALIA, a leading industrial group in
-           the Bergamo area. Working on internal IT infrastructure, systems support and
-           digital processes alongside the company's technology department.</p>
-        <div class="tl-tags"><span>Current role</span><span>IT</span><span>Systems</span><span>Infrastructure</span></div>
-      </div>
-    </div>
-
-    <div class="tl-item rv">
-      <div class="glass tl-card">
-        <span class="tl-date">Apr – Jun 2024</span>
-        <h3>Soluzione1 — IT Internship</h3>
-        <p>Professional IT developer internship in a real company environment in Ghisalba,
-           Bergamo. SQL training, first &amp; second level support, application training,
-           and daily collaboration with senior developers.</p>
-        <div class="tl-tags"><span>Internship</span><span>SQL</span><span>DotNet</span><span>IT Support</span></div>
-      </div>
-    </div>
-
-    <div class="tl-item rv">
-      <div class="glass tl-card">
-        <span class="tl-date">Jan – May 2021</span>
-        <h3>Unity Junior Programmer — Certified</h3>
-        <p>Completed the Unity Junior Programmer pathway via Unity Technologies &amp; Credly.
-           Hands-on experience in game development, real-time rendering, physics simulation
-           and C# scripting.</p>
-        <div class="tl-tags"><span>Certified</span><span>Unity</span><span>C#</span><span>3D</span></div>
-      </div>
-    </div>
-
-    <div class="tl-item rv">
-      <div class="glass tl-card">
-        <span class="tl-date">2020 → Present</span>
-        <h3>Computer Engineering — Università di Brescia</h3>
-        <p>Bachelor's degree, currently in the 3rd year. Algorithms, data structures,
-           operating systems, databases and software engineering. Building the theoretical
-           foundation while shipping real projects on the side.</p>
-        <div class="tl-tags"><span>3rd year</span><span>C</span><span>Java</span><span>Python</span></div>
-      </div>
-    </div>
-
-    <div class="tl-item rv">
-      <div class="glass tl-card">
-        <span class="tl-date">2015 → 2020</span>
-        <h3>Liceo Don Milani — Romano di Lombardia, BG</h3>
-        <p>General scientific studies with a strong focus on logic, mathematics and
-           languages. Graduated with Maturità diploma. English B2 certification during
-           these years. First lines of code written here.</p>
-        <div class="tl-tags"><span>Maturità</span><span>Maths</span><span>Physics</span><span>English B2</span></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══ LANGUAGES ═══ -->
-<section class="sec" id="languages">
-  <span class="sec-label rv">05 · Languages</span>
-  <h2 class="rv">Five ways to say <em>hello</em></h2>
-
-  <div class="langs">
-    <div class="glass lang rv d1" style="--lvl:100%">
-      <div class="lang-top"><span class="lang-flag">🇮🇹</span>
-        <div><div class="lang-name">Italiano</div><span class="lang-level">Madrelingua</span></div>
-      </div>
-      <div class="lang-bar"><i></i></div>
-    </div>
-    <div class="glass lang rv d2" style="--lvl:75%">
-      <div class="lang-top"><span class="lang-flag">🇬🇧</span>
-        <div><div class="lang-name">English</div><span class="lang-level">B2 — Certified</span></div>
-      </div>
-      <div class="lang-bar"><i></i></div>
-    </div>
-    <div class="glass lang rv d3" style="--lvl:75%">
-      <div class="lang-top"><span class="lang-flag">🇪🇸</span>
-        <div><div class="lang-name">Español</div><span class="lang-level">B2 — Fluente</span></div>
-      </div>
-      <div class="lang-bar"><i></i></div>
-    </div>
-    <div class="glass lang rv d4" style="--lvl:50%">
-      <div class="lang-top"><span class="lang-flag">🇨🇳</span>
-        <div><div class="lang-name">中文</div><span class="lang-level">Intermedio</span></div>
-      </div>
-      <div class="lang-bar"><i></i></div>
-    </div>
-    <div class="glass lang rv d4" style="--lvl:25%">
-      <div class="lang-top"><span class="lang-flag">🇯🇵</span>
-        <div><div class="lang-name">日本語</div><span class="lang-level">Base</span></div>
-      </div>
-      <div class="lang-bar"><i></i></div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══ CONTACT ═══ -->
-<section class="sec" id="contact">
-  <div class="glass contact-box rv">
-    <h2>Let's build <em>something.</em></h2>
-    <p>Open to new opportunities, collaborations and interesting conversations.
-       Drop me a line — I reply fast.</p>
-    <div class="contact-links">
-      <a class="btn primary" href="mailto:edwardattuati@icloud.com">✉ Email me</a>
-      <a class="btn" href="https://it.linkedin.com/in/edward-attuati-41a54823b" target="_blank" rel="noopener">LinkedIn</a>
-      <a class="btn" href="https://github.com/edward070707" target="_blank" rel="noopener">GitHub</a>
-      <a class="btn" href="https://www.instagram.com/edwardattuati/" target="_blank" rel="noopener">Instagram</a>
-      <a class="btn" href="cv.html">CV</a>
-    </div>
-  </div>
-</section>
-
-<footer>
-  <p>© 2026 Edward Attuati — hand-crafted, vanilla HTML/CSS/JS</p>
-  <p><a href="index.html">edwardattuati.com</a> · <a href="sitemap.html">sitemap</a></p>
 </footer>
 
-<script>
-(function(){
-  'use strict';
-
-  // nav glass on scroll
-  const nav = document.getElementById('nav');
-  let tick = false;
-  addEventListener('scroll', () => {
-    if (tick) return;
-    tick = true;
-    requestAnimationFrame(() => {
-      nav.classList.toggle('scrolled', scrollY > 40);
-      tick = false;
-    });
-  }, { passive:true });
-
-  // reveal on scroll
-  const io = new IntersectionObserver(entries => {
-    for (const e of entries) {
-      if (!e.isIntersecting) continue;
-      e.target.classList.add('in');
-      io.unobserve(e.target);
-    }
-  }, { threshold:.15, rootMargin:'0px 0px -40px 0px' });
-  document.querySelectorAll('.rv, .lang').forEach(el => io.observe(el));
-
-  // count-up when stats enter
-  const ease = t => 1 - Math.pow(1 - t, 3);
-  function countUp(el){
-    const target = +el.dataset.count;
-    const t0 = performance.now(), dur = 1200;
-    (function step(now){
-      const p = Math.min((now - t0) / dur, 1);
-      el.textContent = Math.round(ease(p) * target);
-      if (p < 1) requestAnimationFrame(step);
-    })(performance.now());
-  }
-  const statIO = new IntersectionObserver(entries => {
-    for (const e of entries) {
-      if (!e.isIntersecting) continue;
-      e.target.querySelectorAll('[data-count]').forEach(countUp);
-      statIO.unobserve(e.target);
-    }
-  }, { threshold:.3 });
-  const stats = document.querySelector('.stats');
-  if (stats) statIO.observe(stats);
-})();
-</script>
+<script src="/assets/site/about.i18n.js" defer></script>
+<script src="/assets/site/site.js" defer></script>
 </body>
 </html>
