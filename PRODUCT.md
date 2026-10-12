@@ -42,3 +42,4 @@ A student who designs and ships complete apps end to end (Chrono, Memive, Scadoo
 - Fast to skim: a recruiter gets who, what and how-to-contact in the first viewport.
 - Craft is the proof: interactions show skill, but never block reading or contact.
 - One identity across all pages.
+- Release status (confirmed by Edward, 2026-10-12): no app is published on any store; Memive, Chrono and Scadoo are all in development. Memive has a web beta at /app/, Chrono a web demo at /chrono-app.html. Never write "available", "live" or "online" for the apps; planned prices are labelled as planned.
