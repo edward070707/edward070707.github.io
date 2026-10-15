@@ -19,7 +19,7 @@ A student who designs and ships complete apps end to end (Chrono, Memive, Scadoo
 - Static site on GitHub Pages, custom domain edwardattuati.com, Jekyll active (folders starting with `_` are not published). No build step: plain HTML/CSS/JS per page.
 - Pages: index (home), aboutme, cv, chrono, chrono-app, memive, scadoo, scadoo-privacy (App Store requirement, must stay reachable), sitemap, plus `app/` (Flutter web build). vision.html (an older homepage concept) moved to `_archive/`.
 - Every page except scadoo-privacy is translated into 5 languages (it, en, es, zh, ja); language choice is shared through localStorage `ea-lang`.
-- Must keep: interactive atom in the hero, easter eggs (Konami code, 20 clicks on the atom), multilingual greeting + typewriter, custom cursor, CV intro (paper shatter, "Cambiamo le regole").
+- Must keep: interactive atom in the hero, easter eggs (Konami code, 20 clicks on the atom), multilingual greeting + typewriter, CV intro (paper shatter, "Cambiamo le regole").
 - Must remove: the chatbot, and the cookie banner (the site sets no tracking cookies; language lives in localStorage).
 - Memive web app is live at /app/ (Flutter web build). Unused HTML5 UP template scripts (jQuery etc.) are removal candidates.
 - GitHub section must show real data from the GitHub API, never invented numbers.
@@ -35,7 +35,8 @@ A student who designs and ships complete apps end to end (Chrono, Memive, Scadoo
 - Profiles: github.com/edward070707, LinkedIn, Instagram.
 - GitHub reality: 1 public repository, 0 stars, 0 forks. Do not fabricate stats, testimonials, clients or metrics.
 
-- Languages spoken (from the old About page): Italian native, English B2 certified, Spanish B2, Chinese intermediate, Japanese beginner.
+- Languages spoken (confirmed by Edward, 2026-10-15): Italian native, English advanced (B2–C1). He does not speak Spanish, Chinese or Japanese; the site is still translated into them and the home greets in 38 languages as a curiosity.
+- Cursor: the system cursor is used. The custom glass-droplet cursor was removed at Edward's request (2026-10-15) because it hid the text underneath.
 
 ## Product Principles
 - Truth over shine: every number and claim on the site must be verifiable.

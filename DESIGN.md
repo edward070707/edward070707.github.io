@@ -215,7 +215,7 @@ components:
 
 Every page stands on one of Edward's own photographs, full bleed and fixed behind everything: the canal at golden hour, Kyoto bamboo, New York at night. Over that ground floats real liquid glass: a translucent, warm-tinted material with live backdrop blur and saturation, a specular sheen, a light rim brighter at the top left, and, on Chromium, true edge refraction from SVG displacement maps. Glass carries the controls and the short, urgent things (nav, hero, buttons, chips, the atom bubble, dialogs). When reading gets dense, warm sand-paper sheets slide up over the photo with large rounded top corners, and the page alternates between looking through the glass at the photograph and reading on paper.
 
-The world is calm, human and tactile. Its palette is sampled from the canal photo, not picked from a UI kit: dark mossy forest ink, sand paper, and gold from sunlight on water. Type pairs a high-contrast editorial serif (Instrument Serif, always weight 400) for names, headings and numerals with a warm grotesk (Hanken Grotesk) for everything that has to work. Motion is a soft spring: glass squashes when pressed, sections rise out of a blur, the cursor is a drop of glass that bends the photograph under it.
+The world is calm, human and tactile. Its palette is sampled from the canal photo, not picked from a UI kit: dark mossy forest ink, sand paper, and gold from sunlight on water. Type pairs a high-contrast editorial serif (Instrument Serif, always weight 400) for names, headings and numerals with a warm grotesk (Hanken Grotesk) for everything that has to work. Motion is a soft spring: glass squashes when pressed, sections rise out of a blur.
 
 It explicitly refuses the category default for developer portfolios (dark neon with glow and mono labels) and its opposite (a white Swiss card grid), and it replaces the site's former violet, cyan and pink palette with a more human one.
 
@@ -232,7 +232,7 @@ It explicitly refuses the category default for developer portfolios (dark neon w
 A warm, low-chroma palette sampled from a canal at sunset: forest ink, sand paper and sun gold, with one accent hue per product.
 
 ### Primary
-- **Canal Forest Ink** (forest): the ink of the system. Body and heading text on paper and on reading glass, the fill of dark-on-paper buttons, the Pro pricing plan, the custom cursor dot, the CV sheet rule. Also the ground's fallback color.
+- **Canal Forest Ink** (forest): the ink of the system. Body and heading text on paper and on reading glass, the fill of dark-on-paper buttons, the Pro pricing plan, the CV sheet rule. Also the ground's fallback color.
 
 ### Secondary
 - **Sun on Water** (sun): light gold that only lives where it sits on dark or on the photo: the text-selection fill, the keyboard focus ring over the photo, the scrollbar thumb, list markers on the forest Pro plan, the easter-egg progress bar. It is never text on paper (1.46:1).
@@ -315,7 +315,7 @@ Depth is physical and layered: the photograph at the back, glass floating over i
 
 ## Shapes
 
-Shapes are soft and continuous. Every interactive control is a full pill (`999px`): buttons, chips, nav items, tab-bar items, tags, live badges, duration pills, inputs, toasts. Large containers use generous radii: glass panels and pricing plans `30px`, sheets `34px` top corners, the language menu `20px` with `14px` items. Small data cards (GitHub repositories, code blocks) use `16px`. Real app screenshots sit in a `40px` glass frame with an `8px` margin around a `32px` screen at a `390 / 844` aspect ratio, tilted 2–2.5 degrees. The atom bubble and the cursor droplet are perfect circles. Hairlines are 1px forest at 14% opacity. The only other borders are the input's 1px forest hairline at 20% and the CV's 2px forest head rule.
+Shapes are soft and continuous. Every interactive control is a full pill (`999px`): buttons, chips, nav items, tab-bar items, tags, live badges, duration pills, inputs, toasts. Large containers use generous radii: glass panels and pricing plans `30px`, sheets `34px` top corners, the language menu `20px` with `14px` items. Small data cards (GitHub repositories, code blocks) use `16px`. Real app screenshots sit in a `40px` glass frame with an `8px` margin around a `32px` screen at a `390 / 844` aspect ratio, tilted 2–2.5 degrees. The atom bubble is a perfect circle. Hairlines are 1px forest at 14% opacity. The only other borders are the input's 1px forest hairline at 20% and the CV's 2px forest head rule.
 
 Icons are inline SVG line drawings in `currentColor`, stroke 1.7–1.8, round caps and joins, 15–21px. A button's trailing icon sits in its own 30px circular well that drifts up and to the right on hover.
 
@@ -351,8 +351,8 @@ Tactile glass pills that squash when pressed.
 - **Mobile (≤820px):** the nav keeps the mark, CV and language; a floating glass tab bar at the bottom holds 21px line icons over 0.6875rem labels, and the current tab gets a white `.52` pill.
 - **Entrance:** the nav drops in from `-24px` and the tab bar rises from `30px`, both on the spring.
 
-### Signature: Glass droplet cursor
-On fine pointers the system cursor is replaced by a `44px` circle of near-clear glass that refracts the photo with a negative displacement (a convex drop), plus a `5px` forest dot ringed in cream. It grows to `74px` over interactive targets and shrinks to `34px` while pressed. It is disabled for coarse pointers and reduced motion.
+### Cursor
+The system cursor is kept everywhere. A custom glass-droplet cursor was built and then removed at Edward's request: it hid the text underneath it.
 
 ### Signature: Phone shot in glass
 Real app screenshots (never mockups) sit in a translucent glass frame (see Shapes), tilted 2–2.5 degrees. In product heroes they rise in from a blur.

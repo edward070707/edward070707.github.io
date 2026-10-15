@@ -7,7 +7,6 @@
   doc.classList.add('js');
 
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const finePointer = matchMedia('(hover: hover) and (pointer: fine)').matches;
 
   /* ── VETRO LIQUIDO: rifrazione ai bordi ─────────────────────────────
      Per ogni elemento di vetro genera una mappa di spostamento: vicino al
@@ -96,35 +95,6 @@
   }
   window.EA = window.EA || {};
   EA.refreshGlass = el => applyRefraction(el);
-
-  /* ── CURSORE: goccia di vetro ──────────────────────────────────── */
-  function initDrop() {
-    if (!finePointer || reduceMotion) return;
-    const drop = document.createElement('div'); drop.className = 'drop gchip'; drop.style.setProperty('--lg-band', '22'); drop.style.setProperty('--lg-scale', '-46');
-    const dot = document.createElement('div'); dot.className = 'drop-dot';
-    document.body.append(drop, dot);
-    doc.classList.add('has-drop');
-    let x = innerWidth / 2, y = innerHeight / 2, dx = x, dy = y, moved = false;
-    addEventListener('pointermove', e => {
-      x = e.clientX; y = e.clientY;
-      if (!moved) { moved = true; dx = x; dy = y; drop.classList.add('on'); dot.classList.add('on'); applyRefraction(drop); }
-      const hot = e.target.closest('a, button, [role="button"], [data-cursor="big"]');
-      drop.classList.toggle('big', !!hot);
-    }, { passive: true });
-    addEventListener('pointerdown', () => drop.classList.add('down'));
-    addEventListener('pointerup', () => drop.classList.remove('down'));
-    document.addEventListener('pointerleave', () => { drop.classList.remove('on'); dot.classList.remove('on'); });
-    document.addEventListener('pointerenter', () => { if (moved) { drop.classList.add('on'); dot.classList.add('on'); } });
-    let lastSize = 0;
-    (function loop() {
-      dx += (x - dx) * .2; dy += (y - dy) * .2;
-      drop.style.transform = `translate3d(${dx}px, ${dy}px, 0)`;
-      dot.style.transform = `translate3d(${x}px, ${y}px, 0)`;
-      const size = drop.offsetWidth;
-      if (size !== lastSize) { lastSize = size; applyRefraction(drop); }
-      requestAnimationFrame(loop);
-    })();
-  }
 
   /* ── COMPARSA ALLO SCROLL ──────────────────────────────────────── */
   function initReveal() {
@@ -221,7 +191,6 @@
   function start() {
     initLang();
     initGlass();
-    initDrop();
     initReveal();
     initNavSpy();
     initCopy();

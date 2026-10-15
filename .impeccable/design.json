@@ -450,8 +450,7 @@
         "nav": "18px",
         "chip": "10px",
         "reading-panels": "24-26px",
-        "bubble": "3px",
-        "droplet": "1.5px"
+        "bubble": "3px"
       },
       "backdropFilter": "blur(var(--blur)) saturate(175%) brightness(1.04)",
       "specular": "radial-gradient(120% 60% at 18% 0%, rgba(255, 255, 255, .42), transparent 55%), radial-gradient(80% 50% at 100% 100%, rgba(255, 240, 200, .14), transparent 60%); mix-blend-mode: soft-light",
@@ -470,10 +469,6 @@
         "atomBubble": {
           "--lg-scale": 70,
           "--lg-band": 80
-        },
-        "droplet": {
-          "--lg-scale": -46,
-          "--lg-band": 22
         },
         "excluded": ".sheet .gbtn, .on-paper .gbtn"
       },
@@ -573,7 +568,7 @@
   ],
   "narrative": {
     "northStar": "Vetro su luce calda",
-    "overview": "Every page stands on one of Edward's own photographs, full bleed and fixed behind everything: the canal at golden hour, Kyoto bamboo, New York at night. Over that ground floats real liquid glass: a translucent, warm-tinted material with live backdrop blur and saturation, a specular sheen, a light rim brighter at the top left, and, on Chromium, true edge refraction from SVG displacement maps. Glass carries the controls and the short, urgent things (nav, hero, buttons, chips, the atom bubble, dialogs). When reading gets dense, warm sand-paper sheets slide up over the photo with large rounded top corners, and the page alternates between looking through the glass at the photograph and reading on paper.\n\nThe world is calm, human and tactile. Its palette is sampled from the canal photo, not picked from a UI kit: dark mossy forest ink, sand paper, and gold from sunlight on water. Type pairs a high-contrast editorial serif (Instrument Serif, always weight 400) for names, headings and numerals with a warm grotesk (Hanken Grotesk) for everything that has to work. Motion is a soft spring: glass squashes when pressed, sections rise out of a blur, the cursor is a drop of glass that bends the photograph under it.\n\nIt explicitly refuses the category default for developer portfolios (dark neon with glow and mono labels) and its opposite (a white Swiss card grid), and it replaces the site's former violet, cyan and pink palette with a more human one.",
+    "overview": "Every page stands on one of Edward's own photographs, full bleed and fixed behind everything: the canal at golden hour, Kyoto bamboo, New York at night. Over that ground floats real liquid glass: a translucent, warm-tinted material with live backdrop blur and saturation, a specular sheen, a light rim brighter at the top left, and, on Chromium, true edge refraction from SVG displacement maps. Glass carries the controls and the short, urgent things (nav, hero, buttons, chips, the atom bubble, dialogs). When reading gets dense, warm sand-paper sheets slide up over the photo with large rounded top corners, and the page alternates between looking through the glass at the photograph and reading on paper.\n\nThe world is calm, human and tactile. Its palette is sampled from the canal photo, not picked from a UI kit: dark mossy forest ink, sand paper, and gold from sunlight on water. Type pairs a high-contrast editorial serif (Instrument Serif, always weight 400) for names, headings and numerals with a warm grotesk (Hanken Grotesk) for everything that has to work. Motion is a soft spring: glass squashes when pressed, sections rise out of a blur.\n\nIt explicitly refuses the category default for developer portfolios (dark neon with glow and mono labels) and its opposite (a white Swiss card grid), and it replaces the site's former violet, cyan and pink palette with a more human one.",
     "keyCharacteristics": [
       "Owner photography as the ground on every page, fixed behind content, with a soft radial vignette.",
       "One glass material in four tints: clear, panel, reading, smoke; opal when it sits on paper.",
