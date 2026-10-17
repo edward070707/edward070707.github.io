@@ -15,7 +15,8 @@
      Chromium; altrove resta la sfocatura satura del CSS. */
   const isChromium = !!(navigator.userAgentData && navigator.userAgentData.brands &&
     navigator.userAgentData.brands.some(b => /Chromium/.test(b.brand)));
-  const refract = isChromium;
+  // Solo su computer: su telefono il calcolo costa troppo e la sfocatura CSS basta.
+  const refract = isChromium && matchMedia('(hover: hover) and (pointer: fine)').matches;
   let svgDefs = null;
   const mapCache = new Map();
 
@@ -30,27 +31,34 @@
     return svgDefs;
   }
 
+  /* La mappa è neutra (128,128) ovunque tranne che in una fascia lungo il
+     bordo: si riempie tutta in un colpo e si calcolano solo i pixel vicini
+     ai lati. Bassa risoluzione: feImage la stira e la mappa è morbida. */
   function displacementMap(w, h, r, band) {
     const key = [w, h, r, band].join('x');
     if (mapCache.has(key)) return mapCache.get(key);
-    const s = 0.5;                                   // mezza risoluzione basta: la mappa è morbida
+    const s = 0.3;
     const cw = Math.max(2, Math.round(w * s)), ch = Math.max(2, Math.round(h * s));
     const c = document.createElement('canvas'); c.width = cw; c.height = ch;
     const g = c.getContext('2d'); const img = g.createImageData(cw, ch); const d = img.data;
+    new Uint32Array(d.buffer).fill(0xFF808080);                // neutro, opaco
     const hx = w / 2, hy = h / 2, rr = Math.min(r, hx, hy);
+    const edge = Math.ceil((Math.max(rr, band) + 2) * s);       // fascia da calcolare, in pixel della mappa
     for (let y = 0; y < ch; y++) {
+      const fullRow = y < edge || y >= ch - edge;
       for (let x = 0; x < cw; x++) {
+        if (!fullRow && x === edge) x = Math.max(edge, cw - edge); // salta il centro
         const px = (x + .5) / s - hx, py = (y + .5) / s - hy;
         const qx = Math.abs(px) - (hx - rr), qy = Math.abs(py) - (hy - rr);
-        const ox = Math.max(qx, 0), oy = Math.max(qy, 0);
-        const sd = Math.hypot(ox, oy) + Math.min(Math.max(qx, qy), 0) - rr;   // <0 dentro
+        const sd = Math.hypot(Math.max(qx, 0), Math.max(qy, 0)) + Math.min(Math.max(qx, qy), 0) - rr;   // <0 dentro
+        const inside = -sd;
+        if (inside >= band) continue;
         let nx = 0, ny = 0;
         if (qx > 0 && qy > 0) { const l = Math.hypot(qx, qy) || 1; nx = qx / l * Math.sign(px); ny = qy / l * Math.sign(py); }
         else if (qx > qy) nx = Math.sign(px); else ny = Math.sign(py);
-        const inside = -sd;
-        const t = inside < band ? Math.pow(1 - Math.max(inside, 0) / band, 2) : 0;
+        const t = (1 - Math.max(inside, 0) / band) ** 2;
         const i = (y * cw + x) * 4;
-        d[i] = 128 - nx * t * 127; d[i + 1] = 128 - ny * t * 127; d[i + 2] = 128; d[i + 3] = 255;
+        d[i] = 128 - nx * t * 127; d[i + 1] = 128 - ny * t * 127;
       }
     }
     g.putImageData(img, 0, 0);
@@ -62,9 +70,10 @@
   let filterSeq = 0;
   function applyRefraction(el) {
     if (!refract) return;
-    const rect = el.getBoundingClientRect();
-    const w = Math.round(rect.width), h = Math.round(rect.height);
+    const w = el.offsetWidth, h = el.offsetHeight;             // misure senza trasformazioni
     if (w < 8 || h < 8) return;
+    if (el._lgSize === w + 'x' + h) return;                    // niente da rifare
+    el._lgSize = w + 'x' + h;
     const cs = getComputedStyle(el);
     const radius = parseFloat(cs.borderTopLeftRadius) || 0;
     const band = Math.min(parseFloat(cs.getPropertyValue('--lg-band')) || 22, Math.min(w, h) / 2);
@@ -86,15 +95,33 @@
     el.style.backdropFilter = `url(#${id})`;
   }
 
+  /* Il lavoro si fa a pezzi, quando il browser è libero: mai un blocco unico
+     durante il caricamento. */
+  const idle = window.requestIdleCallback || (cb => setTimeout(() => cb({ timeRemaining: () => 8 }), 50));
+  const glassQueue = new Set();
+  let pumping = false;
+  function pump(deadline) {
+    for (const el of glassQueue) {
+      glassQueue.delete(el);
+      applyRefraction(el);
+      if (deadline.timeRemaining() < 5) break;
+    }
+    if (glassQueue.size) idle(pump, { timeout: 1500 }); else pumping = false;
+  }
+  function scheduleGlass(el) {
+    glassQueue.add(el);
+    if (!pumping) { pumping = true; idle(pump, { timeout: 1500 }); }
+  }
+
   function initGlass(root = document) {
     if (!refract) return;
     doc.classList.add('lg-refract');
     const els = root.querySelectorAll('.glass, .gbtn:not(.on-paper .gbtn):not(.sheet .gbtn), .gchip, [data-glass]');
-    const ro = new ResizeObserver(entries => entries.forEach(e => applyRefraction(e.target)));
-    els.forEach(el => { applyRefraction(el); ro.observe(el); });
+    const ro = new ResizeObserver(entries => entries.forEach(e => scheduleGlass(e.target)));
+    els.forEach(el => ro.observe(el));                          // l'osservatore li segnala tutti una prima volta
   }
   window.EA = window.EA || {};
-  EA.refreshGlass = el => applyRefraction(el);
+  EA.refreshGlass = el => { if (el) { el._lgSize = ''; scheduleGlass(el); } };
 
   /* ── COMPARSA ALLO SCROLL ──────────────────────────────────────── */
   function initReveal() {
@@ -152,6 +179,7 @@
     document.querySelectorAll('[data-i18n-aria]').forEach(el => { const v = EA.t(el.dataset.i18nAria); if (v !== undefined) el.setAttribute('aria-label', v); });
     document.querySelectorAll('.lang-menu button').forEach(b => b.setAttribute('aria-pressed', b.dataset.lang === lang ? 'true' : 'false'));
     document.querySelectorAll('[data-lang-code]').forEach(el => el.textContent = lang.toUpperCase());
+    document.querySelectorAll('.lang-btn').forEach(b => b.setAttribute('aria-label', (EA.t('lang-label') || 'Lingua') + ': ' + lang.toUpperCase()));
     renderDates(lang);
     document.dispatchEvent(new CustomEvent('ea:lang', { detail: lang }));
   };

@@ -18,7 +18,6 @@
       imagesrcset="/assets/photos/canale-tramonto-960.webp 960w, /assets/photos/canale-tramonto-1600.webp 1600w, /assets/photos/canale-tramonto-2560.webp 2560w" imagesizes="100vw" fetchpriority="high">
 <link rel="preload" href="/assets/fonts/InstrumentSerif-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/HankenGrotesk-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/assets/fonts/fonts.css">
 <link rel="stylesheet" href="/assets/site/site.css">
 <style>
 /* ── HERO ─────────────────────────────────────────────────────────── */
@@ -29,7 +28,7 @@
 }
 .hero-panel { --tint: rgba(247, 244, 230, .6); --blur: 24px; --lg-scale: 24; --lg-band: 28; padding: clamp(30px, 3.6vw, 54px); max-width: 660px; }
 .js .hero-panel { animation: panel-in 1.2s .35s var(--ease) both; }
-@keyframes panel-in { from { opacity: 0; transform: translateY(30px) scale(.97); filter: blur(10px); } }
+@keyframes panel-in { from { transform: translateY(24px) scale(.98); } }
 .hero h1 { margin: 0; font-weight: 400; }
 .greet {
   display: block; min-height: 1.1em;
@@ -59,6 +58,8 @@
 .atom-meta { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; min-height: 34px; }
 .atom-meta .gchip { color: #fbf6e8; --tint: rgba(28, 30, 22, .6); }
 .atom-meta .state { font-weight: 700; }
+.atom-meta .motion { border: 0; cursor: pointer; font: 600 .8125rem/1.2 var(--sans); min-height: 30px; }
+.atom-meta .motion[aria-pressed="true"] { --tint: rgba(223, 195, 142, .85); color: var(--forest); }
 .egg { opacity: 0; transform: translateY(6px); transition: opacity .4s, transform .5s var(--ease); }
 .egg.show { opacity: 1; transform: none; }
 .egg-bar { display: inline-block; width: 60px; height: 4px; border-radius: 4px; background: rgba(255, 255, 255, .25); overflow: hidden; }
@@ -145,18 +146,75 @@
 }
 @media (max-width: 520px) { .skills { grid-template-columns: 1fr 1fr; gap: 28px 18px; } .proj { padding: 40px 0; } }
 </style>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "Person",
+   "@id": "https://edwardattuati.com/#edward",
+   "name": "Edward Attuati",
+   "url": "https://edwardattuati.com/",
+   "jobTitle": "Mobile & Web Developer",
+   "email": "mailto:edwardattuati@icloud.com",
+   "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Bergamo",
+    "addressCountry": "IT"
+   },
+   "affiliation": {
+    "@type": "CollegeOrUniversity",
+    "name": "Università degli Studi di Brescia",
+    "url": "https://www.unibs.it/"
+   },
+   "worksFor": {
+    "@type": "Organization",
+    "name": "ALLTUB ITALIA"
+   },
+   "knowsLanguage": [
+    "it",
+    "en"
+   ],
+   "knowsAbout": [
+    "Flutter",
+    "Dart",
+    "Firebase",
+    "JavaScript",
+    "HTML",
+    "CSS",
+    "UI/UX design"
+   ],
+   "sameAs": [
+    "https://it.linkedin.com/in/edward-attuati-41a54823b",
+    "https://github.com/edward070707",
+    "https://www.instagram.com/edwardattuati/"
+   ]
+  },
+  {
+   "@type": "WebSite",
+   "@id": "https://edwardattuati.com/#website",
+   "url": "https://edwardattuati.com/",
+   "name": "Edward Attuati",
+   "inLanguage": "it",
+   "publisher": {
+    "@id": "https://edwardattuati.com/#edward"
+   }
+  }
+ ]
+}
+</script>
 </head>
 <body>
 <a class="skip" href="#main" data-i18n="skip">Vai al contenuto</a>
 
 <div class="ground" aria-hidden="true">
-  <img src="/assets/photos/canale-tramonto-1600.webp"
+  <img width="1600" height="1200" src="/assets/photos/canale-tramonto-1600.webp"
        srcset="/assets/photos/canale-tramonto-960.webp 960w, /assets/photos/canale-tramonto-1600.webp 1600w, /assets/photos/canale-tramonto-2560.webp 2560w"
        sizes="100vw" alt="" fetchpriority="high" decoding="async">
 </div>
 
 <nav class="nav glass" aria-label="Navigazione principale">
-  <a class="nav-mark" href="#home" aria-label="Edward Attuati, inizio pagina">EA</a>
+  <a class="nav-mark" translate="no" href="#home" aria-label="EA · Edward Attuati, inizio pagina">EA</a>
   <a class="nav-link" href="#work" data-i18n="nav-work">Progetti</a>
   <a class="nav-link" href="#about" data-i18n="nav-about">Chi sono</a>
   <a class="nav-link" href="#path" data-i18n="nav-path">Percorso</a>
@@ -164,7 +222,7 @@
   <span class="nav-sep" aria-hidden="true"></span>
   <a href="/cv.html" data-i18n="nav-cv">CV</a>
   <div class="lang">
-    <button class="nav-item lang-btn" type="button" aria-haspopup="true" aria-expanded="false" data-i18n-aria="lang-label" aria-label="Lingua">
+    <button class="nav-item lang-btn" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Lingua: IT">
       <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.8 3.8 5.8 3.8 9s-1.2 6.2-3.8 9c-2.6-2.8-3.8-5.8-3.8-9S9.4 5.8 12 3z"/></svg>
       <span data-lang-code>IT</span>
     </button>
@@ -192,7 +250,7 @@
     <div class="hero-panel glass">
       <h1 id="hero-title">
         <span class="greet" id="greet" aria-hidden="true">Ciao</span>
-        <span class="name">Edward Attuati</span>
+        <span class="name" translate="no">Edward Attuati</span>
       </h1>
       <p class="tw" id="typewriter" aria-live="off">Studente di Ingegneria Informatica.</p>
       <p class="hero-desc" data-i18n-html="hero-desc">Progetto e costruisco app complete, dall'idea al codice: <strong>Memive</strong>, un social vocale già provabile in beta sul web, <strong>Chrono</strong> e <strong>Scadoo</strong>, tutte ancora in sviluppo. Studio a Brescia e lavoro nel reparto IT di ALLTUB ITALIA.</p>
@@ -209,6 +267,7 @@
       <div class="atom-meta">
         <span class="gchip state" id="atom-state" data-i18n="atom-ground">Quiete</span>
         <span class="gchip" id="atom-hint" data-i18n="atom-hint">Clicca o trascina l'atomo</span>
+        <button class="gchip motion" type="button" id="motion-toggle" aria-pressed="false">Ferma animazioni</button>
         <span class="gchip egg" id="egg" aria-live="polite"><span id="egg-text"></span><span class="egg-bar"><i id="egg-bar"></i></span></span>
       </div>
     </div>

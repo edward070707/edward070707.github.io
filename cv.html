@@ -15,7 +15,6 @@
 <meta property="og:image" content="https://edwardattuati.com/assets/photos/new-york-notte-1600.webp">
 <link rel="preload" href="/assets/fonts/InstrumentSerif-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/HankenGrotesk-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/assets/fonts/fonts.css">
 <link rel="stylesheet" href="/assets/site/site.css">
 <style>
 body { background: var(--forest-0); }
@@ -34,7 +33,7 @@ body { background: var(--forest-0); }
   box-shadow: 0 40px 90px -30px rgba(0, 0, 0, .7), 0 2px 0 rgba(255, 255, 255, .4) inset;
 }
 .js .cv { animation: sheet-in 1s .1s var(--ease) both; }
-@keyframes sheet-in { from { opacity: 0; transform: translateY(40px) rotate(-.6deg); } }
+@keyframes sheet-in { from { transform: translateY(32px) rotate(-.6deg); } }
 
 .cv-head { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 18px 40px; align-items: end; padding-bottom: 28px; border-bottom: 2px solid var(--forest); }
 .cv-head h1 { margin: 0; font: 400 clamp(2.8rem, 7vw, 4.6rem)/.92 var(--serif); letter-spacing: -.025em; }
@@ -145,20 +144,20 @@ body { background: var(--forest-0); }
 <noscript><style>#cv-intro { display: none; }</style></noscript>
 
 <div class="ground" aria-hidden="true">
-  <img src="/assets/photos/new-york-notte-1600.webp"
+  <img width="1600" height="2133" src="/assets/photos/new-york-notte-1600.webp"
        srcset="/assets/photos/new-york-notte-960.webp 960w, /assets/photos/new-york-notte-1600.webp 1600w, /assets/photos/new-york-notte-2560.webp 2560w"
        sizes="100vw" alt="" decoding="async">
 </div>
 
 <nav class="nav glass" aria-label="Navigazione principale">
-  <a class="nav-mark" href="/" data-i18n-aria="home-aria" aria-label="Edward Attuati, torna alla home">EA</a>
+  <a class="nav-mark" translate="no" href="/" data-i18n-aria="home-aria" aria-label="EA · Edward Attuati, torna alla home">EA</a>
   <a href="/aboutme.html" data-i18n="cv-about">Chi sono</a>
   <button class="nav-item print" type="button" id="print">
     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 9V3h10v6M7 18H5a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="7" y="14" width="10" height="7" rx="1"/></svg>
     <span class="sr-narrow" data-i18n="cv-print">Stampa o PDF</span>
   </button>
   <div class="lang">
-    <button class="nav-item lang-btn" type="button" aria-haspopup="true" aria-expanded="false" data-i18n-aria="lang-label" aria-label="Lingua">
+    <button class="nav-item lang-btn" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Lingua: IT">
       <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.8 3.8 5.8 3.8 9s-1.2 6.2-3.8 9c-2.6-2.8-3.8-5.8-3.8-9S9.4 5.8 12 3z"/></svg>
       <span data-lang-code>IT</span>
     </button>
@@ -176,7 +175,7 @@ body { background: var(--forest-0); }
   <article class="cv" aria-labelledby="cv-name">
     <header class="cv-head">
       <div>
-        <h1 id="cv-name">Edward Attuati</h1>
+        <h1 id="cv-name" translate="no">Edward Attuati</h1>
         <p class="cv-role" data-i18n="cv-role">Mobile e Web Developer · Flutter · Firebase</p>
       </div>
       <ul class="cv-contact">

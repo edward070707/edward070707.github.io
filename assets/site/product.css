@@ -9,10 +9,10 @@
 .p-hero:has(.p-hero-shot) { grid-template-columns: minmax(0, 1fr) auto; gap: 5vw; }
 .p-hero-shot { --shot-w: clamp(220px, 21vw, 290px); justify-self: center; transform: rotate(2.5deg); }
 .js .p-hero-shot { animation: p-shot 1.4s .55s var(--ease) both; }
-@keyframes p-shot { from { opacity: 0; transform: translateY(40px) rotate(6deg); filter: blur(10px); } }
+@keyframes p-shot { from { transform: translateY(32px) rotate(5deg); } }
 .p-hero-panel { --tint: rgba(247, 244, 230, .62); --blur: 24px; --lg-scale: 24; --lg-band: 28; max-width: 680px; padding: clamp(30px, 3.6vw, 54px); color: var(--forest); }
 .js .p-hero-panel { animation: p-rise 1.2s .3s var(--ease) both; }
-@keyframes p-rise { from { opacity: 0; transform: translateY(30px) scale(.97); filter: blur(10px); } }
+@keyframes p-rise { from { transform: translateY(24px) scale(.98); } }
 .p-name { margin: 0; font: 400 clamp(3.4rem, 8vw, 6rem)/.9 var(--serif); letter-spacing: -.025em; }
 .p-tagline { margin: 10px 0 0; font: italic 400 clamp(1.5rem, 2.6vw, 2.1rem)/1.15 var(--serif); color: var(--accent); }
 .p-hero-panel .lede { margin-top: 18px; color: var(--ink-2); }

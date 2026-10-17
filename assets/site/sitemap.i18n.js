@@ -1,7 +1,7 @@
 /* Testi della mappa del sito in cinque lingue. */
 window.EA_I18N = {
   it: {
-    'skip': 'Vai al contenuto', 'home-aria': 'Edward Attuati, torna alla home', 'lang-label': 'Lingua',
+    'skip': 'Vai al contenuto', 'home-aria': 'EA · Edward Attuati, torna alla home', 'lang-label': 'Lingua',
     'nav-work': 'Progetti', 'nav-about': 'Chi sono', 'nav-cv': 'CV',
     'map-title': 'Mappa del sito', 'map-lede': "Tutte le pagine e le sezioni di questo sito, in un'unica vista.",
     'g-home': 'Pagina principale', 'g-pages': 'Su di me', 'g-proj': 'Progetti',
@@ -22,7 +22,7 @@ window.EA_I18N = {
     'foot-photo': 'Foto di Edward Attuati', 'foot-home': 'Home'
   },
   en: {
-    'skip': 'Skip to content', 'home-aria': 'Edward Attuati, back to home', 'lang-label': 'Language',
+    'skip': 'Skip to content', 'home-aria': 'EA · Edward Attuati, back to home', 'lang-label': 'Language',
     'nav-work': 'Projects', 'nav-about': 'About', 'nav-cv': 'CV',
     'map-title': 'Sitemap', 'map-lede': 'Every page and section of this site, in one view.',
     'g-home': 'Home page', 'g-pages': 'About me', 'g-proj': 'Projects',
@@ -43,7 +43,7 @@ window.EA_I18N = {
     'foot-photo': 'Photos by Edward Attuati', 'foot-home': 'Home'
   },
   es: {
-    'skip': 'Ir al contenido', 'home-aria': 'Edward Attuati, volver al inicio', 'lang-label': 'Idioma',
+    'skip': 'Ir al contenido', 'home-aria': 'EA · Edward Attuati, volver al inicio', 'lang-label': 'Idioma',
     'nav-work': 'Proyectos', 'nav-about': 'Sobre mí', 'nav-cv': 'CV',
     'map-title': 'Mapa del sitio', 'map-lede': 'Todas las páginas y secciones de este sitio, en una sola vista.',
     'g-home': 'Página principal', 'g-pages': 'Sobre mí', 'g-proj': 'Proyectos',
@@ -64,7 +64,7 @@ window.EA_I18N = {
     'foot-photo': 'Fotos de Edward Attuati', 'foot-home': 'Inicio'
   },
   zh: {
-    'skip': '跳到内容', 'home-aria': 'Edward Attuati，返回首页', 'lang-label': '语言',
+    'skip': '跳到内容', 'home-aria': 'EA · Edward Attuati，返回首页', 'lang-label': '语言',
     'nav-work': '项目', 'nav-about': '关于我', 'nav-cv': '简历',
     'map-title': '网站地图', 'map-lede': '本网站的所有页面和板块，一目了然。',
     'g-home': '首页', 'g-pages': '关于我', 'g-proj': '项目',
@@ -85,7 +85,7 @@ window.EA_I18N = {
     'foot-photo': '照片：Edward Attuati', 'foot-home': '首页'
   },
   ja: {
-    'skip': 'コンテンツへ移動', 'home-aria': 'Edward Attuati、ホームへ戻る', 'lang-label': '言語',
+    'skip': 'コンテンツへ移動', 'home-aria': 'EA · Edward Attuati、ホームへ戻る', 'lang-label': '言語',
     'nav-work': 'プロジェクト', 'nav-about': 'わたしについて', 'nav-cv': '履歴書',
     'map-title': 'サイトマップ', 'map-lede': 'このサイトのすべてのページとセクションを一覧で。',
     'g-home': 'ホーム', 'g-pages': 'わたしについて', 'g-proj': 'プロジェクト',

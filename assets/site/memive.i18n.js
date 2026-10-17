@@ -2,7 +2,7 @@
 window.EA_I18N = {
   it: {
     'shot-alt': "Schermata d'avvio della web app di Memive",
-    'skip': 'Vai al contenuto', 'home-aria': 'Edward Attuati, torna alla home', 'lang-label': 'Lingua',
+    'skip': 'Vai al contenuto', 'home-aria': 'EA · Edward Attuati, torna alla home', 'lang-label': 'Lingua',
     'nav-how': 'Come funziona', 'nav-roadmap': 'Roadmap', 'nav-pricing': 'Prezzi', 'nav-app': "Apri l'app", 'tab-how': 'Come',
     'tagline': 'La tua voce. Il tuo mondo.',
     'hero-lede': 'Il primo social interamente vocale. Niente foto, niente testo: solo la tua voce. Racconti, canti, ispiri, e con Chrono lasci messaggi a chi sarai.',
@@ -56,7 +56,7 @@ window.EA_I18N = {
   },
   en: {
     'shot-alt': "Welcome screen of the Memive web app",
-    'skip': 'Skip to content', 'home-aria': 'Edward Attuati, back to home', 'lang-label': 'Language',
+    'skip': 'Skip to content', 'home-aria': 'EA · Edward Attuati, back to home', 'lang-label': 'Language',
     'nav-how': 'How it works', 'nav-roadmap': 'Roadmap', 'nav-pricing': 'Pricing', 'nav-app': 'Open the app', 'tab-how': 'How',
     'tagline': 'Your voice. Your world.',
     'hero-lede': 'The first fully voice-based social network. No photos, no text: just your voice. Tell stories, sing, inspire, and with Chrono leave messages for who you will become.',
@@ -110,7 +110,7 @@ window.EA_I18N = {
   },
   es: {
     'shot-alt': "Pantalla de inicio de la web app de Memive",
-    'skip': 'Ir al contenido', 'home-aria': 'Edward Attuati, volver al inicio', 'lang-label': 'Idioma',
+    'skip': 'Ir al contenido', 'home-aria': 'EA · Edward Attuati, volver al inicio', 'lang-label': 'Idioma',
     'nav-how': 'Cómo funciona', 'nav-roadmap': 'Hoja de ruta', 'nav-pricing': 'Precios', 'nav-app': 'Abrir la app', 'tab-how': 'Cómo',
     'tagline': 'Tu voz. Tu mundo.',
     'hero-lede': 'La primera red social completamente de voz. Sin fotos, sin texto: solo tu voz. Cuentas, cantas, inspiras, y con Chrono dejas mensajes para quien serás.',
@@ -164,7 +164,7 @@ window.EA_I18N = {
   },
   zh: {
     'shot-alt': "Memive 网页版的启动页面",
-    'skip': '跳到内容', 'home-aria': 'Edward Attuati，返回首页', 'lang-label': '语言',
+    'skip': '跳到内容', 'home-aria': 'EA · Edward Attuati，返回首页', 'lang-label': '语言',
     'nav-how': '如何使用', 'nav-roadmap': '路线图', 'nav-pricing': '价格', 'nav-app': '打开应用', 'tab-how': '使用',
     'tagline': '你的声音，你的世界。',
     'hero-lede': '第一个纯语音社交网络。没有照片，没有文字，只有你的声音。讲故事、唱歌、启发他人，还能用 Chrono 给未来的自己留言。',
@@ -218,7 +218,7 @@ window.EA_I18N = {
   },
   ja: {
     'shot-alt': "Memive Web アプリの起動画面",
-    'skip': 'コンテンツへ移動', 'home-aria': 'Edward Attuati、ホームへ戻る', 'lang-label': '言語',
+    'skip': 'コンテンツへ移動', 'home-aria': 'EA · Edward Attuati、ホームへ戻る', 'lang-label': '言語',
     'nav-how': '使い方', 'nav-roadmap': 'ロードマップ', 'nav-pricing': '料金', 'nav-app': 'アプリを開く', 'tab-how': '使い方',
     'tagline': 'あなたの声。あなたの世界。',
     'hero-lede': '初めての、声だけの SNS。写真もテキストもなく、あるのはあなたの声だけ。語り、歌い、誰かを励まし、Chrono で未来の自分にメッセージを残せます。',

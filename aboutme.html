@@ -18,14 +18,13 @@
       imagesrcset="/assets/photos/bambu-kyoto-960.webp 960w, /assets/photos/bambu-kyoto-1600.webp 1600w" imagesizes="100vw" fetchpriority="high">
 <link rel="preload" href="/assets/fonts/InstrumentSerif-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/HankenGrotesk-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/assets/fonts/fonts.css">
 <link rel="stylesheet" href="/assets/site/site.css">
 <style>
 /* ── apertura sul bambù ──────────────────────────────────────────── */
 .intro { min-height: 92svh; display: grid; align-items: end; padding: 130px clamp(20px, 5.5vw, 84px) 120px; }
 .intro-panel { --tint: rgba(247, 244, 230, .62); --blur: 24px; --lg-scale: 24; --lg-band: 28; max-width: 720px; padding: clamp(30px, 3.6vw, 54px); color: var(--forest); }
 .js .intro-panel { animation: rise 1.2s .3s var(--ease) both; }
-@keyframes rise { from { opacity: 0; transform: translateY(30px) scale(.97); filter: blur(10px); } }
+@keyframes rise { from { transform: translateY(24px) scale(.98); } }
 .intro-panel h1 { margin: 0; }
 .intro-panel h1 em { font-style: italic; color: var(--sun-ink); }
 .intro-panel .lede { margin-top: 22px; color: var(--ink-2); }
@@ -73,18 +72,67 @@
   .intro { padding: 100px 16px 110px; min-height: 86svh; }
 }
 </style>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "ProfilePage",
+ "url": "https://edwardattuati.com/aboutme.html",
+ "name": "Chi sono — Edward Attuati",
+ "inLanguage": "it",
+ "mainEntity": {
+  "@type": "Person",
+  "@id": "https://edwardattuati.com/#edward",
+  "name": "Edward Attuati",
+  "url": "https://edwardattuati.com/",
+  "jobTitle": "Mobile & Web Developer",
+  "email": "mailto:edwardattuati@icloud.com",
+  "address": {
+   "@type": "PostalAddress",
+   "addressLocality": "Bergamo",
+   "addressCountry": "IT"
+  },
+  "affiliation": {
+   "@type": "CollegeOrUniversity",
+   "name": "Università degli Studi di Brescia",
+   "url": "https://www.unibs.it/"
+  },
+  "worksFor": {
+   "@type": "Organization",
+   "name": "ALLTUB ITALIA"
+  },
+  "knowsLanguage": [
+   "it",
+   "en"
+  ],
+  "knowsAbout": [
+   "Flutter",
+   "Dart",
+   "Firebase",
+   "JavaScript",
+   "HTML",
+   "CSS",
+   "UI/UX design"
+  ],
+  "sameAs": [
+   "https://it.linkedin.com/in/edward-attuati-41a54823b",
+   "https://github.com/edward070707",
+   "https://www.instagram.com/edwardattuati/"
+  ]
+ }
+}
+</script>
 </head>
 <body>
 <a class="skip" href="#main" data-i18n="skip">Vai al contenuto</a>
 
 <div class="ground" aria-hidden="true">
-  <img src="/assets/photos/bambu-kyoto-1600.webp"
+  <img width="1600" height="2133" src="/assets/photos/bambu-kyoto-1600.webp"
        srcset="/assets/photos/bambu-kyoto-960.webp 960w, /assets/photos/bambu-kyoto-1600.webp 1600w"
        sizes="100vw" alt="" fetchpriority="high" decoding="async">
 </div>
 
 <nav class="nav glass" aria-label="Navigazione principale">
-  <a class="nav-mark" href="/" data-i18n-aria="home-aria" aria-label="Edward Attuati, torna alla home">EA</a>
+  <a class="nav-mark" translate="no" href="/" data-i18n-aria="home-aria" aria-label="EA · Edward Attuati, torna alla home">EA</a>
   <a class="nav-link" href="#bio" data-i18n="nav-bio">Bio</a>
   <a class="nav-link" href="#lingue" data-i18n="nav-langs">Lingue</a>
   <a class="nav-link" href="#percorso" data-i18n="nav-path">Percorso</a>
@@ -92,7 +140,7 @@
   <span class="nav-sep" aria-hidden="true"></span>
   <a href="/cv.html" data-i18n="nav-cv">CV</a>
   <div class="lang">
-    <button class="nav-item lang-btn" type="button" aria-haspopup="true" aria-expanded="false" data-i18n-aria="lang-label" aria-label="Lingua">
+    <button class="nav-item lang-btn" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Lingua: IT">
       <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.8 3.8 5.8 3.8 9s-1.2 6.2-3.8 9c-2.6-2.8-3.8-5.8-3.8-9S9.4 5.8 12 3z"/></svg>
       <span data-lang-code>IT</span>
     </button>

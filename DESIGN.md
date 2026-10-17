@@ -355,13 +355,15 @@ Tactile glass pills that squash when pressed.
 The system cursor is kept everywhere. A custom glass-droplet cursor was built and then removed at Edward's request: it hid the text underneath it.
 
 ### Signature: Phone shot in glass
-Real app screenshots (never mockups) sit in a translucent glass frame (see Shapes), tilted 2–2.5 degrees. In product heroes they rise in from a blur.
+Real app screenshots (never mockups) sit in a translucent glass frame (see Shapes), tilted 2–2.5 degrees. In product heroes they slide in with a small tilt (transform only, always visible).
 
 ### Motion
 - Spring `cubic-bezier(.32, .72, 0, 1)` for transforms, hover and state; out-expo `cubic-bezier(.16, 1, .3, 1)` for fades and the photograph's entrance.
 - Reveal: elements start at `translateY(26px)` with `blur(8px)` and resolve over `.9–1.1s`, staggered with `--d`.
-- The ground photo eases in from `scale(1.12)` over `1.6s`. Panels rise `30px` from `scale(.97)` and `blur(10px)`.
-- Under `prefers-reduced-motion`, every animation and transition collapses to `.01ms` and reveals are shown at once.
+- The ground photo eases in from `scale(1.08)` over `1.6s`. Panels rise `24px` from `scale(.98)`. Entrances animate transform only: content is never invisible or blurred while loading, so it counts as painted at once (LCP) and costs no filter work.
+- Under `prefers-reduced-motion`, every animation and transition collapses to `.01ms` and reveals are shown at once; the greeting and typewriter hold still and the atom stays still, moving only for a moment when touched.
+- **Pause control (WCAG 2.2.2):** the home hero has a "Ferma animazioni" glass chip that stops the atom, greeting and typewriter; the choice is remembered in `localStorage` (`ea-motion`). The atom also stops whenever it is off screen or the tab is hidden.
+- **Refraction budget:** true edge refraction runs only on Chromium with a fine pointer (desktop). Displacement maps are computed at 0.3 scale, only along the edge band, and in idle-time slices; phones get the CSS blur and saturate glass.
 
 ## Do's and Don'ts
 

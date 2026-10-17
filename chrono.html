@@ -18,7 +18,6 @@
       imagesrcset="/assets/photos/canale-tramonto-960.webp 960w, /assets/photos/canale-tramonto-1600.webp 1600w, /assets/photos/canale-tramonto-2560.webp 2560w" imagesizes="100vw" fetchpriority="high">
 <link rel="preload" href="/assets/fonts/InstrumentSerif-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/HankenGrotesk-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/assets/fonts/fonts.css">
 <link rel="stylesheet" href="/assets/site/site.css">
 <link rel="stylesheet" href="/assets/site/product.css">
 <style>
@@ -41,13 +40,13 @@
 <a class="skip" href="#main" data-i18n="skip">Vai al contenuto</a>
 
 <div class="ground" aria-hidden="true">
-  <img src="/assets/photos/canale-tramonto-1600.webp"
+  <img width="1600" height="1200" src="/assets/photos/canale-tramonto-1600.webp"
        srcset="/assets/photos/canale-tramonto-960.webp 960w, /assets/photos/canale-tramonto-1600.webp 1600w, /assets/photos/canale-tramonto-2560.webp 2560w"
        sizes="100vw" alt="" fetchpriority="high" decoding="async">
 </div>
 
 <nav class="nav glass" aria-label="Navigazione principale">
-  <a class="nav-mark" href="/" data-i18n-aria="home-aria" aria-label="Edward Attuati, torna alla home">EA</a>
+  <a class="nav-mark" translate="no" href="/" data-i18n-aria="home-aria" aria-label="EA · Edward Attuati, torna alla home">EA</a>
   <a class="nav-link" href="#how" data-i18n="nav-how">Come funziona</a>
   <a class="nav-link" href="#features" data-i18n="nav-features">Funzioni</a>
   <a class="nav-link" href="#sync" data-i18n="nav-sync">Dispositivi</a>
@@ -55,7 +54,7 @@
   <span class="nav-sep" aria-hidden="true"></span>
   <a href="/chrono-app.html" data-i18n="nav-app">Prova la demo</a>
   <div class="lang">
-    <button class="nav-item lang-btn" type="button" aria-haspopup="true" aria-expanded="false" data-i18n-aria="lang-label" aria-label="Lingua">
+    <button class="nav-item lang-btn" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Lingua: IT">
       <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.8 3.8 5.8 3.8 9s-1.2 6.2-3.8 9c-2.6-2.8-3.8-5.8-3.8-9S9.4 5.8 12 3z"/></svg>
       <span data-lang-code>IT</span>
     </button>
@@ -81,7 +80,7 @@
 
   <section class="p-hero window" aria-labelledby="p-title">
     <div class="p-hero-panel glass">
-      <h1 class="p-name" id="p-title">Chrono</h1>
+      <h1 class="p-name" translate="no" id="p-title">Chrono</h1>
       <p class="p-tagline" data-i18n="tagline">La tua capsula del tempo digitale.</p>
       <p class="lede" data-i18n="hero-lede">Sigilla ricordi, foto, note e messaggi vocali. Scegli quando riaprirli: tra sei mesi, un anno, cinque, o in una data tutta tua.</p>
       <div class="p-cta">
@@ -90,7 +89,7 @@
       </div>
       <p class="live" data-i18n="status">In sviluppo · demo web da provare · parte di Memive</p>
     </div>
-    <figure class="shot p-hero-shot"><img src="/assets/shots/chrono-app-390.webp" srcset="/assets/shots/chrono-app-390.webp 390w, /assets/shots/chrono-app-780.webp 780w" sizes="(max-width: 820px) 230px, 290px" width="390" height="844" decoding="async" alt="La home della web app di Chrono con le capsule sigillate e aperte" data-i18n-alt="shot-alt"></figure>
+    <figure class="shot p-hero-shot"><img fetchpriority="high" src="/assets/shots/chrono-app-390.webp" srcset="/assets/shots/chrono-app-390.webp 390w, /assets/shots/chrono-app-780.webp 780w" sizes="(max-width: 820px) 230px, 290px" width="390" height="844" decoding="async" alt="La home della web app di Chrono con le capsule sigillate e aperte" data-i18n-alt="shot-alt"></figure>
   </section>
 
   <section class="sheet" id="how" aria-labelledby="how-title">

@@ -2,7 +2,7 @@
 window.EA_I18N = {
   it: {
     'shot-alt': "La home della web app di Chrono con le capsule sigillate e aperte",
-    'skip': 'Vai al contenuto', 'home-aria': 'Edward Attuati, torna alla home', 'lang-label': 'Lingua',
+    'skip': 'Vai al contenuto', 'home-aria': 'EA · Edward Attuati, torna alla home', 'lang-label': 'Lingua',
     'nav-how': 'Come funziona', 'nav-features': 'Funzioni', 'nav-sync': 'Dispositivi', 'nav-app': "Prova la demo", 'tab-how': 'Come',
     'tagline': 'La tua capsula del tempo digitale.',
     'hero-lede': 'Sigilla ricordi, foto, note e messaggi vocali. Scegli quando riaprirli: tra sei mesi, un anno, cinque, o in una data tutta tua.',
@@ -35,7 +35,7 @@ window.EA_I18N = {
   },
   en: {
     'shot-alt': "Home of the Chrono web app with sealed and opened capsules",
-    'skip': 'Skip to content', 'home-aria': 'Edward Attuati, back to home', 'lang-label': 'Language',
+    'skip': 'Skip to content', 'home-aria': 'EA · Edward Attuati, back to home', 'lang-label': 'Language',
     'nav-how': 'How it works', 'nav-features': 'Features', 'nav-sync': 'Devices', 'nav-app': "Try the demo", 'tab-how': 'How',
     'tagline': 'Your digital time capsule.',
     'hero-lede': 'Seal memories, photos, notes and voice messages. Choose when to open them again: in six months, a year, five, or on a date of your own.',
@@ -68,7 +68,7 @@ window.EA_I18N = {
   },
   es: {
     'shot-alt': "Inicio de la web app de Chrono con cápsulas selladas y abiertas",
-    'skip': 'Ir al contenido', 'home-aria': 'Edward Attuati, volver al inicio', 'lang-label': 'Idioma',
+    'skip': 'Ir al contenido', 'home-aria': 'EA · Edward Attuati, volver al inicio', 'lang-label': 'Idioma',
     'nav-how': 'Cómo funciona', 'nav-features': 'Funciones', 'nav-sync': 'Dispositivos', 'nav-app': "Prueba la demo", 'tab-how': 'Cómo',
     'tagline': 'Tu cápsula del tiempo digital.',
     'hero-lede': 'Sella recuerdos, fotos, notas y mensajes de voz. Elige cuándo volver a abrirlos: en seis meses, un año, cinco, o en una fecha solo tuya.',
@@ -101,7 +101,7 @@ window.EA_I18N = {
   },
   zh: {
     'shot-alt': "Chrono 网页版首页，显示已封存和已打开的胶囊",
-    'skip': '跳到内容', 'home-aria': 'Edward Attuati，返回首页', 'lang-label': '语言',
+    'skip': '跳到内容', 'home-aria': 'EA · Edward Attuati，返回首页', 'lang-label': '语言',
     'nav-how': '如何使用', 'nav-features': '功能', 'nav-sync': '设备', 'nav-app': "试用演示版", 'tab-how': '使用',
     'tagline': '你的数字时间胶囊。',
     'hero-lede': '封存回忆、照片、笔记和语音。选择何时重新打开：六个月后、一年后、五年后，或者你自己定的日子。',
@@ -134,7 +134,7 @@ window.EA_I18N = {
   },
   ja: {
     'shot-alt': "封印済みと開封済みのカプセルが並ぶ Chrono Web アプリのホーム",
-    'skip': 'コンテンツへ移動', 'home-aria': 'Edward Attuati、ホームへ戻る', 'lang-label': '言語',
+    'skip': 'コンテンツへ移動', 'home-aria': 'EA · Edward Attuati、ホームへ戻る', 'lang-label': '言語',
     'nav-how': '使い方', 'nav-features': '機能', 'nav-sync': 'デバイス', 'nav-app': "デモを試す", 'tab-how': '使い方',
     'tagline': 'デジタルのタイムカプセル。',
     'hero-lede': '思い出、写真、メモ、音声メッセージを封印。もう一度開く日を選べます：6か月後、1年後、5年後、または自分だけの日に。',

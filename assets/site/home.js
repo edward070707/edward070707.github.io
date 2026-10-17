@@ -7,6 +7,9 @@
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const t = k => (window.EA && EA.t ? EA.t(k) : k);
   const lang = () => (window.EA && EA.lang) || 'it';
+  // animazioni continue: ferme con il movimento ridotto o quando l'utente le mette in pausa
+  let still = reduce;
+  try { if (localStorage.getItem('ea-motion') === 'off') still = true; } catch (e) {}
 
   /* ── SALUTI IN 38 LINGUE ───────────────────────────────────────── */
   const GREETINGS = ['Hello','Bonjour','Hola','Ciao','こんにちは','Guten Tag','Olá','नमस्ते','سلام','Hej','Merhaba','안녕하세요','你好','Sawubona','Shalom','Szia','Selamat','Dobrý den','Aloha','Jambo','Hoi','Salut','Привіт','Γεια σου','Halló','Hei','Сайн уу','Kamusta','Привет','مرحبا','Sveiki','Päivää','Kia ora','Hallo','नमस्कार','Moi','Kaixo','Labas'];
@@ -14,8 +17,8 @@
     const el = $('#greet'); if (!el) return;
     let i = Math.floor(Math.random() * GREETINGS.length);
     el.textContent = GREETINGS[i];
-    if (reduce) return;                       // movimento ridotto: un saluto fermo e sempre visibile
     setInterval(() => {
+      if (still) return;                      // in pausa: un saluto fermo e sempre visibile
       el.classList.add('swap');
       setTimeout(() => { i = (i + 1) % GREETINGS.length; el.textContent = GREETINGS[i]; el.classList.remove('swap'); }, 300);
     }, 2800);
@@ -28,7 +31,7 @@
     const words = t('typewriter'); if (!Array.isArray(words) || !words.length) return;
     const run = ++tw.run; clearTimeout(tw.timer);
     let w = 0, c = 0, deleting = false;
-    if (reduce) { tw.el.textContent = words[0]; tw.timer = setInterval(() => { if (run !== tw.run) return; w = (w + 1) % words.length; tw.el.textContent = words[w]; }, 3200); return; }
+    if (still) { tw.el.textContent = words[0]; return; }
     (function step() {
       if (run !== tw.run) return;
       const word = words[w];
@@ -78,13 +81,16 @@
     ORBITS.forEach((o, oi) => { for (let k = 0; k < o.n; k++) electrons.push({ o: oi, ph: k / o.n * Math.PI * 2 + oi, trail: [] }); });
 
     let W = 0, H = 0, R = 0, dpr = 1;
-    function size() {
+    // le misure arrivano dal ResizeObserver: nessuna lettura forzata del layout
+    function size(entries) {
+      const box = entries[0].contentRect;
       dpr = Math.min(2, devicePixelRatio || 1);
-      const r = bubble.getBoundingClientRect(); W = r.width; H = r.height; R = Math.min(W, H) * 0.36;
+      W = box.width; H = box.height; R = Math.min(W, H) * 0.36;
       canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      if (!running) draw(performance.now());
     }
-    new ResizeObserver(size).observe(bubble); size();
+    new ResizeObserver(size).observe(bubble);
 
     // rotazione 3D: punto sull'orbita → spazio → vista
     let viewY = 0, viewX = 0, tiltX = 0, tiltY = 0, aimX = 0, aimY = 0;
@@ -116,8 +122,20 @@
     const speed = () => STATES[si].speed * (hovered ? 1.8 : 1) * flash * speedMul;
     function flashSpeed(v, ms) { flash = v; clearTimeout(flashTo); flashTo = setTimeout(() => { flash = 1; }, ms); }
 
+    const SEG = 72, BUCKETS = 6, buckets = Array.from({ length: BUCKETS }, () => []);
     let last = performance.now(), ang = 0;
+    // l'animazione gira solo quando l'atomo si vede e la scheda è in primo piano
+    let onScreen = true, running = false, ready = false;
+    let kickUntil = 0;                                   // anche da fermo, l'atomo risponde al tocco per un attimo
+    function start() { if (!ready || running || !onScreen || document.hidden || (still && performance.now() > kickUntil)) return; running = true; last = performance.now(); requestAnimationFrame(frame); }
+    function kick() { kickUntil = performance.now() + 2600; ready = true; start(); }
     function frame(now) {
+      if (!running || !onScreen || document.hidden || (still && now > kickUntil)) { running = false; return; }
+      draw(now);
+      requestAnimationFrame(frame);
+    }
+    function draw(now) {
+      if (!W) return;
       const dt = Math.min(48, now - last) / 16.67; last = now;
       ang += .018 * speed() * dt;
       viewY += .0035 * dt * (reduce ? .3 : 1);
@@ -131,20 +149,27 @@
       ctx.fillStyle = g; ctx.beginPath(); ctx.arc(W / 2, H / 2, R * .55, 0, Math.PI * 2); ctx.fill();
       ctx.fillStyle = 'rgba(255,250,236,.95)'; ctx.beginPath(); ctx.arc(W / 2, H / 2, R * .075, 0, Math.PI * 2); ctx.fill();
 
-      // orbite, più luminose davanti
+      // orbite, più luminose davanti: i segmenti si raggruppano in 6 livelli
+      // di profondità, così ogni livello è un solo tratto invece di centinaia
+      for (let k = 0; k < BUCKETS; k++) buckets[k].length = 0;
       ORBITS.forEach(o => {
-        let prev = null;
-        for (let i = 0; i <= 96; i++) {
-          const pt = project(o, i / 96 * Math.PI * 2);
-          if (prev) {
-            const front = (1 - (pt.z + R) / (2 * R));
-            ctx.strokeStyle = `rgba(255,248,230,${.12 + front * .5})`;
-            ctx.lineWidth = .8 + front * 1.4;
-            ctx.beginPath(); ctx.moveTo(prev.x, prev.y); ctx.lineTo(pt.x, pt.y); ctx.stroke();
-          }
+        let prev = project(o, 0);
+        for (let i = 1; i <= SEG; i++) {
+          const pt = project(o, i / SEG * Math.PI * 2);
+          const front = 1 - (pt.z + R) / (2 * R);
+          buckets[Math.min(BUCKETS - 1, Math.max(0, Math.floor(front * BUCKETS)))].push(prev.x, prev.y, pt.x, pt.y);
           prev = pt;
         }
       });
+      for (let k = 0; k < BUCKETS; k++) {
+        const seg = buckets[k]; if (!seg.length) continue;
+        const front = (k + .5) / BUCKETS;
+        ctx.strokeStyle = `rgba(255,248,230,${.12 + front * .5})`;
+        ctx.lineWidth = .8 + front * 1.4;
+        ctx.beginPath();
+        for (let j = 0; j < seg.length; j += 4) { ctx.moveTo(seg[j], seg[j + 1]); ctx.lineTo(seg[j + 2], seg[j + 3]); }
+        ctx.stroke();
+      }
 
       // elettroni con scia
       electrons.forEach(e => {
@@ -177,9 +202,11 @@
         ctx.fillStyle = `rgba(${q.rgb[0]},${q.rgb[1]},${q.rgb[2]},${q.life})`;
         ctx.beginPath(); ctx.arc(q.x, q.y, q.r * q.life, 0, Math.PI * 2); ctx.fill();
       }
-      requestAnimationFrame(frame);
     }
-    requestAnimationFrame(frame);
+    if ('IntersectionObserver' in window) new IntersectionObserver(es => { onScreen = es[0].isIntersecting; start(); }).observe(bubble);
+    document.addEventListener('visibilitychange', start);
+    // primo fotogramma subito, l'animazione continua quando la pagina ha finito di caricarsi
+    (window.requestIdleCallback || (cb => setTimeout(cb, 600)))(() => { ready = true; start(); }, { timeout: 1500 });
 
     // inclinazione verso il puntatore
     addEventListener('pointermove', e => {
@@ -228,7 +255,7 @@
 
     // click vs trascinamento
     let down = null, dragging = false;
-    bubble.addEventListener('pointerdown', e => { down = { x: e.clientX, y: e.clientY }; dragging = false; bubble.setPointerCapture(e.pointerId); });
+    bubble.addEventListener('pointerdown', e => { kick(); down = { x: e.clientX, y: e.clientY }; dragging = false; bubble.setPointerCapture(e.pointerId); });
     bubble.addEventListener('pointermove', e => {
       if (!down) return;
       const dx = e.clientX - down.x, dy = e.clientY - down.y;
@@ -247,9 +274,9 @@
     }
     bubble.addEventListener('pointerup', release);
     bubble.addEventListener('pointercancel', () => { down = null; dragging = false; bubble.classList.remove('dragging'); bubble.style.transform = ''; });
-    bubble.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); excite(W / 2, H / 2); } });
+    bubble.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); kick(); excite(W / 2, H / 2); } });
 
-    return { relabel };
+    return { relabel, kick, resume: start };
   })();
 
   /* ── KONAMI ↑↑↓↓←→←→BA ─────────────────────────────────────────── */
@@ -301,5 +328,20 @@
     io.observe($('#code'));
   }
 
+  /* ── PAUSA DELLE ANIMAZIONI (WCAG 2.2.2) ───────────────────────── */
+  const motionBtn = $('#motion-toggle');
+  function paintMotion() {
+    if (!motionBtn) return;
+    motionBtn.setAttribute('aria-pressed', still ? 'true' : 'false');
+    motionBtn.textContent = t(still ? 'motion-play' : 'motion-pause');
+  }
+  if (motionBtn) motionBtn.addEventListener('click', () => {
+    still = !still;
+    try { localStorage.setItem('ea-motion', still ? 'off' : 'on'); } catch (e) {}
+    paintMotion(); typewriter(); if (!still && atom) atom.resume();
+  });
+  document.addEventListener('ea:lang', paintMotion);
+
   onLang();
+  paintMotion();
 })();

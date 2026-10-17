@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Chrono — web app</title>
+<meta name="description" content="Demo web di Chrono: crea una capsula del tempo con ricordi, previsioni e obiettivi direttamente nel browser. Progetto in sviluppo di Edward Attuati.">
+<link rel="canonical" href="https://edwardattuati.com/chrono-app.html">
 <meta name="theme-color" content="#141610">
 <link rel="icon" href="/assets/site/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/assets/fonts/fonts.css">
@@ -43,20 +45,20 @@ body.with-banner{padding-top:36px}
 .auth-logo-title{font-family:'Instrument Serif',Georgia,serif;font-size:28px;font-weight:700}
 .auth-logo-sub{font-size:13px;color:var(--text2);margin-top:4px}
 .auth-tabs{display:flex;background:var(--surface);border-radius:12px;padding:4px;margin-bottom:28px;gap:4px}
-.auth-tab{flex:1;padding:9px;border:none;background:transparent;color:var(--text2);font-size:14px;font-weight:500;border-radius:9px;cursor:pointer;transition:all .2s;font-family:'Hanken Grotesk',system-ui,sans-serif}
+.auth-tab{flex:1;padding:9px;border:none;background:transparent;color:var(--text2);font-size:14px;font-weight:500;border-radius:9px;cursor:pointer;transition:background-color .2s,border-color .2s,color .2s,transform .2s,opacity .2s;font-family:'Hanken Grotesk',system-ui,sans-serif}
 .auth-tab.active{background:var(--card);color:var(--text);font-weight:600}
 .field{margin-bottom:18px}
 .field label{display:block;font-size:12px;font-weight:600;color:var(--text2);letter-spacing:.04em;margin-bottom:7px}
 .field input{width:100%;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:13px 16px;font-size:15px;color:var(--text);font-family:'Hanken Grotesk',system-ui,sans-serif;outline:none;transition:border-color .2s}
 .field input:focus{border-color:var(--gold)}
 .field input::placeholder{color:var(--text3)}
-.btn-gold{width:100%;padding:14px;background:var(--gold);color:#000;border:none;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Hanken Grotesk',system-ui,sans-serif;transition:all .2s;margin-top:6px}
+.btn-gold{width:100%;padding:14px;background:var(--gold);color:#000;border:none;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Hanken Grotesk',system-ui,sans-serif;transition:background-color .2s,border-color .2s,color .2s,transform .2s,opacity .2s;margin-top:6px}
 .btn-gold:hover{background:var(--gold-light);transform:translateY(-1px)}
 .btn-gold:disabled{opacity:.5;cursor:not-allowed;transform:none}
 .auth-divider{display:flex;align-items:center;gap:12px;margin:20px 0}
 .auth-divider span{font-size:12px;color:var(--text3)}
 .auth-divider::before,.auth-divider::after{content:'';flex:1;height:1px;background:var(--border)}
-.btn-outline-auth{width:100%;padding:13px;background:transparent;border:1px solid var(--border);border-radius:12px;font-size:14px;font-weight:600;color:var(--text);cursor:pointer;font-family:'Hanken Grotesk',system-ui,sans-serif;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:10px}
+.btn-outline-auth{width:100%;padding:13px;background:transparent;border:1px solid var(--border);border-radius:12px;font-size:14px;font-weight:600;color:var(--text);cursor:pointer;font-family:'Hanken Grotesk',system-ui,sans-serif;transition:background-color .2s,border-color .2s,color .2s,transform .2s,opacity .2s;display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:10px}
 .btn-outline-auth:hover{border-color:rgba(255,255,255,.3)}
 .auth-error{background:rgba(224,122,95,.1);border:1px solid rgba(224,122,95,.3);border-radius:10px;padding:12px 14px;font-size:13px;color:var(--red);margin-bottom:16px;display:none}
 .auth-error.show{display:block}
@@ -69,20 +71,20 @@ body.with-banner{padding-top:36px}
 .app-nav-right{display:flex;align-items:center;gap:16px}
 .app-nav-user{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text2)}
 .avatar{width:32px;height:32px;border-radius:50%;background:var(--gold-dim);border:1px solid rgba(223,195,142,.3);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
-.btn-logout{background:transparent;border:1px solid var(--border);border-radius:8px;padding:5px 12px;color:var(--text2);font-size:12px;cursor:pointer;font-family:'Hanken Grotesk',system-ui,sans-serif;transition:all .2s}
+.btn-logout{background:transparent;border:1px solid var(--border);border-radius:8px;padding:5px 12px;color:var(--text2);font-size:12px;cursor:pointer;font-family:'Hanken Grotesk',system-ui,sans-serif;transition:background-color .2s,border-color .2s,color .2s,transform .2s,opacity .2s}
 .btn-logout:hover{border-color:var(--red);color:var(--red)}
 .app-body{flex:1;overflow:hidden;display:flex;flex-direction:column;position:relative;z-index:1}
 
 /* TABS */
 .app-tabs{display:flex;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0}
-.app-tab{flex:1;padding:13px 8px;border:none;background:transparent;color:var(--text2);font-size:13px;font-weight:500;cursor:pointer;font-family:'Hanken Grotesk',system-ui,sans-serif;border-bottom:2px solid transparent;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:6px}
+.app-tab{flex:1;padding:13px 8px;border:none;background:transparent;color:var(--text2);font-size:13px;font-weight:500;cursor:pointer;font-family:'Hanken Grotesk',system-ui,sans-serif;border-bottom:2px solid transparent;transition:background-color .2s,border-color .2s,color .2s,transform .2s,opacity .2s;display:flex;align-items:center;justify-content:center;gap:6px}
 .app-tab.active{color:var(--gold);border-color:var(--gold);font-weight:600}
 .app-tab:hover:not(.active){color:var(--text)}
 .tab-pane{display:none;flex:1;overflow-y:auto;padding:24px}
 .tab-pane.active{display:block}
 
 /* CAPSULE CARD */
-.cap-card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:18px;display:flex;align-items:center;gap:14px;margin-bottom:12px;cursor:pointer;transition:all .25s}
+.cap-card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:18px;display:flex;align-items:center;gap:14px;margin-bottom:12px;cursor:pointer;transition:background-color .25s,border-color .25s,color .25s,transform .25s,opacity .25s}
 .cap-card:hover{transform:translateY(-2px);border-color:rgba(255,255,255,.12)}
 .cap-card.unlocked{border-color:rgba(157,187,106,.35)}
 .cap-card.soon{border-color:rgba(223,195,142,.45)}
@@ -103,7 +105,7 @@ body.with-banner{padding-top:36px}
 .empty-state p{font-size:14px;line-height:1.6}
 
 /* FAB */
-.fab{position:fixed;bottom:28px;right:28px;background:var(--gold);color:#000;border:none;border-radius:16px;padding:14px 22px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Hanken Grotesk',system-ui,sans-serif;display:flex;align-items:center;gap:8px;box-shadow:0 8px 32px rgba(223,195,142,.3);transition:all .25s;z-index:50}
+.fab{position:fixed;bottom:28px;right:28px;background:var(--gold);color:#000;border:none;border-radius:16px;padding:14px 22px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Hanken Grotesk',system-ui,sans-serif;display:flex;align-items:center;gap:8px;box-shadow:0 8px 32px rgba(223,195,142,.3);transition:background-color .25s,border-color .25s,color .25s,transform .25s,opacity .25s;z-index:50}
 .fab:hover{background:var(--gold-light);transform:translateY(-3px);box-shadow:0 12px 40px rgba(223,195,142,.4)}
 
 /* MODAL */
@@ -113,7 +115,7 @@ body.with-banner{padding-top:36px}
 .modal-overlay.open .modal{transform:none}
 .modal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
 .modal-title{font-family:'Instrument Serif',Georgia,serif;font-size:22px;font-weight:700}
-.modal-close{background:var(--card);border:1px solid var(--border);border-radius:8px;width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text2);font-size:16px;transition:all .2s}
+.modal-close{background:var(--card);border:1px solid var(--border);border-radius:8px;width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text2);font-size:16px;transition:background-color .2s,border-color .2s,color .2s,transform .2s,opacity .2s}
 .modal-close:hover{color:var(--text);border-color:rgba(255,255,255,.2)}
 
 /* STEPS INDICATOR */
@@ -132,15 +134,15 @@ body.with-banner{padding-top:36px}
 .mfield textarea{min-height:120px;line-height:1.6}
 .mfield input::placeholder,.mfield textarea::placeholder{color:var(--text3)}
 .emoji-picker{display:grid;grid-template-columns:repeat(8,1fr);gap:6px;margin-top:8px}
-.ep-btn{width:40px;height:40px;border:1px solid var(--border);border-radius:10px;background:var(--card);cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.ep-btn{width:40px;height:40px;border:1px solid var(--border);border-radius:10px;background:var(--card);cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;transition:background-color .15s,border-color .15s,color .15s,transform .15s,opacity .15s}
 .ep-btn:hover,.ep-btn.sel{background:var(--gold-dim);border-color:var(--gold)}
 .date-presets{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-.dp-btn{padding:8px 14px;border:1px solid var(--border);border-radius:8px;background:var(--card);color:var(--text2);font-size:13px;cursor:pointer;font-family:'Hanken Grotesk',system-ui,sans-serif;transition:all .2s}
+.dp-btn{padding:8px 14px;border:1px solid var(--border);border-radius:8px;background:var(--card);color:var(--text2);font-size:13px;cursor:pointer;font-family:'Hanken Grotesk',system-ui,sans-serif;transition:background-color .2s,border-color .2s,color .2s,transform .2s,opacity .2s}
 .dp-btn:hover,.dp-btn.sel{border-color:var(--gold);color:var(--gold);background:var(--gold-dim)}
 .add-row{display:flex;gap:8px;margin-bottom:8px}
 .add-row input{flex:1;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 12px;font-size:13px;color:var(--text);font-family:'Hanken Grotesk',system-ui,sans-serif;outline:none}
 .add-row input:focus{border-color:var(--gold)}
-.add-btn{background:var(--gold-dim);border:1px solid rgba(223,195,142,.3);border-radius:10px;width:38px;height:38px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--gold);font-size:18px;flex-shrink:0;transition:all .2s}
+.add-btn{background:var(--gold-dim);border:1px solid rgba(223,195,142,.3);border-radius:10px;width:38px;height:38px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--gold);font-size:18px;flex-shrink:0;transition:background-color .2s,border-color .2s,color .2s,transform .2s,opacity .2s}
 .add-btn:hover{background:rgba(223,195,142,.2)}
 .chip{display:inline-flex;align-items:center;gap:6px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:12px;margin:3px 4px 3px 0}
 .chip-del{background:none;border:none;color:var(--text3);cursor:pointer;font-size:14px;padding:0;line-height:1;transition:color .2s}
@@ -153,9 +155,9 @@ body.with-banner{padding-top:36px}
 .review-row span:first-child{color:var(--text2)}
 .review-row span:last-child{font-weight:600}
 .modal-footer{display:flex;gap:10px;margin-top:24px}
-.btn-sm-out{flex:1;padding:12px;background:transparent;border:1px solid var(--border);border-radius:10px;color:var(--text2);font-size:14px;font-weight:600;cursor:pointer;font-family:'Hanken Grotesk',system-ui,sans-serif;transition:all .2s}
+.btn-sm-out{flex:1;padding:12px;background:transparent;border:1px solid var(--border);border-radius:10px;color:var(--text2);font-size:14px;font-weight:600;cursor:pointer;font-family:'Hanken Grotesk',system-ui,sans-serif;transition:background-color .2s,border-color .2s,color .2s,transform .2s,opacity .2s}
 .btn-sm-out:hover{border-color:rgba(255,255,255,.2);color:var(--text)}
-.btn-sm-gold{flex:2;padding:12px;background:var(--gold);color:#000;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Hanken Grotesk',system-ui,sans-serif;transition:all .2s}
+.btn-sm-gold{flex:2;padding:12px;background:var(--gold);color:#000;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Hanken Grotesk',system-ui,sans-serif;transition:background-color .2s,border-color .2s,color .2s,transform .2s,opacity .2s}
 .btn-sm-gold:hover{background:var(--gold-light)}
 .btn-sm-gold:disabled{opacity:.5;cursor:not-allowed}
 
@@ -180,7 +182,7 @@ body.with-banner{padding-top:36px}
 .pred-row{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px;margin-bottom:6px}
 .pred-text{flex:1;font-size:13px}
 .pred-btns{display:flex;gap:6px}
-.pred-btn{width:28px;height:28px;border-radius:6px;border:1px solid var(--border);background:transparent;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.pred-btn{width:28px;height:28px;border-radius:6px;border:1px solid var(--border);background:transparent;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;transition:background-color .2s,border-color .2s,color .2s,transform .2s,opacity .2s}
 .pred-btn.correct{background:rgba(157,187,106,.15);border-color:var(--green)}
 .pred-btn.wrong{background:rgba(224,122,95,.1);border-color:var(--red)}
 .goal-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border)}
@@ -206,7 +208,7 @@ body.with-banner{padding-top:36px}
 .firebase-notice strong{color:var(--gold)}
 
 /* TOAST */
-.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 20px;font-size:14px;z-index:999;opacity:0;transition:all .3s;pointer-events:none;white-space:nowrap}
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 20px;font-size:14px;z-index:999;opacity:0;transition:background-color .3s,border-color .3s,color .3s,transform .3s,opacity .3s;pointer-events:none;white-space:nowrap}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
 /* MEMORY FEED */
@@ -269,7 +271,7 @@ window.ic = n => '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true">' + (IC
   <div class="app-nav">
     <div class="app-nav-logo"><svg width="20" height="20" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M75 19A38 38 0 1 0 75 81" stroke="#dfc38e" stroke-width="12" stroke-linecap="round"/><polygon points="18,22 62,22 40,50" fill="#dfc38e"/><polygon points="18,78 62,78 40,50" fill="#b4bec8"/><line x1="10" y1="22" x2="68" y2="22" stroke="#dfc38e" stroke-width="3" stroke-linecap="round"/><line x1="10" y1="78" x2="68" y2="78" stroke="#b4bec8" stroke-width="3" stroke-linecap="round"/><circle cx="40" cy="50" r="4" fill="#fff"/></svg> Chrono</div>
     <div class="app-nav-right">
-      <a href="memive.html" style="display:flex;align-items:center;gap:6px;background:rgba(223,195,142,.1);border:1px solid rgba(223,195,142,.3);border-radius:20px;padding:6px 14px;font-size:12px;font-weight:600;color:#dfc38e;text-decoration:none;letter-spacing:.03em;transition:all .2s" onmouseover="this.style.background='rgba(223,195,142,.2)'" onmouseout="this.style.background='rgba(223,195,142,.1)'">
+      <a href="memive.html" style="display:flex;align-items:center;gap:6px;background:rgba(223,195,142,.1);border:1px solid rgba(223,195,142,.3);border-radius:20px;padding:6px 14px;font-size:12px;font-weight:600;color:#dfc38e;text-decoration:none;letter-spacing:.03em;transition:background-color .2s,border-color .2s,color .2s,transform .2s,opacity .2s" onmouseover="this.style.background='rgba(223,195,142,.2)'" onmouseout="this.style.background='rgba(223,195,142,.1)'">
         <svg width="14" height="14" viewBox="0 0 90 90" fill="none"><path d="M14 65 L14 30 Q14 22 22 22 Q28 22 30 30 L45 55 L60 30 Q62 22 68 22 Q76 22 76 30 L76 65" stroke="#dfc38e" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="45" cy="76" r="6" fill="#dfc38e"/></svg>
         Parte di Memive
       </a>
@@ -360,7 +362,7 @@ window.ic = n => '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true">' + (IC
       <div class="mfield"><label>Emoji cover</label>
         <div class="emoji-picker" id="emoji-picker"></div>
       </div>
-      <div class="mfield"><label>Titolo *</label><input id="c-title" type="text" placeholder="Es. Il mio 2025"></div>
+      <div class="mfield"><label>Titolo *</label><input id="c-title" name="title" type="text" autocomplete="off" placeholder="Es. Il mio 2025"></div>
       <div class="mfield"><label>Descrizione</label><textarea id="c-desc" placeholder="Una breve descrizione..."></textarea></div>
       <div class="mfield">
         <label><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.5a3.5 3.5 0 0 1 0 7M18 14a6 6 0 0 1 3.5 6"/></svg> Capsula condivisa</label>
@@ -377,7 +379,7 @@ window.ic = n => '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true">' + (IC
         <div class="date-presets" id="date-presets"></div>
       </div>
       <div class="mfield"><label>O scegli una data</label>
-        <input id="c-date" type="date">
+        <input id="c-date" name="unlock-date" type="date">
       </div>
       <div id="date-preview" style="background:var(--gold-dim);border:1px solid rgba(223,195,142,.25);border-radius:12px;padding:14px;margin-top:8px;font-size:14px;color:var(--gold);display:none"></div>
     </div>
@@ -396,7 +398,7 @@ window.ic = n => '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true">' + (IC
       <div class="mfield">
         <label><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="10" r="6"/><path d="M7 20h10M9 16.5L8 20M15 16.5l1 3.5"/></svg> Previsioni sul futuro</label>
         <div class="add-row">
-          <input id="pred-input" type="text" placeholder="Es: Avrò cambiato lavoro">
+          <input id="pred-input" name="prediction" type="text" autocomplete="off" placeholder="Es: Avrò cambiato lavoro">
           <button class="add-btn" onclick="addPred()">+</button>
         </div>
         <div id="pred-list"></div>
@@ -404,7 +406,7 @@ window.ic = n => '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true">' + (IC
       <div class="mfield">
         <label><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></svg> Obiettivi</label>
         <div class="add-row">
-          <input id="goal-input" type="text" placeholder="Es: Correre una maratona">
+          <input id="goal-input" name="goal" type="text" autocomplete="off" placeholder="Es: Correre una maratona">
           <button class="add-btn" onclick="addGoal()">+</button>
         </div>
         <div id="goal-list"></div>

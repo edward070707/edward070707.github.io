@@ -4,6 +4,14 @@
    il vetro liquido la rifrange, i fogli color carta portano la lettura.
    ════════════════════════════════════════════════════════════════════ */
 
+/* ── font (self-hosted, GDPR): qui dentro per evitare una richiesta in più ── */
+@font-face{font-family:'Hanken Grotesk';font-style:normal;font-weight:300 800;font-display:swap;src:url('/assets/fonts/HankenGrotesk-normal-latin-ext.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'Hanken Grotesk';font-style:normal;font-weight:300 800;font-display:swap;src:url('/assets/fonts/HankenGrotesk-normal-latin.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'Instrument Serif';font-style:italic;font-weight:400;font-display:swap;src:url('/assets/fonts/InstrumentSerif-italic-latin-ext.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'Instrument Serif';font-style:italic;font-weight:400;font-display:swap;src:url('/assets/fonts/InstrumentSerif-italic-latin.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'Instrument Serif';font-style:normal;font-weight:400;font-display:swap;src:url('/assets/fonts/InstrumentSerif-normal-latin-ext.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'Instrument Serif';font-style:normal;font-weight:400;font-display:swap;src:url('/assets/fonts/InstrumentSerif-normal-latin.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+
 :root {
   /* palette campionata dalla foto del canale al tramonto */
   --forest-0: #141610;
@@ -40,6 +48,9 @@
 /* ── base ─────────────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; scroll-padding-top: 96px; }
+/* tocco: niente ritardo da doppio tocco, niente lampo grigio (il focus resta visibile) */
+a, button, summary, label, [role="button"] { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+@media (max-width: 820px) { html { scroll-padding-top: 88px; scroll-padding-bottom: 110px; } }
 body {
   margin: 0;
   font: 400 1.0625rem/1.65 var(--sans);
@@ -72,7 +83,7 @@ html { scrollbar-color: rgba(223, 195, 142, .55) transparent; scrollbar-width: t
   transform: scale(1.04);
 }
 .js .ground img { animation: ground-in 1.6s var(--ease-out) both; }
-@keyframes ground-in { from { opacity: 0; transform: scale(1.12); } }
+@keyframes ground-in { from { transform: scale(1.08); } }
 .ground::after {          /* leggera vignettatura per tenere a fuoco il centro */
   content: ""; position: absolute; inset: 0;
   background: radial-gradient(120% 90% at 55% 45%, transparent 55%, rgba(20, 22, 16, .35) 100%);
@@ -169,7 +180,7 @@ html { scrollbar-color: rgba(223, 195, 142, .55) transparent; scrollbar-width: t
 
 /* ── navigazione: pillola di vetro in alto ────────────────────────── */
 .nav {
-  position: fixed; z-index: 40; top: 18px; left: 50%;
+  position: fixed; z-index: 40; top: max(18px, env(safe-area-inset-top)); left: 50%;
   transform: translateX(-50%);
   display: flex; align-items: center; gap: 4px;
   height: var(--nav-h); padding: 6px;

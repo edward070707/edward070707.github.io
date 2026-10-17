@@ -2,7 +2,7 @@
 window.EA_I18N = {
   it: {
     'n-line': "In numeri: <b>quattro</b> progetti personali portati dall'idea al codice, <b>due</b> lingue di lavoro, <b>38</b> modi diversi di salutarti sulla home.",
-    'skip': 'Vai al contenuto', 'home-aria': 'Edward Attuati, torna alla home', 'lang-label': 'Lingua',
+    'skip': 'Vai al contenuto', 'home-aria': 'EA · Edward Attuati, torna alla home', 'lang-label': 'Lingua',
     'nav-bio': 'Bio', 'nav-langs': 'Lingue', 'nav-path': 'Percorso', 'nav-contact': 'Contatti', 'nav-cv': 'CV',
     'intro-title': 'Costruisco software che <em>funziona</em> e si sente giusto.',
     'intro-lede': "Studio Ingegneria Informatica all'<strong>Università di Brescia</strong>. Sviluppo app con Flutter e siti scritti a mano, e lavoro in italiano e in inglese.",
@@ -40,7 +40,7 @@ window.EA_I18N = {
   },
   en: {
     'n-line': "In numbers: <b>four</b> personal projects taken from idea to code, <b>two</b> working languages, <b>38</b> different ways to greet you on the home page.",
-    'skip': 'Skip to content', 'home-aria': 'Edward Attuati, back to home', 'lang-label': 'Language',
+    'skip': 'Skip to content', 'home-aria': 'EA · Edward Attuati, back to home', 'lang-label': 'Language',
     'nav-bio': 'Bio', 'nav-langs': 'Languages', 'nav-path': 'Journey', 'nav-contact': 'Contact', 'nav-cv': 'CV',
     'intro-title': 'I build software that <em>works</em> and feels right.',
     'intro-lede': "I study Computer Engineering at the <strong>University of Brescia</strong>. I build apps with Flutter and hand-written websites, and I work in Italian and English.",
@@ -78,7 +78,7 @@ window.EA_I18N = {
   },
   es: {
     'n-line': "En números: <b>cuatro</b> proyectos personales llevados de la idea al código, <b>dos</b> idiomas de trabajo, <b>38</b> formas distintas de saludarte en el inicio.",
-    'skip': 'Ir al contenido', 'home-aria': 'Edward Attuati, volver al inicio', 'lang-label': 'Idioma',
+    'skip': 'Ir al contenido', 'home-aria': 'EA · Edward Attuati, volver al inicio', 'lang-label': 'Idioma',
     'nav-bio': 'Bio', 'nav-langs': 'Idiomas', 'nav-path': 'Trayectoria', 'nav-contact': 'Contacto', 'nav-cv': 'CV',
     'intro-title': 'Construyo software que <em>funciona</em> y se siente bien.',
     'intro-lede': "Estudio Ingeniería Informática en la <strong>Universidad de Brescia</strong>. Desarrollo apps con Flutter y webs escritas a mano, y trabajo en italiano e inglés.",
@@ -116,7 +116,7 @@ window.EA_I18N = {
   },
   zh: {
     'n-line': "用数字来说：<b>四</b>个从想法做到代码的个人项目，<b>两</b>种工作语言，首页上有 <b>38</b> 种不同的问候。",
-    'skip': '跳到内容', 'home-aria': 'Edward Attuati，返回首页', 'lang-label': '语言',
+    'skip': '跳到内容', 'home-aria': 'EA · Edward Attuati，返回首页', 'lang-label': '语言',
     'nav-bio': '简介', 'nav-langs': '语言', 'nav-path': '经历', 'nav-contact': '联系', 'nav-cv': '简历',
     'intro-title': '我做<em>好用</em>、也用着舒服的软件。',
     'intro-lede': "我在<strong>布雷西亚大学</strong>学习计算机工程。我用 Flutter 开发应用，手写网站，工作语言是意大利语和英语。",
@@ -154,7 +154,7 @@ window.EA_I18N = {
   },
   ja: {
     'n-line': "数字で言うと：アイデアからコードまで仕上げた個人プロジェクトが<b>4つ</b>、仕事で使う言語が<b>2つ</b>、ホームのあいさつが<b>38通り</b>。",
-    'skip': 'コンテンツへ移動', 'home-aria': 'Edward Attuati、ホームへ戻る', 'lang-label': '言語',
+    'skip': 'コンテンツへ移動', 'home-aria': 'EA · Edward Attuati、ホームへ戻る', 'lang-label': '言語',
     'nav-bio': 'プロフィール', 'nav-langs': '言語', 'nav-path': '経歴', 'nav-contact': '連絡先', 'nav-cv': '履歴書',
     'intro-title': '<em>ちゃんと動いて</em>、心地よいソフトウェアを作っています。',
     'intro-lede': "<strong>ブレシア大学</strong>で情報工学を学んでいます。Flutter でアプリを、手書きのコードでウェブサイトを作り、イタリア語と英語で仕事をしています。",

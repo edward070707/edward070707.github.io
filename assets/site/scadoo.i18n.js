@@ -1,7 +1,7 @@
 /* Testi della pagina Scadoo in cinque lingue (it di riferimento). Il codice resta com'è. */
 window.EA_I18N = {
   it: {
-    'skip': 'Vai al contenuto', 'home-aria': 'Edward Attuati, torna alla home', 'lang-label': 'Lingua',
+    'skip': 'Vai al contenuto', 'home-aria': 'EA · Edward Attuati, torna alla home', 'lang-label': 'Lingua',
     'nav-why': 'Perché', 'nav-features': 'Funzioni', 'nav-code': 'Codice', 'nav-roadmap': 'Avanzamento', 'nav-projects': 'Progetti',
     'tagline': 'La dispensa, sotto controllo.',
     'hero-lede': 'App mobile per frigo, dispensa e freezer: scansioni il codice a barre, segni la scadenza e Scadoo ti avvisa in tempo. Lista della spesa da condividere in un tocco. Funziona anche offline.',
@@ -57,7 +57,7 @@ window.EA_I18N = {
     'foot-by': 'un progetto di Edward Attuati', 'foot-home': 'Portfolio'
   },
   en: {
-    'skip': 'Skip to content', 'home-aria': 'Edward Attuati, back to home', 'lang-label': 'Language',
+    'skip': 'Skip to content', 'home-aria': 'EA · Edward Attuati, back to home', 'lang-label': 'Language',
     'nav-why': 'Why', 'nav-features': 'Features', 'nav-code': 'Code', 'nav-roadmap': 'Progress', 'nav-projects': 'Projects',
     'tagline': 'Your pantry, under control.',
     'hero-lede': 'A mobile app for fridge, pantry and freezer: scan the barcode, add the expiry date and Scadoo warns you in time. A shopping list you can share in one tap. Works offline too.',
@@ -113,7 +113,7 @@ window.EA_I18N = {
     'foot-by': 'a project by Edward Attuati', 'foot-home': 'Portfolio'
   },
   es: {
-    'skip': 'Ir al contenido', 'home-aria': 'Edward Attuati, volver al inicio', 'lang-label': 'Idioma',
+    'skip': 'Ir al contenido', 'home-aria': 'EA · Edward Attuati, volver al inicio', 'lang-label': 'Idioma',
     'nav-why': 'Por qué', 'nav-features': 'Funciones', 'nav-code': 'Código', 'nav-roadmap': 'Progreso', 'nav-projects': 'Proyectos',
     'tagline': 'La despensa, bajo control.',
     'hero-lede': 'App móvil para nevera, despensa y congelador: escaneas el código de barras, apuntas la caducidad y Scadoo te avisa a tiempo. Lista de la compra para compartir con un toque. Funciona también sin conexión.',
@@ -169,7 +169,7 @@ window.EA_I18N = {
     'foot-by': 'un proyecto de Edward Attuati', 'foot-home': 'Portafolio'
   },
   zh: {
-    'skip': '跳到内容', 'home-aria': 'Edward Attuati，返回首页', 'lang-label': '语言',
+    'skip': '跳到内容', 'home-aria': 'EA · Edward Attuati，返回首页', 'lang-label': '语言',
     'nav-why': '缘起', 'nav-features': '功能', 'nav-code': '代码', 'nav-roadmap': '进度', 'nav-projects': '项目',
     'tagline': '储藏室，尽在掌握。',
     'hero-lede': '管理冰箱、储藏室和冷冻柜的手机应用：扫描条形码，记下保质期，Scadoo 会及时提醒你。购物清单一键分享。离线也能用。',
@@ -225,7 +225,7 @@ window.EA_I18N = {
     'foot-by': 'Edward Attuati 的项目', 'foot-home': '作品集'
   },
   ja: {
-    'skip': 'コンテンツへ移動', 'home-aria': 'Edward Attuati、ホームへ戻る', 'lang-label': '言語',
+    'skip': 'コンテンツへ移動', 'home-aria': 'EA · Edward Attuati、ホームへ戻る', 'lang-label': '言語',
     'nav-why': 'きっかけ', 'nav-features': '機能', 'nav-code': 'コード', 'nav-roadmap': '進捗', 'nav-projects': 'プロジェクト',
     'tagline': '食品ストックを、きちんと管理。',
     'hero-lede': '冷蔵庫、パントリー、冷凍庫のためのモバイルアプリ。バーコードを読み取って賞味期限を入れれば、Scadoo が早めに知らせます。買い物リストはワンタップで共有。オフラインでも動きます。',
